@@ -6,7 +6,7 @@ using System.Text;
 
 namespace WorldYachts.Model
 {
-    class OrderDetails
+    public class OrderDetails
     {
         /// <summary>
         /// Идентификатор критериев доставки
@@ -26,10 +26,10 @@ namespace WorldYachts.Model
         /// </summary>
         [ForeignKey("AccessoryId")]
         public Accessory Accessory { get; set; }
-        /// <summary>
-        /// Ссылка на заказ
-        /// </summary>
-        [ForeignKey("OrderId")]
-        public Order Order { get; set; }
+        // /// <summary>
+        // /// Ссылка на заказ
+        // /// </summary>
+        // [ForeignKey("OrderId")]
+        public virtual Order Order { get; set; }
     }
 }

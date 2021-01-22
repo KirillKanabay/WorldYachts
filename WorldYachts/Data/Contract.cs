@@ -6,7 +6,7 @@ using System.Text;
 
 namespace WorldYachts.Model
 {
-    class Contract
+    public class Contract
     {
         /// <summary>
         /// Идентификатор заказа

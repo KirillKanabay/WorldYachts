@@ -6,7 +6,7 @@ using System.Text;
 
 namespace WorldYachts.Model
 {
-    class Accessory
+    public class Accessory
     {
         /// <summary>
         /// Идентификатор аксессуара

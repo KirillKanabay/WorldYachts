@@ -6,7 +6,7 @@ using System.Text;
 
 namespace WorldYachts.Model
 {
-    class Boat
+    public class Boat
     {
         /// <summary>
         /// Идентификатор яхты

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace WorldYachts.Model
 {
-    class Invoice
+    public class Invoice
     {
         /// <summary>
         /// Идентификатор счета

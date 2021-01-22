@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using WorldYachts.Data;
 
 namespace WorldYachts.Model
 {
-    class SalesPerson
+    public class SalesPerson:IUser
     {
         /// <summary>
         /// Идентификатор менеджера 

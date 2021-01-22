@@ -6,7 +6,7 @@ using System.Text;
 
 namespace WorldYachts.Model
 {
-    class AccessoryToBoat
+    public class AccessoryToBoat
     {
         /// <summary>
         /// Идентификатор связи аксессуара и лодки
@@ -20,16 +20,16 @@ namespace WorldYachts.Model
         /// Идентификатор аксессуара
         /// </summary>
         [Required] public int AccessoryId { get; set; }
-        
-        /// <summary>
-        /// Ссылка на лодку
-        /// </summary>
-        [ForeignKey("BoatId")]
-        public Boat Boat { get; set; }
-        /// <summary>
-        /// Ссылка на аксессуар
-        /// </summary>
-        [ForeignKey("AccessoryId")]
-        public Accessory Accessory { get; set; }
+
+        // /// <summary>
+        // /// Ссылка на лодку
+        // /// </summary>
+        // [ForeignKey("BoatId")]
+        public virtual Boat Boat { get; set; }
+        // /// <summary>
+        // /// Ссылка на аксессуар
+        // /// </summary>
+        // [ForeignKey("AccessoryId")]
+        public virtual Accessory Accessory { get; set; }
     }
 }

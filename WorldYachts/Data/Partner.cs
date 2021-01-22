@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WorldYachts.Model
 {
-    class Partner
+    public class Partner
     {
         /// <summary>
         /// Идентификатор партнера

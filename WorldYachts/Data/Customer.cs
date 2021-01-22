@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.InteropServices;
 using System.Text;
+using WorldYachts.Data;
 
 namespace WorldYachts.Model
 {
-    class Customer
+    public class Customer:IUser
     {
         /// <summary>
         /// Идентификатор клиента
@@ -33,6 +35,11 @@ namespace WorldYachts.Model
         /// </summary>
         [Required] public string Address { get; set; }
         
+        /// <summary>
+        /// Город клиента
+        /// </summary>
+        [Required] public string City { get; set; }
+
         /// <summary>
         /// Номер телефона клиента
         /// </summary>
