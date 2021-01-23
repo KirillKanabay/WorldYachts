@@ -23,6 +23,8 @@ namespace WorldYachts.ViewModel
         private string _idDocumentName;
         private string _idNumber;
         private string _login;
+        private string _password;
+        private string _passwordRepeated;
 
         private DelegateCommand _register;
 
@@ -159,13 +161,31 @@ namespace WorldYachts.ViewModel
             }
         }
 
+        public string Password
+        {
+            get => _password;
+            set
+            {
+                _password = value;
+                OnPropertyChanged("PasswordRepeated");
+            }
+        }
+
+        public string PasswordRepeated
+        {
+            get => _passwordRepeated;
+            set
+            {
+                _passwordRepeated = value;
+                OnPropertyChanged("Password");
+            }
+        }
         public DelegateCommand Register
         {
             get
             {
                 return _register ??= new DelegateCommand((arg) =>
                 {
-                    var password = ((PasswordBox) arg).Password;
                     var rm = new RegisterModel()
                     {
                         Name = _name,
@@ -179,7 +199,7 @@ namespace WorldYachts.ViewModel
                         OrganizationName = _organizationName,
                         IdNumber = _idNumber,
                         Phone = _phone,
-                        Password = password
+                        Password = _password
                     };
                     rm.Register();
                 });
