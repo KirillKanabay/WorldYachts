@@ -17,7 +17,7 @@ namespace WorldYachts.ViewModel
     class LoginViewModel:INotifyPropertyChanged
     {
         private string _login;
-        private DelegateCommand _authorization;
+        
         public string Login
         {
             get => _login;
@@ -28,19 +28,41 @@ namespace WorldYachts.ViewModel
             }
         }
 
+        #region Команды
+
+        private DelegateCommand _authorization;
+        private DelegateCommand _changeToRegisterWindow;
+        /// <summary>
+        /// Команда авторизации
+        /// </summary>
         public DelegateCommand Authorization
         {
             get
             {
-                return _authorization ??= new DelegateCommand( arg =>
+                return _authorization ??= new DelegateCommand(arg =>
                 {
-                    var password = ((PasswordBox) arg).Password;
+                    var password = ((PasswordBox)arg).Password;
                     LoginModel lm = new LoginModel(_login, password);
-                    LoginWindow.CheckLoginResultEvent(lm.Authorization());
+                    //LoginWindow.CheckLoginResultEvent(lm.Authorization());
                 });
             }
         }
-        
+
+        public DelegateCommand ChangeToRegisterWindow
+        {
+            get
+            {
+                return _changeToRegisterWindow ??= new DelegateCommand(arg =>
+                {
+                    var loginWindow = (Window) arg;
+                    RegisterWindow.ShowWindow();
+                    loginWindow.Close();
+                });
+            }
+        }
+        #endregion
+
+        #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
@@ -48,5 +70,8 @@ namespace WorldYachts.ViewModel
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        #endregion
+
     }
 }

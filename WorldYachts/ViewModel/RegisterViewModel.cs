@@ -4,11 +4,13 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Windows;
 using System.Windows.Controls;
 using WorldYachts.Annotations;
 using WorldYachts.Helpers;
 using WorldYachts.Model;
 using WorldYachts.Validators;
+using WorldYachts.View;
 using IDataErrorInfo = System.ComponentModel.IDataErrorInfo;
 
 namespace WorldYachts.ViewModel
@@ -29,7 +31,6 @@ namespace WorldYachts.ViewModel
         private string _login;
         private string _password;
         private string _passwordRepeated;
-        private bool _buttonIsEnabled = false;
         #endregion
 
         #region Свойства
@@ -196,6 +197,7 @@ namespace WorldYachts.ViewModel
 
         #region Команды
         private DelegateCommand _register;
+        private DelegateCommand _changeToLoginWindow;
 
         /// <summary>
         /// Команда регистрации
@@ -225,6 +227,20 @@ namespace WorldYachts.ViewModel
                 });
             }
         }
+        /// <summary>
+        /// Команда переключения на окно логина
+        /// </summary>
+        public DelegateCommand ChangeToLoginWindow
+        {
+            get { return _changeToLoginWindow ??= new DelegateCommand((arg) =>
+            {
+                var window = (Window) arg;
+                LoginWindow.ShowWindow();
+                window.Close();
+            }); }
+
+        }
+
         #endregion
         
         #region Валидация полей

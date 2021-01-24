@@ -12,7 +12,8 @@
         Width="400px" 
         FontFamily="SF Pro Display" 
         ResizeMode="NoResize" 
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        x:Name="LoginWin">
     <Window.DataContext>
         <vm:LoginViewModel></vm:LoginViewModel>
     </Window.DataContext>
@@ -193,7 +194,7 @@
                 Style="{DynamicResource MaterialDesignFloatingHintPasswordBox}"
                 Width="300" 
                 Margin="0 8 0 8" Cursor="IBeam"
-                FontSize="11">
+                FontSize="11" FontFamily="Arial">
                 <materialDesign:HintAssist.Hint>
                     <TextBlock FontSize="16">Пароль</TextBlock>
                 </materialDesign:HintAssist.Hint>
@@ -205,6 +206,8 @@
         <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button
                 Style="{DynamicResource MaterialDesignFlatButton}"
+                Command="{Binding ChangeToRegisterWindow}" 
+                CommandParameter="{Binding ElementName=LoginWin}"
                 Content="Регистрация" 
                 Cursor="Hand"
                 Margin="0 10 10 0"/>

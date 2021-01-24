@@ -15,7 +15,8 @@
         ResizeMode="NoResize" 
         Background="#FFFAFAFA" 
         FontFamily="SF Pro Display" 
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        x:Name="RegisterWin">
     <Window.DataContext>
         <vm:RegisterViewModel></vm:RegisterViewModel>
     </Window.DataContext>
@@ -383,15 +384,24 @@
                 </helpers:PasswordBoxAssistant.BoundPassword>
             </PasswordBox>
         </StackPanel>
-        <Button Grid.Row="2"
+        <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal">
+            <Button
+                Style="{DynamicResource MaterialDesignFlatButton}"
+                Command="{Binding ChangeToLoginWindow}"
+                CommandParameter="{Binding ElementName=RegisterWin }"
+                Cursor="Hand"
+                Margin="0 0 10 0">
+                Авторизация
+            </Button>
+            <Button Grid.Row="2"
                     x:Name="RegisterButton"
                     Command="{Binding Register}" 
                     IsEnabled="{Binding ButtonIsEnabled}"
                     Cursor="Hand" 
                     Width="180" 
                     Content="Зарегистрироваться"
-                    Margin="73,14,73,4"
                     Grid.Column="2"/>
+        </StackPanel>
 
     </Grid>
 </Window>

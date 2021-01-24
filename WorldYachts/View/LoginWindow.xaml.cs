@@ -20,25 +20,13 @@ namespace WorldYachts.View
     /// </summary>
     public partial class LoginWindow : Window
     {
-        public static event Action<bool> LoginEvent; 
         public LoginWindow()
         {
             InitializeComponent();
-            var worldYachtsContext = WorldYachtsContext.GetDataContext();
-            LoginEvent += CheckLoginResult;
         }
-
-        private void CheckLoginResult(bool result)
+        public static void ShowWindow()
         {
-            if (result)
-            {
-                MainWindow.ShowWindow();
-            }
-        }
-
-        public static void CheckLoginResultEvent(bool result)
-        {
-            LoginEvent?.Invoke(result);
+            ((Window)new LoginWindow()).Show();
         }
     }
 }
