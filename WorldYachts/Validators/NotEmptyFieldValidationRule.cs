@@ -6,13 +6,13 @@ using System.Windows.Controls;
 
 namespace WorldYachts.Validators
 {
-    class NotEmptyFieldValidationRule: ValidationRule
+    static class NotEmptyFieldValidationRule
     {
-        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+        public static void Validate(object value, ref string validationError)
         {
-            return (value ?? "").ToString().Length > 0
-                ? ValidationResult.ValidResult
-                : new ValidationResult(false, "Поле не должно быть пустым");
+            validationError = (value ?? "").ToString().Trim().Length > 0
+                ? validationError
+                : "Поле не должно быть пустым";
         }
     }
 }

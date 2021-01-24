@@ -5,22 +5,22 @@ using System.Net.Mail;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Controls;
+using WorldYachts.Annotations;
 
 namespace WorldYachts.Validators
 {
-    class EmailValidationRule:ValidationRule
+    static class EmailValidationRule
     {
-        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+        public static void Validate(object value, ref string validationError)
         {
-            string email = value.ToString() ?? "";
+            string email = (value ?? "").ToString();
             try
             {
                var address = new MailAddress(email).Address;
-               return ValidationResult.ValidResult;
             }
-            catch (FormatException)
+            catch (Exception)
             {
-                return new ValidationResult(false, "Неправильный формат Email");
+                validationError = "Неправильный формат Email";
             }
         }
     }

@@ -1,20 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Controls;
 using WorldYachts.Annotations;
 using WorldYachts.Helpers;
 using WorldYachts.Model;
+using WorldYachts.Validators;
+using IDataErrorInfo = System.ComponentModel.IDataErrorInfo;
 
 namespace WorldYachts.ViewModel
 {
-    class RegisterViewModel:INotifyPropertyChanged
+    class RegisterViewModel:INotifyPropertyChanged, IDataErrorInfo
     {
+        #region Поля
         private string _name;
         private string _secondName;
-        private DateTime _birthDate = new DateTime(2000,1,1);
+        private DateTime _birthDate = new DateTime(2000, 1, 1);
         private string _organizationName;
         private string _city;
         private string _address;
@@ -25,9 +29,11 @@ namespace WorldYachts.ViewModel
         private string _login;
         private string _password;
         private string _passwordRepeated;
+        private bool _buttonIsEnabled;
+        private string _fieldsError;
+        #endregion
 
-        private DelegateCommand _register;
-
+        #region Свойства
         /// <summary>
         /// Имя пользователя
         /// </summary>
@@ -160,7 +166,9 @@ namespace WorldYachts.ViewModel
                 OnPropertyChanged();
             }
         }
-
+        /// <summary>
+        /// Пароль пользователя
+        /// </summary>
         public string Password
         {
             get => _password;
@@ -170,7 +178,9 @@ namespace WorldYachts.ViewModel
                 OnPropertyChanged("PasswordRepeated");
             }
         }
-
+        /// <summary>
+        /// Повторно введенный пароль пользователя
+        /// </summary>
         public string PasswordRepeated
         {
             get => _passwordRepeated;
@@ -180,6 +190,15 @@ namespace WorldYachts.ViewModel
                 OnPropertyChanged("Password");
             }
         }
+
+        #endregion
+
+        #region Команды
+        private DelegateCommand _register;
+
+        /// <summary>
+        /// Команда регистрации
+        /// </summary>
         public DelegateCommand Register
         {
             get
@@ -205,6 +224,7 @@ namespace WorldYachts.ViewModel
                 });
             }
         }
+        #endregion
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -212,6 +232,79 @@ namespace WorldYachts.ViewModel
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            
         }
+
+        #region Валидация полей
+        private Dictionary<string, string> ErrorDictionary = new Dictionary<string, string>();
+        private string _error;
+
+        public string Error
+        {
+            get => _error;
+            set
+            {
+                if (value != null)
+                    _error = value;
+            }
+        }
+
+        string IDataErrorInfo.this[string columnName]
+        {
+            get
+            {
+                string error = String.Empty;
+                switch (columnName)
+                {
+                    case "Name":
+                        NotEmptyFieldValidationRule.Validate(Name,ref error);
+                        break;
+                    case "SecondName":
+                        NotEmptyFieldValidationRule.Validate(SecondName, ref error);
+                        break;
+                    case "BirthDate":
+                        YearsOldValidationRule.Validate(BirthDate, ref error);
+                        NotEmptyFieldValidationRule.Validate(BirthDate, ref error);
+                        break;
+                    case "City":
+                        NotEmptyFieldValidationRule.Validate(City, ref error);
+                        break;
+                    case "Address":
+                        NotEmptyFieldValidationRule.Validate(Address, ref error);
+                        break;
+                    case "Email":
+                        EmailValidationRule.Validate(Email, ref error);
+                        NotEmptyFieldValidationRule.Validate(Email, ref error);
+                        break;
+                    case "Phone":
+                        PhoneValidationRule.Validate(Phone, ref error);
+                        NotEmptyFieldValidationRule.Validate(Phone, ref error);
+                        break;
+                    case "IdDocumentName":
+                        NotEmptyFieldValidationRule.Validate(IdDocumentName, ref error);
+                        break;
+                    case "IdNumber":
+                        NotEmptyFieldValidationRule.Validate(IdNumber, ref error);
+                        break;
+                    case "Login":
+                        LoginValidationRule.Validate(Login, ref error);
+                        NotEmptyFieldValidationRule.Validate(Login, ref error);
+                        break;
+                    case "Password":
+                        SafePasswordValidationRule.Validate(Password, ref error);
+                        NotEmptyFieldValidationRule.Validate(Password, ref error);
+                        break;
+                    case "PasswordRepeated":
+                        error = (Password == PasswordRepeated) ? error : "Пароль не совпадает.";
+                        NotEmptyFieldValidationRule.Validate(Password, ref error);
+                        break;
+                }
+                if (error == String.Empty)
+                    ErrorDictionary.Remove(columnName);
+                return error;
+            }
+        }
+        #endregion
+
     }
 }

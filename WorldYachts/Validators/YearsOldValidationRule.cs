@@ -6,9 +6,9 @@ using System.Windows.Controls;
 
 namespace WorldYachts.Validators
 {
-    class YearsOldValidationRule:ValidationRule
+    class YearsOldValidationRule
     {
-        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+        public static void Validate(object value, ref string validationError)
         {
             DateTime dt;
             if (value == null)
@@ -19,14 +19,7 @@ namespace WorldYachts.Validators
             {
                 dt = (DateTime) value;
             }
-            if (DateTime.Compare(DateTime.Now.AddYears(-18),dt) >= 0)
-            {
-                return ValidationResult.ValidResult;
-            }
-            else
-            {
-                return new ValidationResult(false, "Вам должно быть не менее 18 лет.");
-            }
+            validationError = DateTime.Compare(DateTime.Now.AddYears(-18),dt) >= 0 ? validationError : "Вам должно быть не менее 18 лет.";
         }
     }
 }

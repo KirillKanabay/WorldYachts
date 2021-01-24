@@ -9,7 +9,13 @@
         xmlns:validators="clr-namespace:WorldYachts.Validators"
         xmlns:helpers="clr-namespace:WorldYachts.Helpers"
         mc:Ignorable="d"
-        Title="Регистрация пользователя" Height="700" Width="1000" ResizeMode="NoResize">
+        Title="Регистрация пользователя" 
+        Height="700" 
+        Width="1000" 
+        ResizeMode="NoResize" 
+        Background="#FFFAFAFA" 
+        FontFamily="SF Pro Display" 
+        WindowStartupLocation="CenterScreen">
     <Window.DataContext>
         <vm:RegisterViewModel></vm:RegisterViewModel>
     </Window.DataContext>
@@ -20,11 +26,102 @@
             <RowDefinition Height="50px"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="49*"></ColumnDefinition>
+            <ColumnDefinition Width="277*"/>
+            <ColumnDefinition Width="327*"></ColumnDefinition>
+            <ColumnDefinition Width="327*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.ColumnSpan="3" Grid.Row="0">
+        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,326,0">
+            <TextBox 
+                Width="300" 
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                Margin="0 8 0 15"
+                FontSize="16" >
+                <materialDesign:HintAssist.Hint>
+                    <TextBlock>Имя</TextBlock>
+                </materialDesign:HintAssist.Hint>
+                <TextBox.Text>
+                    <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <DataErrorValidationRule/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <TextBox 
+                Width="300" 
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                Margin="0 8 0 15"
+                FontSize="16" >
+                <materialDesign:HintAssist.Hint>
+                    <TextBlock>Фамилия</TextBlock>
+                </materialDesign:HintAssist.Hint>
+                <TextBox.Text>
+                    <Binding Path="SecondName" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <DataErrorValidationRule/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <DatePicker
+                materialDesign:HintAssist.Hint="Дата рождения"
+                materialDesign:HintAssist.FloatingScale="0.75"
+                Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+                VerticalAlignment="Top" Width="300" FontSize="16"
+                HorizontalAlignment="Left" Margin="8 8 0 0">
+                <DatePicker.SelectedDate>
+                    <Binding Path="BirthDate" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <DataErrorValidationRule/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </DatePicker.SelectedDate>
+            </DatePicker>
+            <TextBox 
+                Width="300" 
+                Text="{Binding OrganizationName}"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                Margin="0 8 0 0"
+                FontSize="16" >
+                <materialDesign:HintAssist.Hint>
+                    <TextBlock>Название организации (если есть)</TextBlock>
+                </materialDesign:HintAssist.Hint>
+            </TextBox>
+            <TextBox 
+                Width="300" 
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                Margin="0 8 0 15"
+                FontSize="16" >
+                <materialDesign:HintAssist.Hint>
+                    <TextBlock>Город проживания</TextBlock>
+                </materialDesign:HintAssist.Hint>
+                <TextBox.Text>
+                    <Binding Path="City" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <DataErrorValidationRule/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <TextBox 
+                Width="300" 
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                Margin="0 8 0 8"
+                FontSize="16" >
+                <materialDesign:HintAssist.Hint>
+                    <TextBlock>Адрес проживания</TextBlock>
+                </materialDesign:HintAssist.Hint>
+                <TextBox.Text>
+                    <Binding Path="Address" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <DataErrorValidationRule/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+        </StackPanel>
+        <StackPanel Grid.ColumnSpan="4" Grid.Row="0">
             <Image Grid.Row="0" Width="154px" Height="140px" Visibility="Visible">
                 <Image.Source>
                     <DrawingImage>
@@ -168,110 +265,12 @@
             </Image>
             <TextBlock FontSize="24" HorizontalAlignment="Center" FontWeight="Light">Регистрация</TextBlock>
         </StackPanel>
-        <StackPanel Grid.Row="1" Grid.Column="0">
-            <!--Text="{Binding Name, Mode=OneWayToSource}"-->
+
+        <StackPanel Grid.Row="1" Grid.Column="2">
             <TextBox 
                 Width="300" 
                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                Margin="0 8 0 8"
-                FontSize="16" >
-                <materialDesign:HintAssist.Hint>
-                    <TextBlock>Имя</TextBlock>
-                </materialDesign:HintAssist.Hint>
-                <TextBox.Text>
-                    <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <validators:NotEmptyFieldValidationRule ValidatesOnTargetUpdated="True"/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
-            <TextBox 
-                Width="300" 
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                Margin="0 8 0 8"
-                FontSize="16" >
-                <materialDesign:HintAssist.Hint>
-                    <TextBlock>Фамилия</TextBlock>
-                </materialDesign:HintAssist.Hint>
-                <TextBox.Text>
-                    <Binding Path="SecondName" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <validators:NotEmptyFieldValidationRule ValidatesOnTargetUpdated="True"/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
-            <DatePicker
-                materialDesign:HintAssist.Hint="Дата рождения"
-                materialDesign:HintAssist.FloatingScale="0.75"
-                Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
-                VerticalAlignment="Top" Width="300" FontSize="16"
-                HorizontalAlignment="Left" Margin="10 0 0 0">
-                <!-- <materialDesign:TimePicker.Text> -->
-                <!--     <Binding Path="EndTimeSpan" UpdateSourceTrigger="PropertyChanged"> -->
-                <!--         <Binding.ValidationRules> -->
-                <!--             <validators:TimeValidationRule ValidatesOnTargetUpdated="True" /> -->
-                <!--         </Binding.ValidationRules> -->
-                <!--     </Binding> -->
-                <!-- </materialDesign:TimePicker.Text> -->
-                <DatePicker.SelectedDate>
-                    <Binding Path="BirthDate" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <validators:NotEmptyFieldValidationRule></validators:NotEmptyFieldValidationRule>
-                            <validators:YearsOldValidationRule></validators:YearsOldValidationRule>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </DatePicker.SelectedDate>
-            </DatePicker>
-            <TextBox 
-                Width="300" 
-                Text="{Binding OrganizationName}"
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                Margin="0 8 0 8"
-                FontSize="16" >
-                <materialDesign:HintAssist.Hint>
-                    <TextBlock>Название организации (если есть)</TextBlock>
-                </materialDesign:HintAssist.Hint>
-            </TextBox>
-            <TextBox 
-                Width="300" 
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                Margin="0 8 0 8"
-                FontSize="16" >
-                <materialDesign:HintAssist.Hint>
-                    <TextBlock>Город проживания</TextBlock>
-                </materialDesign:HintAssist.Hint>
-                <TextBox.Text>
-                    <Binding Path="City" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <validators:NotEmptyFieldValidationRule ValidatesOnTargetUpdated="True"/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
-            <TextBox 
-                Width="300" 
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                Margin="0 8 0 8"
-                FontSize="16" >
-                <materialDesign:HintAssist.Hint>
-                    <TextBlock>Адрес проживания</TextBlock>
-                </materialDesign:HintAssist.Hint>
-                <TextBox.Text>
-                    <Binding Path="Address" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <validators:NotEmptyFieldValidationRule ValidatesOnTargetUpdated="True"/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
-        </StackPanel>
-        <StackPanel Grid.Row="1" Grid.Column="1">
-            <TextBox 
-                Width="300" 
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                Margin="0 8 0 8"
+                Margin="0 8 0 15"
                 FontSize="16" >
                 <materialDesign:HintAssist.Hint>
                     <TextBlock>E-mail</TextBlock>
@@ -279,8 +278,7 @@
                 <TextBox.Text>
                     <Binding Path="Email" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
-                            <validators:NotEmptyFieldValidationRule ValidatesOnTargetUpdated="True"/>
-                            <validators:EmailValidationRule ValidatesOnTargetUpdated="True"/>
+                            <DataErrorValidationRule/>
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>
@@ -288,7 +286,7 @@
             <TextBox 
                 Width="300" 
                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                Margin="0 8 0 8"
+                Margin="0 8 0 15"
                 FontSize="16" >
                 <materialDesign:HintAssist.Hint>
                     <TextBlock>Телефон</TextBlock>
@@ -296,22 +294,21 @@
                 <TextBox.Text>
                     <Binding Path="Phone" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
-                            <validators:NotEmptyFieldValidationRule ValidatesOnTargetUpdated="True"/>
-                            <validators:PhoneValidationRule ValidatesOnTargetUpdated="True"/>
+                            <DataErrorValidationRule/>
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>
             </TextBox>
             <ComboBox materialDesign:HintAssist.Hint="Документ подтверждающий личность"
                       Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                      Margin="0 2 0 0" Width="300" FontSize="16"
+                      Margin="0 12 0 0" Width="300" FontSize="16"
                       materialDesign:HintAssist.FloatingScale="0.75">
                 <TextBlock>Паспорт РФ</TextBlock>
                 <TextBlock>Загранпаспорт</TextBlock>
                 <ComboBox.Text>
                     <Binding Path="IdDocumentName" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
-                            <validators:NotEmptyFieldValidationRule ValidatesOnTargetUpdated="True"/>
+                            <DataErrorValidationRule/>
                         </Binding.ValidationRules>
                     </Binding>
                 </ComboBox.Text>
@@ -327,17 +324,17 @@
                 <TextBox.Text>
                     <Binding Path="IdNumber" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
-                            <validators:NotEmptyFieldValidationRule ValidatesOnTargetUpdated="True"/>
+                            <DataErrorValidationRule/>
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>
             </TextBox>
         </StackPanel>
-        <StackPanel Grid.Row="1" Grid.Column="2">
+        <StackPanel Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Margin="326,0,0,0">
             <TextBox 
                 Width="300" 
                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                Margin="0 8 0 8"
+                Margin="0 8 0 15"
                 FontSize="16" >
                 <materialDesign:HintAssist.Hint>
                     <TextBlock>Логин</TextBlock>
@@ -345,8 +342,7 @@
                 <TextBox.Text>
                     <Binding Path="Login" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
-                            <validators:NotEmptyFieldValidationRule ValidatesOnTargetUpdated="True"/>
-                            <validators:LoginValidationRule></validators:LoginValidationRule>
+                            <DataErrorValidationRule/>
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>
@@ -355,7 +351,7 @@
                           x:Name ="PasswordBox"
                           Style="{DynamicResource MaterialDesignFloatingHintPasswordBox}"
                           Width="300" 
-                          Margin="0 8 0 8" Cursor="IBeam"
+                          Margin="0 15 0 8" Cursor="IBeam"  FontFamily="Arial"
                           FontSize="11">
                 <materialDesign:HintAssist.Hint>
                     <TextBlock FontSize="16">Пароль</TextBlock>
@@ -363,8 +359,7 @@
                 <helpers:PasswordBoxAssistant.BoundPassword>
                     <Binding Path="Password" Mode="OneWayToSource">
                         <Binding.ValidationRules>
-                            <validators:NotEmptyFieldValidationRule/>
-                            <validators:SafePasswordValidationRule></validators:SafePasswordValidationRule>
+                            <DataErrorValidationRule/>
                         </Binding.ValidationRules>
                     </Binding>
                 </helpers:PasswordBoxAssistant.BoundPassword>
@@ -373,31 +368,30 @@
                           x:Name ="PasswordBoxRepeated"
                           Style="{DynamicResource MaterialDesignFloatingHintPasswordBox}"
                           Width="300" 
-                          Margin="0 8 0 8" Cursor="IBeam"
-                          FontSize="11">
+                          Margin="0 35 0 8" Cursor="IBeam"
+                          FontSize="11"
+                          FontFamily="Arial">
                 <materialDesign:HintAssist.Hint>
                     <TextBlock FontSize="16">Повторите пароль</TextBlock>
                 </materialDesign:HintAssist.Hint>
                 <helpers:PasswordBoxAssistant.BoundPassword>
                     <Binding Path="PasswordRepeated" Mode="OneWayToSource">
                         <Binding.ValidationRules>
-                            <validators:NotEmptyFieldValidationRule/>
+                            <DataErrorValidationRule/>
                         </Binding.ValidationRules>
                     </Binding>
                 </helpers:PasswordBoxAssistant.BoundPassword>
             </PasswordBox>
-            <helpers:PasswordValidator 
-                Box1="{Binding ElementName=PasswordBox}" 
-                Box2="{Binding ElementName=PasswordBoxRepeated}">
-            </helpers:PasswordValidator>
         </StackPanel>
-        <Button Grid.Row="2" Grid.ColumnSpan="3"
+        <Button Grid.Row="2"
+                    x:Name="RegisterButton"
                     Command="{Binding Register}" 
                     CommandParameter="{Binding ElementName=PasswordBox}"
                     Cursor="Hand" 
                     Width="180" 
                     Content="Зарегистрироваться"
-                    Margin="0 10 0 0" IsEnabled="False"></Button>
+                    Margin="73,14,73,4"
+                    Grid.Column="2"/>
 
     </Grid>
 </Window>

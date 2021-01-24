@@ -7,9 +7,9 @@ using System.Windows.Controls;
 
 namespace WorldYachts.Validators
 {
-    class SafePasswordValidationRule:ValidationRule
+    static class SafePasswordValidationRule
     {
-        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+        public static void Validate(object value, ref string validationError)
         {
             string password = (value ?? "").ToString();
             //Безопасный пароль
@@ -18,14 +18,10 @@ namespace WorldYachts.Validators
             //1 цифра
             //Не менее 8 символов
             Regex safePasswordRegex = new Regex(@"^(?=.*[(A-Z)|(А-Я)])(?=.*[0-9])(?=.*[(a-z)|(a-я)]).{8,}$");
-            if (safePasswordRegex.IsMatch(password))
+            if (!safePasswordRegex.IsMatch(password))
             {
-                return ValidationResult.ValidResult;
-            }
-            else
-            {
-                return new ValidationResult(false, "Слабый пароль. Пароль должен содержать как минимум " +
-                                                   "1 строчную и 1 заглавную букву, 1 цифру. Длина пароля минимум 8 символов");
+                validationError = "Слабый пароль. Пароль должен содержать как минимум " +
+                                  "1 строчную и 1 заглавную букву, 1 цифру. Длина пароля минимум 8 символов";
             }
         }
     }

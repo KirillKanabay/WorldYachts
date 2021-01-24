@@ -7,19 +7,15 @@ using System.Windows.Controls;
 
 namespace WorldYachts.Validators
 {
-    class PhoneValidationRule:ValidationRule
+    class PhoneValidationRule
     {
-        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+        public static void Validate(object value, ref string validationError)
         {
             string phone = (value ?? "").ToString();
             Regex phoneRegex = new Regex(@"^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$");
-            if (phoneRegex.IsMatch(phone))
+            if (!phoneRegex.IsMatch(phone))
             {
-                return ValidationResult.ValidResult;
-            }
-            else
-            {
-                return new ValidationResult(false, "Неверный формат номера");
+                validationError = "Неверный формат номера";
             }
         }
     }

@@ -21,5 +21,11 @@ namespace WorldYachts.View
         {
             InitializeComponent();
         }
+
+        private void RegisterWindow_OnError(object? sender, ValidationErrorEventArgs e)
+        {
+            if(RegisterButton != null)
+                RegisterButton.IsEnabled = false;
+        }
     }
 }
