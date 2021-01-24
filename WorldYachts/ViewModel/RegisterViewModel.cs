@@ -29,8 +29,7 @@ namespace WorldYachts.ViewModel
         private string _login;
         private string _password;
         private string _passwordRepeated;
-        private bool _buttonIsEnabled;
-        private string _fieldsError;
+        private bool _buttonIsEnabled = false;
         #endregion
 
         #region Свойства
@@ -43,7 +42,7 @@ namespace WorldYachts.ViewModel
             set
             {
                 _name = value;
-                OnPropertyChanged();
+                OnPropertyChanged("ButtonIsEnabled");
             }
         }
         /// <summary>
@@ -55,7 +54,7 @@ namespace WorldYachts.ViewModel
             set
             {
                 _secondName = value;
-                OnPropertyChanged();
+                OnPropertyChanged("ButtonIsEnabled");
             }
         }
         /// <summary>
@@ -67,7 +66,7 @@ namespace WorldYachts.ViewModel
             set
             {
                 _birthDate = value;
-                OnPropertyChanged();
+                OnPropertyChanged("ButtonIsEnabled");
             }
         }
         /// <summary>
@@ -79,7 +78,7 @@ namespace WorldYachts.ViewModel
             set
             {
                 _organizationName = value;
-                OnPropertyChanged();
+                OnPropertyChanged("ButtonIsEnabled");
             }
         }
         /// <summary>
@@ -91,7 +90,7 @@ namespace WorldYachts.ViewModel
             set
             {
                 _city = value;
-                OnPropertyChanged();
+                OnPropertyChanged("ButtonIsEnabled");
             }
         }
         /// <summary>
@@ -103,7 +102,7 @@ namespace WorldYachts.ViewModel
             set
             {
                 _address = value;
-                OnPropertyChanged();
+                OnPropertyChanged("ButtonIsEnabled");
             }
         }
         /// <summary>
@@ -115,7 +114,7 @@ namespace WorldYachts.ViewModel
             set
             {
                 _email = value;
-                OnPropertyChanged();
+                OnPropertyChanged("ButtonIsEnabled");
             }
         }
         /// <summary>
@@ -127,7 +126,7 @@ namespace WorldYachts.ViewModel
             set
             {
                 _phone = value;
-                OnPropertyChanged();
+                OnPropertyChanged("ButtonIsEnabled");
             }
         }
         /// <summary>
@@ -139,7 +138,7 @@ namespace WorldYachts.ViewModel
             set
             {
                 _idDocumentName = value;
-                OnPropertyChanged();
+                OnPropertyChanged("ButtonIsEnabled");
             }
         }
         /// <summary>
@@ -151,7 +150,7 @@ namespace WorldYachts.ViewModel
             set
             {
                 _idNumber = value;
-                OnPropertyChanged();
+                OnPropertyChanged("ButtonIsEnabled");
             }
         }
         /// <summary>
@@ -163,7 +162,7 @@ namespace WorldYachts.ViewModel
             set
             {
                 _login = value;
-                OnPropertyChanged();
+                OnPropertyChanged("ButtonIsEnabled");
             }
         }
         /// <summary>
@@ -175,7 +174,7 @@ namespace WorldYachts.ViewModel
             set
             {
                 _password = value;
-                OnPropertyChanged("PasswordRepeated");
+                OnPropertyChanged("ButtonIsEnabled");
             }
         }
         /// <summary>
@@ -187,10 +186,12 @@ namespace WorldYachts.ViewModel
             set
             {
                 _passwordRepeated = value;
-                OnPropertyChanged("Password");
+                OnPropertyChanged("ButtonIsEnabled");
             }
         }
 
+        public bool ButtonIsEnabled => ErrorDictionary.Count == 0;
+        
         #endregion
 
         #region Команды
@@ -225,30 +226,16 @@ namespace WorldYachts.ViewModel
             }
         }
         #endregion
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            
-        }
-
+        
         #region Валидация полей
         private Dictionary<string, string> ErrorDictionary = new Dictionary<string, string>();
-        private string _error;
-
-        public string Error
-        {
-            get => _error;
-            set
-            {
-                if (value != null)
-                    _error = value;
-            }
-        }
-
+        
+        public string Error { get; }
+        /// <summary>
+        /// Валидация полей окна
+        /// </summary>
+        /// <param name="columnName"></param>
+        /// <returns></returns>
         string IDataErrorInfo.this[string columnName]
         {
             get
@@ -299,12 +286,21 @@ namespace WorldYachts.ViewModel
                         NotEmptyFieldValidationRule.Validate(Password, ref error);
                         break;
                 }
-                if (error == String.Empty)
-                    ErrorDictionary.Remove(columnName);
+                ErrorDictionary.Remove(columnName);
+                if(error != String.Empty)
+                    ErrorDictionary.Add(columnName,error);
+                OnPropertyChanged("ButtonIsEnabled");
                 return error;
             }
         }
         #endregion
+        
+        public event PropertyChangedEventHandler PropertyChanged;
 
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

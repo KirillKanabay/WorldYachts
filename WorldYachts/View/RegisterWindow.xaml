@@ -386,7 +386,7 @@
         <Button Grid.Row="2"
                     x:Name="RegisterButton"
                     Command="{Binding Register}" 
-                    CommandParameter="{Binding ElementName=PasswordBox}"
+                    IsEnabled="{Binding ButtonIsEnabled}"
                     Cursor="Hand" 
                     Width="180" 
                     Content="Зарегистрироваться"
