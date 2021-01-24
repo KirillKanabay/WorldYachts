@@ -6,6 +6,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:WorldYachts.View"
         xmlns:vm ="clr-namespace:WorldYachts.ViewModel"
+        xmlns:helpers="clr-namespace:WorldYachts.Helpers"
         mc:Ignorable="d"
         Title="Авторизация пользователя" 
         Height="480px" 
@@ -181,16 +182,23 @@
         <StackPanel Grid.Row="2" Grid.ColumnSpan="2">
             <TextBox 
                 Width="300" 
-                Text="{Binding Login}"
                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                 Margin="0 8 0 8"
                 FontSize="16" >
                 <materialDesign:HintAssist.Hint>
                     <TextBlock>Логин</TextBlock>
                 </materialDesign:HintAssist.Hint>
+                <TextBox.Text>
+                    <Binding Path="Login" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <DataErrorValidationRule/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
             </TextBox>
             <PasswordBox
                 x:Name ="PasswordBox"
+                helpers:PasswordBoxAssistant.BindPassword="True"
                 Style="{DynamicResource MaterialDesignFloatingHintPasswordBox}"
                 Width="300" 
                 Margin="0 8 0 8" Cursor="IBeam"
@@ -198,6 +206,13 @@
                 <materialDesign:HintAssist.Hint>
                     <TextBlock FontSize="16">Пароль</TextBlock>
                 </materialDesign:HintAssist.Hint>
+                <helpers:PasswordBoxAssistant.BoundPassword>
+                    <Binding Path="Password" Mode="OneWayToSource">
+                        <Binding.ValidationRules>
+                            <DataErrorValidationRule/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </helpers:PasswordBoxAssistant.BoundPassword>
             </PasswordBox>
         </StackPanel>
         <CheckBox Grid.Row="3" FontSize="14" HorizontalAlignment="Center">
@@ -213,7 +228,6 @@
                 Margin="0 10 10 0"/>
             <Button  
                     Command="{Binding Authorization}" 
-                    CommandParameter="{Binding ElementName=PasswordBox}"
                     Cursor="Hand" 
                     Width="150" 
                     Content="Авторизоваться"
