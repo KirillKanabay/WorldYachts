@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using WorldYachts.Annotations;
 using WorldYachts.Infrastructure;
 
@@ -20,22 +22,18 @@ namespace WorldYachts.Data
         /// Авторизация пользователя
         /// </summary>
         /// <returns>Строка состояния авторизации</returns>
-        public string Authorization()
+        public async Task LoginAsync()
         {
-            string errorMessage = "OK";
-            try
+            await using (var context = WorldYachtsContext.GetDataContext())
             {
-                var context = WorldYachtsContext.GetDataContext();
                 var user = context.Users.SingleOrDefault(u => u.Login == _login && u.Password == _password);
 
                 if (user == null)
                 {
-                    errorMessage = "Неверный логин или пароль";
+                    throw new Exception("Неверный логин или пароль");
                 }
-                else
+                switch (user.TypeUser)
                 {
-                    switch (user.TypeUser)
-                    {
                         case (int)TypeUser.Customer:
                             AuthUser.User = context.Customers.SingleOrDefault(u => user.UserId == u.Id);
                             break;
@@ -47,15 +45,8 @@ namespace WorldYachts.Data
                             break;
                         default:
                             throw new ArgumentException("Неверный тип пользователя");
-                    }
                 }
             }
-            catch(Exception ex)
-            {
-                errorMessage = ex.Message;
-            }
-
-            return errorMessage;
         }
     }
 }

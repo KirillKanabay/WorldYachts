@@ -6,20 +6,23 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using WorldYachts.Annotations;
 using WorldYachts.Helpers;
 using WorldYachts.Data;
+using WorldYachts.Helpers.Commands;
 using WorldYachts.Validators;
 using WorldYachts.View;
 
 namespace WorldYachts.ViewModel
 {
-    class LoginViewModel:INotifyPropertyChanged, IDataErrorInfo
+    public class LoginViewModel:INotifyPropertyChanged, IDataErrorInfo
     {
         #region Поля
         private string _login;
         private string _password;
+        private string _statusMessage = "Все ок пока!";
         #endregion
 
         #region Свойства
@@ -48,25 +51,46 @@ namespace WorldYachts.ViewModel
                 OnPropertyChanged();
             }
         }
+
+        /// <summary>
+        /// Статус входа
+        /// </summary>
+        public string StatusMessage
+        {
+            get => _statusMessage;
+            set
+            {
+                _statusMessage = value;
+                OnPropertyChanged();
+            }
+        }
         #endregion
 
         #region Команды
 
-        private DelegateCommand _authorization;
+        private AsyncRelayCommand _authorization;
         private DelegateCommand _changeToRegisterWindow;
         /// <summary>
         /// Команда авторизации
         /// </summary>
-        public DelegateCommand Authorization
+        public AsyncRelayCommand Authorization
         {
             get
             {
-                return _authorization ??= new DelegateCommand(arg =>
-                {
-                    LoginModel lm = new LoginModel(_login, _password);
+                return _authorization ??= new AsyncRelayCommand(LoginMethod,(ex)=>StatusMessage = ex.Message);
+            }
+        }
 
-                    //LoginWindow.CheckLoginResultEvent(lm.Authorization());
-                });
+        private async Task LoginMethod()
+        {
+            StatusMessage = "Начинаю вход";
+            var loginModel = new LoginModel(_login, _password);
+            
+            await Task.Run(() => loginModel.LoginAsync());
+            
+            if (AuthUser.User != null)
+            {
+                StatusMessage = "Вход прошел успешно";
             }
         }
         /// <summary>

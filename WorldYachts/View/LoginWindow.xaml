@@ -36,6 +36,7 @@
             <RowDefinition Height="120px"></RowDefinition>
             <RowDefinition Height="40px"></RowDefinition>
             <RowDefinition Height="50px"></RowDefinition>
+            <RowDefinition Height="50px"></RowDefinition>
         </Grid.RowDefinitions>
         <Image Grid.Row="0" Width="154px" Height="140px" Visibility="Visible">
                 <Image.Source>
@@ -233,6 +234,8 @@
                     Content="Авторизоваться"
                     Margin="0 10 0 0"></Button>
         </StackPanel>
-        
+        <TextBlock Grid.Row="5"
+                   Text="{Binding StatusMessage}">
+        </TextBlock>
     </Grid>
 </Window>
