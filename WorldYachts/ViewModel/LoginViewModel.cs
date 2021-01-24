@@ -9,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using WorldYachts.Annotations;
 using WorldYachts.Helpers;
-using WorldYachts.Model;
+using WorldYachts.Data;
 using WorldYachts.Validators;
 using WorldYachts.View;
 
@@ -64,6 +64,7 @@ namespace WorldYachts.ViewModel
                 return _authorization ??= new DelegateCommand(arg =>
                 {
                     LoginModel lm = new LoginModel(_login, _password);
+
                     //LoginWindow.CheckLoginResultEvent(lm.Authorization());
                 });
             }

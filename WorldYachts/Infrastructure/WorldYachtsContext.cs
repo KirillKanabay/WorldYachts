@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using WorldYachts.Data;
-using WorldYachts.Model;
+using WorldYachts.Data;
 
 namespace WorldYachts.Infrastructure
 {

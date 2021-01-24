@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using Microsoft.EntityFrameworkCore;
 using WorldYachts.Infrastructure;
-using WorldYachts.Model;
+using WorldYachts.Data;
 using WorldYachts.View;
 
 namespace WorldYachts

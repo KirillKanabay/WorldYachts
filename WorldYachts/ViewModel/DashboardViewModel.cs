@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using WorldYachts.Annotations;
 using WorldYachts.Data;
-using WorldYachts.Model;
+using WorldYachts.Data;
 
 namespace WorldYachts.ViewModel
 {

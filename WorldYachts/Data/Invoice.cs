@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace WorldYachts.Model
+namespace WorldYachts.Data
 {
     public class Invoice
     {

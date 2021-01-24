@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 using WorldYachts.Data;
 
-namespace WorldYachts.Model
+namespace WorldYachts.Data
 {
     public class SalesPerson:IUser
     {

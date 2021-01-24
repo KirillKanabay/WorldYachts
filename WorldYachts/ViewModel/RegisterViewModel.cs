@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using WorldYachts.Annotations;
 using WorldYachts.Helpers;
-using WorldYachts.Model;
+using WorldYachts.Data;
 using WorldYachts.Validators;
 using WorldYachts.View;
 using IDataErrorInfo = System.ComponentModel.IDataErrorInfo;

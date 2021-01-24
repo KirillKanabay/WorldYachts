@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace WorldYachts.Model
+namespace WorldYachts.Data
 {
     public class Partner
     {

@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using WorldYachts.Data;
 
-namespace WorldYachts.Model
+namespace WorldYachts.Data
 {
     public class Customer:IUser
     {

@@ -6,7 +6,7 @@ using WorldYachts.Annotations;
 using WorldYachts.Data;
 using WorldYachts.Infrastructure;
 
-namespace WorldYachts.Model
+namespace WorldYachts.Data
 {
     class RegisterModel
     {
