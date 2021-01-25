@@ -86,6 +86,8 @@ namespace WorldYachts.ViewModel
                 OnPropertyChanged();
             }
         }
+
+        public bool ButtonIsEnabled => ErrorDictionary.Count == 0;
         #endregion
 
         #region Команды
@@ -121,6 +123,8 @@ namespace WorldYachts.ViewModel
             finally
             {
                 ProgressBarVisibility = Visibility.Collapsed;
+                Login = "";
+                Password = "";
             }
 
             if (AuthUser.User != null)
@@ -128,7 +132,6 @@ namespace WorldYachts.ViewModel
                 //TODO:Переход на главную форму
             }
         }
-
 
         #endregion
         
@@ -207,6 +210,7 @@ namespace WorldYachts.ViewModel
                 ErrorDictionary.Remove(columnName);
                 if(error != String.Empty)
                     ErrorDictionary.Add(columnName, error);
+                OnPropertyChanged("ButtonIsEnabled");
                 return error;
             }
         }
