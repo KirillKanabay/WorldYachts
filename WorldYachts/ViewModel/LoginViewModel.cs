@@ -14,6 +14,7 @@ using WorldYachts.Data;
 using WorldYachts.Helpers.Commands;
 using WorldYachts.Validators;
 using WorldYachts.View;
+using Validation = WorldYachts.Validators.Validation;
 
 namespace WorldYachts.ViewModel
 {
@@ -132,10 +133,10 @@ namespace WorldYachts.ViewModel
                 switch (columnName)
                 {
                     case "Login":
-                        NotEmptyFieldValidationRule.Validate(Login,ref error);
+                        new Validation(new NotEmptyFieldValidationRule(Login)).Validate(ref error);
                         break;
                     case "Password":
-                        NotEmptyFieldValidationRule.Validate(Password, ref error);
+                        new Validation(new NotEmptyFieldValidationRule(Password)).Validate(ref error);
                         break;
                 }
                 ErrorDictionary.Remove(columnName);

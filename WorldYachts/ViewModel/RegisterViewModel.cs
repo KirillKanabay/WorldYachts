@@ -12,6 +12,7 @@ using WorldYachts.Data;
 using WorldYachts.Validators;
 using WorldYachts.View;
 using IDataErrorInfo = System.ComponentModel.IDataErrorInfo;
+using Validation = WorldYachts.Validators.Validation;
 
 namespace WorldYachts.ViewModel
 {
@@ -260,46 +261,47 @@ namespace WorldYachts.ViewModel
                 switch (columnName)
                 {
                     case "Name":
-                        NotEmptyFieldValidationRule.Validate(Name,ref error);
+                        new Validation(new NotEmptyFieldValidationRule(Name))
+                            .Validate(ref error);
                         break;
                     case "SecondName":
-                        NotEmptyFieldValidationRule.Validate(SecondName, ref error);
+                        new Validation(new NotEmptyFieldValidationRule(SecondName))
+                            .Validate(ref error);
                         break;
                     case "BirthDate":
-                        YearsOldValidationRule.Validate(BirthDate, ref error);
-                        NotEmptyFieldValidationRule.Validate(BirthDate, ref error);
+                        new Validation(new YearsOldValidationRule(BirthDate), new NotEmptyFieldValidationRule(BirthDate))
+                            .Validate(ref error);
                         break;
                     case "City":
-                        NotEmptyFieldValidationRule.Validate(City, ref error);
+                        new Validation(new NotEmptyFieldValidationRule(City))
+                            .Validate(ref error);
                         break;
                     case "Address":
-                        NotEmptyFieldValidationRule.Validate(Address, ref error);
+                        new Validation(new NotEmptyFieldValidationRule(Address))
+                            .Validate(ref error);
                         break;
                     case "Email":
-                        EmailValidationRule.Validate(Email, ref error);
-                        NotEmptyFieldValidationRule.Validate(Email, ref error);
+                        new Validation(new EmailValidationRule(Email), new NotEmptyFieldValidationRule(Email))
+                            .Validate(ref error);
                         break;
                     case "Phone":
-                        PhoneValidationRule.Validate(Phone, ref error);
-                        NotEmptyFieldValidationRule.Validate(Phone, ref error);
+                        new Validation(new PhoneValidationRule(Phone), new NotEmptyFieldValidationRule(Phone)).Validate(ref error);
                         break;
                     case "IdDocumentName":
-                        NotEmptyFieldValidationRule.Validate(IdDocumentName, ref error);
+                        new Validation(new NotEmptyFieldValidationRule(IdDocumentName)).Validate(ref error);
                         break;
                     case "IdNumber":
-                        NotEmptyFieldValidationRule.Validate(IdNumber, ref error);
+                        new Validation(new NotEmptyFieldValidationRule(IdNumber)).Validate(ref error);
                         break;
                     case "Login":
-                        LoginValidationRule.Validate(Login, ref error);
-                        NotEmptyFieldValidationRule.Validate(Login, ref error);
+                        new Validation(new LoginValidationRule(Login),new NotEmptyFieldValidationRule(Login)).Validate(ref error);
                         break;
                     case "Password":
-                        SafePasswordValidationRule.Validate(Password, ref error);
-                        NotEmptyFieldValidationRule.Validate(Password, ref error);
+                        new Validation(new SafePasswordValidationRule(Password), new NotEmptyFieldValidationRule(Password)).Validate(ref error);
                         break;
                     case "PasswordRepeated":
                         error = (Password == PasswordRepeated) ? error : "Пароль не совпадает.";
-                        NotEmptyFieldValidationRule.Validate(Password, ref error);
+                        new Validation(new NotEmptyFieldValidationRule(PasswordRepeated)).Validate(ref error);
                         break;
                 }
                 ErrorDictionary.Remove(columnName);

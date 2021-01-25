@@ -7,11 +7,17 @@ using System.Windows.Controls;
 
 namespace WorldYachts.Validators
 {
-    static class LoginValidationRule
+    class LoginValidationRule:IValidationRule
     {
-        public static void Validate(object value, ref string validationError)
+        public object Value { get; }
+
+        public LoginValidationRule(object value)
         {
-            string login = (value ?? "").ToString();
+            Value = value;
+        }
+        public void Validate(ref string validationError)
+        {
+            string login = (Value ?? "").ToString();
             Regex loginRegex = new Regex(@"^(?=.*[A-Za-z0-9]$)[A-Za-z][A-Za-z\d._]{0,32}$");
             if (!loginRegex.IsMatch(login))
             {

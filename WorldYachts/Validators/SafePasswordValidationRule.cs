@@ -7,11 +7,17 @@ using System.Windows.Controls;
 
 namespace WorldYachts.Validators
 {
-    static class SafePasswordValidationRule
+    class SafePasswordValidationRule:IValidationRule
     {
-        public static void Validate(object value, ref string validationError)
+        public object Value { get; }
+
+        public SafePasswordValidationRule(object value)
         {
-            string password = (value ?? "").ToString();
+            Value = value;
+        }
+        public void Validate(ref string validationError)
+        {
+            string password = (Value ?? "").ToString();
             //Безопасный пароль
             //1 строчная
             //1 заглавная

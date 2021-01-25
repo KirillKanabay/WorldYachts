@@ -6,18 +6,24 @@ using System.Windows.Controls;
 
 namespace WorldYachts.Validators
 {
-    class YearsOldValidationRule
+    class YearsOldValidationRule:IValidationRule
     {
-        public static void Validate(object value, ref string validationError)
+        public object Value { get; }
+
+        public YearsOldValidationRule(object value)
+        {
+            Value = value;
+        }
+        public void Validate(ref string validationError)
         {
             DateTime dt;
-            if (value == null)
+            if (Value == null)
             {
                 dt = DateTime.Now;
             }
             else
             {
-                dt = (DateTime) value;
+                dt = (DateTime) Value;
             }
             validationError = DateTime.Compare(DateTime.Now.AddYears(-18),dt) >= 0 ? validationError : "Вам должно быть не менее 18 лет.";
         }

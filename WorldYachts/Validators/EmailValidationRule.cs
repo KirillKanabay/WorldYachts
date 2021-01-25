@@ -9,11 +9,16 @@ using WorldYachts.Annotations;
 
 namespace WorldYachts.Validators
 {
-    static class EmailValidationRule
-    {
-        public static void Validate(object value, ref string validationError)
+    class EmailValidationRule:IValidationRule
+    { 
+        public object Value { get; }
+        public EmailValidationRule(object value)
         {
-            string email = (value ?? "").ToString();
+            Value = value;
+        }
+        public void Validate(ref string validationError)
+        {
+            string email = (Value ?? "").ToString();
             try
             {
                var address = new MailAddress(email).Address;

@@ -6,11 +6,17 @@ using System.Windows.Controls;
 
 namespace WorldYachts.Validators
 {
-    static class NotEmptyFieldValidationRule
+    class NotEmptyFieldValidationRule:IValidationRule
     {
-        public static void Validate(object value, ref string validationError)
+        public object Value { get; }
+
+        public NotEmptyFieldValidationRule(object value)
         {
-            validationError = (value ?? "").ToString().Trim().Length > 0
+            Value = value;
+        }
+        public void Validate(ref string validationError)
+        {
+            validationError = (Value ?? "").ToString().Trim().Length > 0
                 ? validationError
                 : "Поле не должно быть пустым";
         }
