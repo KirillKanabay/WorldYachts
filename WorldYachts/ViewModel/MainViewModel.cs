@@ -10,7 +10,7 @@ namespace WorldYachts.ViewModel
     /// </summary>
     class MainViewModel:BaseViewModel
     {
-        private BaseViewModel _selectedViewModel;
+        private BaseViewModel _selectedViewModel = new DashboardViewModel();
         private DelegateCommand _updateViewCommand;
         public BaseViewModel SelectedViewModel
         {
@@ -39,6 +39,9 @@ namespace WorldYachts.ViewModel
                             break;
                         case "Orders":
                             SelectedViewModel = new OrdersViewModel();
+                            break;
+                        case "CatalogManagement":
+                            SelectedViewModel = new CatalogManagementViewModel();
                             break;
                         case "UserManagement":
                             SelectedViewModel = new UserManagementViewModel();

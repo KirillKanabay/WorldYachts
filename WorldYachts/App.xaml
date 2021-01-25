@@ -31,6 +31,9 @@
             <DataTemplate DataType="{x:Type viewModels:AboutProgramViewModel}">
                 <views:AboutProgramView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:CatalogManagementViewModel}">
+                <views:CatalogManagementView/>
+            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
