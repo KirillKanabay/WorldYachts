@@ -8,12 +8,15 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using MaterialDesignThemes.Wpf;
 using WorldYachts.Annotations;
 using WorldYachts.Helpers;
 using WorldYachts.Data;
 using WorldYachts.Helpers.Commands;
 using WorldYachts.Validators;
 using WorldYachts.View;
+using WorldYachts.View.MessageDialogs;
+using WorldYachts.ViewModel.MessageDialog;
 using Validation = WorldYachts.Validators.Validation;
 
 namespace WorldYachts.ViewModel
@@ -24,6 +27,11 @@ namespace WorldYachts.ViewModel
         private string _login;
         private string _password;
         private string _statusMessage = "Все ок пока!";
+        private Visibility _progressBarVisibility = Visibility.Collapsed;
+
+        private AsyncRelayCommand _authorization;
+        private DelegateCommand _changeToRegisterWindow;
+        private DelegateCommand _openSampleMessageDialog;
         #endregion
 
         #region Свойства
@@ -65,12 +73,24 @@ namespace WorldYachts.ViewModel
                 OnPropertyChanged();
             }
         }
+        
+        /// <summary>
+        /// Видимость прогресс бара
+        /// </summary>
+        public Visibility ProgressBarVisibility
+        {
+            get => _progressBarVisibility;
+            set
+            {
+                _progressBarVisibility = value;
+                OnPropertyChanged();
+            }
+        }
         #endregion
 
         #region Команды
 
-        private AsyncRelayCommand _authorization;
-        private DelegateCommand _changeToRegisterWindow;
+        #region Авторизация
         /// <summary>
         /// Команда авторизации
         /// </summary>
@@ -78,22 +98,67 @@ namespace WorldYachts.ViewModel
         {
             get
             {
-                return _authorization ??= new AsyncRelayCommand(LoginMethod,(ex)=>StatusMessage = ex.Message);
+                return _authorization ??= new AsyncRelayCommand(LoginMethod, (ex) =>
+                {
+                    ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message });
+                });
             }
         }
 
+        /// <summary>
+        /// Метод авторизации
+        /// </summary>
+        /// <returns></returns>
         private async Task LoginMethod()
         {
             StatusMessage = "Начинаю вход";
+            ProgressBarVisibility = Visibility.Visible;
             var loginModel = new LoginModel(_login, _password);
-            
-            await Task.Run(() => loginModel.LoginAsync());
-            
+            try
+            {
+                await Task.Run(() => loginModel.LoginAsync());
+            }
+            finally
+            {
+                ProgressBarVisibility = Visibility.Collapsed;
+            }
+
             if (AuthUser.User != null)
             {
-                StatusMessage = "Вход прошел успешно";
+                //TODO:Переход на главную форму
             }
         }
+
+
+        #endregion
+        
+        #region MessageDialog
+
+        /// <summary>
+        /// Открытие messageDialog
+        /// </summary>
+        public DelegateCommand OpenSampleMessageDialog
+        {
+            get
+            {
+                return _openSampleMessageDialog ??= new DelegateCommand(ExecuteRunDialog);
+            }
+        }
+        private async void ExecuteRunDialog(object o)
+        {
+            var view = new SampleMessageDialog()
+            {
+                DataContext = new SampleMessageDialogViewModel((MessageDialogProperty) o)
+            };
+            var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
+        }
+        private void ClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        {
+            Console.WriteLine("You can intercept the closing event, and cancel here."); //TODO: отловить ошибку
+        }
+
+        #endregion
+
         /// <summary>
         /// Переключение на форму регистрации
         /// </summary>
@@ -103,7 +168,7 @@ namespace WorldYachts.ViewModel
             {
                 return _changeToRegisterWindow ??= new DelegateCommand(arg =>
                 {
-                    var loginWindow = (Window) arg;
+                    var loginWindow = (Window)arg;
                     RegisterWindow.ShowWindow();
                     loginWindow.Close();
                 });

@@ -16,7 +16,7 @@
         Background="#FFFAFAFA" 
         FontFamily="SF Pro Display" 
         WindowStartupLocation="CenterScreen"
-        x:Name="RegisterWin">
+        x:Name="RegisterWin" Cursor="Hand">
     <Window.DataContext>
         <vm:RegisterViewModel></vm:RegisterViewModel>
     </Window.DataContext>
