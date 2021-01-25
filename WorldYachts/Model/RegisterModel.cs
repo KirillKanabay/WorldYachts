@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using WorldYachts.Annotations;
 using WorldYachts.Data;
 using WorldYachts.Infrastructure;
@@ -23,10 +24,23 @@ namespace WorldYachts.Data
         public string Login { get; set; }
         public string Password { get; set; }
 
-        public void Register()
+        public async Task RegisterAsync()
         {
-            using (var context = WorldYachtsContext.GetDataContext())
+            await using (var context = WorldYachtsContext.GetDataContext())
             {
+                //Проверка уникальности логина
+                if (context.Users.Any(c => c.Login == Login))
+                    throw new ArgumentException("Пользователь с таким логином существует");
+                //Проверка уникальности почты
+                if (context.Customers.Any(c=>c.Email == Email))
+                    throw new ArgumentException("Пользователь с такой почтой уже существует.");
+                //Проверка уникальности серии документа
+                if(context.Customers.Any(c=>c.IdNumber == IdNumber))
+                    throw new ArgumentException("Пользователь с такими документами уже существует");
+                //Проверка уникальности номера телефона
+                if(context.Customers.Any(c=>c.Phone == Phone))
+                    throw new ArgumentException("Пользователь с таким номером телефона уже существует");
+
                 var user = context.Customers.Add(new Customer()
                 {
                     Name = this.Name,
@@ -50,6 +64,7 @@ namespace WorldYachts.Data
                     UserId = userId,
                 });
                 context.SaveChanges();
+                AuthUser.User = user.Entity;
             }
         }
     }

@@ -7,10 +7,9 @@ namespace WorldYachts.Helpers.Commands
 {
     public class AsyncRelayCommand: AsyncCommandBase
     {
-        private readonly Func<Task> _callback;
+        private readonly Func<object,Task> _callback;
         private readonly Action<Exception> _onException;
-
-        public AsyncRelayCommand(Func<Task> callback, Action<Exception> onException) : base(onException)
+        public AsyncRelayCommand(Func<object,Task> callback, Action<Exception> onException) : base(onException)
         {
             _callback = callback;
             _onException = onException;
@@ -20,7 +19,7 @@ namespace WorldYachts.Helpers.Commands
         {
             try
             {
-                await _callback();
+                await _callback(parameter);
             }
             catch (Exception ex)
             {

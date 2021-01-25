@@ -4,13 +4,18 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using MaterialDesignThemes.Wpf;
 using WorldYachts.Annotations;
 using WorldYachts.Helpers;
 using WorldYachts.Data;
+using WorldYachts.Helpers.Commands;
 using WorldYachts.Validators;
 using WorldYachts.View;
+using WorldYachts.View.MessageDialogs;
+using WorldYachts.ViewModel.MessageDialog;
 using IDataErrorInfo = System.ComponentModel.IDataErrorInfo;
 using Validation = WorldYachts.Validators.Validation;
 
@@ -19,6 +24,7 @@ namespace WorldYachts.ViewModel
     class RegisterViewModel:INotifyPropertyChanged, IDataErrorInfo
     {
         #region Поля
+
         private string _name;
         private string _secondName;
         private DateTime _birthDate = new DateTime(2000, 1, 1);
@@ -32,9 +38,19 @@ namespace WorldYachts.ViewModel
         private string _login;
         private string _password;
         private string _passwordRepeated;
+        private Visibility _progressBarVisibility = Visibility.Collapsed;
+        private bool _successfulRegistration;
+
+        private AsyncRelayCommand _register;
+        private DelegateCommand _changeToLoginWindow;
+        private DelegateCommand _changeToMainWindow;
+        private DelegateCommand _openSampleMessageDialog;
         #endregion
 
         #region Свойства
+
+        public Window View { set; get; }
+
         /// <summary>
         /// Имя пользователя
         /// </summary>
@@ -193,41 +209,73 @@ namespace WorldYachts.ViewModel
         }
 
         public bool ButtonIsEnabled => ErrorDictionary.Count == 0;
-        
+        /// <summary>
+        /// Видимость прогресс бара
+        /// </summary>
+        public Visibility ProgressBarVisibility
+        {
+            get => _progressBarVisibility;
+            set
+            {
+                _progressBarVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+
         #endregion
 
         #region Команды
-        private DelegateCommand _register;
-        private DelegateCommand _changeToLoginWindow;
-
+        
         /// <summary>
         /// Команда регистрации
         /// </summary>
-        public DelegateCommand Register
+        public AsyncRelayCommand Register
         {
             get
             {
-                return _register ??= new DelegateCommand((arg) =>
+                return _register ??= new AsyncRelayCommand(RegisterMethod, (ex) =>
                 {
-                    var rm = new RegisterModel()
-                    {
-                        Name = _name,
-                        SecondName = _secondName,
-                        Address = _address,
-                        City = _city,
-                        BirthDate = _birthDate,
-                        Email = _email,
-                        IdDocumentName = _idDocumentName,
-                        Login = _login,
-                        OrganizationName = _organizationName,
-                        IdNumber = _idNumber,
-                        Phone = _phone,
-                        Password = _password
-                    };
-                    rm.Register();
+                    ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message });
                 });
             }
         }
+        /// <summary>
+        /// Метод регистрации
+        /// </summary>
+        /// <param name="parameter">Окно представления</param>
+        /// <returns></returns>
+        private async Task RegisterMethod(object parameter)
+        {
+            this.View = (Window) parameter;
+            ProgressBarVisibility = Visibility.Visible;
+            var registerModel = new RegisterModel()
+            {
+                Name = _name,
+                SecondName = _secondName,
+                Address = _address,
+                City = _city,
+                BirthDate = _birthDate,
+                Email = _email,
+                IdDocumentName = _idDocumentName,
+                Login = _login,
+                OrganizationName = _organizationName,
+                IdNumber = _idNumber,
+                Phone = _phone,
+                Password = _password
+            };
+            try
+            {
+                await Task.Run(() => registerModel.RegisterAsync());
+            }
+            finally
+            {
+                ProgressBarVisibility = Visibility.Collapsed;
+            }
+            
+            ExecuteRunDialog(new MessageDialogProperty() { Title = "Регистрация", Message = "Регистрация прошла успешно." });
+            _successfulRegistration = true;
+        }
+
         /// <summary>
         /// Команда переключения на окно логина
         /// </summary>
@@ -241,9 +289,58 @@ namespace WorldYachts.ViewModel
             }); }
 
         }
+        /// <summary>
+        /// Переключение на главное окно
+        /// </summary>
+        public DelegateCommand ChangeToMainWindow
+        {
+            get
+            {
+                return _changeToMainWindow ??= new DelegateCommand((arg) =>
+                {
+                    var window = (Window) arg;
+                    MainWindow.ShowWindow();
+                    window.Close();
+                });
+            }
+        }
+        #region MessageDialog
+        /// <summary>
+        /// Открытие messageDialog
+        /// </summary>
+        public DelegateCommand OpenSampleMessageDialog
+        {
+            get
+            {
+                return _openSampleMessageDialog ??= new DelegateCommand(ExecuteRunDialog);
+            }
+        }
+        /// <summary>
+        /// Запуск диалога сообщения
+        /// </summary>
+        /// <param name="o"></param>
+        private async void ExecuteRunDialog(object o)
+        {
+            var view = new SampleMessageDialog()
+            {
+                DataContext = new SampleMessageDialogViewModel((MessageDialogProperty)o)
+            };
+            var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
+        }
+        /// <summary>
+        /// При закрытии сообщения открываем главное окно при успешной регистрации
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="eventArgs"></param>
+        private void ClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        {
+            if(_successfulRegistration)
+                ChangeToMainWindow?.Execute(View);
+        }
 
         #endregion
-        
+        #endregion
+
         #region Валидация полей
         private Dictionary<string, string> ErrorDictionary = new Dictionary<string, string>();
         

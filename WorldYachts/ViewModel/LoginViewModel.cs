@@ -100,7 +100,7 @@ namespace WorldYachts.ViewModel
         {
             get
             {
-                return _authorization ??= new AsyncRelayCommand(LoginMethod, (ex) =>
+                return _authorization ??= new AsyncRelayCommand(LoginMethod,(ex) =>
                 {
                     ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message });
                 });
@@ -111,9 +111,8 @@ namespace WorldYachts.ViewModel
         /// Метод авторизации
         /// </summary>
         /// <returns></returns>
-        private async Task LoginMethod()
+        private async Task LoginMethod(object parameter)
         {
-            StatusMessage = "Начинаю вход";
             ProgressBarVisibility = Visibility.Visible;
             var loginModel = new LoginModel(_login, _password);
             try
