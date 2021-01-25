@@ -14,7 +14,8 @@
         FontFamily="SF Pro Display" 
         ResizeMode="NoResize" 
         WindowStartupLocation="CenterScreen"
-        x:Name="LoginWin">
+        x:Name="LoginWin"
+        Background="#FFFAFAFA">
     <Window.DataContext>
         <vm:LoginViewModel></vm:LoginViewModel>
     </Window.DataContext>
