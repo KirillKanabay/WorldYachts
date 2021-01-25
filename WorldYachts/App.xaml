@@ -2,7 +2,9 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:WorldYachts"
-             StartupUri="View/LoginWindow.xaml">
+             xmlns:views="clr-namespace:WorldYachts.View"
+             xmlns:viewModels="clr-namespace:WorldYachts.ViewModel"
+             StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -11,6 +13,24 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Blue.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Indigo.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <DataTemplate DataType="{x:Type viewModels:DashboardViewModel}">
+                <views:DashboardView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:CatalogViewModel}">
+                <views:CatalogView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:OrdersViewModel}">
+                <views:OrdersView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:UserManagementViewModel}">
+                <views:UserManagementView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:AccountSettingsViewModel}">
+                <views:AccountSettingsView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:AboutProgramViewModel}">
+                <views:AboutProgramView/>
+            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

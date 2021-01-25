@@ -21,7 +21,7 @@ using Validation = WorldYachts.Validators.Validation;
 
 namespace WorldYachts.ViewModel
 {
-    class RegisterViewModel:INotifyPropertyChanged, IDataErrorInfo
+    class RegisterViewModel:BaseViewModel, IDataErrorInfo
     {
         #region Поля
 
@@ -410,12 +410,5 @@ namespace WorldYachts.ViewModel
         }
         #endregion
         
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 }

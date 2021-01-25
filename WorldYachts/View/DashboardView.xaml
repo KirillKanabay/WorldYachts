@@ -10,13 +10,13 @@
     <UserControl.DataContext>
         <vm:DashboardViewModel></vm:DashboardViewModel>
     </UserControl.DataContext>
-    <Grid Background="White">
+    <Grid Background="#FFF6F5F8">
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <TextBlock>Здравствуйте, </TextBlock>
+            <TextBlock>Dashboard</TextBlock>
             <TextBlock Text="{Binding  Name}" Margin="5 0 "></TextBlock>
             <TextBlock Text="{Binding SecondName}"></TextBlock>
         </StackPanel>

@@ -7,10 +7,186 @@
         xmlns:local="clr-namespace:WorldYachts"
         mc:Ignorable="d"
         xmlns:UC="clr-namespace:WorldYachts.View"
-        Title="MainWindow" Height="450" Width="800">
+        xmlns:vm="clr-namespace:WorldYachts.ViewModel"
+        Title="Главное окно" 
+        Width="1000" 
+        Height="590"
+        WindowStyle="ThreeDBorderWindow"
+        ResizeMode="CanMinimize"
+        WindowStartupLocation="CenterScreen" 
+        FontFamily="SF Pro Display">
+    <Window.DataContext>
+        <vm:MainViewModel></vm:MainViewModel>
+    </Window.DataContext>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style BasedOn="{StaticResource MaterialDesignListBoxItem}"
+                   TargetType="{x:Type ListBoxItem}">
+                <Setter Property="Height" Value="40" />
+                <Style.Triggers>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="FontWeight" Value="Bold" />
+                        <Setter Property="Background" Value="#33393939" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="HoverBorder"
+                   TargetType="{x:Type Border}">
+                <Setter Property="Background" Value="Transparent" />
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#33393939" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
-         <UserControl>
-            <UC:DashboardView></UC:DashboardView>
-         </UserControl>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="112"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <!--Меню-->
+        <Grid Grid.Column="0" Background="White">
+            <ListView x:Name="Menu" Margin="0 15">
+                <!--Dashboard-->
+                <ListViewItem HorizontalAlignment="Left" Width="112" Padding="0 5">
+                    <Button x:Name="Dashboard" 
+                            HorizontalAlignment="Center"
+                            BorderBrush="{x:Null}" 
+                            Background="{x:Null}" 
+                            Foreground="Black" 
+                            Height="60" 
+                            Width="112" 
+                            Cursor="Hand"
+                            Command="{Binding UpdateViewCommand}"
+                            CommandParameter="Dashboard">
+                        <StackPanel Margin="0" Orientation="Vertical">
+                            <materialDesign:PackIcon Kind="Home" HorizontalAlignment="Center" Height="20"
+                                                     Width="30" />
+                            <TextBlock FontSize="12" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Normal"
+                                       Width="auto">
+                                Главная
+                            </TextBlock>
+                        </StackPanel>
+                    </Button>
+                </ListViewItem>
+                <!--YachtCatalog-->
+                <ListViewItem HorizontalAlignment="Left" Width="112" Padding="0 5">
+                    <Button x:Name="Catalog" 
+                            HorizontalAlignment="Left"
+                            BorderBrush="{x:Null}" 
+                            Background="{x:Null}"
+                            Foreground="Black" 
+                            Height="60" 
+                            Width="112"
+                            Command="{Binding UpdateViewCommand}"
+                            CommandParameter="Catalog">
+                        <StackPanel Margin="0" Orientation="Vertical">
+                            <materialDesign:PackIcon Kind="SailBoat" HorizontalAlignment="Center" Height="20"
+                                                     Width="30" />
+                            <TextBlock FontSize="12" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Normal">Каталог яхт</TextBlock>
+                        </StackPanel>
+                    </Button>
+                </ListViewItem>
+                <!--Orders-->
+                <ListViewItem HorizontalAlignment="Left" Width="112" Padding="0 5" IsSelected="True">
+                    <Button x:Name="Orders" 
+                            HorizontalAlignment="Left"
+                            BorderBrush="{x:Null}" 
+                            Background="{x:Null}"
+                            Foreground="Black"
+                            Height="60"
+                            Width="112"
+                            Command="{Binding UpdateViewCommand}"
+                            CommandParameter="Orders">
+                        <StackPanel Margin="0" Orientation="Vertical">
+                            <materialDesign:PackIcon Kind="BasketPlus" HorizontalAlignment="Center" Height="20"
+                                                     Width="30" />
+                            <TextBlock FontSize="12" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Normal">Заказы</TextBlock>
+                        </StackPanel>
+                    </Button>
+                </ListViewItem>
+                <!--UserManagement-->
+                <ListViewItem HorizontalAlignment="Left" Width="112" Padding="0 5">
+                    <Button x:Name="UserManagement" 
+                            HorizontalAlignment="Left"
+                            BorderBrush="{x:Null}" 
+                            Background="{x:Null}" 
+                            Foreground="Black" 
+                            Height="60" 
+                            Width="112"
+                            Command="{Binding UpdateViewCommand}"
+                            CommandParameter="UserManagement">
+                        <StackPanel Margin="0" Orientation="Vertical">
+                            <materialDesign:PackIcon Kind="AccountCog" HorizontalAlignment="Center" Height="20"
+                                                     Width="30" />
+                            <TextBlock FontSize="12" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Normal">Управление пользователями</TextBlock>
+                        </StackPanel>
+                    </Button>
+                </ListViewItem>
+                <!--AccountSettings-->
+                <ListViewItem HorizontalAlignment="Left" Width="112" Padding="0 5">
+                    <Button x:Name="AccountSettings" 
+                            HorizontalAlignment="Left"
+                            BorderBrush="{x:Null}" 
+                            Background="{x:Null}" 
+                            Foreground="Black" 
+                            Height="60" 
+                            Width="112"
+                            Command="{Binding UpdateViewCommand}"
+                            CommandParameter="AccountSettings">
+                        <StackPanel Margin="0" Orientation="Vertical">
+                            <materialDesign:PackIcon Kind="Cog" HorizontalAlignment="Center" Height="20"
+                                                     Width="30" />
+                            <TextBlock FontSize="12" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Normal">Настройки аккаунта</TextBlock>
+                        </StackPanel>
+                    </Button>
+                </ListViewItem>
+                <!--Logout-->
+                <ListViewItem HorizontalAlignment="Left" Width="112" Padding="0 5">
+                    <Button x:Name="Logout" 
+                            HorizontalAlignment="Left"
+                            BorderBrush="{x:Null}" 
+                            Background="{x:Null}" 
+                            Foreground="Black" 
+                            Height="60" 
+                            Width="112"
+                            Command="{Binding Logout}">
+                        <StackPanel Margin="0" Orientation="Vertical">
+                            <materialDesign:PackIcon Kind="LogoutVariant" HorizontalAlignment="Center" Height="20"
+                                                     Width="30" />
+                            <TextBlock FontSize="12" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Normal">Выйти из аккаунта</TextBlock>
+                        </StackPanel>
+                    </Button>
+                </ListViewItem>
+                <Separator></Separator>
+                <!--О программе-->
+                <ListViewItem HorizontalAlignment="Left" Width="112" Padding="0 5">
+                    <Button x:Name="InfoMenuBtn" 
+                            HorizontalAlignment="Left"
+                            BorderBrush="{x:Null}" 
+                            Background="{x:Null}" 
+                            Foreground="Black" 
+                            Height="60" 
+                            Width="112" 
+                            Cursor="Hand"
+                            Command="{Binding UpdateViewCommand}"
+                            CommandParameter="AboutProgram">
+                        <StackPanel Margin="0" Orientation="Vertical">
+                            <materialDesign:PackIcon Kind="InformationOutline" HorizontalAlignment="Center" Height="20"
+                                                     Width="30" />
+                            <TextBlock FontSize="12" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Normal">О программе</TextBlock>
+                        </StackPanel>
+                    </Button>
+                </ListViewItem>
+            </ListView>
+        </Grid>
+        <ContentControl Grid.Column="1" Content="{Binding SelectedViewModel}"/>
     </Grid>
 </Window>

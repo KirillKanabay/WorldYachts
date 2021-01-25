@@ -21,7 +21,7 @@ using Validation = WorldYachts.Validators.Validation;
 
 namespace WorldYachts.ViewModel
 {
-    public class LoginViewModel:INotifyPropertyChanged, IDataErrorInfo
+    public class LoginViewModel:BaseViewModel, IDataErrorInfo
     {
         #region Поля
         private string _login;
@@ -178,17 +178,6 @@ namespace WorldYachts.ViewModel
         }
         #endregion
 
-        #region INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion
-
         #region Валидация полей
         public string Error { get; }
         public Dictionary<string, string> ErrorDictionary = new Dictionary<string, string>();
@@ -215,6 +204,5 @@ namespace WorldYachts.ViewModel
         }
 
         #endregion
-
     }
 }
