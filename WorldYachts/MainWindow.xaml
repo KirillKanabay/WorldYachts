@@ -9,7 +9,7 @@
         xmlns:UC="clr-namespace:WorldYachts.View"
         xmlns:vm="clr-namespace:WorldYachts.ViewModel"
         Title="Главное окно" 
-        Width="1000" 
+        Width="1100" 
         Height="620"
         WindowStyle="ThreeDBorderWindow"
         ResizeMode="CanMinimize"
@@ -131,7 +131,7 @@
                             <StackPanel Margin="0" Orientation="Vertical">
                                 <materialDesign:PackIcon Kind="TableCog" HorizontalAlignment="Center" Height="20"
                                                      Width="30" />
-                                <TextBlock FontSize="12" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Normal">Управление каталогом</TextBlock>
+                                <TextBlock FontSize="12" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Normal">Управление товарами</TextBlock>
                             </StackPanel>
                         </Button>
                     </ListViewItem>

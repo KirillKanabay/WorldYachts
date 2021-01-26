@@ -6,32 +6,136 @@
              xmlns:local="clr-namespace:WorldYachts.View"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Background="#FFF6F5F8" FontFamily="SF Pro Display">
-    <Grid>
+             d:DesignHeight="450" d:DesignWidth="850" Background="#FFF6F5F8" FontFamily="SF UI Display">
+        <UserControl.Resources>
+        <ResourceDictionary Source="../Resource/Icons.xaml"/>
+    </UserControl.Resources>
+            <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="45 "></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
         <Label Grid.Row="0" FontFamily="SF UI Display" FontSize="18" FontWeight="Bold" VerticalAlignment="Top" Margin="15 15 0 0">
-            Управление каталогом
+            Управление товарами
         </Label>
         <materialDesign:Card Grid.Row="1"
-              Margin="15"
-              materialDesign:ShadowAssist.ShadowDepth="Depth1"
-              Background="White"
-              UniformCornerRadius="5">
+                             materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                             Background="White" Margin="15" UniformCornerRadius="5" Padding="20">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <!--BoatManagement-->
+                <Label Grid.Column="0" FontWeight="Bold" FontSize="16" HorizontalAlignment="Center">
+                    Управление яхтами
+                </Label>
+                    <ListView Grid.Column="0" Margin="0 40 0 0" HorizontalAlignment="Center">
+                    <!--AddBoat-->
+                    <ListViewItem Margin="0 0 0 5">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{StaticResource AddBoatIcon}" Width="50"/>
+                            <StackPanel Margin="10 4 0 0" Width="200">
+                                <TextBlock FontWeight="Bold">Добавить яхту</TextBlock>
+                                <TextBlock TextWrapping="Wrap">Ручное добавление яхты в каталог</TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </ListViewItem>
+                    <!--EditBoat-->
+                    <ListViewItem Margin="0 0 0 5">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{StaticResource EditBoatIcon}" Width="50"/>
+                            <StackPanel Margin="10 4 0 0" Width="200">
+                                <TextBlock FontWeight="Bold">Редактировать яхту</TextBlock>
+                                <TextBlock TextWrapping="Wrap">Ручное редактирование яхты из каталога</TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </ListViewItem>
+                    <!--RemoveBoat-->
+                    <ListViewItem Margin="0 0 0 5">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{StaticResource RemoveBoatIcon}" Width="50"/>
+                            <StackPanel Margin="10 4 0 0" Width="200">
+                                <TextBlock FontWeight="Bold">Удалить яхту</TextBlock>
+                                <TextBlock TextWrapping="Wrap">Ручное удаление яхты из каталога</TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </ListViewItem>
+                </ListView>
+                <Label Grid.Column="1" FontWeight="Bold" FontSize="16" HorizontalAlignment="Center">
+                    Управление аксессуарами
+                </Label>
+                <!--AccessoryManagement-->
+                <ListView Grid.Column="1" Margin="0 40 0 0" HorizontalAlignment="Center">
+                    <!--PartnersManagement-->
+                    <ListViewItem Margin="0 0 0 5">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{StaticResource ManagementPartnersIcon}" Width="50"/>
+                            <StackPanel Margin="10 4 0 0" Width="200">
+                                <TextBlock FontWeight="Bold">Управление партнерами</TextBlock>
+                                <TextBlock TextWrapping="Wrap">Управление партнерами, производящие аксессуары</TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </ListViewItem>
+                    <!--AddAccessory-->
+                    <ListViewItem Margin="0 0 0 5">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{StaticResource AddAccessoryIcon}" Width="50"/>
+                            <StackPanel Margin="10 4 0 0" Width="200"> 
+                                <TextBlock FontWeight="Bold">Добавить аксессуар</TextBlock>
+                                <TextBlock TextWrapping="Wrap">Ручное добавление аксессуара в каталог</TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </ListViewItem>
+                    <!--EditAccessory-->
+                    <ListViewItem Margin="0 0 0 5">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{StaticResource EditAccessoryIcon}" Width="50"/>
+                            <StackPanel Margin="10 4 0 0" Width="200">
+                                <TextBlock FontWeight="Bold">Редактировать аксессуар</TextBlock>
+                                <TextBlock TextWrapping="Wrap">Ручное редактирование аксессуара из каталога</TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </ListViewItem>
+                    <!--RemoveAccessory-->
+                    <ListViewItem Margin="0 0 0 5">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{StaticResource RemoveAccessoryIcon}" Width="50"/>
+                            <StackPanel Margin="10 4 0 0" Width="200">
+                                <TextBlock FontWeight="Bold">Удалить аксессуар</TextBlock>
+                                <TextBlock TextWrapping="Wrap">Ручное удаление аксессуара из каталога</TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </ListViewItem>
+                </ListView>
+                <Label Grid.Column="2" FontWeight="Bold" FontSize="16" HorizontalAlignment="Center">
+                    Управление данными
+                </Label>
+                <!--Import/Export-->
+                <ListView Grid.Column="2" Margin="0 40 0 0" HorizontalAlignment="Center">
+                    <!--Import-->
+                    <ListViewItem Margin="0 0 0 5">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{StaticResource ImportExcelIcon}" Width="50"/>
+                            <StackPanel Margin="10 4 0 0" Width="200">
+                                <TextBlock FontWeight="Bold">Импорт</TextBlock>
+                                <TextBlock TextWrapping="Wrap">Импорт данных из Excel</TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </ListViewItem>
+                    <!--Export-->
+                    <ListViewItem Margin="0 0 0 5">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{StaticResource ExportExcelIcon}" Width="50"/>
+                            <StackPanel Margin="10 4 0 0" Width="200">
+                                <TextBlock FontWeight="Bold">Экспорт</TextBlock>
+                                <TextBlock TextWrapping="Wrap">Экспорт данных в Excel</TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </ListViewItem>
+                </ListView>
+            </Grid>
         </materialDesign:Card>
-        <!--<Border 
-            Grid.Row="1" 
-            CornerRadius="10" 
-            Background="White" 
-            Margin="15"
-            >
-            
-            
-        </Border>-->
     </Grid>
 </UserControl>
