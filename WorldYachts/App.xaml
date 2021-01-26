@@ -12,28 +12,10 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Blue.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Indigo.xaml" />
+                
+                <ResourceDictionary Source="../Resource/DataTemplates.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
-            <DataTemplate DataType="{x:Type viewModels:DashboardViewModel}">
-                <views:DashboardView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type viewModels:CatalogViewModel}">
-                <views:CatalogView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type viewModels:OrdersViewModel}">
-                <views:OrdersView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type viewModels:UserManagementViewModel}">
-                <views:UserManagementView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type viewModels:AccountSettingsViewModel}">
-                <views:AccountSettingsView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type viewModels:AboutProgramViewModel}">
-                <views:AboutProgramView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type viewModels:CatalogManagementViewModel}">
-                <views:CatalogManagementView/>
-            </DataTemplate>
+            
         </ResourceDictionary>
     </Application.Resources>
 </Application>

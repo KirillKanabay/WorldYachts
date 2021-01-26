@@ -1,0 +1,168 @@
+﻿<UserControl x:Class="WorldYachts.View.CatalogManagementViews.AddBoatView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WorldYachts.View.CatalogManagementViews"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450"
+             d:DesignWidth="800" 
+             Background="White" 
+             FontFamily="SF UI Display">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Row="0" FontSize="18" FontWeight="Bold" VerticalAlignment="Top" Margin="15 15 0 0">
+            Добавление яхты
+        </Label>
+        <StackPanel Grid.Row="1" Grid.Column="0">
+            <!--Name-->
+            <TextBox
+                Width="300"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                Margin="0 8 0 15"
+                FontSize="16">
+                <materialDesign:HintAssist.Hint>
+                    <TextBlock>Название модели</TextBlock>
+                </materialDesign:HintAssist.Hint>
+                <TextBox.Text>
+                    <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <DataErrorValidationRule/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <!--BoatType-->
+            <ComboBox 
+                materialDesign:HintAssist.Hint="Тип яхты"
+                Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                ItemsSource="{Binding BoatTypes}"
+                Margin="0 12 0 0" Width="300" FontSize="16"
+                materialDesign:HintAssist.FloatingScale="0.75">
+                <ComboBox.Text>
+                    <Binding Path="BoatType" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <DataErrorValidationRule/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </ComboBox.Text>
+            </ComboBox>
+            <!--BasePrice-->
+            <TextBox
+                Width="300"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                Margin="0 8 0 15"
+                FontSize="16">
+                <materialDesign:HintAssist.Hint>
+                    <TextBlock>Базовая стоимость без НДС</TextBlock>
+                </materialDesign:HintAssist.Hint>
+                <TextBox.Text>
+                    <Binding Path="BasePrice" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <DataErrorValidationRule/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <!--Vat-->
+            <TextBox
+                Width="300"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                Margin="0 8 0 15"
+                FontSize="16">
+                <materialDesign:HintAssist.Hint>
+                    <TextBlock>Процентная ставка НДС</TextBlock>
+                </materialDesign:HintAssist.Hint>
+                <TextBox.Text>
+                    <Binding Path="Vat" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <DataErrorValidationRule/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <!--NumberOfRower-->
+            <TextBox
+                Width="300"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                Margin="0 8 0 15"
+                FontSize="16">
+                <materialDesign:HintAssist.Hint>
+                    <TextBlock>Количество гребцов</TextBlock>
+                </materialDesign:HintAssist.Hint>
+                <TextBox.Text>
+                    <Binding Path="NumberOfRower" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <DataErrorValidationRule/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <CheckBox
+                IsChecked="{Binding Mast}">
+                <CheckBox.Content>Наличие мачты</CheckBox.Content>
+            </CheckBox>
+            <!--Vat-->
+            <TextBox
+                Width="300"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                Margin="0 8 0 15"
+                FontSize="16">
+                <materialDesign:HintAssist.Hint>
+                    <TextBlock>Процентная ставка НДС</TextBlock>
+                </materialDesign:HintAssist.Hint>
+                <TextBox.Text>
+                    <Binding Path="Vat" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <DataErrorValidationRule/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <!--Wood-->
+            <ComboBox 
+                materialDesign:HintAssist.Hint="Тип дерева"
+                Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                ItemsSource="{Binding WoodTypes}"
+                Margin="0 12 0 0" Width="300" FontSize="16"
+                materialDesign:HintAssist.FloatingScale="0.75">
+                <ComboBox.Text>
+                    <Binding Path="Wood" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <DataErrorValidationRule/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </ComboBox.Text>
+            </ComboBox>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+            <Button 
+                        Style="{DynamicResource MaterialDesignFlatButton}"
+                        HorizontalAlignment="Right"
+                        FontSize="16"
+                        Cursor="Hand"
+                        Margin="0 0 5 10">
+                Сохранить
+            </Button>
+            <Button 
+                IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
+                HorizontalAlignment="Right"
+                FontSize="16"
+                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" Cursor="Hand"
+                Margin="0 0 5 10">
+                Назад
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

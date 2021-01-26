@@ -46,14 +46,16 @@
             </Style>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid>
+     <materialDesign:DialogHost Identifier="RootDialog">
+         <materialDesign:DrawerHost>
+            <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="120"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <ContentControl Grid.Column="1" Content="{Binding SelectedViewModel}"/>
-        <!--Меню-->
-        <materialDesign:Card Grid.Column="0"
+            <!--Меню-->
+            <materialDesign:Card Grid.Column="0"
                              materialDesign:ShadowAssist.ShadowDepth="Depth2"
                              Background="White">
             <Grid Grid.Column="0" Background="White">
@@ -217,6 +219,8 @@
                     </ListViewItem>
                 </ListView>
             </Grid>
-        </materialDesign:Card>
-    </Grid>
+            </materialDesign:Card>
+            </Grid>
+         </materialDesign:DrawerHost>
+     </materialDesign:DialogHost>
 </Window>

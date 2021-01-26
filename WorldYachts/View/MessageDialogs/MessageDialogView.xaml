@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="WorldYachts.View.MessageDialogs.MessageDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WorldYachts.View.MessageDialogs"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Background="#FFFAFAFA">
+    <UserControl.DataContext>
+        <local:MessageDialogViewModel></local:MessageDialogViewModel>
+    </UserControl.DataContext>
+    <Grid>
+        <ContentControl Content="{Binding SelectedViewModel}"></ContentControl> 
+    </Grid>
+</UserControl>

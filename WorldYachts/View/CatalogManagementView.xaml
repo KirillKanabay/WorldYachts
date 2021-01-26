@@ -135,6 +135,12 @@
                         </StackPanel>
                     </ListViewItem>
                 </ListView>
+                <Button 
+                    Grid.Column="0" 
+                    Margin="100 0 0 0" 
+                    Cursor="Hand"
+                    Command="{Binding OpenManagementDialog}"
+                    CommandParameter="AddBoat">SendWindow</Button>
             </Grid>
         </materialDesign:Card>
     </Grid>
