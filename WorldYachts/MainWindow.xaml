@@ -57,10 +57,14 @@
                              materialDesign:ShadowAssist.ShadowDepth="Depth2"
                              Background="White">
             <Grid Grid.Column="0" Background="White">
-                <ListView x:Name="Menu" Margin="0 0">
+                <ListView x:Name="Menu" Margin="0 0" SelectionMode="Single">
                     <!--Dashboard-->
-                    <ListViewItem HorizontalAlignment="Left" Width="120" Padding="0" IsSelected="True">
-                        <Button x:Name="Dashboard" 
+                    <ListViewItem
+                        x:Name="Dashboard"
+                        HorizontalAlignment="Left" 
+                        Width="120" Padding="0" 
+                        IsSelected="True">
+                        <Button 
                             HorizontalAlignment="Center"
                             BorderBrush="{x:Null}" 
                             Background="{x:Null}" 
@@ -69,7 +73,7 @@
                             Width="120" 
                             Cursor="Hand"
                             Command="{Binding UpdateViewCommand}"
-                            CommandParameter="Dashboard" Click="Dashboard_Click">
+                            CommandParameter="{Binding ElementName=Dashboard }" >
                             <StackPanel Margin="0" Orientation="Vertical">
                                 <materialDesign:PackIcon Kind="Home" HorizontalAlignment="Center" Height="20"
                                                      Width="30" />
@@ -82,8 +86,8 @@
                     </ListViewItem>
                     <Separator></Separator>
                     <!--YachtCatalog-->
-                    <ListViewItem HorizontalAlignment="Left" Width="120" Padding="0 ">
-                        <Button x:Name="Catalog" 
+                    <ListViewItem HorizontalAlignment="Left" Width="120" Padding="0" x:Name="Catalog">
+                        <Button  
                             HorizontalAlignment="Left"
                             BorderBrush="{x:Null}" 
                             Background="{x:Null}"
@@ -91,7 +95,8 @@
                             Height="60" 
                             Width="120"
                             Command="{Binding UpdateViewCommand}"
-                            CommandParameter="Catalog" Click="Catalog_Click">
+                            CommandParameter="{Binding ElementName=Catalog }"
+                            Cursor="Hand">
                             <StackPanel Margin="0" Orientation="Vertical">
                                 <materialDesign:PackIcon Kind="SailBoat" HorizontalAlignment="Center" Height="20"
                                                      Width="30" />
@@ -100,8 +105,8 @@
                         </Button>
                     </ListViewItem>
                     <!--Orders-->
-                    <ListViewItem HorizontalAlignment="Left" Width="120" Padding="0">
-                        <Button x:Name="Orders" 
+                    <ListViewItem HorizontalAlignment="Left" Width="120" Padding="0" x:Name="Orders" >
+                        <Button 
                             HorizontalAlignment="Left"
                             BorderBrush="{x:Null}" 
                             Background="{x:Null}"
@@ -109,7 +114,7 @@
                             Height="60"
                             Width="120"
                             Command="{Binding UpdateViewCommand}"
-                            CommandParameter="Orders" Click="Orders_Click">
+                            CommandParameter="{Binding ElementName=Orders }" >
                             <StackPanel Margin="0" Orientation="Vertical">
                                 <materialDesign:PackIcon Kind="Basket" HorizontalAlignment="Center" Height="20"
                                                      Width="30" />
@@ -118,8 +123,8 @@
                         </Button>
                     </ListViewItem>
                     <!--CatalogManagement-->
-                    <ListViewItem HorizontalAlignment="Left" Width="120" Padding="0 ">
-                        <Button x:Name="CatalogManagement" 
+                    <ListViewItem HorizontalAlignment="Left" Width="120" Padding="0 " x:Name="CatalogManagement">
+                        <Button  
                             HorizontalAlignment="Left"
                             BorderBrush="{x:Null}" 
                             Background="{x:Null}" 
@@ -127,7 +132,7 @@
                             Height="60" 
                             Width="120"
                             Command="{Binding UpdateViewCommand}"
-                            CommandParameter="CatalogManagement" Click="CatalogManagement_Click">
+                            CommandParameter="{Binding ElementName=CatalogManagement }" >
                             <StackPanel Margin="0" Orientation="Vertical">
                                 <materialDesign:PackIcon Kind="TableCog" HorizontalAlignment="Center" Height="20"
                                                      Width="30" />
@@ -137,8 +142,8 @@
                     </ListViewItem>
                     <Separator></Separator>
                     <!--AccountSettings-->
-                    <ListViewItem HorizontalAlignment="Left" Width="120" Padding="0">
-                        <Button x:Name="AccountSettings" 
+                    <ListViewItem HorizontalAlignment="Left" Width="120" Padding="0" x:Name="AccountSettings" >
+                        <Button 
                             HorizontalAlignment="Left"
                             BorderBrush="{x:Null}" 
                             Background="{x:Null}" 
@@ -146,7 +151,7 @@
                             Height="60" 
                             Width="120"
                             Command="{Binding UpdateViewCommand}"
-                            CommandParameter="AccountSettings" Click="AccountSettings_Click">
+                            CommandParameter="{Binding ElementName=AccountSettings}">
                             <StackPanel Margin="0" Orientation="Vertical">
                                 <materialDesign:PackIcon Kind="Cog" HorizontalAlignment="Center" Height="20"
                                                      Width="30" />
@@ -155,8 +160,8 @@
                         </Button>
                     </ListViewItem>
                     <!--UserManagement-->
-                    <ListViewItem HorizontalAlignment="Left" Width="120" Padding="0 ">
-                        <Button x:Name="UserManagement" 
+                    <ListViewItem HorizontalAlignment="Left" Width="120" Padding="0 " x:Name="UserManagement">
+                        <Button 
                             HorizontalAlignment="Left"
                             BorderBrush="{x:Null}" 
                             Background="{x:Null}" 
@@ -164,7 +169,7 @@
                             Height="60" 
                             Width="120"
                             Command="{Binding UpdateViewCommand}"
-                            CommandParameter="UserManagement" Click="UserManagement_Click">
+                            CommandParameter="{Binding ElementName=UserManagement}">
                             <StackPanel Margin="0" Orientation="Vertical">
                                 <materialDesign:PackIcon Kind="AccountCog" HorizontalAlignment="Center" Height="20"
                                                      Width="30" />
@@ -192,8 +197,8 @@
                     </ListViewItem>
                     <Separator></Separator>
                     <!--О программе-->
-                    <ListViewItem HorizontalAlignment="Left" Width="120" Padding="0">
-                        <Button x:Name="InfoMenuBtn" 
+                    <ListViewItem HorizontalAlignment="Left" Width="120" Padding="0" x:Name="AboutProgram">
+                        <Button
                             HorizontalAlignment="Left"
                             BorderBrush="{x:Null}" 
                             Background="{x:Null}" 
@@ -202,7 +207,7 @@
                             Width="120" 
                             Cursor="Hand"
                             Command="{Binding UpdateViewCommand}"
-                            CommandParameter="AboutProgram" Click="InfoMenuBtn_Click">
+                            CommandParameter="{Binding ElementName=AboutProgram}">
                             <StackPanel Margin="0" Orientation="Vertical">
                                 <materialDesign:PackIcon Kind="InformationOutline" HorizontalAlignment="Center" Height="20"
                                                      Width="30" />

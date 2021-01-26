@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Controls;
+using System.Windows.Media;
+using MaterialDesignThemes.Wpf;
 using WorldYachts.Helpers;
 
 namespace WorldYachts.ViewModel
@@ -28,8 +31,11 @@ namespace WorldYachts.ViewModel
             {
                 return _updateViewCommand ??= new DelegateCommand((arg) =>
                 {
-                    string viewModelName = arg.ToString();
-                    switch (arg)
+                    var lvi = (ListViewItem) arg;
+                    lvi.IsSelected = true;
+                    
+                    string viewModelName = lvi.Name;
+                    switch (viewModelName)
                     {
                         case "Dashboard":
                             SelectedViewModel = new DashboardViewModel();
