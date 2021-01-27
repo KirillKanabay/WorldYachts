@@ -4,12 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WorldYachts.View.MessageDialogs"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="#FFFAFAFA">
     <UserControl.DataContext>
         <local:MessageDialogViewModel></local:MessageDialogViewModel>
     </UserControl.DataContext>
-    <Grid>
+    <materialDesign:DialogHost Identifier="MessageDialogRoot">
+        <materialDesign:DrawerHost>
+            <Grid>
         <ContentControl Content="{Binding SelectedViewModel}"></ContentControl> 
     </Grid>
+            </materialDesign:DrawerHost>
+        </materialDesign:DialogHost>
 </UserControl>

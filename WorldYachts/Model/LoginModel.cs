@@ -34,13 +34,13 @@ namespace WorldYachts.Data
                 }
                 switch (user.TypeUser)
                 {
-                        case (int)TypeUser.Customer:
+                        case (int)TypeOfUser.Customer:
                             AuthUser.User = context.Customers.SingleOrDefault(u => user.UserId == u.Id);
                             break;
-                        case (int)TypeUser.SalesPerson:
+                        case (int)TypeOfUser.SalesPerson:
                             AuthUser.User = context.SalesPersons.SingleOrDefault(u => user.UserId == u.Id);
                             break;
-                        case (int)TypeUser.Admin:
+                        case (int)TypeOfUser.Admin:
                             AuthUser.User = context.Admin.SingleOrDefault(u => user.UserId == u.Id);
                             break;
                         default:

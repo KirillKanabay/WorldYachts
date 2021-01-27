@@ -58,7 +58,7 @@ namespace WorldYachts.Data
                 var userId = user.Entity.Id;
                 context.Users.Add(new User()
                 {
-                    TypeUser = (int)TypeUser.Customer,
+                    TypeUser = (int)TypeOfUser.Customer,
                     Login = this.Login,
                     Password = this.Password,
                     UserId = userId,

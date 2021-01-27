@@ -6,16 +6,35 @@
              xmlns:local="clr-namespace:WorldYachts.View"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="850" Background="#FFF6F5F8" FontFamily="SF UI Display">
+             d:DesignHeight="450" d:DesignWidth="850" Background="#FFF6F5F8" FontFamily="Google Sans">
         <UserControl.Resources>
-        <ResourceDictionary Source="../Resource/Icons.xaml"/>
-    </UserControl.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="../Resource/Icons.xaml"/>
+                </ResourceDictionary.MergedDictionaries>
+                <Style x:Key="ListButton" TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Width" Value="Auto"></Setter>
+                    <Setter Property="Height" Value="Auto"></Setter>
+                    <Setter Property="Padding" Value="5"></Setter>
+                    <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Background="{TemplateBinding Background}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                    </Setter>
+            </Style>
+            </ResourceDictionary>
+        </UserControl.Resources>
             <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="45 "></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" FontFamily="SF UI Display" FontSize="18" FontWeight="Bold" VerticalAlignment="Top" Margin="15 15 0 0">
+        <Label Grid.Row="0" FontSize="18" FontWeight="Bold" VerticalAlignment="Top" Margin="15 15 0 0">
             Управление товарами
         </Label>
         <materialDesign:Card Grid.Row="1"
@@ -29,26 +48,35 @@
                 </Grid.ColumnDefinitions>
                 <!--BoatManagement-->
                 <Label Grid.Column="0" FontWeight="Bold" FontSize="16" HorizontalAlignment="Left" Margin="20 0 0 0">
-                    Управление яхтами
+                    Управление лодками
                 </Label>
-                    <ListView Grid.Column="0" Margin="0 40 0 0" HorizontalAlignment="Center">
+                    <ListView Grid.Column="0" 
+                              Margin="0 40 0 0" 
+                              HorizontalAlignment="Center">
                     <!--AddBoat-->
-                    <ListViewItem Margin="0 0 0 5">
-                        <StackPanel Orientation="Horizontal">
+                    <ListViewItem 
+                        Margin="0 0 0 5"
+                        Padding="0">
+                        <Button
+                            Command="{Binding OpenManagementDialog}"
+                            CommandParameter="AddBoat"
+                            Style="{StaticResource ListButton}">
+                            <StackPanel Orientation="Horizontal" Margin="10">
                             <Image Source="{StaticResource AddBoatIcon}" Width="50"/>
                             <StackPanel Margin="10 4 0 0" Width="200">
-                                <TextBlock FontWeight="Bold">Добавить яхту</TextBlock>
-                                <TextBlock TextWrapping="Wrap">Ручное добавление яхты в каталог</TextBlock>
+                                <TextBlock FontWeight="Bold">Добавить лодку</TextBlock>
+                                <TextBlock TextWrapping="Wrap">Ручное добавление лодки в каталог</TextBlock>
                             </StackPanel>
                         </StackPanel>
+                        </Button>
                     </ListViewItem>
                     <!--EditBoat-->
                     <ListViewItem Margin="0 0 0 5">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="{StaticResource EditBoatIcon}" Width="50"/>
                             <StackPanel Margin="10 4 0 0" Width="200">
-                                <TextBlock FontWeight="Bold">Редактировать яхту</TextBlock>
-                                <TextBlock TextWrapping="Wrap">Ручное редактирование яхты из каталога</TextBlock>
+                                <TextBlock FontWeight="Bold">Редактировать лодку</TextBlock>
+                                <TextBlock TextWrapping="Wrap">Ручное редактирование лодок из каталога</TextBlock>
                             </StackPanel>
                         </StackPanel>
                     </ListViewItem>
@@ -135,12 +163,6 @@
                         </StackPanel>
                     </ListViewItem>
                 </ListView>
-                <Button 
-                    Grid.Column="0" 
-                    Margin="100 0 0 0" 
-                    Cursor="Hand"
-                    Command="{Binding OpenManagementDialog}"
-                    CommandParameter="AddBoat">SendWindow</Button>
             </Grid>
         </materialDesign:Card>
     </Grid>

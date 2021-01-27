@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using Microsoft.EntityFrameworkCore;
 using WorldYachts.Infrastructure;
 using WorldYachts.Data;
@@ -17,10 +18,18 @@ namespace WorldYachts
         public MainWindow()
         {
             InitializeComponent();
+            HeaderPanel.MouseDown += DragWindow;
+            MinimizeBtn.Click += (s, e) => WindowState = WindowState.Minimized;
+            CloseBtn.Click += (s,e) => Application.Current.Shutdown();
         }
         public static void ShowWindow()
         {
             ((Window) new MainWindow()).Show();
+        }
+
+        private void DragWindow(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == 0) { DragMove(); }
         }
     }
 }

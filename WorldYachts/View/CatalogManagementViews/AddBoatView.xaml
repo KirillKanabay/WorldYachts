@@ -5,14 +5,25 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WorldYachts.View.CatalogManagementViews"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:vm="clr-namespace:WorldYachts.ViewModel.CatalogManagementViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450"
              d:DesignWidth="800" 
-             Background="White" 
-             FontFamily="SF UI Display">
-    <Grid Margin="20">
+             Background="#FFFAFAFA" 
+             FontFamily="Google Sans">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Style/TextBoxStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <UserControl.DataContext>
+        <vm:AddBoatViewModel/>
+    </UserControl.DataContext>
+    <Grid Margin="20 20 20 10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition Height="50"></RowDefinition>
         </Grid.RowDefinitions>
@@ -20,36 +31,33 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Label Grid.Row="0" FontSize="18" FontWeight="Bold" VerticalAlignment="Top" Margin="15 15 0 0">
-            Добавление яхты
+        <Label Grid.Row="0" FontSize="18" FontWeight="Bold" VerticalAlignment="Top" Margin="0 0 0 0">
+            Добавление лодки
         </Label>
-        <StackPanel Grid.Row="1" Grid.Column="0">
-            <!--Name-->
+        <StackPanel Grid.Row="1" Grid.Column="0" Margin="0 0 40 0">
+            <!--Model-->
             <TextBox
-                Width="300"
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                Margin="0 8 0 15"
-                FontSize="16">
+                Style="{StaticResource InputTextBox}"
+                Margin="0 8 0 20">
                 <materialDesign:HintAssist.Hint>
                     <TextBlock>Название модели</TextBlock>
                 </materialDesign:HintAssist.Hint>
                 <TextBox.Text>
-                    <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                    <Binding Path="Model" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
                             <DataErrorValidationRule/>
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>
             </TextBox>
-            <!--BoatType-->
+            <!--Type-->
             <ComboBox 
                 materialDesign:HintAssist.Hint="Тип яхты"
-                Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                Style="{StaticResource InputComboBox}"
                 ItemsSource="{Binding BoatTypes}"
-                Margin="0 12 0 0" Width="300" FontSize="16"
-                materialDesign:HintAssist.FloatingScale="0.75">
+                Margin="0 0 0 10">
                 <ComboBox.Text>
-                    <Binding Path="BoatType" UpdateSourceTrigger="PropertyChanged">
+                    <Binding Path="Type" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
                             <DataErrorValidationRule/>
                         </Binding.ValidationRules>
@@ -58,15 +66,13 @@
             </ComboBox>
             <!--BasePrice-->
             <TextBox
-                Width="300"
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                Margin="0 8 0 15"
-                FontSize="16">
+                Style="{StaticResource InputTextBox}"
+                Margin="0 0 0 20">
                 <materialDesign:HintAssist.Hint>
-                    <TextBlock>Базовая стоимость без НДС</TextBlock>
+                    <TextBlock>Базовая стоимость без НДС ₽</TextBlock>
                 </materialDesign:HintAssist.Hint>
                 <TextBox.Text>
-                    <Binding Path="BasePrice" UpdateSourceTrigger="PropertyChanged">
+                    <Binding Path="BasePrice" UpdateSourceTrigger="PropertyChanged" Mode="OneWayToSource">
                         <Binding.ValidationRules>
                             <DataErrorValidationRule/>
                         </Binding.ValidationRules>
@@ -75,15 +81,13 @@
             </TextBox>
             <!--Vat-->
             <TextBox
-                Width="300"
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                Margin="0 8 0 15"
-                FontSize="16">
+                Style="{StaticResource InputTextBox}"
+                Margin="0 0 0 15">
                 <materialDesign:HintAssist.Hint>
-                    <TextBlock>Процентная ставка НДС</TextBlock>
+                    <TextBlock>Процентная ставка НДС %</TextBlock>
                 </materialDesign:HintAssist.Hint>
                 <TextBox.Text>
-                    <Binding Path="Vat" UpdateSourceTrigger="PropertyChanged">
+                    <Binding Path="Vat" UpdateSourceTrigger="PropertyChanged" Mode="OneWayToSource">
                         <Binding.ValidationRules>
                             <DataErrorValidationRule/>
                         </Binding.ValidationRules>
@@ -91,13 +95,11 @@
                 </TextBox.Text>
             </TextBox>
         </StackPanel>
-        <StackPanel Grid.Row="1" Grid.Column="1">
+        <StackPanel Grid.Row="1" Grid.Column="1" Margin="0 0 0 30">
             <!--NumberOfRower-->
             <TextBox
-                Width="300"
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                Margin="0 8 0 15"
-                FontSize="16">
+                Style="{StaticResource InputTextBox}"
+                Margin="0 8 0 20">
                 <materialDesign:HintAssist.Hint>
                     <TextBlock>Количество гребцов</TextBlock>
                 </materialDesign:HintAssist.Hint>
@@ -109,34 +111,12 @@
                     </Binding>
                 </TextBox.Text>
             </TextBox>
-            <CheckBox
-                IsChecked="{Binding Mast}">
-                <CheckBox.Content>Наличие мачты</CheckBox.Content>
-            </CheckBox>
-            <!--Vat-->
-            <TextBox
-                Width="300"
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                Margin="0 8 0 15"
-                FontSize="16">
-                <materialDesign:HintAssist.Hint>
-                    <TextBlock>Процентная ставка НДС</TextBlock>
-                </materialDesign:HintAssist.Hint>
-                <TextBox.Text>
-                    <Binding Path="Vat" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <DataErrorValidationRule/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
             <!--Wood-->
             <ComboBox 
                 materialDesign:HintAssist.Hint="Тип дерева"
-                Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                Style="{StaticResource InputComboBox}"
                 ItemsSource="{Binding WoodTypes}"
-                Margin="0 12 0 0" Width="300" FontSize="16"
-                materialDesign:HintAssist.FloatingScale="0.75">
+                Margin="0 0 0 25">
                 <ComboBox.Text>
                     <Binding Path="Wood" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
@@ -145,21 +125,143 @@
                     </Binding>
                 </ComboBox.Text>
             </ComboBox>
+            <!--ColorPicker-->
+            <Border
+                Width="300"
+                Height="40"
+                Padding="5 3"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                BorderBrush="#BABABA"
+                BorderThickness="1,1,1,1"
+                CornerRadius="3">
+                <Grid>
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontSize="14"
+                        Text="Цвет лодки:"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <!--Коричневый-->
+                        <RadioButton 
+                            IsChecked="True"  
+                            Style="{StaticResource MaterialDesignFlatToggleButton}" 
+                            Width="31" 
+                            Height="31" 
+                            VerticalAlignment="Top" 
+                            HorizontalAlignment="Left"
+                            Command="{Binding SelectColor}"
+                            CommandParameter="Коричневый">
+                            <materialDesign:PackIcon Kind="Circle" Foreground="#8C6354" Height="30" Width="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </RadioButton>
+                        <!--Белый-->
+                        <RadioButton 
+                            Style="{StaticResource MaterialDesignFlatToggleButton}" 
+                            Width="31" 
+                            Height="31" 
+                            VerticalAlignment="Top" 
+                            HorizontalAlignment="Left" 
+                            Command="{Binding SelectColor}"
+                            CommandParameter="Белый">
+                            <Grid>
+                                <materialDesign:PackIcon Kind="Circle" Foreground="#2A2A2A" Opacity="0.5" Height="30" Width="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <materialDesign:PackIcon Kind="Circle" Foreground="White" Height="28" Width="28" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                        </RadioButton>
+                        <!--Черный-->
+                        <RadioButton 
+                            Style="{StaticResource MaterialDesignFlatToggleButton}" 
+                            Width="31" 
+                            Height="31" 
+                            VerticalAlignment="Top" 
+                            HorizontalAlignment="Left" 
+                            Command="{Binding SelectColor}"
+                            CommandParameter="Черный">
+                            <materialDesign:PackIcon Kind="Circle" Foreground="#2A2A2A" Height="30" Width="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </RadioButton>
+                        <!--Зеленый-->
+                        <RadioButton 
+                            Style="{StaticResource MaterialDesignFlatToggleButton}" 
+                            Width="31" 
+                            Height="31" 
+                            VerticalAlignment="Top" 
+                            HorizontalAlignment="Left"
+                            Command="{Binding SelectColor}"
+                            CommandParameter="Зеленый">
+                            <materialDesign:PackIcon Kind="Circle" Foreground="#4CAF50" Height="30" Width="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </RadioButton>
+                        <!--Красный-->
+                        <RadioButton 
+                            Style="{StaticResource MaterialDesignFlatToggleButton}" 
+                            Width="31" 
+                            Height="31" 
+                            VerticalAlignment="Top" 
+                            HorizontalAlignment="Left"
+                            Command="{Binding SelectColor}"
+                            CommandParameter="Красный">
+                            <materialDesign:PackIcon Kind="Circle" Foreground="#F44336" Height="30" Width="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </RadioButton>
+                        <!--Синий-->
+                        <RadioButton 
+                            Style="{StaticResource MaterialDesignFlatToggleButton}" 
+                            Width="31" 
+                            Height="31" 
+                            VerticalAlignment="Top" 
+                            HorizontalAlignment="Left"
+                            Command="{Binding SelectColor}"
+                            CommandParameter="Синий">
+                            <materialDesign:PackIcon Kind="Circle" Foreground="#2196F3" Height="30" Width="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </RadioButton>
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <!--Mast-->
+            <Border
+                Width="300"
+                Padding="5 3"
+                Height="40"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                BorderBrush="#BABABA"
+                BorderThickness="1,1,1,1"
+                CornerRadius="3"
+                Margin="0 22 0 0">
+                <Grid Width="300">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontSize="14"
+                        Text="Наличие мачты:"/>
+                    <CheckBox
+                        IsChecked="{Binding Mast}"
+                        Width="300"
+                        Margin="265 0 0 0">
+                    </CheckBox>
+                </Grid>
+            </Border>
         </StackPanel>
         <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+            <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"                     
+                         Visibility="{Binding ProgressBarVisibility }"
+                         Value="0"
+                         IsIndeterminate="True"
+                         VerticalAlignment="Center" 
+                         HorizontalAlignment="Center" 
+                         Margin="12 0 0 12"/>
             <Button 
-                        Style="{DynamicResource MaterialDesignFlatButton}"
-                        HorizontalAlignment="Right"
-                        FontSize="16"
-                        Cursor="Hand"
-                        Margin="0 0 5 10">
+                Style="{DynamicResource MaterialDesignFlatButton}"
+                IsEnabled="{Binding SaveButtonIsEnabled}"
+                HorizontalAlignment="Right"
+                FontSize="14"
+                Cursor="Hand"
+                Margin="0 0 5 10"
+                Command="{Binding SaveBoat}">
                 Сохранить
             </Button>
             <Button 
                 IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
                 HorizontalAlignment="Right"
-                FontSize="16"
-                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" Cursor="Hand"
+                FontSize="14"
+                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" 
+                Cursor="Hand"
                 Margin="0 0 5 10">
                 Назад
             </Button>

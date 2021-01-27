@@ -4,7 +4,7 @@ using System.Text;
 
 namespace WorldYachts.Data
 {
-    enum TypeUser
+    enum TypeOfUser
     {
         Customer = 0,
         SalesPerson = 1,
