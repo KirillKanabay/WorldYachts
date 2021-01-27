@@ -278,10 +278,10 @@ namespace WorldYachts.ViewModel.CatalogManagementViewModels
                 string error = String.Empty;
                 switch (columnName)
                 {
-                    case "Name":
+                    case "Model":
                         new Validation(new NotEmptyFieldValidationRule(Model)).Validate(ref error);
                         break;
-                    case "BoatType":
+                    case "Type":
                         new Validation(new NotEmptyFieldValidationRule(Type)).Validate(ref error);
                         break;
                     case "NumberOfRower":
