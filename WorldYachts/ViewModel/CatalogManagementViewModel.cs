@@ -36,6 +36,9 @@ namespace WorldYachts.ViewModel
                 case "AddBoat":
                     bvm = new AddBoatViewModel();
                     break;
+                case "RemoveBoat":
+                    bvm = new RemoveBoatViewModel();
+                    break;
                 case "EditAccessory":
                     break;
                 case "ExportExcel":
@@ -44,8 +47,7 @@ namespace WorldYachts.ViewModel
                     break;
                 case "RemoveAccessory":
                     break;
-                case "RemoveBoat":
-                    break;
+                
                 default:
                     throw new ArgumentException("Не существует такой команды!");
             }

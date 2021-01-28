@@ -1,0 +1,110 @@
+﻿<UserControl
+    x:Class="WorldYachts.View.CatalogManagementViews.RemoveBoatView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:WorldYachts.View.CatalogManagementViews"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Background="#FFFAFAFA"
+    FontFamily="Google Sans"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.DataGrid.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid Margin="20,20,20,10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="50" />
+            <RowDefinition />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <Button
+            Grid.Row="1"
+            Width="250"
+            HorizontalAlignment="Right">
+            Удалить выбранные лодки
+        </Button>
+        <DataGrid
+            Grid.Row="2"
+            Margin="0,8,0,0"
+            materialDesign:DataGridAssist.CellPadding="13 8 8 8"
+            materialDesign:DataGridAssist.ColumnHeaderPadding="8"
+            AutoGenerateColumns="False"
+            CanUserAddRows="False"
+            CanUserSortColumns="True"
+            ItemsSource="{Binding Boats}">
+            <DataGrid.Columns>
+                <materialDesign:DataGridTextColumn Binding="{Binding Id}" Header="Id" />
+                <materialDesign:DataGridTextColumn Binding="{Binding Model}" Header="Модель" />
+                <materialDesign:DataGridTextColumn Binding="{Binding Type}" Header="Тип лодки" />
+                <materialDesign:DataGridTextColumn Binding="{Binding NumberOfRower}" Header="Количество гребцов" />
+                <materialDesign:DataGridTextColumn Binding="{Binding Mast}" Header="Наличие мачты" />
+                <materialDesign:DataGridTextColumn Binding="{Binding Color}" Header="Цвет" />
+                <materialDesign:DataGridTextColumn Binding="{Binding Wood}" Header="Тип дерева" />
+                <materialDesign:DataGridTextColumn Binding="{Binding BasePrice}" Header="Цена без НДС ₽" />
+                <materialDesign:DataGridTextColumn Binding="{Binding Vat}" Header="НДС %" />
+                <DataGridCheckBoxColumn
+                    Binding="{Binding IsSelected}"
+                    EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"
+                    ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Label
+            Grid.Row="0"
+            Margin="0,0,0,0"
+            VerticalAlignment="Top"
+            FontSize="18"
+            FontWeight="Bold">
+            Удаление лодок
+        </Label>
+        <!--<DataGrid
+            Grid.Row="2"
+            Margin="0,8,0,0"
+            materialDesign:DataGridAssist.CellPadding="3 2"
+            materialDesign:DataGridAssist.ColumnHeaderPadding="3 2"
+            CanUserAddRows="False"
+            CanUserSortColumns="True"
+            ItemsSource="{Binding Boats}" />-->
+        <ProgressBar
+            Grid.Row="2"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            IsIndeterminate="True"
+            Style="{StaticResource MaterialDesignCircularProgressBar}"
+            Visibility="{Binding ProgressBarVisibility}"
+            Value="0" />
+        <StackPanel
+            Grid.Row="3"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Orientation="Horizontal">
+            <Button
+                Margin="0,0,5,10"
+                HorizontalAlignment="Right"
+                Command="{Binding SaveBoat}"
+                Cursor="Hand"
+                FontSize="14"
+                IsEnabled="{Binding SaveButtonIsEnabled}"
+                Style="{DynamicResource MaterialDesignFlatButton}">
+                Сохранить
+            </Button>
+            <Button
+                Margin="0,0,5,10"
+                HorizontalAlignment="Right"
+                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                Cursor="Hand"
+                FontSize="14"
+                IsDefault="True"
+                Style="{DynamicResource MaterialDesignFlatButton}">
+                Назад
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

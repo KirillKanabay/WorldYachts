@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using MaterialDesignThemes.Wpf;
 using WorldYachts.Data;
 using WorldYachts.Helpers;
@@ -264,10 +261,7 @@ namespace WorldYachts.ViewModel.CatalogManagementViewModels
         /// <param name="eventArgs"></param>
         private void ClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
         {
-            // if (_successfullAddedBoat)
-            // {
-            //     DialogHost.CloseDialogCommand.Execute(this, );
-            // }
+            
         }
         #endregion
 

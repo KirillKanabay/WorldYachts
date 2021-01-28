@@ -35,5 +35,18 @@ namespace WorldYachts.Model
             }
             
         }
+
+        public async Task<List<Boat>> LoadBoatsAsync()
+        {
+            return await Task.Run(() => LoadBoats());
+        }
+
+        public List<Boat> LoadBoats()
+        {
+            using (var context = WorldYachtsContext.GetDataContext())
+            {
+                return context.Boats.ToList();
+            }
+        }
     }
 }
