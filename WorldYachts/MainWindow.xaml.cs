@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -30,6 +32,15 @@ namespace WorldYachts
         private void DragWindow(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == 0) { DragMove(); }
+        }
+
+        public void SendSnackbar(string message)
+        {
+            var messageQueue = Snackbar.MessageQueue;
+            Task.Run(()=>messageQueue.Enqueue(message, 
+                "Закрыть",
+                (param)=> Trace.WriteLine("Закрыто"), 
+                message));
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿ 
+﻿
 <Window
     x:Class="WorldYachts.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -24,6 +24,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Snackbar.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <Style BasedOn="{StaticResource MaterialDesignListBoxItem}" TargetType="{x:Type ListBoxItem}">
                 <Setter Property="Height" Value="40" />
@@ -146,8 +147,12 @@
                 </StackPanel>
             </Grid>
         </materialDesign:Card>
-        <materialDesign:DialogHost Grid.Row="1" Identifier="RootDialog">
-            <materialDesign:DrawerHost>
+        <materialDesign:DialogHost
+            x:Name="DialogHost"
+            Grid.Row="1"
+            CloseOnClickAway="True"
+            Identifier="RootDialog">
+            <materialDesign:DrawerHost x:Name="DrawerHost">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="130" />
@@ -431,9 +436,22 @@
                             </ListView>
                         </Grid>
                     </materialDesign:Card>
+                    <materialDesign:Snackbar
+                        x:Name="Snackbar"
+                        Grid.Column="1"
+                        Margin="0,0,10,10"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        ActionButtonPlacement="Inline"
+                        ActionButtonStyle="{StaticResource MaterialDesignSnackbarActionMidButton}"
+                        MessageQueue="{materialDesign:MessageQueue}">
+                        <materialDesign:SnackbarMessage ActionCommand="Close" ActionContent="Закрыть" />
+                    </materialDesign:Snackbar>
                 </Grid>
+
             </materialDesign:DrawerHost>
         </materialDesign:DialogHost>
+
     </Grid>
 
 </Window>

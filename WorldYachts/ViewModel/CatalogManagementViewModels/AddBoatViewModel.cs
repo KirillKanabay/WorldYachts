@@ -236,8 +236,13 @@ namespace WorldYachts.ViewModel.CatalogManagementViewModels
                 ProgressBarVisibility = Visibility.Collapsed;
             }
 
-            ExecuteRunDialog(new MessageDialogProperty() { Title = "Добавление лодки", Message = "Добавление лодки прошло успешно" });
+            //ExecuteRunDialog(new MessageDialogProperty() { Title = "Добавление лодки", Message = "Добавление лодки прошло успешно" });
+            
             _successfullAddedBoat = true;
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            
+            mainWindow.SendSnackbar($"Лодка \"{Model}\" успешно добавлена");
+            mainWindow.DialogHost.CurrentSession.Close();
         }
 
         /// <summary>
