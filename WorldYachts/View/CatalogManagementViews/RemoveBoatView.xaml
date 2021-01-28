@@ -84,15 +84,42 @@
             VerticalScrollBarVisibility="Visible"
             Visibility="{Binding ElementVisibility}">
             <DataGrid.Columns>
-                <materialDesign:DataGridTextColumn Binding="{Binding Id}" Header="Id" />
-                <materialDesign:DataGridTextColumn Binding="{Binding Model}" Header="Модель" />
-                <materialDesign:DataGridTextColumn Binding="{Binding Type}" Header="Тип лодки" />
-                <materialDesign:DataGridTextColumn Binding="{Binding NumberOfRower}" Header="Количество гребцов" />
-                <materialDesign:DataGridTextColumn Binding="{Binding Mast}" Header="Наличие мачты" />
-                <materialDesign:DataGridTextColumn Binding="{Binding Color}" Header="Цвет" />
-                <materialDesign:DataGridTextColumn Binding="{Binding Wood}" Header="Тип дерева" />
-                <materialDesign:DataGridTextColumn Binding="{Binding BasePrice}" Header="Цена без НДС ₽" />
-                <materialDesign:DataGridTextColumn Binding="{Binding Vat}" Header="НДС %" />
+                <materialDesign:DataGridTextColumn
+                    Binding="{Binding Id}"
+                    Header="Id"
+                    IsReadOnly="True" />
+                <materialDesign:DataGridTextColumn
+                    Binding="{Binding Model}"
+                    Header="Модель"
+                    IsReadOnly="True" />
+                <materialDesign:DataGridTextColumn
+                    Binding="{Binding Type}"
+                    Header="Тип лодки"
+                    IsReadOnly="True" />
+                <materialDesign:DataGridTextColumn
+                    Binding="{Binding NumberOfRower}"
+                    Header="Количество гребцов"
+                    IsReadOnly="True" />
+                <materialDesign:DataGridTextColumn
+                    Binding="{Binding Mast}"
+                    Header="Наличие мачты"
+                    IsReadOnly="True" />
+                <materialDesign:DataGridTextColumn
+                    Binding="{Binding Color}"
+                    Header="Цвет"
+                    IsReadOnly="True" />
+                <materialDesign:DataGridTextColumn
+                    Binding="{Binding Wood}"
+                    Header="Тип дерева"
+                    IsReadOnly="True" />
+                <materialDesign:DataGridTextColumn
+                    Binding="{Binding BasePrice}"
+                    Header="Цена без НДС ₽"
+                    IsReadOnly="True" />
+                <materialDesign:DataGridTextColumn
+                    Binding="{Binding Vat}"
+                    Header="НДС %"
+                    IsReadOnly="True" />
                 <DataGridCheckBoxColumn
                     Binding="{Binding IsSelected}"
                     EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"
