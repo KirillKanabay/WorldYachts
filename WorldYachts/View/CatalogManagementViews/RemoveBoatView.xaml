@@ -25,21 +25,64 @@
             <RowDefinition />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <Button
+        <Label
+            Grid.Row="0"
+            Margin="0,0,0,0"
+            VerticalAlignment="Top"
+            FontSize="18"
+            FontWeight="Bold">
+            Удаление лодок
+        </Label>
+        <Border
             Grid.Row="1"
-            Width="250"
-            HorizontalAlignment="Right">
-            Удалить выбранные лодки
-        </Button>
+            Width="300"
+            Padding="5,3"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            BorderBrush="#BABABA"
+            BorderThickness="1,1,1,1"
+            CornerRadius="3"
+            ToolTip="Введите модель или Id лодки"
+            Visibility="{Binding ElementVisibility}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button
+                    x:Name="SearchButton"
+                    Width="24"
+                    Height="24"
+                    Command="{Binding SearchCommand}"
+                    CommandParameter="{Binding ElementName=SearchBox, Path=Text}"
+                    Style="{DynamicResource MaterialDesignToolButton}">
+                    <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
+                </Button>
+                <TextBox
+                    x:Name="SearchBox"
+                    Grid.Column="1"
+                    MinWidth="200"
+                    Margin="5,0,0,0"
+                    VerticalAlignment="Center"
+                    materialDesign:HintAssist.Hint="Поиск"
+                    materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
+                    BorderThickness="0"
+                    Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
+        </Border>
         <DataGrid
             Grid.Row="2"
+            MinHeight="400"
+            MaxHeight="400"
             Margin="0,8,0,0"
             materialDesign:DataGridAssist.CellPadding="13 8 8 8"
             materialDesign:DataGridAssist.ColumnHeaderPadding="8"
             AutoGenerateColumns="False"
             CanUserAddRows="False"
-            CanUserSortColumns="True"
-            ItemsSource="{Binding Boats}">
+            CanUserSortColumns="False"
+            ItemsSource="{Binding FilteredBoats}"
+            VerticalScrollBarVisibility="Visible"
+            Visibility="{Binding ElementVisibility}">
             <DataGrid.Columns>
                 <materialDesign:DataGridTextColumn Binding="{Binding Id}" Header="Id" />
                 <materialDesign:DataGridTextColumn Binding="{Binding Model}" Header="Модель" />
@@ -53,17 +96,11 @@
                 <DataGridCheckBoxColumn
                     Binding="{Binding IsSelected}"
                     EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"
-                    ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}" />
+                    ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
+                    Header="Удалить" />
             </DataGrid.Columns>
         </DataGrid>
-        <Label
-            Grid.Row="0"
-            Margin="0,0,0,0"
-            VerticalAlignment="Top"
-            FontSize="18"
-            FontWeight="Bold">
-            Удаление лодок
-        </Label>
+
         <!--<DataGrid
             Grid.Row="2"
             Margin="0,8,0,0"
@@ -74,6 +111,7 @@
             ItemsSource="{Binding Boats}" />-->
         <ProgressBar
             Grid.Row="2"
+            Margin="100,25,100,50"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             IsIndeterminate="True"
@@ -92,8 +130,9 @@
                 Cursor="Hand"
                 FontSize="14"
                 IsEnabled="{Binding SaveButtonIsEnabled}"
-                Style="{DynamicResource MaterialDesignFlatButton}">
-                Сохранить
+                Style="{DynamicResource MaterialDesignFlatButton}"
+                Visibility="{Binding ElementVisibility}">
+                Удалить выбранные лодки
             </Button>
             <Button
                 Margin="0,0,5,10"
