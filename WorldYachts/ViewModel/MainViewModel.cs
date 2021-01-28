@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Mime;
 using System.Text;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using MaterialDesignThemes.Wpf;
@@ -13,8 +15,17 @@ namespace WorldYachts.ViewModel
     /// </summary>
     class MainViewModel:BaseViewModel
     {
+        #region Поля
         private BaseViewModel _selectedViewModel = new DashboardViewModel();
         private DelegateCommand _updateViewCommand;
+        private MainWindow _mainWindowView = (MainWindow)Application.Current.MainWindow;
+        private WindowState _mainWindowState = WindowState.Maximized;
+        #endregion
+
+        #region Свойства
+        /// <summary>
+        /// Текущий выбранный VM
+        /// </summary>
         public BaseViewModel SelectedViewModel
         {
             get => _selectedViewModel;
@@ -25,15 +36,21 @@ namespace WorldYachts.ViewModel
             }
         }
 
+        #endregion
+
+        #region Команды
+        /// <summary>
+        /// Обновление текущего VM
+        /// </summary>
         public DelegateCommand UpdateViewCommand
         {
             get
             {
                 return _updateViewCommand ??= new DelegateCommand((arg) =>
                 {
-                    var lvi = (ListViewItem) arg;
+                    var lvi = (ListViewItem)arg;
                     lvi.IsSelected = true;
-                    
+
                     string viewModelName = lvi.Name;
                     switch (viewModelName)
                     {
@@ -64,5 +81,8 @@ namespace WorldYachts.ViewModel
                 });
             }
         }
+
+        #endregion
+
     }
 }

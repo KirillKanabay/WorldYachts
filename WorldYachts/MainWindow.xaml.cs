@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using MaterialDesignThemes.Wpf;
 using Microsoft.EntityFrameworkCore;
 using WorldYachts.Infrastructure;
 using WorldYachts.Data;
@@ -22,6 +23,15 @@ namespace WorldYachts
             InitializeComponent();
             HeaderPanel.MouseDown += DragWindow;
             MinimizeBtn.Click += (s, e) => WindowState = WindowState.Minimized;
+
+            WindowStateBtn.Click += (s, e) =>
+            {
+                WindowState = (WindowState == WindowState.Maximized) ? WindowState.Normal : WindowState.Maximized;
+                WindowStateBtn.ToolTip = (WindowState == WindowState.Maximized) ? "Восстановить" : "Развернуть";
+                WindowStateIcon.Kind = (WindowState == WindowState.Maximized) ? PackIconKind.WindowRestore : PackIconKind.WindowMaximize;
+            };
+                
+            
             CloseBtn.Click += (s,e) => Application.Current.Shutdown();
         }
         public static void ShowWindow()

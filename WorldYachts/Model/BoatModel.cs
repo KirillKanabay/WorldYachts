@@ -48,5 +48,14 @@ namespace WorldYachts.Model
                 return context.Boats.ToList();
             }
         }
+
+        public static async Task RemoveBoatsAsync(IEnumerable<Boat> boats)
+        {
+            await using (var context = WorldYachtsContext.GetDataContext())
+            {
+                context.Boats.RemoveRange(boats);
+                await context.SaveChangesAsync();
+            }
+        }
     }
 }

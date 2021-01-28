@@ -24,7 +24,9 @@ namespace WorldYachts.ViewModel.CatalogManagementViewModels
         private string _filterText;
 
         private AsyncRelayCommand _getBoatsCollection;
-        
+        private AsyncRelayCommand _removeBoats;
+
+
         private Visibility _progressBarVisibility;
         private Visibility _elementVisibility;
         #endregion
@@ -101,6 +103,17 @@ namespace WorldYachts.ViewModel.CatalogManagementViewModels
             }
         }
 
+        public AsyncRelayCommand RemoveBoats
+        {
+            get
+            {
+                return _removeBoats ??= new AsyncRelayCommand(RemoveBoatsMethod, (ex) =>
+                {
+                    ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message });
+                });
+            }
+        }
+
         #endregion
         #region Методы
         /// <summary>
@@ -121,6 +134,25 @@ namespace WorldYachts.ViewModel.CatalogManagementViewModels
 
             ProgressBarVisibility = Visibility.Collapsed;
             ElementVisibility = Visibility.Visible;
+        }
+
+        /// <summary>
+        /// Удаляет выделенные лодки
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
+        private async Task RemoveBoatsMethod(object parameter)
+        {
+            //Получаем список отмеченных лодок
+            var boatList = _boatsCollection.Where(b => b.IsSelected)
+                .Select(b => b.Boat);
+
+            await Task.Run(() => BoatModel.RemoveBoatsAsync(boatList));
+
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+
+            mainWindow.SendSnackbar($"Выбранные лодки были удалены");
+            mainWindow.DialogHost.CurrentSession.Close();
         }
 
         private ObservableCollection<SelectableBoatViewModel> FilterBoats(string filterText)

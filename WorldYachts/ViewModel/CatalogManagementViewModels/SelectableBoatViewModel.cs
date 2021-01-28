@@ -35,6 +35,8 @@ namespace WorldYachts.ViewModel.CatalogManagementViewModels
             Vat = $"{boat.Vat}%";
 
             IsSelected = false;
+
+            Boat = boat;
         }
         #endregion
 
@@ -160,6 +162,8 @@ namespace WorldYachts.ViewModel.CatalogManagementViewModels
                 OnPropertyChanged(nameof(Vat));
             }
         }
+
+        public Boat Boat { get; set; }
 
         #endregion
     }
