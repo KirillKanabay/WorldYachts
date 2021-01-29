@@ -8,14 +8,17 @@ using System.Windows;
 using MaterialDesignThemes.Wpf;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using WorldYachts.Data;
+using WorldYachts.Helpers;
 using WorldYachts.Helpers.Commands;
 using WorldYachts.Model;
 using WorldYachts.View.MessageDialogs;
+using WorldYachts.ViewModel.BoatManagementViewModels;
+using WorldYachts.ViewModel.CatalogManagementViewModels;
 using WorldYachts.ViewModel.MessageDialog;
 
-namespace WorldYachts.ViewModel.CatalogManagementViewModels
+namespace WorldYachts.ViewModel
 {
-    class RemoveBoatViewModel:BaseViewModel
+    class BoatManagementViewModel:BaseViewModel
     {
         #region Поля
         private ObservableCollection<SelectableBoatViewModel> _boatsCollection;
@@ -25,15 +28,14 @@ namespace WorldYachts.ViewModel.CatalogManagementViewModels
 
         private AsyncRelayCommand _getBoatsCollection;
         private AsyncRelayCommand _removeBoats;
-
+        private DelegateCommand _openBoatEditorDialog;
 
         private Visibility _progressBarVisibility;
-        private Visibility _elementVisibility;
         #endregion
 
         #region Конструкторы
 
-        public RemoveBoatViewModel()
+        public BoatManagementViewModel()
         {
             GetBoatsCollection.Execute(null);
         }
@@ -64,19 +66,6 @@ namespace WorldYachts.ViewModel.CatalogManagementViewModels
             }
         }
 
-        /// <summary>
-        /// Видимость элементов
-        /// </summary>
-        public Visibility ElementVisibility
-        {
-            get => _elementVisibility;
-            set
-            {
-                _elementVisibility = value;
-                OnPropertyChanged(nameof(ElementVisibility));
-            }
-        }
-
         public string FilterText
         {
             get => _filterText;
@@ -91,7 +80,9 @@ namespace WorldYachts.ViewModel.CatalogManagementViewModels
         #endregion
 
         #region Команды
-
+        /// <summary>
+        /// Команда получения коллекции лодок
+        /// </summary>
         public AsyncRelayCommand GetBoatsCollection
         {
             get
@@ -102,7 +93,9 @@ namespace WorldYachts.ViewModel.CatalogManagementViewModels
                 });
             }
         }
-
+        /// <summary>
+        /// Команда удаления лодки
+        /// </summary>
         public AsyncRelayCommand RemoveBoats
         {
             get
@@ -114,14 +107,21 @@ namespace WorldYachts.ViewModel.CatalogManagementViewModels
             }
         }
 
+        public DelegateCommand OpenBoatEditorDialog
+        {
+            get
+            {
+                return _openBoatEditorDialog ??= new DelegateCommand(ExecuteRunEditorDialog);
+            }
+        }
         #endregion
+        
         #region Методы
         /// <summary>
         /// Получение списка лодок из модели
         /// </summary>
         private async Task GetBoatsMethod(object parameter)
         {
-            ElementVisibility = Visibility.Collapsed;
             ProgressBarVisibility = Visibility.Visible;
 
             var boatList = await _boatModel.LoadBoatsAsync();
@@ -133,7 +133,6 @@ namespace WorldYachts.ViewModel.CatalogManagementViewModels
             }
 
             ProgressBarVisibility = Visibility.Collapsed;
-            ElementVisibility = Visibility.Visible;
         }
 
         /// <summary>
@@ -186,13 +185,30 @@ namespace WorldYachts.ViewModel.CatalogManagementViewModels
             var result = await DialogHost.Show(view, "MessageDialogRoot", ClosingEventHandler);
         }
         /// <summary>
-        /// При закрытии сообщения открываем главное окно при успешной регистрации
+        /// При закрытии сообщения уведомляем об этом список лодок
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="eventArgs"></param>
         private void ClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
         {
+            GetBoatsCollection.Execute(null);
+            OnPropertyChanged(nameof(FilteredBoats));
+        }
 
+        /// <summary>
+        /// Открытие диалога редактора
+        /// </summary>
+        /// <param name="o"></param>
+        private async void ExecuteRunEditorDialog(object o)
+        {
+            BaseViewModel bvm = new AddBoatViewModel();
+            
+            var view = new View.MessageDialogs.MessageDialog()
+            {
+                DataContext = new MessageDialogViewModel(bvm)
+            };
+
+            var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
         }
 
         #endregion

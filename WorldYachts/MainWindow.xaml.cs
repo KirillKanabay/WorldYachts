@@ -21,7 +21,15 @@ namespace WorldYachts
         public MainWindow()
         {
             InitializeComponent();
-            HeaderPanel.MouseDown += DragWindow;
+
+            HeaderPanel.MouseDown += (s,e)=>
+            {
+                if (WindowState == WindowState.Maximized)
+                {
+                    WindowState = WindowState.Normal;
+                }
+                DragWindow(s,e);
+            };
             MinimizeBtn.Click += (s, e) => WindowState = WindowState.Minimized;
 
             WindowStateBtn.Click += (s, e) =>

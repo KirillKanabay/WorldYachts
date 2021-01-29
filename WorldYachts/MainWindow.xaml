@@ -12,6 +12,7 @@
     Title="Главное окно"
     Width="1100"
     Height="620"
+    MaxHeight="{x:Static SystemParameters.MaximizedPrimaryScreenHeight}"
     FontFamily="Google Sans"
     ResizeMode="CanMinimize"
     WindowStartupLocation="CenterScreen"
@@ -176,8 +177,6 @@
                         <ColumnDefinition Width="130" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-
-
                     <ContentControl
                         Grid.Row="1"
                         Grid.Column="1"
@@ -257,7 +256,7 @@
                                                 FontWeight="Normal"
                                                 TextAlignment="Center"
                                                 TextWrapping="Wrap">
-                                                Каталог яхт
+                                                Каталог лодок
                                             </TextBlock>
                                         </StackPanel>
                                     </Button>
@@ -293,9 +292,9 @@
                                         </StackPanel>
                                     </Button>
                                 </ListViewItem>
-                                <!--  CatalogManagement  -->
+                                <!--  BoatManagement  -->
                                 <ListViewItem
-                                    x:Name="CatalogManagement"
+                                    x:Name="BoatManagement"
                                     Width="130"
                                     Padding="0"
                                     HorizontalAlignment="Left">
@@ -306,20 +305,28 @@
                                         Background="{x:Null}"
                                         BorderBrush="{x:Null}"
                                         Command="{Binding UpdateViewCommand}"
-                                        CommandParameter="{Binding ElementName=CatalogManagement}"
+                                        CommandParameter="{Binding ElementName=BoatManagement}"
                                         Foreground="Black">
                                         <StackPanel Margin="0" Orientation="Vertical">
-                                            <materialDesign:PackIcon
-                                                Width="30"
-                                                Height="20"
-                                                HorizontalAlignment="Center"
-                                                Kind="TableCog" />
+                                            <Grid>
+                                                <materialDesign:PackIcon
+                                                    Width="30"
+                                                    Height="20"
+                                                    HorizontalAlignment="Center"
+                                                    Kind="SailBoat" />
+                                                <materialDesign:PackIcon
+                                                    Width="Auto"
+                                                    Height="10"
+                                                    Margin="15,0,0,0"
+                                                    HorizontalAlignment="Center"
+                                                    Kind="Cog" />
+                                            </Grid>
                                             <TextBlock
                                                 FontSize="12"
                                                 FontWeight="Normal"
                                                 TextAlignment="Center"
                                                 TextWrapping="Wrap">
-                                                Управление товарами
+                                                Управление лодками
                                             </TextBlock>
                                         </StackPanel>
                                     </Button>
@@ -457,11 +464,12 @@
                     <materialDesign:Snackbar
                         x:Name="Snackbar"
                         Grid.Column="1"
-                        Margin="0,0,10,10"
+                        Margin="0,0,10,20"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Bottom"
                         ActionButtonPlacement="Inline"
                         ActionButtonStyle="{StaticResource MaterialDesignSnackbarActionMidButton}"
+                        IsActive="False"
                         MessageQueue="{materialDesign:MessageQueue}">
                         <materialDesign:SnackbarMessage ActionCommand="Close" ActionContent="Закрыть" />
                     </materialDesign:Snackbar>

@@ -19,7 +19,6 @@ namespace WorldYachts.ViewModel
         private BaseViewModel _selectedViewModel = new DashboardViewModel();
         private DelegateCommand _updateViewCommand;
         private MainWindow _mainWindowView = (MainWindow)Application.Current.MainWindow;
-        private WindowState _mainWindowState = WindowState.Maximized;
         #endregion
 
         #region Свойства
@@ -63,8 +62,8 @@ namespace WorldYachts.ViewModel
                         case "Orders":
                             SelectedViewModel = new OrdersViewModel();
                             break;
-                        case "CatalogManagement":
-                            SelectedViewModel = new CatalogManagementViewModel();
+                        case "BoatManagement":
+                            SelectedViewModel = new BoatManagementViewModel();
                             break;
                         case "UserManagement":
                             SelectedViewModel = new UserManagementViewModel();

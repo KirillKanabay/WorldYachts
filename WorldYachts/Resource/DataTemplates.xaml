@@ -35,8 +35,8 @@
             <DataTemplate DataType="{x:Type vmcm:AddBoatViewModel}">
                 <vcm:AddBoatView />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type vmcm:RemoveBoatViewModel}">
-                <vcm:RemoveBoatView />
+            <DataTemplate DataType="{x:Type vm:BoatManagementViewModel}">
+                <v:BoatManagementView/>
             </DataTemplate>
         </ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>

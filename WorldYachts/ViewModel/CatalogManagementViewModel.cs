@@ -37,7 +37,7 @@ namespace WorldYachts.ViewModel
                     bvm = new AddBoatViewModel();
                     break;
                 case "RemoveBoat":
-                    bvm = new RemoveBoatViewModel();
+                    bvm = new BoatManagementViewModel();
                     break;
                 case "EditAccessory":
                     break;

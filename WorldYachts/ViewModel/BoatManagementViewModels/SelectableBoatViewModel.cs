@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using WorldYachts.Data;
 
-namespace WorldYachts.ViewModel.CatalogManagementViewModels
+namespace WorldYachts.ViewModel.BoatManagementViewModels
 {
     class SelectableBoatViewModel:BaseViewModel
     {
@@ -15,9 +15,9 @@ namespace WorldYachts.ViewModel.CatalogManagementViewModels
         private string _mast;
         private string _color;
         private string _wood;
-        private string _basePrice;
-        private string _vat;
-
+        private decimal _basePrice;
+        private double _vat;
+        
         private bool _isSelected;
         #endregion
 
@@ -31,15 +31,14 @@ namespace WorldYachts.ViewModel.CatalogManagementViewModels
             Mast = boat.Mast ? "Присутствует" : "Отсутствует";
             Color = boat.Color;
             Wood = boat.Wood;
-            BasePrice = $"{boat.BasePrice} ₽";
-            Vat = $"{boat.Vat}%";
+            BasePrice = boat.BasePrice;
+            Vat = boat.Vat;
 
             IsSelected = false;
 
             Boat = boat;
         }
         #endregion
-
 
         #region Свойства
         /// <summary>
@@ -141,7 +140,7 @@ namespace WorldYachts.ViewModel.CatalogManagementViewModels
         /// <summary>
         /// Базовая цена без НДС
         /// </summary>
-        public string BasePrice
+        public decimal BasePrice
         {
             get => _basePrice;
             set
@@ -153,7 +152,7 @@ namespace WorldYachts.ViewModel.CatalogManagementViewModels
         /// <summary>
         /// Процентная ставка НДС
         /// </summary>
-        public string Vat
+        public double Vat
         {
             get => _vat;
             set
@@ -162,6 +161,10 @@ namespace WorldYachts.ViewModel.CatalogManagementViewModels
                 OnPropertyChanged(nameof(Vat));
             }
         }
+        /// <summary>
+        /// Цена с НДС
+        /// </summary>
+        public decimal PriceInclVat => BasePrice + (BasePrice * (decimal)Vat);
 
         public Boat Boat { get; set; }
 

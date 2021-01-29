@@ -11,14 +11,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WorldYachts.View.CatalogManagementViews
+namespace WorldYachts.View
 {
     /// <summary>
-    /// Логика взаимодействия для RemoveBoatView.xaml
+    /// Логика взаимодействия для BoatManagementView.xaml
     /// </summary>
-    public partial class RemoveBoatView : UserControl
+    public partial class BoatManagementView : UserControl
     {
-        public RemoveBoatView()
+        public BoatManagementView()
         {
             InitializeComponent();
         }
