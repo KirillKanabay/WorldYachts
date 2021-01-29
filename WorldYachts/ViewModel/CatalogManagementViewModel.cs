@@ -4,7 +4,6 @@ using System.Text;
 using MaterialDesignThemes.Wpf;
 using WorldYachts.Helpers;
 using WorldYachts.View.MessageDialogs;
-using WorldYachts.ViewModel.CatalogManagementViewModels;
 using WorldYachts.ViewModel.MessageDialog;
 
 namespace WorldYachts.ViewModel
@@ -34,7 +33,7 @@ namespace WorldYachts.ViewModel
                 case "AddAccessory":
                     break;
                 case "AddBoat":
-                    bvm = new AddBoatViewModel();
+                   // bvm = new BoatEditorViewModel();
                     break;
                 case "RemoveBoat":
                     bvm = new BoatManagementViewModel();

@@ -1,7 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using MaterialDesignThemes.Wpf;
 using WorldYachts.Data;
+using WorldYachts.Helpers;
+using WorldYachts.Helpers.Commands;
+using WorldYachts.View.MessageDialogs;
+using WorldYachts.ViewModel.MessageDialog;
 
 namespace WorldYachts.ViewModel.BoatManagementViewModels
 {
@@ -19,6 +25,11 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
         private double _vat;
         
         private bool _isSelected;
+        private bool _isDeleted = false;
+
+        private AsyncRelayCommand _removeBoat;
+
+        public static Action OnItemDeleted;
         #endregion
 
         #region Конструкторы
@@ -166,8 +177,63 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
         /// </summary>
         public decimal PriceInclVat => BasePrice + (BasePrice * (decimal)Vat);
 
+        /// <summary>
+        /// Была ли удалена лодка
+        /// </summary>
+        public bool IsDeleted
+        {
+            get => _isDeleted;
+            set
+            {
+                _isDeleted = value;
+                OnPropertyChanged(nameof(IsDeleted));
+                OnItemDeleted?.Invoke();
+            }
+        } 
         public Boat Boat { get; set; }
 
+        #endregion
+
+        #region Команды
+
+        public AsyncRelayCommand RemoveBoat
+        {
+            get
+            {
+                return _removeBoat ??= new AsyncRelayCommand(ShowConfirmDeleteDialog, null);
+            }
+        }
+
+        private async Task ShowConfirmDeleteDialog(object parameter)
+        {
+            var view = new MessageDialogOkCancel()
+            {
+                DataContext = new SampleMessageDialogViewModel("Подтверждение удаления", $"Будет удалена следующая лодка:\n\n" + this)
+            };
+            var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
+        }
+
+        private void ClosingEventHandler(object sender, DialogClosingEventArgs eventargs)
+        {
+            if (Equals((eventargs.Parameter), true))
+                IsDeleted = true;
+        }
+
+        #endregion
+
+        #region Методы
+
+        public override string ToString()
+        {
+            return $"Id: {Id}\n" +
+                   $"Модель: {Model}\n" +
+                   $"Тип: {Type}\n" +
+                   $"Количество гребцов: {NumberOfRower}\n" +
+                   $"Наличие мачты: {Mast}\n" +
+                   $"Цвет: {Color}\n" +
+                   $"Тип дерева: {Wood}\n" +
+                   $"Цена без НДС: {BasePrice}";
+        }
         #endregion
     }
 }

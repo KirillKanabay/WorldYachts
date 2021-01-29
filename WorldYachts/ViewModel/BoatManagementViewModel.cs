@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using MaterialDesignThemes.Wpf;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using WorldYachts.Data;
@@ -13,7 +16,6 @@ using WorldYachts.Helpers.Commands;
 using WorldYachts.Model;
 using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BoatManagementViewModels;
-using WorldYachts.ViewModel.CatalogManagementViewModels;
 using WorldYachts.ViewModel.MessageDialog;
 
 namespace WorldYachts.ViewModel
@@ -29,6 +31,7 @@ namespace WorldYachts.ViewModel
         private AsyncRelayCommand _getBoatsCollection;
         private AsyncRelayCommand _removeBoats;
         private DelegateCommand _openBoatEditorDialog;
+        private AsyncRelayCommand _removeBoat;
 
         private Visibility _progressBarVisibility;
         #endregion
@@ -38,6 +41,10 @@ namespace WorldYachts.ViewModel
         public BoatManagementViewModel()
         {
             GetBoatsCollection.Execute(null);
+            SelectableBoatViewModel.OnItemDeleted = () =>
+            {
+                RemoveBoats.Execute(null);
+            };
         }
         #endregion
 
@@ -53,6 +60,11 @@ namespace WorldYachts.ViewModel
                     return FilterBoats(_filterText);
                 
                 return _boatsCollection;
+            }
+            set
+            {
+                _boatsCollection = value;
+                RemoveBoats.Execute(null);
             }
         }
 
@@ -114,6 +126,19 @@ namespace WorldYachts.ViewModel
                 return _openBoatEditorDialog ??= new DelegateCommand(ExecuteRunEditorDialog);
             }
         }
+        /// <summary>
+        /// Удаление одной лодки
+        /// </summary>
+        public AsyncRelayCommand RemoveBoat
+        {
+            get
+            {
+                return _removeBoat??=new AsyncRelayCommand(RemoveBoatsMethod, (ex) =>
+                {
+                    ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message });
+                });
+            }
+        }
         #endregion
         
         #region Методы
@@ -133,6 +158,8 @@ namespace WorldYachts.ViewModel
             }
 
             ProgressBarVisibility = Visibility.Collapsed;
+            
+            _boatsCollection.CollectionChanged += CheckForDeleteBoats;
         }
 
         /// <summary>
@@ -143,15 +170,18 @@ namespace WorldYachts.ViewModel
         private async Task RemoveBoatsMethod(object parameter)
         {
             //Получаем список отмеченных лодок
-            var boatList = _boatsCollection.Where(b => b.IsSelected)
+            var boatList = _boatsCollection.Where(b => b.IsSelected || b.IsDeleted)
                 .Select(b => b.Boat);
 
             await Task.Run(() => BoatModel.RemoveBoatsAsync(boatList));
-
+            
+            //Получаем главное окно для показа уведомления о удалении
             var mainWindow = (MainWindow)Application.Current.MainWindow;
-
-            mainWindow.SendSnackbar($"Выбранные лодки были удалены");
-            mainWindow.DialogHost.CurrentSession.Close();
+            
+            //Обновляем список лодок
+            GetBoatsCollection.Execute(null);
+            
+            mainWindow.SendSnackbar($"Успешно удалено.");
         }
 
         private ObservableCollection<SelectableBoatViewModel> FilterBoats(string filterText)
@@ -167,6 +197,11 @@ namespace WorldYachts.ViewModel
             }
 
             return boatsCollection;
+        }
+
+        private void CheckForDeleteBoats(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            RemoveBoats.Execute(null);
         }
         #endregion
 
@@ -201,7 +236,7 @@ namespace WorldYachts.ViewModel
         /// <param name="o"></param>
         private async void ExecuteRunEditorDialog(object o)
         {
-            BaseViewModel bvm = new AddBoatViewModel();
+            BaseViewModel bvm = new BoatEditorViewModel();
             
             var view = new View.MessageDialogs.MessageDialog()
             {

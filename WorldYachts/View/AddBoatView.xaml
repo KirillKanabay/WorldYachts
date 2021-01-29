@@ -3,10 +3,10 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:WorldYachts.View.CatalogManagementViews"
+    xmlns:local="clr-namespace:WorldYachts.View"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vm="clr-namespace:WorldYachts.ViewModel.CatalogManagementViewModels"
+    xmlns:vm="clr-namespace:WorldYachts.ViewModel.BoatManagementViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
     Background="#FFFAFAFA"
@@ -15,12 +15,12 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../Style/TextBoxStyles.xaml" />
+                <ResourceDictionary Source="../Style/TextBoxStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
     <UserControl.DataContext>
-        <vm:AddBoatViewModel />
+        <vm:BoatEditorViewModel/>
     </UserControl.DataContext>
     <Grid Margin="20,20,20,10">
         <Grid.RowDefinitions>
@@ -38,7 +38,7 @@
             VerticalAlignment="Top"
             FontSize="18"
             FontWeight="Bold">
-            Добавление лодки
+            Редактор лодок
         </Label>
         <StackPanel
             Grid.Row="1"

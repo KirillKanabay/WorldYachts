@@ -4,7 +4,7 @@
     xmlns:v="clr-namespace:WorldYachts.View"
     xmlns:vcm="clr-namespace:WorldYachts.View.CatalogManagementViews"
     xmlns:vm="clr-namespace:WorldYachts.ViewModel"
-    xmlns:vmcm="clr-namespace:WorldYachts.ViewModel.CatalogManagementViewModels">
+    xmlns:vmcm="clr-namespace:WorldYachts.ViewModel.BoatManagementViewModels">
     <ResourceDictionary.MergedDictionaries>
         <!--  Основные UC  -->
         <ResourceDictionary>
@@ -30,9 +30,9 @@
                 <v:CatalogManagementView />
             </DataTemplate>
         </ResourceDictionary>
-        <!--  CatalogManagement  -->
+        <!--  BoatManagement  -->
         <ResourceDictionary>
-            <DataTemplate DataType="{x:Type vmcm:AddBoatViewModel}">
+            <DataTemplate DataType="{x:Type vmcm:BoatEditorViewModel}">
                 <vcm:AddBoatView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type vm:BoatManagementViewModel}">

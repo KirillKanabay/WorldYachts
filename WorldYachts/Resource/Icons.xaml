@@ -1,10 +1,9 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
     <ResourceDictionary.MergedDictionaries>
         <!--#region CatalogManagementIcons-->
-        
-        <!--AddBoatIcon-->
+
+        <!--  AddBoatIcon  -->
         <ResourceDictionary>
             <DrawingImage x:Key="AddBoatIcon">
                 <DrawingImage.Drawing>
@@ -13,7 +12,10 @@
                             <DrawingGroup Transform="1,0,0,1,43,15">
                                 <GeometryDrawing Brush="#FF468EC0">
                                     <GeometryDrawing.Geometry>
-                                        <EllipseGeometry RadiusX="70" RadiusY="70" Center="70,70" />
+                                        <EllipseGeometry
+                                            Center="70,70"
+                                            RadiusX="70"
+                                            RadiusY="70" />
                                     </GeometryDrawing.Geometry>
                                 </GeometryDrawing>
                             </DrawingGroup>
@@ -35,7 +37,7 @@
                 </DrawingImage.Drawing>
             </DrawingImage>
         </ResourceDictionary>
-        <!--EditBoatIcon-->
+        <!--  EditBoatIcon  -->
         <ResourceDictionary>
             <DrawingImage x:Key="EditBoatIcon">
                 <DrawingImage.Drawing>
@@ -47,7 +49,10 @@
                             <DrawingGroup Transform="1,0,0,1,43,15">
                                 <GeometryDrawing Brush="#FF468EC0">
                                     <GeometryDrawing.Geometry>
-                                        <EllipseGeometry RadiusX="70" RadiusY="70" Center="70,70" />
+                                        <EllipseGeometry
+                                            Center="70,70"
+                                            RadiusX="70"
+                                            RadiusY="70" />
                                     </GeometryDrawing.Geometry>
                                 </GeometryDrawing>
                             </DrawingGroup>
@@ -73,7 +78,10 @@
                                             <DrawingGroup Transform="0.707106781186548,-0.707106781186547,0.707106781186547,0.707106781186548,0,19.324">
                                                 <GeometryDrawing Brush="#FFFFFFFF">
                                                     <GeometryDrawing.Geometry>
-                                                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="0,0,27.328,11.882" />
+                                                        <RectangleGeometry
+                                                            RadiusX="0"
+                                                            RadiusY="0"
+                                                            Rect="0,0,27.328,11.882" />
                                                     </GeometryDrawing.Geometry>
                                                 </GeometryDrawing>
                                             </DrawingGroup>
@@ -93,7 +101,7 @@
                 </DrawingImage.Drawing>
             </DrawingImage>
         </ResourceDictionary>
-        <!--RemoveBoatIcon-->
+        <!--  RemoveBoatIcon  -->
         <ResourceDictionary>
             <DrawingImage x:Key="RemoveBoatIcon">
                 <DrawingImage.Drawing>
@@ -102,7 +110,10 @@
                             <DrawingGroup Transform="1,0,0,1,43,15">
                                 <GeometryDrawing Brush="#FF468EC0">
                                     <GeometryDrawing.Geometry>
-                                        <EllipseGeometry RadiusX="70" RadiusY="70" Center="70,70" />
+                                        <EllipseGeometry
+                                            Center="70,70"
+                                            RadiusX="70"
+                                            RadiusY="70" />
                                     </GeometryDrawing.Geometry>
                                 </GeometryDrawing>
                             </DrawingGroup>
@@ -120,7 +131,12 @@
                                         <DrawingGroup Transform="1,0,0,1,0,-187.733">
                                             <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M140,140z M0,0z M32.86,193.774L1.429,193.774C0.64,193.774 0,192.422 0,190.754 0,189.086 0.64,187.733 1.429,187.733L32.86,187.733C33.649,187.733 34.289,189.085 34.289,190.754 34.289,192.423 33.649,193.774 32.86,193.774z">
                                                 <GeometryDrawing.Pen>
-                                                    <Pen Brush="#FF468EC0" Thickness="2" StartLineCap="Flat" EndLineCap="Flat" LineJoin="Miter" />
+                                                    <Pen
+                                                        Brush="#FF468EC0"
+                                                        EndLineCap="Flat"
+                                                        LineJoin="Miter"
+                                                        StartLineCap="Flat"
+                                                        Thickness="2" />
                                                 </GeometryDrawing.Pen>
                                             </GeometryDrawing>
                                         </DrawingGroup>
@@ -132,7 +148,7 @@
                 </DrawingImage.Drawing>
             </DrawingImage>
         </ResourceDictionary>
-        <!--AddAccessoryIcon-->
+        <!--  AddAccessoryIcon  -->
         <ResourceDictionary>
             <DrawingImage x:Key="AddAccessoryIcon">
                 <DrawingImage.Drawing>
@@ -141,7 +157,10 @@
                             <DrawingGroup Transform="1,0,0,1,43,15">
                                 <GeometryDrawing Brush="#FF3CBAE0">
                                     <GeometryDrawing.Geometry>
-                                        <EllipseGeometry RadiusX="70" RadiusY="70" Center="70,70" />
+                                        <EllipseGeometry
+                                            Center="70,70"
+                                            RadiusX="70"
+                                            RadiusY="70" />
                                     </GeometryDrawing.Geometry>
                                 </GeometryDrawing>
                             </DrawingGroup>
@@ -162,7 +181,7 @@
                 </DrawingImage.Drawing>
             </DrawingImage>
         </ResourceDictionary>
-        <!--EditAccessoryIcon-->
+        <!--  EditAccessoryIcon  -->
         <ResourceDictionary>
             <DrawingImage x:Key="EditAccessoryIcon">
                 <DrawingImage.Drawing>
@@ -195,7 +214,10 @@
                                             <DrawingGroup Transform="0.707106781186548,-0.707106781186547,0.707106781186547,0.707106781186548,0,19.324">
                                                 <GeometryDrawing Brush="#FFFFFFFF">
                                                     <GeometryDrawing.Geometry>
-                                                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="0,0,27.328,11.882" />
+                                                        <RectangleGeometry
+                                                            RadiusX="0"
+                                                            RadiusY="0"
+                                                            Rect="0,0,27.328,11.882" />
                                                     </GeometryDrawing.Geometry>
                                                 </GeometryDrawing>
                                             </DrawingGroup>
@@ -215,7 +237,7 @@
                 </DrawingImage.Drawing>
             </DrawingImage>
         </ResourceDictionary>
-        <!--RemoveAccessoryIcon-->
+        <!--  RemoveAccessoryIcon  -->
         <ResourceDictionary>
             <DrawingImage x:Key="RemoveAccessoryIcon">
                 <DrawingImage.Drawing>
@@ -224,7 +246,10 @@
                             <DrawingGroup Transform="1,0,0,1,43,15">
                                 <GeometryDrawing Brush="#FF3CBAE0">
                                     <GeometryDrawing.Geometry>
-                                        <EllipseGeometry RadiusX="70" RadiusY="70" Center="70,70" />
+                                        <EllipseGeometry
+                                            Center="70,70"
+                                            RadiusX="70"
+                                            RadiusY="70" />
                                     </GeometryDrawing.Geometry>
                                 </GeometryDrawing>
                             </DrawingGroup>
@@ -241,7 +266,12 @@
                                         <DrawingGroup Transform="1,0,0,1,0,-187.733">
                                             <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M140,140z M0,0z M32.86,193.774L1.429,193.774C0.64,193.774 0,192.422 0,190.754 0,189.086 0.64,187.733 1.429,187.733L32.86,187.733C33.649,187.733 34.289,189.085 34.289,190.754 34.289,192.423 33.649,193.774 32.86,193.774z">
                                                 <GeometryDrawing.Pen>
-                                                    <Pen Brush="#FF3CBAE0" Thickness="2" StartLineCap="Flat" EndLineCap="Flat" LineJoin="Miter" />
+                                                    <Pen
+                                                        Brush="#FF3CBAE0"
+                                                        EndLineCap="Flat"
+                                                        LineJoin="Miter"
+                                                        StartLineCap="Flat"
+                                                        Thickness="2" />
                                                 </GeometryDrawing.Pen>
                                             </GeometryDrawing>
                                         </DrawingGroup>
@@ -253,7 +283,7 @@
                 </DrawingImage.Drawing>
             </DrawingImage>
         </ResourceDictionary>
-        <!--ManagementPartnersIcon-->
+        <!--  ManagementPartnersIcon  -->
         <ResourceDictionary>
             <DrawingImage x:Key="ManagementPartnersIcon">
                 <DrawingImage.Drawing>
@@ -262,7 +292,10 @@
                             <DrawingGroup Transform="1,0,0,1,43,15">
                                 <GeometryDrawing Brush="#FF3CBAE0">
                                     <GeometryDrawing.Geometry>
-                                        <EllipseGeometry RadiusX="70" RadiusY="70" Center="70,70" />
+                                        <EllipseGeometry
+                                            Center="70,70"
+                                            RadiusX="70"
+                                            RadiusY="70" />
                                     </GeometryDrawing.Geometry>
                                 </GeometryDrawing>
                             </DrawingGroup>
@@ -270,7 +303,10 @@
                                 <DrawingGroup Transform="1,0,0,1,34.934,35.925">
                                     <GeometryDrawing Brush="#FFFFFFFF">
                                         <GeometryDrawing.Geometry>
-                                            <EllipseGeometry RadiusX="2" RadiusY="2" Center="2,2" />
+                                            <EllipseGeometry
+                                                Center="2,2"
+                                                RadiusX="2"
+                                                RadiusY="2" />
                                         </GeometryDrawing.Geometry>
                                     </GeometryDrawing>
                                 </DrawingGroup>
@@ -287,7 +323,7 @@
                 </DrawingImage.Drawing>
             </DrawingImage>
         </ResourceDictionary>
-        <!--ImportExcelIcon-->
+        <!--  ImportExcelIcon  -->
         <ResourceDictionary>
             <DrawingImage x:Key="ImportExcelIcon">
                 <DrawingImage.Drawing>
@@ -299,7 +335,10 @@
                             <DrawingGroup Transform="1,0,0,1,43,15">
                                 <GeometryDrawing Brush="#FF4CCEC8">
                                     <GeometryDrawing.Geometry>
-                                        <EllipseGeometry RadiusX="70" RadiusY="70" Center="70,70" />
+                                        <EllipseGeometry
+                                            Center="70,70"
+                                            RadiusX="70"
+                                            RadiusY="70" />
                                     </GeometryDrawing.Geometry>
                                 </GeometryDrawing>
                             </DrawingGroup>
@@ -322,7 +361,7 @@
                 </DrawingImage.Drawing>
             </DrawingImage>
         </ResourceDictionary>
-        <!--ExportExcelIcon-->
+        <!--  ExportExcelIcon  -->
         <ResourceDictionary>
             <DrawingImage x:Key="ExportExcelIcon">
                 <DrawingImage.Drawing>
@@ -334,7 +373,10 @@
                             <DrawingGroup Transform="1,0,0,1,43,15">
                                 <GeometryDrawing Brush="#FF4CCEC8">
                                     <GeometryDrawing.Geometry>
-                                        <EllipseGeometry RadiusX="70" RadiusY="70" Center="70,70" />
+                                        <EllipseGeometry
+                                            Center="70,70"
+                                            RadiusX="70"
+                                            RadiusY="70" />
                                     </GeometryDrawing.Geometry>
                                 </GeometryDrawing>
                             </DrawingGroup>
@@ -361,8 +403,8 @@
         <!--#endregion CatalogManagementIcons-->
 
         <!--#region HeaderPanelIcons-->
-        
-        <!--CancelIcon-->
+
+        <!--  CancelIcon  -->
         <ResourceDictionary>
             <DrawingImage x:Key="CancelIcon">
                 <DrawingImage.Drawing>
@@ -379,7 +421,7 @@
                 </DrawingImage.Drawing>
             </DrawingImage>
         </ResourceDictionary>
-        <!--MinimizeIcon-->
+        <!--  MinimizeIcon  -->
         <ResourceDictionary>
             <DrawingImage x:Key="MinimizeIcon">
                 <DrawingImage.Drawing>
@@ -395,5 +437,5 @@
         </ResourceDictionary>
         <!--#endregion HeaderPanelIcons-->
     </ResourceDictionary.MergedDictionaries>
-    
+
 </ResourceDictionary>

@@ -13,12 +13,13 @@ using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.MessageDialog;
 using Validation = WorldYachts.Validators.Validation;
 
-namespace WorldYachts.ViewModel.CatalogManagementViewModels
+namespace WorldYachts.ViewModel.BoatManagementViewModels
 {
-    class AddBoatViewModel : BaseViewModel, IDataErrorInfo
+    class BoatEditorViewModel : BaseViewModel, IDataErrorInfo
     {
         #region Поля
 
+        private readonly int _id;
         private string _model;
         private string _type;
         private int _numberOfRower;
@@ -27,17 +28,45 @@ namespace WorldYachts.ViewModel.CatalogManagementViewModels
         private string _wood;
         private decimal _basePrice;
         private double _vat;
-        
+
         private IEnumerable<string> _boatTypes = new List<string>()
             {"Шлюпка", "Парусная лодка", "Галера"};
         private IEnumerable<string> _woodTypes = new List<string>()
             {"Дуб", "Береза", "Eль", "Cосна", "Лиственница"};
 
+
         private Visibility _progressBarVisibility = Visibility.Collapsed;
-        private bool _successfullAddedBoat;
+        
+        //Флаг редактирования лодки
+        private bool _isEdit;
 
         private DelegateCommand _selectColor;
         private AsyncRelayCommand _saveBoat;
+        #endregion
+
+        #region Конструкторы
+
+        public BoatEditorViewModel()
+        {
+            
+        }
+
+        public BoatEditorViewModel(Boat boat)
+        {
+            _id = boat.Id;
+            Model = boat.Model;
+            Type = boat.Type;
+            NumberOfRower = boat.NumberOfRowers;
+            Mast = boat.Mast;
+            Color = boat.Color;
+            Wood = boat.Wood;
+            BasePrice = boat.BasePrice;
+            Vat = boat.Vat;
+
+            //Устанавливаем флаг редактирования
+            _isEdit = true;
+        }
+
         #endregion
 
         #region Свойства
@@ -212,7 +241,6 @@ namespace WorldYachts.ViewModel.CatalogManagementViewModels
         {
             //Показываем прогрессбар
             ProgressBarVisibility = Visibility.Visible;
-
             var boatModel = new BoatModel(new Boat()
             {
                 Model = this.Model,
@@ -226,19 +254,30 @@ namespace WorldYachts.ViewModel.CatalogManagementViewModels
             });
             try
             {
-                await Task.Run(() => boatModel.AddBoadAsync());
+                if (_isEdit)
+                {
+                    boatModel.Boat.Id = _id;
+                    await Task.Run(() => boatModel.SaveBoatAsync());
+                }
+                else
+                {
+                    await Task.Run(() => boatModel.AddBoadAsync());
+                }
             }
             finally
             {
                 ProgressBarVisibility = Visibility.Collapsed;
             }
-
+            
             //ExecuteRunDialog(new MessageDialogProperty() { Title = "Добавление лодки", Message = "Добавление лодки прошло успешно" });
             
-            _successfullAddedBoat = true;
             var mainWindow = (MainWindow)Application.Current.MainWindow;
+            var snackBarMessage = _isEdit
+                ? $"Лодка \"{Model}\" успешно отредактирована."
+                : $"Лодка \"{Model}\" успешно добавлена.";
             
-            mainWindow.SendSnackbar($"Лодка \"{Model}\" успешно добавлена");
+            mainWindow.SendSnackbar(snackBarMessage);
+            //Закрываем диалог редактирования лодки
             mainWindow.DialogHost.CurrentSession.Close();
         }
 

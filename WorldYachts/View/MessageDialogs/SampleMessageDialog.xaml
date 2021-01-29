@@ -9,7 +9,7 @@
              mc:Ignorable="d" 
              Width="250"
              Background="#FFFAFAFA" 
-             FontFamily="SF Pro Display">
+             FontFamily="Google Sans">
     <UserControl.DataContext>
         <vm:SampleMessageDialogViewModel></vm:SampleMessageDialogViewModel>
     </UserControl.DataContext>

@@ -10,7 +10,7 @@ namespace WorldYachts.Model
 {
     class BoatModel
     {
-        private Boat _boat;
+        public Boat Boat { get; set; }
 
         public BoatModel()
         {
@@ -19,18 +19,18 @@ namespace WorldYachts.Model
 
         public BoatModel(Boat boat)
         {
-            _boat = boat;
+            Boat = boat;
         }
 
         public async Task AddBoadAsync()
         {
             await using (var context = WorldYachtsContext.GetDataContext())
             {
-                if (context.Boats.ToList().Any(c => c.CompareTo(_boat) == 0))
+                if (context.Boats.ToList().Any(c => c.CompareTo(Boat) == 0))
                 {
                     throw new ArgumentException("Такая лодка уже существует.");
                 }
-                await context.Boats.AddAsync(_boat);
+                await context.Boats.AddAsync(Boat);
                 await context.SaveChangesAsync();
             }
             
@@ -54,6 +54,18 @@ namespace WorldYachts.Model
             await using (var context = WorldYachtsContext.GetDataContext())
             {
                 context.Boats.RemoveRange(boats);
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public async Task SaveBoatAsync()
+        {
+            await using (var context = WorldYachtsContext.GetDataContext())
+            {
+                var dbBoat = context.Boats.FirstOrDefault(b => b.Id == Boat.Id);
+                
+                dbBoat = Boat;
+
                 await context.SaveChangesAsync();
             }
         }
