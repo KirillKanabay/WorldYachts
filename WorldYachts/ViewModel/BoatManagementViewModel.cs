@@ -153,7 +153,7 @@ namespace WorldYachts.ViewModel
         {
             ProgressBarVisibility = Visibility.Visible;
 
-            var boatList = await _boatModel.LoadBoatsAsync();
+            var boatList = await _boatModel.LoadAsync();
             _boatsCollection = new ObservableCollection<SelectableBoatViewModel>();
             foreach (var boat in boatList)
             {
@@ -179,7 +179,7 @@ namespace WorldYachts.ViewModel
             
             if (boatList.Any())
             {
-                await Task.Run(() => BoatModel.RemoveBoatsAsync(boatList));
+                await Task.Run(() => BoatModel.RemoveAsync(boatList));
 
                 //Получаем главное окно для показа уведомления о удалении
                 var mainWindow = (MainWindow)Application.Current.MainWindow;

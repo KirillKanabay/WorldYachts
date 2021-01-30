@@ -117,13 +117,14 @@
                             MinWidth="500"
                             MinHeight="400"
                             Margin="0,8,0,0"
-                            materialDesign:DataGridAssist.CellPadding="8 7"
-                            materialDesign:DataGridAssist.ColumnHeaderPadding="8 7"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
                             AutoGenerateColumns="False"
                             CanUserAddRows="False"
                             CanUserSortColumns="True"
+                            ColumnWidth="*"
                             HorizontalScrollBarVisibility="Auto"
-                            ItemsSource="{Binding FilteredBoats}"
+                            ItemsSource="{Binding FilteredPartners}"
                             VerticalScrollBarVisibility="Visible">
                             <DataGrid.Columns>
                                 <DataGridCheckBoxColumn
@@ -135,36 +136,12 @@
                                     Binding="{Binding Id}"
                                     Header="Id"
                                     IsReadOnly="True" />
-                                <materialDesign:DataGridTextColumn Binding="{Binding Model}" Header="Модель" />
+                                <materialDesign:DataGridTextColumn Binding="{Binding Model}" Header="Название организации" />
                                 <materialDesign:DataGridTextColumn
                                     Binding="{Binding Type}"
-                                    Header="Тип лодки"
+                                    Header="Город"
                                     IsReadOnly="True" />
-                                <materialDesign:DataGridTextColumn Binding="{Binding NumberOfRower}" Header="Количество гребцов" />
-                                <materialDesign:DataGridTextColumn
-                                    Binding="{Binding Mast}"
-                                    Header="Наличие мачты"
-                                    IsReadOnly="True" />
-                                <materialDesign:DataGridTextColumn
-                                    Binding="{Binding Color}"
-                                    Header="Цвет"
-                                    IsReadOnly="True" />
-                                <materialDesign:DataGridTextColumn
-                                    Binding="{Binding Wood}"
-                                    Header="Тип дерева"
-                                    IsReadOnly="True" />
-                                <materialDesign:DataGridTextColumn
-                                    Binding="{Binding Vat, StringFormat=\{0\}%}"
-                                    Header="НДС %"
-                                    IsReadOnly="True" />
-                                <materialDesign:DataGridTextColumn
-                                    Binding="{Binding BasePrice, StringFormat=\{0:F0\}₽}"
-                                    Header="Цена без НДС ₽"
-                                    IsReadOnly="True" />
-                                <materialDesign:DataGridTextColumn
-                                    Binding="{Binding PriceInclVat, StringFormat=\{0:F0\}₽}"
-                                    Header="Цена с НДС ₽"
-                                    IsReadOnly="True" />
+                                <materialDesign:DataGridTextColumn Binding="{Binding NumberOfRower}" Header="Адрес" />
                                 <DataGridTemplateColumn Header="Редактировать">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>

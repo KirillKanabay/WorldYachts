@@ -25,13 +25,13 @@ namespace WorldYachts.Model
         /// Асинхронный метод добавления лодки в БД
         /// </summary>
         /// <returns></returns>
-        public async Task AddBoadAsync()
+        public static async Task AddAsync(Boat boat)
         {
             await using (var context = WorldYachtsContext.GetDataContext())
             {
-                await IsRepeatedBoat(Boat);
+                await IsRepeated(boat);
                 
-                await context.Boats.AddAsync(Boat);
+                await context.Boats.AddAsync(boat);
                 await context.SaveChangesAsync();
             }
             
@@ -40,15 +40,15 @@ namespace WorldYachts.Model
         /// Асинхронный метод загрузки лодок из БД
         /// </summary>
         /// <returns></returns>
-        public async Task<List<Boat>> LoadBoatsAsync()
+        public static async Task<List<Boat>> LoadAsync()
         {
-            return await Task.Run(() => LoadBoats());
+            return await Task.Run(() => Load());
         }
         /// <summary>
         /// Синхронный метод загрузки лодок из БД
         /// </summary>
         /// <returns></returns>
-        public List<Boat> LoadBoats()
+        public static List<Boat> Load()
         {
             using (var context = WorldYachtsContext.GetDataContext())
             {
@@ -60,7 +60,7 @@ namespace WorldYachts.Model
         /// </summary>
         /// <param name="boats"></param>
         /// <returns></returns>
-        public static async Task RemoveBoatsAsync(IEnumerable<Boat> boats)
+        public static async Task RemoveAsync(IEnumerable<Boat> boats)
         {
             await using (var context = WorldYachtsContext.GetDataContext())
             {
@@ -72,22 +72,22 @@ namespace WorldYachts.Model
         /// Сохранение измененной лодки в БД
         /// </summary>
         /// <returns></returns>
-        public async Task SaveBoatAsync()
+        public static async Task SaveAsync(Boat boat)
         {
             await using (var context = WorldYachtsContext.GetDataContext())
             {
-                await IsRepeatedBoat(Boat);
-                var dbBoat = context.Boats.FirstOrDefault(b => b.Id == Boat.Id);
+                await IsRepeated(boat);
+                var dbBoat = context.Boats.FirstOrDefault(b => b.Id == boat.Id);
                 
                 //Копируем измененую лодку в БД
-                dbBoat.Model = Boat.Model;
-                dbBoat.Type = Boat.Type;
-                dbBoat.NumberOfRowers = Boat.NumberOfRowers;
-                dbBoat.Mast = Boat.Mast;
-                dbBoat.Color = Boat.Color;
-                dbBoat.Wood = Boat.Wood;
-                dbBoat.BasePrice = Boat.BasePrice;
-                dbBoat.Vat = Boat.Vat;
+                dbBoat.Model = boat.Model;
+                dbBoat.Type = boat.Type;
+                dbBoat.NumberOfRowers = boat.NumberOfRowers;
+                dbBoat.Mast = boat.Mast;
+                dbBoat.Color = boat.Color;
+                dbBoat.Wood = boat.Wood;
+                dbBoat.BasePrice = boat.BasePrice;
+                dbBoat.Vat = boat.Vat;
 
                 await context.SaveChangesAsync();
             }
@@ -97,11 +97,11 @@ namespace WorldYachts.Model
         /// </summary>
         /// <param name="boat"></param>
         /// <returns></returns>
-        public async Task IsRepeatedBoat(Boat boat)
+        public static async Task IsRepeated(Boat boat)
         {
             await using (var context = WorldYachtsContext.GetDataContext())
             {
-                if (context.Boats.ToList().Any(c => c.CompareTo(Boat) == 0))
+                if (context.Boats.ToList().Any(c => c.CompareTo(boat) == 0))
                 {
                     throw new ArgumentException("Такая лодка уже существует.");
                 }

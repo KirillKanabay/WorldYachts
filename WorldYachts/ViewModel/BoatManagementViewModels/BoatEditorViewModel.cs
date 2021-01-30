@@ -272,11 +272,11 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
                 if (_isEdit)
                 {
                     boatModel.Boat.Id = _id;
-                    await Task.Run(() => boatModel.SaveBoatAsync());
+                    await Task.Run(() => boatModel.SaveAsync());
                 }
                 else
                 {
-                    await Task.Run(() => boatModel.AddBoadAsync());
+                    await Task.Run(() => boatModel.AddAsync());
                 }
             }
             finally
