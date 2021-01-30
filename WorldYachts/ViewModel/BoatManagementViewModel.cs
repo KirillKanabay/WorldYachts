@@ -14,6 +14,7 @@ using WorldYachts.Data;
 using WorldYachts.Helpers;
 using WorldYachts.Helpers.Commands;
 using WorldYachts.Model;
+using WorldYachts.View.CatalogManagementViews;
 using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BoatManagementViewModels;
 using WorldYachts.ViewModel.MessageDialog;
@@ -41,7 +42,7 @@ namespace WorldYachts.ViewModel
         public BoatManagementViewModel()
         {
             GetBoatsCollection.Execute(null);
-            SelectableBoatViewModel.OnItemDeleted = () =>
+            SelectableBoatViewModel.OnItemChanged = () =>
             {
                 RemoveBoats.Execute(null);
             };
@@ -242,7 +243,7 @@ namespace WorldYachts.ViewModel
             {
                 DataContext = new MessageDialogViewModel(bvm)
             };
-
+            
             var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
         }
 

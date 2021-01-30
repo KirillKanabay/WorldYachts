@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using MaterialDesignThemes.Wpf;
@@ -26,8 +28,8 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
         private bool _mast;
         private string _color = "Коричневый";
         private string _wood;
-        private decimal _basePrice;
-        private double _vat;
+        private string _basePrice;
+        private string _vat;
 
         private IEnumerable<string> _boatTypes = new List<string>()
             {"Шлюпка", "Парусная лодка", "Галера"};
@@ -48,20 +50,20 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
 
         public BoatEditorViewModel()
         {
-            
+           
         }
 
         public BoatEditorViewModel(Boat boat)
         {
             _id = boat.Id;
-            Model = boat.Model;
-            Type = boat.Type;
-            NumberOfRower = boat.NumberOfRowers;
-            Mast = boat.Mast;
-            Color = boat.Color;
-            Wood = boat.Wood;
-            BasePrice = boat.BasePrice;
-            Vat = boat.Vat;
+            _model = boat.Model;
+            _type = boat.Type;
+            _numberOfRower = boat.NumberOfRowers;
+            _mast = boat.Mast;
+            _color = boat.Color;
+            _wood = boat.Wood;
+            _basePrice = boat.BasePrice.ToString();
+            _vat = boat.Vat.ToString();
 
             //Устанавливаем флаг редактирования
             _isEdit = true;
@@ -97,12 +99,12 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
         /// <summary>
         /// Количество гребцов
         /// </summary>
-        public int NumberOfRower
+        public string NumberOfRower
         {
-            get => _numberOfRower;
+            get => _numberOfRower.ToString();
             set
             {
-                _numberOfRower = value;
+                int.TryParse(value, out _numberOfRower);
                 OnPropertyChanged(nameof(NumberOfRower));
             }
         }
@@ -145,7 +147,7 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
         /// <summary>
         /// Цена без НДС
         /// </summary>
-        public decimal BasePrice
+        public string BasePrice
         {
             get => _basePrice;
             set
@@ -157,7 +159,7 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
         /// <summary>
         /// Процентная ставка НДС
         /// </summary>
-        public double Vat
+        public string Vat
         {
             get => _vat;
             set
@@ -224,7 +226,7 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
         }
 
         /// <summary>
-        /// Команда регистрации
+        /// Команда сохранения лодки
         /// </summary>
         public AsyncRelayCommand SaveBoat
         {
@@ -236,21 +238,25 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
                 });
             }
         }
-
+        /// <summary>
+        /// Сохранение работы с лодками
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
         private async Task SaveBoatMethod(object parameter)
         {
             //Показываем прогрессбар
             ProgressBarVisibility = Visibility.Visible;
             var boatModel = new BoatModel(new Boat()
             {
-                Model = this.Model,
-                Type = this.Type,
-                NumberOfRowers = this.NumberOfRower,
-                Mast = this.Mast,
-                Color = this.Color,
-                Wood = this.Wood,
-                Vat = this.Vat,
-                BasePrice = this.BasePrice,
+                Model = _model,
+                Type = _type,
+                NumberOfRowers = _numberOfRower,
+                Mast = _mast,
+                Color = _color,
+                Wood = _wood,
+                Vat = double.Parse(_vat),
+                BasePrice = decimal.Parse(_basePrice),
             });
             try
             {
@@ -303,7 +309,7 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
             
         }
         #endregion
-
+        
         #region Валидация полей
 
         public string Error { get; }
@@ -323,25 +329,28 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
                         new Validation(new NotEmptyFieldValidationRule(Type)).Validate(ref error);
                         break;
                     case "NumberOfRower":
-                        new Validation(new PositiveNumberValidationRule(NumberOfRower), 
+                        new Validation(
+                            new PositiveNumberValidationRule(NumberOfRower),
                             new NotEmptyFieldValidationRule(NumberOfRower)).Validate(ref error);
                         break;
                     case "Wood":
                         new Validation(new NotEmptyFieldValidationRule(Wood)).Validate(ref error);
                         break;
                     case "BasePrice":
-                        new Validation(new PositiveNumberValidationRule(BasePrice),
-                            new NotEmptyFieldValidationRule(BasePrice)).Validate(ref error);
+                        new Validation(
+                            new PositiveNumberValidationRule(_basePrice),
+                            new NumberValidationRule(BasePrice)).Validate(ref error);
                         break;
                     case "Vat":
-                        new Validation(new PositiveNumberValidationRule(Vat),
+                        new Validation(
+                            new PositiveNumberValidationRule(_vat),
                             new NotEmptyFieldValidationRule(Vat)).Validate(ref error);
                         break;
                 }
                 ErrorDictionary.Remove(columnName);
                 if (error != String.Empty)
                     ErrorDictionary.Add(columnName, error);
-                OnPropertyChanged("SaveButtonIsEnabled");
+                OnPropertyChanged(nameof(SaveButtonIsEnabled));
                 return error;
             }
         }

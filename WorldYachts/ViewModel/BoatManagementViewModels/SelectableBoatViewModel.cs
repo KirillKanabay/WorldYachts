@@ -6,6 +6,7 @@ using MaterialDesignThemes.Wpf;
 using WorldYachts.Data;
 using WorldYachts.Helpers;
 using WorldYachts.Helpers.Commands;
+using WorldYachts.View.CatalogManagementViews;
 using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.MessageDialog;
 
@@ -28,8 +29,10 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
         private bool _isDeleted = false;
 
         private AsyncRelayCommand _removeBoat;
+        private AsyncRelayCommand _editBoat;
 
-        public static Action OnItemDeleted;
+        public static Action OnItemChanged;
+        public static Action OnItemEditing;
         #endregion
 
         #region Конструкторы
@@ -187,7 +190,7 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
             {
                 _isDeleted = value;
                 OnPropertyChanged(nameof(IsDeleted));
-                OnItemDeleted?.Invoke();
+                OnItemChanged?.Invoke();
             }
         } 
         public Boat Boat { get; set; }
@@ -195,7 +198,9 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
         #endregion
 
         #region Команды
-
+        /// <summary>
+        /// Команда удаления лодки
+        /// </summary>
         public AsyncRelayCommand RemoveBoat
         {
             get
@@ -204,19 +209,12 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
             }
         }
 
-        private async Task ShowConfirmDeleteDialog(object parameter)
+        public AsyncRelayCommand EditBoat
         {
-            var view = new MessageDialogOkCancel()
+            get
             {
-                DataContext = new SampleMessageDialogViewModel("Подтверждение удаления", $"Будет удалена следующая лодка:\n\n" + this)
-            };
-            var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
-        }
-
-        private void ClosingEventHandler(object sender, DialogClosingEventArgs eventargs)
-        {
-            if (Equals((eventargs.Parameter), true))
-                IsDeleted = true;
+                return _editBoat ??= new AsyncRelayCommand(ExecuteRunEditorDialog, null);
+            }
         }
 
         #endregion
@@ -233,6 +231,47 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
                    $"Цвет: {Color}\n" +
                    $"Тип дерева: {Wood}\n" +
                    $"Цена без НДС: {BasePrice}";
+        }
+        
+        private async Task ExecuteRunEditorDialog(object o)
+        {
+            BaseViewModel bvm = new BoatEditorViewModel(Boat);
+
+            var view = new View.MessageDialogs.MessageDialog()
+            {
+                DataContext = new MessageDialogViewModel(bvm)
+            };
+            //Добавляем метод обновления редактора при загрузке при редактировании
+            BoatEditorView.BoatEditorViewAfterLoad += GetBoatEditorViewModel;
+            var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
+            
+            //Убираем метод обновления редактора при загрузке при редактировании
+            BoatEditorView.BoatEditorViewAfterLoad -= GetBoatEditorViewModel;
+            
+            //Добавляем стандартный метод обновления редактора при загрузке
+            BoatEditorView.BoatEditorViewAfterLoad += GetBoatEditorDefaultViewModel;
+        }
+
+        private BaseViewModel GetBoatEditorViewModel() => new BoatEditorViewModel(Boat); 
+        private BaseViewModel GetBoatEditorDefaultViewModel() => new BoatEditorViewModel(); 
+        private async Task ShowConfirmDeleteDialog(object parameter)
+        {
+            var view = new MessageDialogOkCancel()
+            {
+                DataContext = new SampleMessageDialogViewModel("Подтверждение удаления", $"Будет удалена следующая лодка:\n\n" + this)
+            };
+            var result = await DialogHost.Show(view, "RootDialog", ClosingDeleteDialogEventHandler);
+        }
+
+        private void ClosingEventHandler(object sender, DialogOpenedEventArgs eventargs)
+        {
+            
+        }
+
+        private void ClosingDeleteDialogEventHandler(object sender, DialogClosingEventArgs eventargs)
+        {
+            if (Equals((eventargs.Parameter), true))
+                IsDeleted = true;
         }
         #endregion
     }

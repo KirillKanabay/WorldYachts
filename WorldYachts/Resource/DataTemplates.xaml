@@ -33,7 +33,7 @@
         <!--  BoatManagement  -->
         <ResourceDictionary>
             <DataTemplate DataType="{x:Type vmcm:BoatEditorViewModel}">
-                <vcm:AddBoatView />
+                <vcm:BoatEditorView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type vm:BoatManagementViewModel}">
                 <v:BoatManagementView/>

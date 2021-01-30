@@ -164,7 +164,7 @@
                         <DataGridTemplateColumn Header="Редактировать">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Command="{Binding}" Style="{StaticResource TransparentButton}">
+                                    <Button Command="{Binding EditBoat}" Style="{StaticResource TransparentButton}">
                                         <materialDesign:PackIcon
                                             Width="18"
                                             Height="18"
