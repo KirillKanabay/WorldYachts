@@ -190,7 +190,6 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
             {
                 _isDeleted = value;
                 OnPropertyChanged(nameof(IsDeleted));
-                OnItemChanged?.Invoke();
             }
         } 
         public Boat Boat { get; set; }
@@ -246,10 +245,9 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
             var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
             
             //Убираем метод обновления редактора при загрузке при редактировании
-            BoatEditorView.BoatEditorViewAfterLoad -= GetBoatEditorViewModel;
-            
-            //Добавляем стандартный метод обновления редактора при загрузке
-            BoatEditorView.BoatEditorViewAfterLoad += GetBoatEditorDefaultViewModel;
+            BoatEditorView.BoatEditorViewAfterLoad = null;
+
+            OnItemChanged?.Invoke();
         }
 
         private BaseViewModel GetBoatEditorViewModel() => new BoatEditorViewModel(Boat); 
@@ -261,6 +259,7 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
                 DataContext = new SampleMessageDialogViewModel("Подтверждение удаления", $"Будет удалена следующая лодка:\n\n" + this)
             };
             var result = await DialogHost.Show(view, "RootDialog", ClosingDeleteDialogEventHandler);
+            OnItemChanged?.Invoke();
         }
 
         private void ClosingEventHandler(object sender, DialogOpenedEventArgs eventargs)

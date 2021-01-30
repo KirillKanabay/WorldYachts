@@ -23,7 +23,8 @@ namespace WorldYachts.View.CatalogManagementViews
         public BoatEditorView()
         {
             InitializeComponent();
-            DataContext = BoatEditorViewAfterLoad?.Invoke();
+            if (BoatEditorViewAfterLoad != null)
+                DataContext = BoatEditorViewAfterLoad.Invoke();
         }
     }
 }

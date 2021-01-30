@@ -44,7 +44,10 @@ namespace WorldYachts.ViewModel
             GetBoatsCollection.Execute(null);
             SelectableBoatViewModel.OnItemChanged = () =>
             {
+                //Убираем лодки которые были удалены
                 RemoveBoats.Execute(null);
+                //Обновляем список лодок
+                GetBoatsCollection.Execute(null);
             };
         }
         #endregion
@@ -170,19 +173,22 @@ namespace WorldYachts.ViewModel
         /// <returns></returns>
         private async Task RemoveBoatsMethod(object parameter)
         {
-            //Получаем список отмеченных лодок
+            //Получаем список удаляемых или удаленных лодок
             var boatList = _boatsCollection.Where(b => b.IsSelected || b.IsDeleted)
                 .Select(b => b.Boat);
+            
+            if (boatList.Any())
+            {
+                await Task.Run(() => BoatModel.RemoveBoatsAsync(boatList));
 
-            await Task.Run(() => BoatModel.RemoveBoatsAsync(boatList));
-            
-            //Получаем главное окно для показа уведомления о удалении
-            var mainWindow = (MainWindow)Application.Current.MainWindow;
-            
-            //Обновляем список лодок
-            GetBoatsCollection.Execute(null);
-            
-            mainWindow.SendSnackbar($"Успешно удалено.");
+                //Получаем главное окно для показа уведомления о удалении
+                var mainWindow = (MainWindow)Application.Current.MainWindow;
+
+                //Обновляем список лодок
+                GetBoatsCollection.Execute(null);
+
+                mainWindow.SendSnackbar($"Успешно удалено.");
+            }
         }
 
         private ObservableCollection<SelectableBoatViewModel> FilterBoats(string filterText)
