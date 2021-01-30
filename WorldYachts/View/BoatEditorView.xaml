@@ -16,6 +16,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Style/TextBoxStyles.xaml" />
+                <ResourceDictionary Source="../Style/ToggleButtonListStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -109,7 +110,7 @@
             <!--  ColorPicker  -->
             <Border
                 Width="300"
-                Height="40"
+                Height="65"
                 Margin="0,20,0,0"
                 Padding="5,3"
                 HorizontalAlignment="Center"
@@ -117,136 +118,29 @@
                 BorderBrush="#BABABA"
                 BorderThickness="1,1,1,1"
                 CornerRadius="3">
-                <Grid>
+                <StackPanel>
                     <TextBlock
                         VerticalAlignment="Center"
                         FontSize="14"
                         Text="Цвет лодки:" />
-                    <StackPanel
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        Orientation="Horizontal">
-                        <!--  Коричневый  -->
-                        <RadioButton
-                            Width="31"
-                            Height="31"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            Background="#552A2A2A"
-                            Command="{Binding SelectColor}"
-                            CommandParameter="Коричневый"
-                            IsChecked="True"
-                            Style="{StaticResource MaterialDesignFlatToggleButton}">
-                            <materialDesign:PackIcon
-                                Width="30"
-                                Height="30"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Foreground="#8C6354"
-                                Kind="Circle" />
-                        </RadioButton>
-                        <!--  Белый  -->
-                        <RadioButton
-                            Width="31"
-                            Height="31"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            Background="#552A2A2A"
-                            Command="{Binding SelectColor}"
-                            CommandParameter="Белый"
-                            Style="{StaticResource MaterialDesignFlatToggleButton}">
-                            <Grid>
-                                <materialDesign:PackIcon
-                                    Width="30"
-                                    Height="30"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Foreground="#2A2A2A"
-                                    Kind="Circle"
-                                    Opacity="0.5" />
-                                <materialDesign:PackIcon
-                                    Width="28"
-                                    Height="28"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Foreground="White"
-                                    Kind="Circle" />
-                            </Grid>
-                        </RadioButton>
-                        <!--  Черный  -->
-                        <RadioButton
-                            Width="31"
-                            Height="31"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            Background="#332A2A2A"
-                            Command="{Binding SelectColor}"
-                            CommandParameter="Черный"
-                            Style="{StaticResource MaterialDesignFlatToggleButton}">
-                            <materialDesign:PackIcon
-                                Width="30"
-                                Height="30"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Foreground="#2A2A2A"
-                                Kind="Circle" />
-                        </RadioButton>
-                        <!--  Зеленый  -->
-                        <RadioButton
-                            Width="31"
-                            Height="31"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            Background="#332A2A2A"
-                            Command="{Binding SelectColor}"
-                            CommandParameter="Зеленый"
-                            Style="{StaticResource MaterialDesignFlatToggleButton}">
-                            <materialDesign:PackIcon
-                                Width="30"
-                                Height="30"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Foreground="#4CAF50"
-                                Kind="Circle" />
-                        </RadioButton>
-                        <!--  Красный  -->
-                        <RadioButton
-                            Width="31"
-                            Height="31"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            Background="#332A2A2A"
-                            Command="{Binding SelectColor}"
-                            CommandParameter="Красный"
-                            Style="{StaticResource MaterialDesignFlatToggleButton}">
-                            <materialDesign:PackIcon
-                                Width="30"
-                                Height="30"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Foreground="#F44336"
-                                Kind="Circle" />
-                        </RadioButton>
-                        <!--  Синий  -->
-                        <RadioButton
-                            Width="31"
-                            Height="31"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            Background="#332A2A2A"
-                            Command="{Binding SelectColor}"
-                            CommandParameter="Синий"
-                            Style="{StaticResource MaterialDesignFlatToggleButton}">
-                            <materialDesign:PackIcon
-                                Width="30"
-                                Height="30"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Foreground="#2196F3"
-                                Kind="Circle" />
-                        </RadioButton>
-                    </StackPanel>
-                </Grid>
+                    <ListBox
+                        ItemsSource="{Binding ColorsCollection}"
+                        SelectedValue="{Binding Path=SelectedButton}"
+                        SelectedValuePath="Tag"
+                        Style="{StaticResource ToggleButtonList}">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemContainerStyle>
+                            <Style BasedOn="{StaticResource ItemContainerStyle}" TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="Foreground" Value="{Binding Color}" />
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>
+                </StackPanel>
+
             </Border>
             <!--  Mast  -->
             <Border

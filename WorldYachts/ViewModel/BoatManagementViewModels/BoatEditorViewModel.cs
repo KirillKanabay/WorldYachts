@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using MaterialDesignThemes.Wpf;
 using WorldYachts.Data;
 using WorldYachts.Helpers;
@@ -197,6 +200,12 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
         /// Доступность кнопки сохранения лодки
         /// </summary>
         public bool SaveButtonIsEnabled => ErrorDictionary.Count == 0;
+
+        /// <summary>
+        /// Получения цветов
+        /// </summary>
+        public ObservableCollection<ColorStruct> ColorsCollection => ColorWorker.GetColorsCollection();
+        
 
         public Visibility ProgressBarVisibility
         {
