@@ -65,6 +65,9 @@ namespace WorldYachts.ViewModel
                         case "BoatManagement":
                             SelectedViewModel = new BoatManagementViewModel();
                             break;
+                        case "AccessoryManagement":
+                            SelectedViewModel = new AccessoryManagementViewModel();
+                            break;
                         case "UserManagement":
                             SelectedViewModel = new UserManagementViewModel();
                             break;

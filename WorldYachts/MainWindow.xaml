@@ -331,6 +331,38 @@
                                         </StackPanel>
                                     </Button>
                                 </ListViewItem>
+                                <ListViewItem
+                                    x:Name="AccessoryManagement"
+                                    Width="130"
+                                    Padding="0"
+                                    HorizontalAlignment="Left">
+                                    <Button
+                                        Width="130"
+                                        Height="60"
+                                        HorizontalAlignment="Left"
+                                        Background="{x:Null}"
+                                        BorderBrush="{x:Null}"
+                                        Command="{Binding UpdateViewCommand}"
+                                        CommandParameter="{Binding ElementName=AccessoryManagement}"
+                                        Foreground="Black">
+                                        <StackPanel Margin="0" Orientation="Vertical">
+                                            <Grid>
+                                                <materialDesign:PackIcon
+                                                    Width="30"
+                                                    Height="20"
+                                                    HorizontalAlignment="Center"
+                                                    Kind="ShapePlus" />
+                                            </Grid>
+                                            <TextBlock
+                                                FontSize="12"
+                                                FontWeight="Normal"
+                                                TextAlignment="Center"
+                                                TextWrapping="Wrap">
+                                                Управление аксессуарами
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </Button>
+                                </ListViewItem>
                                 <Separator />
                                 <!--  AccountSettings  -->
                                 <ListViewItem

@@ -36,7 +36,13 @@
                 <vcm:BoatEditorView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type vm:BoatManagementViewModel}">
-                <v:BoatManagementView/>
+                <v:BoatManagementView />
+            </DataTemplate>
+        </ResourceDictionary>
+        <!--  AccessoryManagement  -->
+        <ResourceDictionary>
+            <DataTemplate DataType="{x:Type vm:AccessoryManagementViewModel}">
+                <v:AccessoryManagementView />
             </DataTemplate>
         </ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
