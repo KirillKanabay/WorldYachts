@@ -58,7 +58,7 @@ namespace WorldYachts.ViewModel
         /// <summary>
         /// Модель предмета
         /// </summary>
-        public abstract IDataModel<TItem> Model { get; } 
+        public abstract IDataModel<TItem> ModelItem { get; } 
 
         #endregion
 
@@ -94,11 +94,11 @@ namespace WorldYachts.ViewModel
             {
                 if (_isEdit)
                 {
-                    await Task.Run(() => Model.SaveAsync(item));
+                    await Task.Run(() => ModelItem.SaveAsync(item));
                 }
                 else
                 {
-                    await Task.Run((() => Model.AddAsync(item)));
+                    await Task.Run((() => ModelItem.AddAsync(item)));
                 }
             }
             finally

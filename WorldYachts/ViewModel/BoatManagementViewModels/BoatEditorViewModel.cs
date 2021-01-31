@@ -16,7 +16,7 @@ using Validation = WorldYachts.Validators.Validation;
 
 namespace WorldYachts.ViewModel.BoatManagementViewModels
 {
-    class BoatEditorViewModel : BaseViewModel, IDataErrorInfo
+    class BoatEditorViewModel : BaseEditorViewModel<Boat>, IDataErrorInfo
     {
         #region Поля
 
@@ -34,25 +34,18 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
             {"Шлюпка", "Парусная лодка", "Галера"};
         private IEnumerable<string> _woodTypes = new List<string>()
             {"Дуб", "Береза", "Eль", "Cосна", "Лиственница"};
-
-
-        private Visibility _progressBarVisibility = Visibility.Collapsed;
-        
-        //Флаг редактирования лодки
-        private bool _isEdit;
+        #endregion
 
         private DelegateCommand _selectColor;
-        private AsyncRelayCommand _saveBoat;
-        #endregion
 
         #region Конструкторы
 
-        public BoatEditorViewModel()
+        public BoatEditorViewModel():base(false)
         {
            
         }
 
-        public BoatEditorViewModel(Boat boat)
+        public BoatEditorViewModel(Boat boat):base(true)
         {
             _id = boat.Id;
             _model = boat.Model;
@@ -63,9 +56,6 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
             _wood = boat.Wood;
             _basePrice = boat.BasePrice.ToString();
             _vat = boat.Vat.ToString();
-
-            //Устанавливаем флаг редактирования
-            _isEdit = true;
         }
 
         #endregion
@@ -195,23 +185,15 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
         /// <summary>
         /// Доступность кнопки сохранения лодки
         /// </summary>
-        public bool SaveButtonIsEnabled => ErrorDictionary.Count == 0;
+        public override bool SaveButtonIsEnabled => ErrorDictionary.Count == 0;
 
         /// <summary>
         /// Получения цветов
         /// </summary>
         public ObservableCollection<ColorStruct> ColorsCollection => ColorWorker.GetColorsCollection();
         
+        public override IDataModel<Boat> ModelItem => new BoatModel();
 
-        public Visibility ProgressBarVisibility
-        {
-            get => _progressBarVisibility;
-            set
-            {
-                _progressBarVisibility = value;
-                OnPropertyChanged(nameof(ProgressBarVisibility));
-            }
-        }
         #endregion
 
         #region Команды
@@ -229,87 +211,28 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
                 });
             }
         }
-
-        /// <summary>
-        /// Команда сохранения лодки
-        /// </summary>
-        public AsyncRelayCommand SaveBoat
+        
+        protected override Boat GetSaveItem(bool isEdit)
         {
-            get
+            return new Boat()
             {
-                return _saveBoat ??= new AsyncRelayCommand(SaveBoatMethod, (ex) =>
-                {
-                    ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message });
-                });
-            }
-        }
-        /// <summary>
-        /// Сохранение работы с лодками
-        /// </summary>
-        /// <param name="parameter"></param>
-        /// <returns></returns>
-        private async Task SaveBoatMethod(object parameter)
-        {
-            //Показываем прогрессбар
-            ProgressBarVisibility = Visibility.Visible;
-            var boatModel = new BoatModel();
-            var boat = new Boat()
-            {
+                Id = (isEdit) ? _id : default,
                 Model = _model,
                 Type = _type,
                 NumberOfRowers = _numberOfRower,
                 Mast = _mast,
                 Color = _color,
                 Wood = _wood,
+                BasePrice = Decimal.Parse(_basePrice),
                 Vat = double.Parse(_vat),
-                BasePrice = decimal.Parse(_basePrice),
             };
-            try
-            {
-                if (_isEdit)
-                {
-                    boat.Id = _id;
-                    await Task.Run(() => boatModel.SaveAsync(boat));
-                }
-                else
-                {
-                    await Task.Run(() => boatModel.AddAsync(boat));
-                }
-            }
-            finally
-            {
-                ProgressBarVisibility = Visibility.Collapsed;
-            }
-            
-            //ExecuteRunDialog(new MessageDialogProperty() { Title = "Добавление лодки", Message = "Добавление лодки прошло успешно" });
-            
-            var mainWindow = (MainWindow)Application.Current.MainWindow;
-            var snackBarMessage = _isEdit
-                ? $"Лодка \"{Model}\" успешно отредактирована."
-                : $"Лодка \"{Model}\" успешно добавлена.";
-            
-            mainWindow.SendSnackbar(snackBarMessage);
-            //Закрываем диалог редактирования лодки
-            mainWindow.DialogHost.CurrentSession.Close();
         }
 
-        /// <summary>
-        /// Запуск диалога сообщения
-        /// </summary>
-        /// <param name="o"></param>
-        private async void ExecuteRunDialog(object o)
+        protected override string GetSaveSnackbarMessage(bool _isEdit)
         {
-            var view = new SampleMessageDialog()
-            {
-                DataContext = new SampleMessageDialogViewModel((MessageDialogProperty)o)
-            };
-            var result = await DialogHost.Show(view, "MessageDialogRoot", ClosingEventHandler);
+            throw new NotImplementedException();
         }
-        
-        private void ClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
-        {
-            
-        }
+
         #endregion
         
         #region Валидация полей

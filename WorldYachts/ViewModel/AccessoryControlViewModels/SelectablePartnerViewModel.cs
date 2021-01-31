@@ -101,13 +101,13 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         
         protected override void ToggleViewEditorAfterLoaded()
         {
-            if (PartnerEditorView.PartnerEditorAfterLoad != null)
+            if (PartnerEditorView.EditorAfterLoad != null)
             {
-                PartnerEditorView.PartnerEditorAfterLoad = null;
+                PartnerEditorView.EditorAfterLoad = null;
             }
             else
             {
-                PartnerEditorView.PartnerEditorAfterLoad = GetEditorViewModel;
+                PartnerEditorView.EditorAfterLoad = GetEditorViewModel;
             }
         }
 
@@ -115,8 +115,11 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
 
         protected override MessageDialogProperty GetConfirmDeleteDialogProperty()
         {
-            return new MessageDialogProperty(){Title = "Подтверждение удаления", 
-                                               Message = "Будет удален следующий партнер:\n\n" + this};
+            return new MessageDialogProperty()
+            {
+                Title = "Подтверждение удаления",
+                Message = "Будет удален следующий партнер:\n\n" + this
+            };
         }
         
         #endregion

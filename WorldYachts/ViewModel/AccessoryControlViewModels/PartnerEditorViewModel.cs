@@ -83,7 +83,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
 
         public override bool SaveButtonIsEnabled => ErrorDictionary.Count == 0;
 
-        public override IDataModel<Partner> Model => new PartnerModel();
+        public override IDataModel<Partner> ModelItem => new PartnerModel();
 
         #endregion
         

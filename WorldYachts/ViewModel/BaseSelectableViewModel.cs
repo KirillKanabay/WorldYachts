@@ -9,7 +9,7 @@ using WorldYachts.ViewModel.MessageDialog;
 
 namespace WorldYachts.ViewModel
 {
-    abstract class BaseSelectableViewModel<TItem> : BaseViewModel
+    public abstract class BaseSelectableViewModel<TItem> : BaseViewModel
     {
         #region Поля
 

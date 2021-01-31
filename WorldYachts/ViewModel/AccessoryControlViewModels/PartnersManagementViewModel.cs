@@ -35,7 +35,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
 
         #region Свойства
 
-        public override IDataModel<Partner> Model => new PartnerModel();
+        public override IDataModel<Partner> ModelItem => new PartnerModel();
         public override BaseEditorViewModel<Partner> Editor => new PartnerEditorViewModel();
 
 

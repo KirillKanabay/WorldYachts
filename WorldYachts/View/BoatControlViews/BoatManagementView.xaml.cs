@@ -10,21 +10,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WorldYachts.ViewModel;
 
-namespace WorldYachts.View.CatalogManagementViews
+namespace WorldYachts.View.BoatControlViews
 {
     /// <summary>
-    /// Логика взаимодействия для AddBoatView.xaml
+    /// Логика взаимодействия для BoatManagementView.xaml
     /// </summary>
-    public partial class BoatEditorView : UserControl
+    public partial class BoatManagementView : UserControl
     {
-        public static Func<BaseViewModel> BoatEditorViewAfterLoad;
-        public BoatEditorView()
+        public BoatManagementView()
         {
             InitializeComponent();
-            if (BoatEditorViewAfterLoad != null)
-                DataContext = BoatEditorViewAfterLoad.Invoke();
         }
     }
 }

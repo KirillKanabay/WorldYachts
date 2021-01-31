@@ -8,6 +8,7 @@ using System.Windows.Media;
 using MaterialDesignThemes.Wpf;
 using WorldYachts.Helpers;
 using WorldYachts.ViewModel.AccessoryControlViewModels;
+using WorldYachts.ViewModel.BoatManagementViewModels;
 
 namespace WorldYachts.ViewModel
 {

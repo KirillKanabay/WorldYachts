@@ -3,19 +3,17 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:v="clr-namespace:WorldYachts.View"
     xmlns:vaccessory="clr-namespace:WorldYachts.View.AccessoryControlViews"
-    xmlns:vcm="clr-namespace:WorldYachts.View.CatalogManagementViews"
+    xmlns:vmboat="clr-namespace:WorldYachts.ViewModel.BoatManagementViewModels"
     xmlns:veditors="clr-namespace:WorldYachts.View.Editors"
     xmlns:vm="clr-namespace:WorldYachts.ViewModel"
     xmlns:vmaccessory="clr-namespace:WorldYachts.ViewModel.AccessoryControlViewModels"
-    xmlns:vmcm="clr-namespace:WorldYachts.ViewModel.BoatManagementViewModels">
+    xmlns:vmcm="clr-namespace:WorldYachts.ViewModel.BoatManagementViewModels"
+    xmlns:boatControlViews="clr-namespace:WorldYachts.View.BoatControlViews">
     <ResourceDictionary.MergedDictionaries>
         <!--  Основные UC  -->
         <ResourceDictionary>
             <DataTemplate DataType="{x:Type vm:DashboardViewModel}">
                 <v:DashboardView />
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type vm:CatalogViewModel}">
-                <v:CatalogView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type vm:OrdersViewModel}">
                 <v:OrdersView />
@@ -29,17 +27,14 @@
             <DataTemplate DataType="{x:Type vm:AboutProgramViewModel}">
                 <v:AboutProgramView />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type vm:CatalogManagementViewModel}">
-                <v:CatalogManagementView />
-            </DataTemplate>
         </ResourceDictionary>
         <!--  BoatManagement  -->
         <ResourceDictionary>
-            <DataTemplate DataType="{x:Type vmcm:BoatEditorViewModel}">
-                <vcm:BoatEditorView />
+            <DataTemplate DataType="{x:Type vmboat:BoatEditorViewModel}">
+                <veditors:BoatEditorView />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type vm:BoatManagementViewModel}">
-                <v:BoatManagementView />
+            <DataTemplate DataType="{x:Type vmboat:BoatManagementViewModel}">
+                <boatControlViews:BoatManagementView />
             </DataTemplate>
         </ResourceDictionary>
         <!--  AccessoryManagement  -->

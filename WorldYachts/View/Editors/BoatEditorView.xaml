@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="WorldYachts.View.CatalogManagementViews.BoatEditorView"
+    x:Class="WorldYachts.View.Editors.BoatEditorView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -15,8 +15,8 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Style/TextBoxStyles.xaml" />
-                <ResourceDictionary Source="../Style/ToggleButtonListStyle.xaml" />
+                <ResourceDictionary Source="../../Style/TextBoxStyles.xaml" />
+                <ResourceDictionary Source="../../Style/ToggleButtonListStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>

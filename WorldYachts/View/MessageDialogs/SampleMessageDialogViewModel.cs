@@ -8,12 +8,12 @@ using WorldYachts.Helpers;
 
 namespace WorldYachts.View.MessageDialogs
 {
-    struct MessageDialogProperty
+    public struct MessageDialogProperty
     {
         public string Title;
         public string Message;
     }
-    class SampleMessageDialogViewModel:INotifyPropertyChanged
+    public class SampleMessageDialogViewModel:INotifyPropertyChanged
     {
         #region Поля
         private string _title = "Заголовок";
