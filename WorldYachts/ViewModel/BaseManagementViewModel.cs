@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,34 +15,23 @@ using WorldYachts.ViewModel.MessageDialog;
 
 namespace WorldYachts.ViewModel
 {
-    abstract class BaseManagementViewModel<TData, TSelectableData> : BaseViewModel
-        where TSelectableData : BaseSelectableViewModel<TData>
+    abstract class BaseManagementViewModel<TItem> : BaseViewModel
     {
         #region Поля
 
         /// <summary>
         /// Коллекция управляемых предметов
         /// </summary>
-        protected ObservableCollection<TSelectableData> _itemsCollection;
-
-        /// <summary>
-        /// Модель предмета
-        /// </summary>
-        protected readonly IDataModel<TData> _model;
-
-        /// <summary>
-        /// Редактор предмета
-        /// </summary>
-        protected readonly BaseViewModel _editor;
+        protected ObservableCollection<BaseSelectableViewModel<TItem>> _itemsCollection;
 
         /// <summary>
         /// Поисковая строка
         /// </summary>
         private string _filterText;
 
-        private AsyncRelayCommand _getCollection;
+        private AsyncRelayCommand _getItemsCollection;
         private AsyncRelayCommand _removeItem;
-        private AsyncRelayCommand _removeCollection;
+        private AsyncRelayCommand _removeItemsCollection;
         private DelegateCommand _openEditorDialog;
 
 
@@ -52,6 +43,7 @@ namespace WorldYachts.ViewModel
 
         protected BaseManagementViewModel()
         {
+            _itemsCollection.CollectionChanged += CheckDeletedItems;
         }
 
         #endregion
@@ -61,7 +53,7 @@ namespace WorldYachts.ViewModel
         /// <summary>
         /// Фильтрованная коллекция
         /// </summary>
-        public ObservableCollection<TSelectableData> FilteredCollection
+        public ObservableCollection<BaseSelectableViewModel<TItem>> FilteredCollection
         {
             get
             {
@@ -98,43 +90,156 @@ namespace WorldYachts.ViewModel
             }
         }
 
+        /// <summary>
+        /// Модель предмета
+        /// </summary>
+        public abstract IDataModel<TItem> Model { get; }
+
+        /// <summary>
+        /// Редактор предмета
+        /// </summary>
+        public abstract BaseEditorViewModel Editor { get; }
+
+        public abstract BaseSelectableViewModel<TItem> BaseSelectableViewModel { get; }
+
         #endregion
 
         #region Команды
 
-        //public AsyncRelayCommand GetCollection
-        //{
-        //    get
-        //    {
-        //        return _getCollection ??= new AsyncRelayCommand(GetCollectionMethod,
-        //            (ex) =>
-        //            {
-        //                ExecuteRunDialog(new MessageDialogProperty() {Title = "Ошибка", Message = ex.Message});
-        //            });
-        //    }
-        //}
+        /// <summary>
+        /// Команда получения коллекции предметов
+        /// </summary>
+        public AsyncRelayCommand GetItemsCollection
+        {
+            get
+            {
+                return _getItemsCollection ??= new AsyncRelayCommand(GetCollectionMethod,
+                    (ex) =>
+                    {
+                        ExecuteRunDialog(new MessageDialogProperty() {Title = "Ошибка", Message = ex.Message});
+                    });
+            }
+        }
+        /// <summary>
+        /// Удаляет предмет помеченный IsDeleted
+        /// </summary>
+        public AsyncRelayCommand RemoveItem
+        {
+            get
+            {
+               return _removeItem ??= new AsyncRelayCommand(RemoveItemMethod,
+                    (ex) =>
+                    {
+                        ExecuteRunDialog(new MessageDialogProperty() {Title = "Ошибка", Message = ex.Message});
+                    });
+            }
+        }
+        /// <summary>
+        /// Удаляет коллекцию предметов
+        /// </summary>
+        public AsyncRelayCommand RemoveItemsCollection
+        {
+            get
+            {
+                return _removeItemsCollection ??= new AsyncRelayCommand(RemoveItemsCollectionMethod,
+                    (ex) =>
+                    {
+                        ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message });
+                    });
+            }
+        }
+        /// <summary>
+        /// Команда открытия редактора
+        /// </summary>
+        public DelegateCommand OpenEditorDialog
+        {
+            get
+            {
+                return _openEditorDialog ??= new DelegateCommand(ExecuteRunEditorDialog);
+            }
+        }
 
         #endregion
 
         #region Методы
 
-        private async Task GetCollection(object parameter)
+        /// <summary>
+        /// Проверка удаляемых предметов
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CheckDeletedItems(object sender, NotifyCollectionChangedEventArgs e)
         {
-            ProgressBarVisibility = Visibility.Visible;
-            var itemsList = await _model.LoadAsync();
-            _itemsCollection = new ObservableCollection<TSelectableData>();
-            foreach (var data in itemsList)
+            RemoveItem.Execute(null);
+        }
+
+        private async Task RemoveItemsCollectionMethod(object parameter)
+        {
+            var removeItems = _itemsCollection.Where(i => i.IsSelected)
+                .Select(i => i.Item);
+
+            if (removeItems.Any())
             {
-                //_itemsCollection.Add(new TSelectableData(data));
+                await Task.Run(() => Model.RemoveAsync(removeItems));
+
+                //Получаем главное окно для показа уведомления о удалении
+                var mainWindow = (MainWindow)Application.Current.MainWindow;
+
+                GetItemsCollection.Execute(null);
+
+                mainWindow.SendSnackbar($"Успешно удалено.");
             }
         }
+
+        /// <summary>
+        /// Удаляет предметы помеченные isDeleted
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
+        private async Task RemoveItemMethod(object parameter)
+        {
+            var removeItems = _itemsCollection.Where(i => i.IsDeleted)
+                .Select(i => i.Item);
+
+            if (removeItems.Any())
+            {
+                await Task.Run(() => Model.RemoveAsync(removeItems));
+
+                //Получаем главное окно для показа уведомления о удалении
+                var mainWindow = (MainWindow) Application.Current.MainWindow;
+                
+                GetItemsCollection.Execute(null);
+
+                mainWindow.SendSnackbar($"Успешно удалено.");
+            }
+        }
+
+        /// <summary>
+        /// Получение коллекции предметов из БД
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
+        private async Task GetCollectionMethod(object parameter)
+        {
+            ProgressBarVisibility = Visibility.Visible;
+            var items = await Model.LoadAsync();
+            _itemsCollection = GetSelectableViewModels(items);
+
+            ProgressBarVisibility = Visibility.Collapsed;
+        }
+
+        /// <summary>
+        /// Преобразования списка предметов в коллекцию выбираемых предметов
+        /// </summary>
+        protected abstract ObservableCollection<BaseSelectableViewModel<TItem>> GetSelectableViewModels(
+            IEnumerable<TItem> items);
 
         /// <summary>
         /// Метод фильтрации по поисковой строке
         /// </summary>
         /// <param name="filterText"></param>
         /// <returns></returns>
-        protected abstract ObservableCollection<TSelectableData> Filter(string filterText);
+        protected abstract ObservableCollection<BaseSelectableViewModel<TItem>> Filter(string filterText);
 
         /// <summary>
         /// Запуск диалога сообщения
@@ -157,7 +262,7 @@ namespace WorldYachts.ViewModel
         {
             var view = new View.MessageDialogs.MessageDialog()
             {
-                DataContext = new MessageDialogViewModel(_editor)
+                DataContext = new MessageDialogViewModel(Editor)
             };
 
             var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
