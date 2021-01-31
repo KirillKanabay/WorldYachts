@@ -209,7 +209,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             {
                 DataContext = new SampleMessageDialogViewModel((MessageDialogProperty)o)
             };
-            var result = await DialogHost.Show(view, "MessageDialogRoot", ClosingEventHandler);
+            var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
         }
         /// <summary>
         /// При закрытии сообщения уведомляем об этом список лодок

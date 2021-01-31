@@ -13,7 +13,7 @@ using WorldYachts.ViewModel.MessageDialog;
 
 namespace WorldYachts.ViewModel.AccessoryControlViewModels
 {
-    public class PartnerEditorViewModel : BaseEditorViewModel, IDataErrorInfo
+    public class PartnerEditorViewModel : BaseEditorViewModel<Partner>, IDataErrorInfo
     {
         #region Поля
 
@@ -21,31 +21,20 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         private string _name;
         private string _address;
         private string _city;
-
-        private Visibility _progressBarVisibility = Visibility.Collapsed;
-
-        /// <summary>
-        /// Флаг редактирования партнера
-        /// </summary>
-        private bool _isEdit;
-
-        private AsyncRelayCommand _saveCommand;
-
+        
         #endregion
 
         #region Конструкторы
 
-        public PartnerEditorViewModel(Partner partner)
+        public PartnerEditorViewModel(Partner partner):base(isEdit: true)
         {
             _id = partner.Id;
             _name = partner.Name;
             _city = partner.City;
             _address = partner.Address;
-
-            _isEdit = true;
         }
 
-        public PartnerEditorViewModel()
+        public PartnerEditorViewModel():base(isEdit: false)
         {
         }
 
@@ -92,102 +81,30 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             }
         }
 
-        /// <summary>
-        /// Доступность сохранения
-        /// </summary>
-        public bool SaveButtonIsEnabled => ErrorDictionary.Count == 0;
+        public override bool SaveButtonIsEnabled => ErrorDictionary.Count == 0;
 
-        /// <summary>
-        /// Видимость прогресс бара
-        /// </summary>
-        public Visibility ProgressBarVisibility
-        {
-            get => _progressBarVisibility;
-            set
-            {
-                _progressBarVisibility = value;
-                OnPropertyChanged(nameof(ProgressBarVisibility));
-            }
-        }
-        #endregion
-
-        #region Команды
-        /// <summary>
-        /// Команда сохранения партнера
-        /// </summary>
-        public AsyncRelayCommand SaveCommand
-        {
-            get
-            {
-                return _saveCommand ?? new AsyncRelayCommand(SaveMethod, (ex) =>
-                {
-                    ExecuteRunDialog(new MessageDialogProperty() {Title = "Ошибка", Message = ex.Message});
-                });
-            }
-        }
+        public override IDataModel<Partner> Model => new PartnerModel();
 
         #endregion
-
+        
         #region Методы
-        /// <summary>
-        /// Сохранение работы с партнерами
-        /// </summary>
-        /// <param name="parameter"></param>
-        /// <returns></returns>
-        private async Task SaveMethod(object parameter)
+
+        protected override Partner GetSaveItem(bool isEdit)
         {
-            ProgressBarVisibility = Visibility.Visible;
-            var partnerModel = new PartnerModel();
-            
-            var partner = new Partner()
+            return new Partner()
             {
-                Name = _name,
+                Id = (isEdit) ? _id : -1,
                 Address = _address,
-                City = _city
+                City = _city,
+                Name = _name
             };
+        }
 
-            try
-            {
-                if (_isEdit)
-                {
-                    partner.Id = _id;
-                    await Task.Run(() => partnerModel.SaveAsync(partner));
-                }
-                else
-                {
-                    await Task.Run((() => partnerModel.AddAsync(partner)));
-                }
-            }
-            finally
-            {
-                ProgressBarVisibility = Visibility.Collapsed;
-            }
-
-            var mainWindow = (MainWindow) Application.Current.MainWindow;
-            var snackBarMessage = _isEdit
+        protected override string GetSaveSnackbarMessage(bool _isEdit)
+        {
+            return _isEdit
                 ? $"Партнер \"{Name}\" успешно отредактирован."
-                : $"Партнер \"{Name}\" успешно добавлен";
-
-            mainWindow.SendSnackbar(snackBarMessage);
-            //Закрываем диалог редактирования партнера
-            mainWindow.DialogHost.CurrentSession.Close();
-        }
-
-        /// <summary>
-        /// Запуск диалога сообщения
-        /// </summary>
-        /// <param name="o"></param>
-        private async void ExecuteRunDialog(object o)
-        {
-            var view = new SampleMessageDialog()
-            {
-                DataContext = new SampleMessageDialogViewModel((MessageDialogProperty)o)
-            };
-            var result = await DialogHost.Show(view, "MessageDialogRoot", ClosingEventHandler);
-        }
-
-        private void ClosingEventHandler(object sender, DialogOpenedEventArgs eventargs)
-        {
+                : $"Партнер \"{Name}\" успешно добавлен.";
         }
 
         #endregion

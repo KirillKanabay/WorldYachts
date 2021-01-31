@@ -72,7 +72,7 @@ namespace WorldYachts.ViewModel
         /// <summary>
         /// Экземпляр редактора
         /// </summary>
-        public abstract BaseEditorViewModel Editor { get; }
+        public abstract BaseEditorViewModel<TItem> Editor { get; }
         #endregion
 
         #region Команды

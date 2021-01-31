@@ -6,7 +6,7 @@ using WorldYachts.Data;
 
 namespace WorldYachts.Model
 {
-    interface IDataModel<TData>
+    public interface IDataModel<TData>
     {
         /// <summary>
         /// Асинхронный метод добавления элемента в БД

@@ -98,7 +98,7 @@ namespace WorldYachts.ViewModel
         /// <summary>
         /// Редактор предмета
         /// </summary>
-        public abstract BaseEditorViewModel Editor { get; }
+        public abstract BaseEditorViewModel<TItem> Editor { get; }
 
         public abstract BaseSelectableViewModel<TItem> BaseSelectableViewModel { get; }
 

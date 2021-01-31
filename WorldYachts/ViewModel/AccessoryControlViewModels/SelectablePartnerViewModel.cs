@@ -97,7 +97,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
                    $"Город: {City}";
         }
 
-        public override BaseEditorViewModel Editor => new PartnerEditorViewModel();
+        public override BaseEditorViewModel<Partner> Editor => new PartnerEditorViewModel();
         
         protected override void ToggleViewEditorAfterLoaded()
         {
