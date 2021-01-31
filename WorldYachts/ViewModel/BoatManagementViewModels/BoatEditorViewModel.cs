@@ -256,7 +256,8 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
         {
             //Показываем прогрессбар
             ProgressBarVisibility = Visibility.Visible;
-            var boatModel = new BoatModel(new Boat()
+            var boatModel = new BoatModel();
+            var boat = new Boat()
             {
                 Model = _model,
                 Type = _type,
@@ -266,17 +267,17 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
                 Wood = _wood,
                 Vat = double.Parse(_vat),
                 BasePrice = decimal.Parse(_basePrice),
-            });
+            };
             try
             {
                 if (_isEdit)
                 {
-                    boatModel.Boat.Id = _id;
-                    await Task.Run(() => boatModel.SaveAsync());
+                    boat.Id = _id;
+                    await Task.Run(() => boatModel.SaveAsync(boat));
                 }
                 else
                 {
-                    await Task.Run(() => boatModel.AddAsync());
+                    await Task.Run(() => boatModel.AddAsync(boat));
                 }
             }
             finally
