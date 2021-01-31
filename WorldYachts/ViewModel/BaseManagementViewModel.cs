@@ -170,7 +170,7 @@ namespace WorldYachts.ViewModel
         /// <param name="eventArgs"></param>
         private void ClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
         {
-            GetCollection.Execute(null);
+            //GetCollection.Execute(null);
             OnPropertyChanged(nameof(FilteredCollection));
         }
 

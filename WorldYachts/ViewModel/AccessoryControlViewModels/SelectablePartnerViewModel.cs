@@ -8,7 +8,7 @@ using WorldYachts.View.MessageDialogs;
 
 namespace WorldYachts.ViewModel.AccessoryControlViewModels
 {
-    class SelectablePartnerViewModel : BaseViewModel
+    class SelectablePartnerViewModel : BaseSelectableViewModel<Partner>
     {
         #region Поля
 
@@ -16,29 +16,17 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         private string _name;
         private string _address;
         private string _city;
-
-        private bool _isSelected;
-        private bool _isDeleted = false;
-
-        private AsyncRelayCommand _removeCommand;
-        private AsyncRelayCommand _editCommand;
-
-        public static Action OnItemChanged;
-
+        
         #endregion
 
         #region Конструкторы
 
-        public SelectablePartnerViewModel(Partner partner)
+        public SelectablePartnerViewModel(Partner partner):base(partner)
         {
             Id = partner.Id;
             Name = partner.Name;
             Address = partner.Address;
             City = partner.City;
-
-            IsSelected = false;
-
-            Partner = partner;
         }
 
         #endregion
@@ -96,59 +84,9 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
                 OnPropertyChanged(nameof(City));
             }
         }
-
-        public bool IsSelected
-        {
-            get => _isSelected;
-            set
-            {
-                _isSelected = value;
-                OnPropertyChanged(nameof(IsSelected));
-            }
-        }
-
-        /// <summary>
-        /// Был ли удален партнер
-        /// </summary>
-        public bool IsDeleted
-        {
-            get => _isDeleted;
-            set
-            {
-                _isDeleted = value;
-                if(_isDeleted)
-                    OnItemChanged?.Invoke();
-                OnPropertyChanged(nameof(IsDeleted));
-            }
-        }
-
-        /// <summary>
-        /// Экземпляр партнера
-        /// </summary>
-        public Partner Partner;
-
+        
         #endregion
-
-        #region Команды
-
-        /// <summary>
-        /// Команда удаления партнера
-        /// </summary>
-        public AsyncRelayCommand RemoveCommand
-        {
-            get { return _removeCommand ??= new AsyncRelayCommand(ShowConfirmDeleteDialog, null); }
-        }
-
-        /// <summary>
-        /// Команда редактирования партнера
-        /// </summary>
-        public AsyncRelayCommand EditCommand
-        {
-            get { return _editCommand ??= new AsyncRelayCommand(ExecuteRunEditorDialog, null); }
-        }
-
-        #endregion
-
+        
         #region Методы
 
         public override string ToString()
@@ -159,66 +97,28 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
                    $"Город: {City}";
         }
 
-        /// <summary>
-        /// Метод запуска редактора
-        /// </summary>
-        /// <param name="o"></param>
-        /// <returns></returns>
-        private async Task ExecuteRunEditorDialog(object o)
+        public override BaseEditorViewModel Editor => new PartnerEditorViewModel();
+        
+        protected override void ToggleViewEditorAfterLoaded()
         {
-            BaseViewModel bvm = new PartnerEditorViewModel();
-
-            var view = new View.MessageDialogs.MessageDialog()
+            if (PartnerEditorView.PartnerEditorAfterLoad != null)
             {
-                DataContext = new MessageDialogViewModel(bvm)
-            };
-            //Добавляем метод обновления редактора при загрузке при редактировании
-            PartnerEditorView.PartnerEditorAfterLoad += GetPartnerEditorViewModel;
-            var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
-
-            //Убираем метод обновления редактора при загрузке при редактировании
-            PartnerEditorView.PartnerEditorAfterLoad = null;
-
-            OnItemChanged?.Invoke();
-        }
-
-        /// <summary>
-        /// Создание экземпляра VM редактора партнеров с текущим партнером
-        /// </summary>
-        /// <returns></returns>
-        private BaseViewModel GetPartnerEditorViewModel() => new PartnerEditorViewModel(Partner);
-
-        /// <summary>
-        /// Показ диалога подтверждения у пользователя при удалении
-        /// </summary>
-        /// <param name="parameter"></param>
-        /// <returns></returns>
-        private async Task ShowConfirmDeleteDialog(object parameter)
-        {
-            var view = new MessageDialogOkCancel()
+                PartnerEditorView.PartnerEditorAfterLoad = null;
+            }
+            else
             {
-                DataContext = new SampleMessageDialogViewModel("Подтверждение удаления",
-                    "Будет удален следующий партнер:\n\n" + this),
-            };
-            var result = await DialogHost.Show(view, "RootDialog", ClosingDeleteDialogEventHandler);
+                PartnerEditorView.PartnerEditorAfterLoad = GetEditorViewModel;
+            }
         }
 
-        private void ClosingEventHandler(object sender, DialogOpenedEventArgs eventArgs)
+        protected override BaseViewModel GetEditorViewModel() => new PartnerEditorViewModel(_item);
+
+        protected override MessageDialogProperty GetConfirmDeleteDialogProperty()
         {
-
+            return new MessageDialogProperty(){Title = "Подтверждение удаления", 
+                                               Message = "Будет удален следующий партнер:\n\n" + this};
         }
-
-        /// <summary>
-        /// Проверка результата подтверждения
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="eventArgs"></param>
-        private void ClosingDeleteDialogEventHandler(object sender, DialogClosingEventArgs eventArgs)
-        {
-            if (Equals((eventArgs.Parameter), true))
-                IsDeleted = true;
-        }
-
+        
         #endregion
     }
 }

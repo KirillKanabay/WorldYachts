@@ -13,7 +13,7 @@ using WorldYachts.ViewModel.MessageDialog;
 
 namespace WorldYachts.ViewModel.AccessoryControlViewModels
 {
-    public class PartnerEditorViewModel : BaseViewModel, IDataErrorInfo
+    public class PartnerEditorViewModel : BaseEditorViewModel, IDataErrorInfo
     {
         #region Поля
 

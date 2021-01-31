@@ -154,7 +154,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         {
             //Получаем список удаляемых или удаленных лодок
             var partnerList = _partnersCollection.Where(p => p.IsSelected || p.IsDeleted)
-                .Select(p => p.Partner);
+                .Select(p => p.Item);
 
             var partnerModel = new PartnerModel();
 
