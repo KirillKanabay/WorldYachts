@@ -93,7 +93,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         {
             return new Partner()
             {
-                Id = (isEdit) ? _id : -1,
+                Id = (isEdit) ? _id : default,
                 Address = _address,
                 City = _city,
                 Name = _name

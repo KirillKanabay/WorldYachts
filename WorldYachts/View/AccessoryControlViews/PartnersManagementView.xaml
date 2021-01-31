@@ -56,7 +56,7 @@
                 Grid.Row="0"
                 Width="175"
                 HorizontalAlignment="Left"
-                Command="{Binding OpenPartnerEditorDialog}"
+                Command="{Binding OpenEditorDialog}"
                 Content="Добавить партнера"
                 Cursor="Hand" />
             <Border
@@ -107,7 +107,7 @@
                 CanUserSortColumns="True"
                 ColumnWidth="*"
                 HorizontalScrollBarVisibility="Auto"
-                ItemsSource="{Binding FilteredPartners}"
+                ItemsSource="{Binding FilteredCollection}"
                 VerticalScrollBarVisibility="Visible">
                 <DataGrid.Columns>
                     <DataGridCheckBoxColumn
@@ -116,15 +116,15 @@
                         ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
                         Header="" />
                     <materialDesign:DataGridTextColumn
-                        Binding="{Binding Id}"
+                        Binding="{Binding Item.Id}"
                         Header="Id"
                         IsReadOnly="True" />
-                    <materialDesign:DataGridTextColumn Binding="{Binding Name}" Header="Название организации" />
+                    <materialDesign:DataGridTextColumn Binding="{Binding Item.Name}" Header="Название организации" />
                     <materialDesign:DataGridTextColumn
-                        Binding="{Binding City}"
+                        Binding="{Binding Item.City}"
                         Header="Город"
                         IsReadOnly="True" />
-                    <materialDesign:DataGridTextColumn Binding="{Binding Address}" Header="Адрес" />
+                    <materialDesign:DataGridTextColumn Binding="{Binding Item.Address}" Header="Адрес" />
                     <DataGridTemplateColumn Header="Редактировать">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>

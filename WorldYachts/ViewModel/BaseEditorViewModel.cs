@@ -141,6 +141,7 @@ namespace WorldYachts.ViewModel
         private void ClosingEventHandler(object sender, DialogOpenedEventArgs eventargs)
         {
         }
+
         #endregion
     }
 }

@@ -22,7 +22,7 @@ namespace WorldYachts.ViewModel
         /// <summary>
         /// Коллекция управляемых предметов
         /// </summary>
-        protected ObservableCollection<BaseSelectableViewModel<TItem>> _itemsCollection;
+        protected ObservableCollection<BaseSelectableViewModel<TItem>> ItemsCollection = new ObservableCollection<BaseSelectableViewModel<TItem>>();
 
         /// <summary>
         /// Поисковая строка
@@ -43,7 +43,9 @@ namespace WorldYachts.ViewModel
 
         protected BaseManagementViewModel()
         {
-            _itemsCollection.CollectionChanged += CheckDeletedItems;
+            GetItemsCollection.Execute(null);
+
+            ItemsCollection.CollectionChanged += CheckDeletedItems;
         }
 
         #endregion
@@ -57,10 +59,10 @@ namespace WorldYachts.ViewModel
         {
             get
             {
-                if (string.IsNullOrWhiteSpace(_filterText))
+                if (!string.IsNullOrWhiteSpace(_filterText))
                     return Filter(_filterText);
 
-                return _itemsCollection;
+                return ItemsCollection;
             }
         }
 
@@ -99,9 +101,7 @@ namespace WorldYachts.ViewModel
         /// Редактор предмета
         /// </summary>
         public abstract BaseEditorViewModel<TItem> Editor { get; }
-
-        public abstract BaseSelectableViewModel<TItem> BaseSelectableViewModel { get; }
-
+        
         #endregion
 
         #region Команды
@@ -175,7 +175,7 @@ namespace WorldYachts.ViewModel
 
         private async Task RemoveItemsCollectionMethod(object parameter)
         {
-            var removeItems = _itemsCollection.Where(i => i.IsSelected)
+            var removeItems = ItemsCollection.Where(i => i.IsSelected)
                 .Select(i => i.Item);
 
             if (removeItems.Any())
@@ -198,7 +198,7 @@ namespace WorldYachts.ViewModel
         /// <returns></returns>
         private async Task RemoveItemMethod(object parameter)
         {
-            var removeItems = _itemsCollection.Where(i => i.IsDeleted)
+            var removeItems = ItemsCollection.Where(i => i.IsDeleted)
                 .Select(i => i.Item);
 
             if (removeItems.Any())
@@ -223,8 +223,8 @@ namespace WorldYachts.ViewModel
         {
             ProgressBarVisibility = Visibility.Visible;
             var items = await Model.LoadAsync();
-            _itemsCollection = GetSelectableViewModels(items);
-
+            ItemsCollection = GetSelectableViewModels(items);
+            OnPropertyChanged(nameof(FilteredCollection));
             ProgressBarVisibility = Visibility.Collapsed;
         }
 
@@ -251,7 +251,7 @@ namespace WorldYachts.ViewModel
             {
                 DataContext = new SampleMessageDialogViewModel((MessageDialogProperty) o)
             };
-            var result = await DialogHost.Show(view, "MessageDialogRoot", ClosingEventHandler);
+            var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
         }
 
         /// <summary>
@@ -275,7 +275,7 @@ namespace WorldYachts.ViewModel
         /// <param name="eventArgs"></param>
         private void ClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
         {
-            //GetCollection.Execute(null);
+            GetItemsCollection.Execute(null);
             OnPropertyChanged(nameof(FilteredCollection));
         }
 
