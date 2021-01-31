@@ -2,12 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
 using MaterialDesignThemes.Wpf;
 using WorldYachts.Data;
 using WorldYachts.Helpers;
@@ -309,11 +305,7 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
             };
             var result = await DialogHost.Show(view, "MessageDialogRoot", ClosingEventHandler);
         }
-        /// <summary>
-        /// При закрытии сообщения открываем главное окно при успешной регистрации
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="eventArgs"></param>
+        
         private void ClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
         {
             

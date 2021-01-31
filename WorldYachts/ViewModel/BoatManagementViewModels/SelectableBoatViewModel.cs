@@ -28,11 +28,10 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
         private bool _isSelected;
         private bool _isDeleted = false;
 
-        private AsyncRelayCommand _removeBoat;
-        private AsyncRelayCommand _editBoat;
+        private AsyncRelayCommand _removeCommand;
+        private AsyncRelayCommand _editCommand;
 
         public static Action OnItemChanged;
-        public static Action OnItemEditing;
         #endregion
 
         #region Конструкторы
@@ -189,6 +188,8 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
             set
             {
                 _isDeleted = value;
+                if(_isDeleted)
+                    OnItemChanged?.Invoke();
                 OnPropertyChanged(nameof(IsDeleted));
             }
         } 
@@ -200,19 +201,19 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
         /// <summary>
         /// Команда удаления лодки
         /// </summary>
-        public AsyncRelayCommand RemoveBoat
+        public AsyncRelayCommand RemoveCommand
         {
             get
             {
-                return _removeBoat ??= new AsyncRelayCommand(ShowConfirmDeleteDialog, null);
+                return _removeCommand ??= new AsyncRelayCommand(ShowConfirmDeleteDialog, null);
             }
         }
 
-        public AsyncRelayCommand EditBoat
+        public AsyncRelayCommand EditCommand
         {
             get
             {
-                return _editBoat ??= new AsyncRelayCommand(ExecuteRunEditorDialog, null);
+                return _editCommand ??= new AsyncRelayCommand(ExecuteRunEditorDialog, null);
             }
         }
 
@@ -234,7 +235,7 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
         
         private async Task ExecuteRunEditorDialog(object o)
         {
-            BaseViewModel bvm = new BoatEditorViewModel(Boat);
+            BaseViewModel bvm = new BoatEditorViewModel();
 
             var view = new View.MessageDialogs.MessageDialog()
             {
@@ -249,9 +250,12 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
 
             OnItemChanged?.Invoke();
         }
+        /// <summary>
+        /// Создание экземпляра VM редактора лодок с текущей лодкой 
+        /// </summary>
+        /// <returns></returns>
+        private BaseViewModel GetBoatEditorViewModel() => new BoatEditorViewModel(Boat);
 
-        private BaseViewModel GetBoatEditorViewModel() => new BoatEditorViewModel(Boat); 
-        private BaseViewModel GetBoatEditorDefaultViewModel() => new BoatEditorViewModel(); 
         private async Task ShowConfirmDeleteDialog(object parameter)
         {
             var view = new MessageDialogOkCancel()

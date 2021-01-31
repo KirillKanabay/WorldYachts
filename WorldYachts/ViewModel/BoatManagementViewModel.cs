@@ -2,19 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Data;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using MaterialDesignThemes.Wpf;
-using Microsoft.EntityFrameworkCore.Migrations.Operations;
-using WorldYachts.Data;
 using WorldYachts.Helpers;
 using WorldYachts.Helpers.Commands;
 using WorldYachts.Model;
-using WorldYachts.View.CatalogManagementViews;
 using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BoatManagementViewModels;
 using WorldYachts.ViewModel.MessageDialog;
@@ -61,7 +55,7 @@ namespace WorldYachts.ViewModel
             get
             {
                 if (!string.IsNullOrWhiteSpace(_filterText)) 
-                    return FilterBoats(_filterText);
+                    return Filter(_filterText);
                 
                 return _boatsCollection;
             }
@@ -177,9 +171,11 @@ namespace WorldYachts.ViewModel
             var boatList = _boatsCollection.Where(b => b.IsSelected || b.IsDeleted)
                 .Select(b => b.Boat);
             
+            var boatModel = new BoatModel();
+
             if (boatList.Any())
             {
-                await Task.Run(() => BoatModel.RemoveAsync(boatList));
+                await Task.Run(() => boatModel.RemoveAsync(boatList));
 
                 //Получаем главное окно для показа уведомления о удалении
                 var mainWindow = (MainWindow)Application.Current.MainWindow;
@@ -191,7 +187,7 @@ namespace WorldYachts.ViewModel
             }
         }
 
-        private ObservableCollection<SelectableBoatViewModel> FilterBoats(string filterText)
+        private ObservableCollection<SelectableBoatViewModel> Filter(string filterText)
         {
             
             var filteredCollection = _boatsCollection.Where(b => 

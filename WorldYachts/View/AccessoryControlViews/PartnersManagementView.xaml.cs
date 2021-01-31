@@ -11,14 +11,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WorldYachts.View
+namespace WorldYachts.View.AccessoryControlViews
 {
     /// <summary>
-    /// Логика взаимодействия для AccessoryManagementView.xaml
+    /// Логика взаимодействия для PartnersManagementView.xaml
     /// </summary>
-    public partial class AccessoryManagementView : UserControl
+    public partial class PartnersManagementView : UserControl
     {
-        public AccessoryManagementView()
+        public PartnersManagementView()
         {
             InitializeComponent();
         }

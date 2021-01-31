@@ -304,7 +304,6 @@
                                         HorizontalAlignment="Left"
                                         Background="{x:Null}"
                                         BorderBrush="{x:Null}"
-
                                         Command="{Binding UpdateViewCommand}"
                                         CommandParameter="{Binding ElementName=BoatManagement}"
                                         Foreground="Black">

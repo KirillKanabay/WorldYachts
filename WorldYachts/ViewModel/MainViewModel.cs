@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using MaterialDesignThemes.Wpf;
 using WorldYachts.Helpers;
+using WorldYachts.ViewModel.AccessoryControlViewModels;
 
 namespace WorldYachts.ViewModel
 {
@@ -66,7 +67,7 @@ namespace WorldYachts.ViewModel
                             SelectedViewModel = new BoatManagementViewModel();
                             break;
                         case "AccessoryManagement":
-                            SelectedViewModel = new AccessoryManagementViewModel();
+                            SelectedViewModel = new AccessoryControlViewModel();
                             break;
                         case "UserManagement":
                             SelectedViewModel = new UserManagementViewModel();
