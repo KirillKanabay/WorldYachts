@@ -1,51 +1,91 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorldYachts.Data;
+using WorldYachts.Infrastructure;
 
 namespace WorldYachts.Model
 {
     class AccessoryToBoatModel:IDataModel<AccessoryToBoat>
     {
-        public Task AddAsync(AccessoryToBoat item)
+        public async Task AddAsync(AccessoryToBoat item)
         {
-            throw new NotImplementedException();
+            await IsRepeated(item);
+            await using (var context = WorldYachtsContext.GetDataContext())
+            {
+                await context.AccessoryToBoat.AddAsync(item);
+                await context.SaveChangesAsync();
+            }
         }
 
-        public Task<IEnumerable<AccessoryToBoat>> LoadAsync()
+        public async Task<IEnumerable<AccessoryToBoat>> LoadAsync()
         {
-            throw new NotImplementedException();
+            return await Task.Run(() => Load());
         }
 
         public IEnumerable<AccessoryToBoat> Load()
         {
-            throw new NotImplementedException();
+            var accessoryToBoatCollection = new List<AccessoryToBoat>();
+            using (var context = WorldYachtsContext.GetDataContext())
+            {
+                foreach (var atb in context.AccessoryToBoat)
+                {
+                    atb.Accessory = new AccessoryModel().GetItemById(atb.AccessoryId);
+                    atb.Boat = new BoatModel().GetItemById(atb.BoatId);
+                }
+            }
+
+            return accessoryToBoatCollection;
         }
 
-        public Task RemoveAsync(IEnumerable<AccessoryToBoat> removeItems)
+        public async Task RemoveAsync(IEnumerable<AccessoryToBoat> removeItems)
         {
-            throw new NotImplementedException();
+            await using (var context = WorldYachtsContext.GetDataContext())
+            {
+                context.AccessoryToBoat.RemoveRange(removeItems);
+                await context.SaveChangesAsync();
+            }
         }
 
-        public Task SaveAsync(AccessoryToBoat item)
+        public async Task SaveAsync(AccessoryToBoat item)
         {
-            throw new NotImplementedException();
+            await using (var context = WorldYachtsContext.GetDataContext())
+            {
+                await IsRepeated(item);
+                var dbAtb = context.AccessoryToBoat.FirstOrDefault(atb => atb.Id == item.Id);
+
+                //Копируем измененную связь в БД
+                dbAtb.AccessoryId = item.AccessoryId;
+                dbAtb.BoatId = item.BoatId;
+
+                await context.SaveChangesAsync();
+            }
         }
 
-        public Task IsRepeated(AccessoryToBoat item)
+        public async Task IsRepeated(AccessoryToBoat item)
         {
-            throw new NotImplementedException();
+            await using (var context = WorldYachtsContext.GetDataContext())
+            {
+                if (context.AccessoryToBoat.ToList().Any(atb => atb.CompareTo(item) == 0))
+                {
+                    throw new ArgumentException("Такая связь уже существует.");
+                }
+            }
         }
 
-        public Task<AccessoryToBoat> GetItemByIdAsync(int id)
+        public async Task<AccessoryToBoat> GetItemByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await Task.Run((() => GetItemById(id)));
         }
 
         public AccessoryToBoat GetItemById(int id)
         {
-            throw new NotImplementedException();
+            using (var context = WorldYachtsContext.GetDataContext())
+            {
+                return context.AccessoryToBoat.FirstOrDefault(atb => atb.Id == id);
+            }
         }
     }
 }
