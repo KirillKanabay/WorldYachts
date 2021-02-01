@@ -39,6 +39,9 @@
             <TabItem Header="Управление аксессуарами">
                 <uc:AccessoryManagementView />
             </TabItem>
+            <TabItem Header="Управление совместимостью">
+                <uc:AccessoryFitManagementView />
+            </TabItem>
             <TabItem Header="Импорт/Экспорт данных" />
         </TabControl>
 

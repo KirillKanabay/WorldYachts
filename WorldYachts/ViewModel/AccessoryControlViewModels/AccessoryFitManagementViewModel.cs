@@ -5,11 +5,36 @@ using System.Linq;
 using System.Text;
 using WorldYachts.Data;
 using WorldYachts.Model;
+using WorldYachts.View.AccessoryControlViews;
 
 namespace WorldYachts.ViewModel.AccessoryControlViewModels
 {
     class AccessoryFitManagementViewModel:BaseManagementViewModel<AccessoryToBoat>
     {
+        
+        /// <summary>
+        /// Список совместимостей
+        /// </summary>
+        public IEnumerable<FitExpanderViewModel> Fits
+        {
+            get
+            {
+                var fits = new List<FitExpanderViewModel>();
+                //Убираем повторяющиеся аксессуары
+                var uniqueAccessories = ItemsCollection
+                    .Select(i => i.Item.Accessory)
+                    .Distinct();
+                foreach (var accessory in uniqueAccessories)
+                {
+                    fits.Add(new FitExpanderViewModel(accessory.Name,
+                        ItemsCollection
+                            .Where(i=>i.Item.Accessory.Name == accessory.Name)
+                            .Select(i=>i.Item.Boat)));
+                }
+
+                return fits;
+            }
+        }
         public override IDataModel<AccessoryToBoat> ModelItem => new AccessoryToBoatModel();
         public override BaseEditorViewModel<AccessoryToBoat> Editor => new AccessoryFitEditorViewModel();
         protected override ObservableCollection<BaseSelectableViewModel<AccessoryToBoat>> GetSelectableViewModels(IEnumerable<AccessoryToBoat> items)
