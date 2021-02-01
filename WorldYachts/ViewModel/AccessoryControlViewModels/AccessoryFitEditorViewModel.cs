@@ -8,20 +8,68 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
 {
     class AccessoryFitEditorViewModel:BaseEditorViewModel<AccessoryToBoat>
     {
-        public AccessoryFitEditorViewModel(bool isEdit) : base(isEdit)
+        #region Поля
+
+        private readonly int _id;
+        private int _accessoryId;
+        private int _boatId;
+
+        #endregion
+
+        #region Конструкторы
+        public AccessoryFitEditorViewModel(AccessoryToBoat accessoryToBoat) : base(true)
         {
+            _id = accessoryToBoat.Id;
+            _accessoryId = accessoryToBoat.AccessoryId;
+            _boatId = accessoryToBoat.BoatId;
         }
 
-        public override bool SaveButtonIsEnabled { get; }
-        public override IDataModel<AccessoryToBoat> ModelItem { get; }
+        public AccessoryFitEditorViewModel() : base(false)
+        {
+
+        }
+        #endregion
+
+        #region Свойства
+
+        public int BoatId
+        {
+            get => _boatId;
+            set
+            {
+                _boatId = value;
+                OnPropertyChanged(nameof(BoatId));
+            }
+        }
+
+        public int AccessoryId
+        {
+            get => _accessoryId;
+            set
+            {
+                AccessoryId = value;
+                OnPropertyChanged(nameof(AccessoryId));
+            }
+        }
+        public override bool SaveButtonIsEnabled => true;
+        #endregion
+
+        public override IDataModel<AccessoryToBoat> ModelItem => new AccessoryToBoatModel();
         protected override AccessoryToBoat GetSaveItem(bool isEdit)
         {
-            throw new NotImplementedException();
+            return new AccessoryToBoat()
+            {
+                Id = (isEdit) ? _id : default,
+                AccessoryId = _accessoryId,
+                BoatId = _boatId,
+            };
         }
 
         protected override string GetSaveSnackbarMessage(bool _isEdit)
         {
-            throw new NotImplementedException();
+            return _isEdit
+                ? $"Совместимость успешно отредактирована."
+                : $"Совместимость успешно добавлена.";
         }
     }
 }

@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WorldYachts.ViewModel;
 
 namespace WorldYachts.View.Editors
 {
@@ -18,9 +19,13 @@ namespace WorldYachts.View.Editors
     /// </summary>
     public partial class AccessoryFitEditorView : UserControl
     {
+        public static Func<BaseViewModel> EditorAfterLoad;
+
         public AccessoryFitEditorView()
         {
             InitializeComponent();
+            if (EditorAfterLoad != null)
+                DataContext = EditorAfterLoad?.Invoke();
         }
     }
 }

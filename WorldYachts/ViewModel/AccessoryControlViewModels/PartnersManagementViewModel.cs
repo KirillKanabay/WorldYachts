@@ -1,19 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using MaterialDesignThemes.Wpf;
 using WorldYachts.Data;
-using WorldYachts.Helpers;
-using WorldYachts.Helpers.Commands;
 using WorldYachts.Model;
-using WorldYachts.View.MessageDialogs;
-using WorldYachts.ViewModel.BoatManagementViewModels;
-using WorldYachts.ViewModel.MessageDialog;
 
 
 namespace WorldYachts.ViewModel.AccessoryControlViewModels
