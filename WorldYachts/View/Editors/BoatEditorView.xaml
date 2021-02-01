@@ -215,7 +215,7 @@
             <Button
                 Margin="0,0,5,10"
                 HorizontalAlignment="Right"
-                Command="{Binding SaveBoat}"
+                Command="{Binding SaveItem}"
                 Cursor="Hand"
                 FontSize="14"
                 IsEnabled="{Binding SaveButtonIsEnabled}"

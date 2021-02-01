@@ -37,14 +37,19 @@ namespace WorldYachts.ViewModel
 
         private Visibility _progressBarVisibility;
 
+        public static Action OnItemChanged;
         #endregion
 
         #region Конструкторы
 
         protected BaseManagementViewModel()
         {
+            OnItemChanged = () =>
+            {
+                RemoveItem.Execute(null);
+                GetItemsCollection?.Execute(null);
+            };
             GetItemsCollection.Execute(null);
-
             ItemsCollection.CollectionChanged += CheckDeletedItems;
         }
 

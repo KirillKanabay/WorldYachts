@@ -21,8 +21,7 @@ namespace WorldYachts.ViewModel
         protected AsyncRelayCommand _removeCommand;
         protected AsyncRelayCommand _editCommand;
 
-        public static Action OnItemChanged;
-
+        public Action OnItemChanged;
         #endregion
 
         #region Конструкторы
@@ -59,7 +58,7 @@ namespace WorldYachts.ViewModel
             {
                 _isDeleted = value;
                 if (_isDeleted)
-                    OnItemChanged?.Invoke();
+                    BaseManagementViewModel<TItem>.OnItemChanged?.Invoke();
                 OnPropertyChanged(nameof(IsDeleted));
             }
         }
@@ -73,6 +72,7 @@ namespace WorldYachts.ViewModel
         /// Экземпляр редактора
         /// </summary>
         public abstract BaseEditorViewModel<TItem> Editor { get; }
+
         #endregion
 
         #region Команды
@@ -128,7 +128,7 @@ namespace WorldYachts.ViewModel
             ToggleViewEditorAfterLoaded();
 
             //Извещаем об изменении предмета
-            OnItemChanged?.Invoke();
+            BaseManagementViewModel<TItem>.OnItemChanged?.Invoke();
         }
 
         /// <summary>

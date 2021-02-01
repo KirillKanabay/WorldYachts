@@ -58,6 +58,7 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
             _vat = boat.Vat.ToString();
         }
 
+
         #endregion
 
         #region Свойства
@@ -230,7 +231,9 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
 
         protected override string GetSaveSnackbarMessage(bool _isEdit)
         {
-            throw new NotImplementedException();
+            return _isEdit
+                ? $"Лодка \"{Model}\" успешно отредактирована."
+                : $"Лодка \"{Model}\" успешно добавлена.";
         }
 
         #endregion

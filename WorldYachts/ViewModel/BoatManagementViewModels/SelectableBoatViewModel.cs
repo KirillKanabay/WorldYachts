@@ -170,6 +170,7 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
         /// </summary>
         public decimal PriceInclVat => BasePrice + (BasePrice * (decimal) Vat);
 
+        
         public override BaseEditorViewModel<Boat> Editor => new BoatEditorViewModel();
 
         #endregion
@@ -200,7 +201,7 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
             }
         }
 
-        protected override BaseViewModel GetEditorViewModel() => new BoatEditorViewModel();
+        protected override BaseViewModel GetEditorViewModel() => new BoatEditorViewModel(_item);
         
         protected override MessageDialogProperty GetConfirmDeleteDialogProperty()
         {

@@ -24,11 +24,6 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
 
         public PartnersManagementViewModel()
         {
-            SelectablePartnerViewModel.OnItemChanged = () =>
-            {
-                RemoveItem.Execute(null);
-                GetItemsCollection?.Execute(null);
-            };
         }
 
         #endregion

@@ -22,14 +22,8 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
 
         public BoatManagementViewModel()
         {
-            SelectableBoatViewModel.OnItemChanged = () =>
-            {
-                //Убираем лодки которые были удалены
-                RemoveItem.Execute(null);
-                //Обновляем список лодок
-                GetItemsCollection.Execute(null);
-            };
         }
+
         #endregion
 
         #region Свойства

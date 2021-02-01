@@ -16,7 +16,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         private string _name;
         private string _address;
         private string _city;
-        
+
         #endregion
 
         #region Конструкторы
