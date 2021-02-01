@@ -91,5 +91,18 @@ namespace WorldYachts.Model
                 }
             }
         }
+
+        public async Task<Partner> GetItemByIdAsync(int id)
+        {
+            return await Task.Run((() => GetItemById(id)));
+        }
+
+        public Partner GetItemById(int id)
+        {
+            using (var context = WorldYachtsContext.GetDataContext())
+            {
+                return context.Partners.FirstOrDefault(p => p.Id == id);
+            }
+        }
     }
 }

@@ -13,6 +13,10 @@ namespace WorldYachts.Data
         /// </summary>
         [Required] public int Id { get; set; }
         /// <summary>
+        /// Название аксессуара
+        /// </summary>
+        [Required] public string Name { get; set; }
+        /// <summary>
         /// Описание аксессуара
         /// </summary>
         [Required] public string Description { get; set; }

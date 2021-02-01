@@ -45,5 +45,19 @@ namespace WorldYachts.Model
         /// <param name="item">Элемент</param>
         /// <returns></returns>
         public Task IsRepeated(TData item);
+
+        /// <summary>
+        /// Асинхронный метод получение объекта по его Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Task<TData> GetItemByIdAsync(int id);
+
+        /// <summary>
+        /// Синхронный метод получения объекта по его Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public TData GetItemById(int id);
     }
 }

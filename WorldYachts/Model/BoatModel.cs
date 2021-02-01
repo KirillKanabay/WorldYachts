@@ -90,6 +90,19 @@ namespace WorldYachts.Model
             return IsRepeated(item);
         }
 
+        public async Task<Boat> GetItemByIdAsync(int id)
+        {
+            return await Task.Run(() => GetItemById(id));
+        }
+
+        public Boat GetItemById(int id)
+        {
+            using (var context = WorldYachtsContext.GetDataContext())
+            {
+                return context.Boats.FirstOrDefault(b => b.Id == id);
+            }
+        }
+
         /// <summary>
         /// Проверка идентичной лодки в БД
         /// </summary>
