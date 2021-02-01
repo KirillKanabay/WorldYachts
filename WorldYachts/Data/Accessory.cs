@@ -1,12 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace WorldYachts.Data
 {
-    public class Accessory
+    public class Accessory:IComparable, IComparer
     {
         /// <summary>
         /// Идентификатор аксессуара
@@ -53,5 +53,18 @@ namespace WorldYachts.Data
         /// </summary>
         [ForeignKey("AccessoryId")]
         public List<AccessoryToBoat> AccessoryToBoat { get; set; }
+
+        public int CompareTo(object? obj)
+        {
+            return Compare(this, obj);
+        }
+
+        public int Compare(object? x, object? y)
+        {
+            var acc1 = (Accessory)x;
+            var acc2 = (Accessory)y;
+
+            return String.Compare(acc1.Name, acc2.Name);
+        }
     }
 }
