@@ -10,21 +10,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WorldYachts.ViewModel;
 
-namespace WorldYachts.View.Editors
+namespace WorldYachts.View.AccessoryControlViews
 {
     /// <summary>
-    /// Логика взаимодействия для AccessoryEditorView.xaml
+    /// Логика взаимодействия для AccessoryManagementView.xaml
     /// </summary>
-    public partial class AccessoryEditorView : UserControl
+    public partial class AccessoryManagementView : UserControl
     {
-        public static Func<BaseViewModel> EditorAfterLoad;
-        public AccessoryEditorView()
+        public AccessoryManagementView()
         {
             InitializeComponent();
-            if (EditorAfterLoad != null)
-                DataContext = EditorAfterLoad.Invoke();
         }
     }
 }

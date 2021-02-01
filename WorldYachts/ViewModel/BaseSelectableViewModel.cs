@@ -148,7 +148,7 @@ namespace WorldYachts.ViewModel
             {
                 DataContext = new SampleMessageDialogViewModel((MessageDialogProperty) o)
             };
-            var result = await DialogHost.Show(view, "MessageDialogRoot", ClosingEventHandler);
+            var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
         }
 
         /// <summary>

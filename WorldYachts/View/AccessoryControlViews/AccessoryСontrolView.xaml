@@ -34,9 +34,11 @@
         </Label>
         <TabControl Grid.Row="1" Style="{StaticResource MaterialDesignTabControl}">
             <TabItem Header="Управление партнерами">
-                <uc:PartnersManagementView/>
+                <uc:PartnersManagementView />
             </TabItem>
-            <TabItem Header="Управление аксессуарами" />
+            <TabItem Header="Управление аксессуарами">
+                <uc:AccessoryManagementView />
+            </TabItem>
             <TabItem Header="Импорт/Экспорт данных" />
         </TabControl>
 

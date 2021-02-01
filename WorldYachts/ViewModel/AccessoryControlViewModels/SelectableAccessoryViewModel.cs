@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Printing.IndexedProperties;
 using System.Text;
 using WorldYachts.Data;
+using WorldYachts.View.Editors;
 using WorldYachts.View.MessageDialogs;
 
 namespace WorldYachts.ViewModel.AccessoryControlViewModels
@@ -152,17 +153,25 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
 
         protected override void ToggleViewEditorAfterLoaded()
         {
-            throw new NotImplementedException();
+            if (AccessoryEditorView.EditorAfterLoad != null)
+            {
+                AccessoryEditorView.EditorAfterLoad = null;
+            }
+            else
+            {
+                AccessoryEditorView.EditorAfterLoad = GetEditorViewModel;
+            }
         }
 
-        protected override BaseViewModel GetEditorViewModel()
-        {
-            throw new NotImplementedException();
-        }
+        protected override BaseViewModel GetEditorViewModel() => new AccessoryEditorViewModel(_item);
 
         protected override MessageDialogProperty GetConfirmDeleteDialogProperty()
         {
-            throw new NotImplementedException();
+            return new MessageDialogProperty()
+            {
+                Title = "Подтверждение удаления",
+                Message = "Будет удален следующий аксессуар:\n\n" + this
+            };
         }
 
         #endregion

@@ -48,6 +48,12 @@
             <DataTemplate DataType="{x:Type vmaccessory:PartnerEditorViewModel}">
                 <veditors:PartnerEditorView />
             </DataTemplate>
+            <DataTemplate DataType="{x:Type vmaccessory:AccessoryManagementViewModel}">
+                <vaccessory:AccessoryManagementView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vmaccessory:AccessoryEditorViewModel}">
+                <veditors:AccessoryEditorView />
+            </DataTemplate>
         </ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
