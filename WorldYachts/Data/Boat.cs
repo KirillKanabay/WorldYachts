@@ -4,7 +4,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Globalization;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Controls;
+using WorldYachts.Helpers.Commands;
+using WorldYachts.Model;
 
 namespace WorldYachts.Data
 {
@@ -102,5 +107,31 @@ namespace WorldYachts.Data
 
             return -1;
         }
+
+        #region Команды
+
+        public AsyncRelayCommand DeleteAccessoryToBoat
+        {
+            get
+            {
+                return new AsyncRelayCommand(RemoveATB,null);
+            }
+        }
+
+        #endregion
+
+        #region Методы
+
+        public async Task RemoveATB(object parameter)
+        {
+            //Получаем название аксессуара
+            var accessoryName = ((Expander) parameter).Header.ToString();
+
+            var atb = new AccessoryToBoatModel().Load().Where(i=>i.Boat.Model == Model);
+            
+            await Task.Run(() => new AccessoryToBoatModel().RemoveAsync(atb));
+        }
+
+        #endregion
     }
 }

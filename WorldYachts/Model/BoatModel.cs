@@ -39,9 +39,17 @@ namespace WorldYachts.Model
         /// <returns></returns>
         public IEnumerable<Boat> Load()
         {
+            List<Boat> boats = new List<Boat>();
             using (var context = WorldYachtsContext.GetDataContext())
             {
-                return context.Boats.ToList();
+                var atb = context.AccessoryToBoat;
+                foreach (var contextBoat in context.Boats)
+                {
+                    contextBoat.AccessoryToBoat = new AccessoryToBoatModel().Load()
+                        .Where(i=>i.Boat.Model == contextBoat.Model).ToList();
+                    boats.Add(contextBoat);
+                }
+                return boats;
             }
         }
 

@@ -11,6 +11,10 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
 {
     class AccessoryFitManagementViewModel:BaseManagementViewModel<AccessoryToBoat>
     {
+        public AccessoryFitManagementViewModel():base()
+        {
+            OnItemChanged?.Invoke();
+        }
         
         /// <summary>
         /// Список совместимостей
@@ -22,24 +26,29 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
                 var fits = new List<FitExpanderViewModel>();
                 //Убираем повторяющиеся аксессуары
                 var uniqueAccessories = ItemsCollection
-                    .Select(i => i.Item.Accessory)
+                    .Select(i => i.Item.AccessoryId)
                     .Distinct();
-                foreach (var accessory in uniqueAccessories)
+                foreach (var accessoryId in uniqueAccessories)
                 {
-                    fits.Add(new FitExpanderViewModel(accessory.Name,
+                    fits.Add(new FitExpanderViewModel
+                        (ItemsCollection
+                            .FirstOrDefault(i=>i.Item.AccessoryId == accessoryId)
+                            ?.Item.Accessory.Name,
                         ItemsCollection
-                            .Where(i=>i.Item.Accessory.Name == accessory.Name)
+                            .Where(i=> i.Item.AccessoryId == accessoryId)
                             .Select(i=>i.Item.Boat)));
                 }
 
-                return fits;
+                return fits.Distinct();
             }
         }
+
         public override IDataModel<AccessoryToBoat> ModelItem => new AccessoryToBoatModel();
         public override BaseEditorViewModel<AccessoryToBoat> Editor => new AccessoryFitEditorViewModel();
         protected override ObservableCollection<BaseSelectableViewModel<AccessoryToBoat>> GetSelectableViewModels(IEnumerable<AccessoryToBoat> items)
         {
             var collection = new ObservableCollection<BaseSelectableViewModel<AccessoryToBoat>>();
+            OnPropertyChanged(nameof(Fits));
             foreach (var accessoryToBoat in items)
             {
                 collection.Add(new SelectableAccessoryFitViewModel(accessoryToBoat));

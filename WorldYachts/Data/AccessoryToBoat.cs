@@ -46,5 +46,6 @@ namespace WorldYachts.Data
 
             return (atb1.AccessoryId == atb2.AccessoryId && atb1.BoatId == atb2.BoatId) ? 0 : 1;
         }
+
     }
 }

@@ -23,7 +23,6 @@
                                 <TextBlock Text="{Binding Type}"></TextBlock>
                             </StackPanel>
                         </Border>
-                        </DataTemplate.Triggers>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

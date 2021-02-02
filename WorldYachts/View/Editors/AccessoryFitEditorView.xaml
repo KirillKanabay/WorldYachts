@@ -1,12 +1,13 @@
-﻿<UserControl x:Class="WorldYachts.View.Editors.AccessoryFitEditorView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:WorldYachts.View.Editors"
-             xmlns:accessoryControlViewModels="clr-namespace:WorldYachts.ViewModel.AccessoryControlViewModels"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             d:DesignHeight="400"
+﻿<UserControl
+    x:Class="WorldYachts.View.Editors.AccessoryFitEditorView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:accessoryControlViewModels="clr-namespace:WorldYachts.ViewModel.AccessoryControlViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:WorldYachts.View.Editors"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="300"
     d:DesignWidth="800"
     Background="#FFFAFAFA"
     FontFamily="Google Sans"
@@ -19,12 +20,12 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <UserControl.DataContext>
-        <accessoryControlViewModels:AccessoryEditorViewModel />
+        <accessoryControlViewModels:AccessoryFitEditorViewModel />
     </UserControl.DataContext>
     <Grid Margin="20,20,20,10">
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
-            <RowDefinition />
+            <RowDefinition Height="200" />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -40,6 +41,36 @@
             FontWeight="Bold">
             Редактор совместимости
         </Label>
+        <ComboBox
+            Grid.Row="1"
+            Grid.Column="0"
+            Width="300"
+            Margin="0,15,40,0"
+            VerticalAlignment="Top"
+            materialDesign:HintAssist.Hint="Название аксессуара"
+            ItemsSource="{Binding AccessoryCollection}"
+            SelectedItem="{Binding Accessory}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <ComboBox
+            Grid.Row="1"
+            Grid.Column="1"
+            Width="300"
+            Margin="0,15,0,15"
+            VerticalAlignment="Top"
+            materialDesign:HintAssist.Hint="Название лодки"
+            ItemsSource="{Binding BoatCollection}"
+            SelectedItem="{Binding Boat}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Model}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
         <StackPanel
             Grid.Row="2"
             Grid.Column="1"

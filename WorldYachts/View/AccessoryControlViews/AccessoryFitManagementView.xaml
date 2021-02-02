@@ -10,6 +10,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
     d:DesignWidth="800"
+    FontFamily="Google Sans"
     mc:Ignorable="d">
     <UserControl.DataContext>
         <accessoryControlViewModels:AccessoryFitManagementViewModel />
@@ -103,16 +104,24 @@
                 ItemsSource="{Binding Fits}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Expander Header="{Binding Name}">
-                            <ItemsControl>
+                        <Expander Header="{Binding Name}" x:Name="ExpanderData">
+                            <ItemsControl ItemsSource="{Binding Boats}">
                                 <ItemsControl.ItemTemplate>
-                                    <DataTemplate DataType="{x:Type data:Boat}">
-                                        <StackPanel>
-                                            <TextBlock Text="{Binding Model}" />
-                                            <TextBlock Text="{Binding Type}" />
-                                        </StackPanel>
+                                    <DataTemplate>
+                                        <materialDesign:Chip
+                                            Margin="0,0,4,4"
+                                            Content="{Binding Model}"
+                                            IsDeletable="True"
+                                            ToolTip="{Binding Type}"
+                                            DeleteCommand="{Binding DeleteAccessoryToBoat}"
+                                            DeleteCommandParameter="{Binding ElementName=ExpanderData}"/>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
                             </ItemsControl>
                         </Expander>
                     </DataTemplate>

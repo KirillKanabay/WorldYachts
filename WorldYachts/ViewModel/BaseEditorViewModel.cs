@@ -86,7 +86,7 @@ namespace WorldYachts.ViewModel
         /// </summary>
         /// <param name="parameter"></param>
         /// <returns></returns>
-        private async Task SaveMethod(object parameter)
+        protected virtual async Task SaveMethod(object parameter)
         {
             ProgressBarVisibility = Visibility.Visible;
             var item = GetSaveItem(_isEdit);

@@ -34,6 +34,7 @@ namespace WorldYachts.Model
                 {
                     atb.Accessory = new AccessoryModel().GetItemById(atb.AccessoryId);
                     atb.Boat = new BoatModel().GetItemById(atb.BoatId);
+                    accessoryToBoatCollection.Add(atb);
                 }
             }
 

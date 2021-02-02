@@ -1,18 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
 using WorldYachts.Data;
 using WorldYachts.Model;
 
 namespace WorldYachts.ViewModel.AccessoryControlViewModels
 {
-    class AccessoryFitEditorViewModel:BaseEditorViewModel<AccessoryToBoat>
+    class AccessoryFitEditorViewModel:BaseEditorViewModel<AccessoryToBoat>,IDataErrorInfo
     {
         #region Поля
 
         private readonly int _id;
         private int _accessoryId;
         private int _boatId;
+
+        private Accessory _accessory;
+        private Boat _boat;
+
+        private IEnumerable<Accessory> _accessoryCollection;
+        private IEnumerable<Boat> _boatCollection;
 
         #endregion
 
@@ -47,11 +57,35 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             get => _accessoryId;
             set
             {
-                AccessoryId = value;
+                _accessoryId = value;
                 OnPropertyChanged(nameof(AccessoryId));
             }
         }
-        public override bool SaveButtonIsEnabled => true;
+
+        public Accessory Accessory
+        {
+            get => _accessory;
+            set
+            {
+                _accessory = value;
+                AccessoryId = value.Id;
+                OnPropertyChanged(nameof(Accessory));
+            }
+        }
+
+        public Boat Boat
+        {
+            get => _boat;
+            set
+            {
+                _boat = value;
+                BoatId = value.Id;
+                OnPropertyChanged(nameof(Boat));
+            }
+        }
+        public IEnumerable<Accessory> AccessoryCollection => new AccessoryModel().Load();
+        public IEnumerable<Boat> BoatCollection => new BoatModel().Load();
+        public override bool SaveButtonIsEnabled => !ErrorDictionary.Any();
         #endregion
 
         public override IDataModel<AccessoryToBoat> ModelItem => new AccessoryToBoatModel();
@@ -70,6 +104,29 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             return _isEdit
                 ? $"Совместимость успешно отредактирована."
                 : $"Совместимость успешно добавлена.";
+        }
+
+
+        public string Error { get; }
+        private Dictionary<string, string> ErrorDictionary = new Dictionary<string, string>();
+        public string this[string columnName]
+        {
+            get
+            {
+                string error = String.Empty;
+                switch (columnName)
+                {
+                    case "Accessory":
+                        break;
+                    case "Boat":
+                        break;
+                }
+                ErrorDictionary.Remove(columnName);
+                if (error != String.Empty)
+                    ErrorDictionary.Add(columnName, error);
+                OnPropertyChanged(nameof(SaveButtonIsEnabled));
+                return error;
+            }
         }
     }
 }

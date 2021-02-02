@@ -1,14 +1,14 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:boatControlViews="clr-namespace:WorldYachts.View.BoatControlViews"
     xmlns:v="clr-namespace:WorldYachts.View"
     xmlns:vaccessory="clr-namespace:WorldYachts.View.AccessoryControlViews"
-    xmlns:vmboat="clr-namespace:WorldYachts.ViewModel.BoatManagementViewModels"
     xmlns:veditors="clr-namespace:WorldYachts.View.Editors"
     xmlns:vm="clr-namespace:WorldYachts.ViewModel"
     xmlns:vmaccessory="clr-namespace:WorldYachts.ViewModel.AccessoryControlViewModels"
-    xmlns:vmcm="clr-namespace:WorldYachts.ViewModel.BoatManagementViewModels"
-    xmlns:boatControlViews="clr-namespace:WorldYachts.View.BoatControlViews">
+    xmlns:vmboat="clr-namespace:WorldYachts.ViewModel.BoatManagementViewModels"
+    xmlns:vmcm="clr-namespace:WorldYachts.ViewModel.BoatManagementViewModels">
     <ResourceDictionary.MergedDictionaries>
         <!--  Основные UC  -->
         <ResourceDictionary>
@@ -53,6 +53,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type vmaccessory:AccessoryEditorViewModel}">
                 <veditors:AccessoryEditorView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vmaccessory:AccessoryFitEditorViewModel}">
+                <veditors:AccessoryFitEditorView />
             </DataTemplate>
         </ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>

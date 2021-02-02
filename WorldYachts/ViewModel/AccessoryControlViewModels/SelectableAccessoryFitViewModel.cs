@@ -19,7 +19,9 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         #endregion
         public SelectableAccessoryFitViewModel(AccessoryToBoat item) : base(item)
         {
-            
+            Id = item.Id;
+            AccessoryId = item.AccessoryId;
+            BoatId = item.BoatId;
         }
 
         #region Свойства

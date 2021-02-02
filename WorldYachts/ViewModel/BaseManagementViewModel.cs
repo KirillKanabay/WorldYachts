@@ -22,7 +22,7 @@ namespace WorldYachts.ViewModel
         /// <summary>
         /// Коллекция управляемых предметов
         /// </summary>
-        protected ObservableCollection<BaseSelectableViewModel<TItem>> ItemsCollection = new ObservableCollection<BaseSelectableViewModel<TItem>>();
+        public ObservableCollection<BaseSelectableViewModel<TItem>> ItemsCollection = new ObservableCollection<BaseSelectableViewModel<TItem>>();
 
         /// <summary>
         /// Поисковая строка
