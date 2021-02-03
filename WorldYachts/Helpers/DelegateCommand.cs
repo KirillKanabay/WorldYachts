@@ -30,9 +30,9 @@ namespace WorldYachts.Helpers
 
         #region ICommand members
 
-        public bool CanExecute(object parametr)
+        public bool CanExecute(object parameter)
         {
-            return _canExecute?.Invoke(parametr) ?? true;
+            return _canExecute?.Invoke(parameter) ?? true;
         }
 
         public void Execute(object parameter)

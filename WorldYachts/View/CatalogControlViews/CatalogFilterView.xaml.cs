@@ -11,14 +11,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WorldYachts.View.CatalogContolViews
+namespace WorldYachts.View.CatalogControlViews
 {
     /// <summary>
-    /// Логика взаимодействия для CatalogControlView.xaml
+    /// Логика взаимодействия для CatalogFilterView.xaml
     /// </summary>
-    public partial class CatalogControlView : UserControl
+    public partial class CatalogFilterView : UserControl
     {
-        public CatalogControlView()
+        public CatalogFilterView()
         {
             InitializeComponent();
         }

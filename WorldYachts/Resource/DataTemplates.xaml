@@ -4,10 +4,12 @@
     xmlns:boatControlViews="clr-namespace:WorldYachts.View.BoatControlViews"
     xmlns:v="clr-namespace:WorldYachts.View"
     xmlns:vaccessory="clr-namespace:WorldYachts.View.AccessoryControlViews"
+    xmlns:vcatalog="clr-namespace:WorldYachts.View.CatalogControlViews"
     xmlns:veditors="clr-namespace:WorldYachts.View.Editors"
     xmlns:vm="clr-namespace:WorldYachts.ViewModel"
     xmlns:vmaccessory="clr-namespace:WorldYachts.ViewModel.AccessoryControlViewModels"
     xmlns:vmboat="clr-namespace:WorldYachts.ViewModel.BoatManagementViewModels"
+    xmlns:vmcatalog="clr-namespace:WorldYachts.ViewModel.CatalogControlViewModels"
     xmlns:vmcm="clr-namespace:WorldYachts.ViewModel.BoatManagementViewModels">
     <ResourceDictionary.MergedDictionaries>
         <!--  Основные UC  -->
@@ -26,6 +28,12 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type vm:AboutProgramViewModel}">
                 <v:AboutProgramView />
+            </DataTemplate>
+        </ResourceDictionary>
+        <!--  Catalog  -->
+        <ResourceDictionary>
+            <DataTemplate DataType="{x:Type vmcatalog:CatalogControlViewModel}">
+                <vcatalog:CatalogControlView />
             </DataTemplate>
         </ResourceDictionary>
         <!--  BoatManagement  -->

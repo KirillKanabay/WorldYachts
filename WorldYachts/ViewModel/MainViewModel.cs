@@ -9,6 +9,7 @@ using MaterialDesignThemes.Wpf;
 using WorldYachts.Helpers;
 using WorldYachts.ViewModel.AccessoryControlViewModels;
 using WorldYachts.ViewModel.BoatManagementViewModels;
+using WorldYachts.ViewModel.CatalogControlViewModels;
 
 namespace WorldYachts.ViewModel
 {
@@ -59,7 +60,7 @@ namespace WorldYachts.ViewModel
                             SelectedViewModel = new DashboardViewModel();
                             break;
                         case "Catalog":
-                            SelectedViewModel = new CatalogViewModel();
+                            SelectedViewModel = new CatalogControlViewModel();
                             break;
                         case "Orders":
                             SelectedViewModel = new OrdersViewModel();

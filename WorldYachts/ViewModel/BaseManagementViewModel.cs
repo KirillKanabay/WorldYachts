@@ -60,7 +60,7 @@ namespace WorldYachts.ViewModel
         /// <summary>
         /// Фильтрованная коллекция
         /// </summary>
-        public ObservableCollection<BaseSelectableViewModel<TItem>> FilteredCollection
+        public virtual ObservableCollection<BaseSelectableViewModel<TItem>> FilteredCollection
         {
             get
             {
