@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Printing.IndexedProperties;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
@@ -22,8 +24,11 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         private int _inventory;
         private int _orderLevel;
         private int _orderBatch;
-        private int _partnerId;
 
+        private Partner _partner;
+        private string _partnerName;
+
+        private List<Partner> _partners;
         #endregion
 
         #region Конструкторы
@@ -37,12 +42,14 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             _inventory = accessory.Inventory;
             _orderLevel = accessory.OrderLevel;
             _orderBatch = accessory.OrderBatch;
-            _partnerId = accessory.PartnerId;
+            _partner = accessory.Partner;
+
+            _partnerName = _partner.Name;
         }
 
         public AccessoryEditorViewModel():base(false)
         {
-
+            _partners = new PartnerModel().Load().ToList();
         }
         #endregion
 
@@ -118,15 +125,33 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             }
         }
 
-        public int PartnerId
+        public string PartnerName
         {
-            get => _partnerId;
+            get => _partnerName;
             set
             {
-                _partnerId = value;
-                OnPropertyChanged(nameof(PartnerId));
+                _partnerName = value;
+                OnPropertyChanged(nameof(PartnerName));
             }
         }
+
+        public ObservableCollection<string> Partners
+        {
+            get
+            {
+                var partnersCollection = new ObservableCollection<string>();
+                if (_partners != null)
+                {
+                    foreach (var partner in _partners?.Select(p => p.Name))
+                    {
+                        partnersCollection.Add(partner);
+                    }
+                }
+                
+
+                return partnersCollection;
+            }
+        } 
 
         public override bool SaveButtonIsEnabled => ErrorDictionary.Count == 0;
         public override IDataModel<Accessory> ModelItem => new AccessoryModel();
@@ -144,7 +169,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
                 Inventory = _inventory,
                 OrderLevel = _orderLevel,
                 OrderBatch = _orderBatch,
-                PartnerId = _partnerId
+                PartnerId = _partners.FirstOrDefault(p=>p.Name == PartnerName).Id,
             };
         }
 
@@ -188,8 +213,8 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
                     case "OrderBatch":
                         new Validation(new NotEmptyFieldValidationRule(OrderBatch)).Validate(ref error);
                         break;
-                    case "PartnerId":
-                        new Validation(new NotEmptyFieldValidationRule(PartnerId)).Validate(ref error);
+                    case "PartnerName":
+                        new Validation(new NotEmptyFieldValidationRule(PartnerName)).Validate(ref error);
                         break;
                 }
                 ErrorDictionary.Remove(columnName);

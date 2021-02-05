@@ -128,7 +128,7 @@
                     <materialDesign:DataGridTextColumn Binding="{Binding Item.Inventory}" Header="Инв. №" />
                     <materialDesign:DataGridTextColumn Binding="{Binding Item.OrderLevel}" Header="Ур. доставки" />
                     <materialDesign:DataGridTextColumn Binding="{Binding Item.OrderLevel}" Header="№ партии" />
-                    <materialDesign:DataGridTextColumn Binding="{Binding Item.PartnerId}" Header="№ партии" />
+                    <materialDesign:DataGridTextColumn Binding="{Binding Item.Partner.Name}" Header="Поставщик" />
                     <DataGridTemplateColumn Header="Редактировать">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>

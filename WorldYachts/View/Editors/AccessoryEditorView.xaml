@@ -116,18 +116,19 @@
                 </TextBox.Text>
             </TextBox>
             <!--  Партнер  -->
-            <TextBox Margin="0,8,0,15" Style="{StaticResource InputTextBox}">
-                <materialDesign:HintAssist.Hint>
-                    <TextBlock>Партнер</TextBlock>
-                </materialDesign:HintAssist.Hint>
-                <TextBox.Text>
-                    <Binding Path="PartnerId" UpdateSourceTrigger="PropertyChanged">
+            <ComboBox
+                Margin="0,3,0,0"
+                materialDesign:HintAssist.Hint="Поставщик"
+                ItemsSource="{Binding Partners}"
+                Style="{StaticResource InputComboBox}">
+                <ComboBox.Text>
+                    <Binding Path="PartnerName" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
                             <DataErrorValidationRule />
                         </Binding.ValidationRules>
                     </Binding>
-                </TextBox.Text>
-            </TextBox>
+                </ComboBox.Text>
+            </ComboBox>
             <!--  Цена  -->
             <TextBox Margin="0,8,0,15" Style="{StaticResource InputTextBox}">
                 <materialDesign:HintAssist.Hint>

@@ -21,7 +21,6 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         private string _name;
         private string _address;
         private string _city;
-        
         #endregion
 
         #region Конструкторы
@@ -81,6 +80,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             }
         }
 
+        
         public override bool SaveButtonIsEnabled => ErrorDictionary.Count == 0;
 
         public override IDataModel<Partner> ModelItem => new PartnerModel();
