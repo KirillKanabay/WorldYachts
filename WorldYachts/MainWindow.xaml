@@ -9,6 +9,7 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:WorldYachts.ViewModel"
+    x:Name="Window"
     Title="Главное окно"
     Width="1100"
     Height="620"
@@ -441,6 +442,7 @@
                                         Background="{x:Null}"
                                         BorderBrush="{x:Null}"
                                         Command="{Binding Logout}"
+                                        CommandParameter="{Binding ElementName=Window}"
                                         Foreground="Black">
                                         <StackPanel Margin="0" Orientation="Vertical">
                                             <materialDesign:PackIcon

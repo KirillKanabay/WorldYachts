@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using WorldYachts.Annotations;
 using WorldYachts.Infrastructure;
+using WorldYachts.Model;
 
 namespace WorldYachts.Data
 {
@@ -30,6 +31,7 @@ namespace WorldYachts.Data
 
                 if (user == null)
                 {
+                    AuthUser.User = null;
                     throw new Exception("Неверный логин или пароль");
                 }
                 switch (user.TypeUser)

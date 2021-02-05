@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using WorldYachts.Annotations;
 using WorldYachts.Data;
 using WorldYachts.Infrastructure;
+using WorldYachts.Model;
 
 namespace WorldYachts.Data
 {

@@ -5,7 +5,7 @@
     xmlns:local="clr-namespace:WorldYachts"
     xmlns:viewModels="clr-namespace:WorldYachts.ViewModel"
     xmlns:views="clr-namespace:WorldYachts.View"
-    StartupUri="MainWindow.xaml">
+    StartupUri="View/LoginWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

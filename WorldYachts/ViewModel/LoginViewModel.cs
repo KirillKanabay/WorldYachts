@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +15,7 @@ using WorldYachts.Annotations;
 using WorldYachts.Helpers;
 using WorldYachts.Data;
 using WorldYachts.Helpers.Commands;
+using WorldYachts.Model;
 using WorldYachts.Validators;
 using WorldYachts.View;
 using WorldYachts.View.MessageDialogs;
@@ -27,12 +30,22 @@ namespace WorldYachts.ViewModel
         private string _login;
         private string _password;
         private string _statusMessage = "Все ок пока!";
+        private bool _signOutCheck;
         private Visibility _progressBarVisibility = Visibility.Collapsed;
 
         private AsyncRelayCommand _authorization;
         private DelegateCommand _changeToRegisterWindow;
         private DelegateCommand _openSampleMessageDialog;
         #endregion
+
+        public LoginViewModel()
+        {
+            SerializableUserInfo? ui = Deserializable();
+            if (ui != null)
+            {
+                LoginFromFileMethod(ui);
+            }
+        }
 
         #region Свойства
 
@@ -87,6 +100,16 @@ namespace WorldYachts.ViewModel
             }
         }
 
+        public bool SignOutCheck
+        {
+            get => _signOutCheck;
+            set
+            {
+                _signOutCheck = value;
+                OnPropertyChanged(nameof(SignOutCheck));
+            }
+        }
+
         public bool ButtonIsEnabled => ErrorDictionary.Count == 0;
         #endregion
 
@@ -118,6 +141,13 @@ namespace WorldYachts.ViewModel
             try
             {
                 await Task.Run(() => loginModel.LoginAsync());
+                if (AuthUser.User != null)
+                {
+                    MainWindow.ShowWindow();
+                    ((Window)parameter).Close();
+                    if (SignOutCheck)
+                        Serializable();
+                }
             }
             finally
             {
@@ -126,14 +156,61 @@ namespace WorldYachts.ViewModel
                 Password = "";
             }
 
+            
+        }
+
+        private async Task LoginFromFileMethod(object parameter)
+        {
+            ProgressBarVisibility = Visibility.Visible;
+            var loginModel = new LoginModel(((SerializableUserInfo)parameter).Login, ((SerializableUserInfo)parameter).Password);
+            try
+            {
+                await Task.Run(() => loginModel.LoginAsync());
+            }
+            finally
+            {
+                ProgressBarVisibility = Visibility.Collapsed;
+                Login = "";
+                Password = "";
+                SignOutCheck = false;
+            }
+
             if (AuthUser.User != null)
             {
-                //TODO:Переход на главную форму
+                MainWindow.ShowWindow();
+                LoginWindow.CloseWindow?.Invoke();
+            }
+        }
+        #endregion
+
+        private SerializableUserInfo? Deserializable()
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            SerializableUserInfo ui = new SerializableUserInfo(_login,_password);
+            if (File.Exists("bin"))
+            {
+                using (FileStream fs = new FileStream("bin", FileMode.OpenOrCreate))
+                {
+                    fs.Seek(0, SeekOrigin.Begin);
+                    ui = (SerializableUserInfo)formatter.Deserialize(fs);
+                }
+
+                return ui;
+            }
+
+            return null;
+        }
+
+        private void Serializable()
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            using (FileStream fs = new FileStream("bin",FileMode.OpenOrCreate))
+            {
+                formatter.Serialize(fs,new SerializableUserInfo(_login, _password));
+                fs.Seek(0, SeekOrigin.Begin);
             }
         }
 
-        #endregion
-        
         #region MessageDialog
 
         /// <summary>
@@ -152,7 +229,7 @@ namespace WorldYachts.ViewModel
             {
                 DataContext = new SampleMessageDialogViewModel((MessageDialogProperty) o)
             };
-            var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
+            var result = await DialogHost.Show(view, "RootDialogLogin", ClosingEventHandler);
         }
         private void ClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
         {

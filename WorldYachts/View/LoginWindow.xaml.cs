@@ -20,9 +20,11 @@ namespace WorldYachts.View
     /// </summary>
     public partial class LoginWindow : Window
     {
+        public static Action CloseWindow;
         public LoginWindow()
         {
             InitializeComponent();
+            CloseWindow += Close;
         }
         public static void ShowWindow()
         {

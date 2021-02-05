@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Mime;
 using System.Text;
 using System.Windows;
@@ -7,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using MaterialDesignThemes.Wpf;
 using WorldYachts.Helpers;
+using WorldYachts.View;
 using WorldYachts.ViewModel.AccessoryControlViewModels;
 using WorldYachts.ViewModel.BoatManagementViewModels;
 using WorldYachts.ViewModel.CatalogControlViewModels;
@@ -21,7 +23,7 @@ namespace WorldYachts.ViewModel
         #region Поля
         private BaseViewModel _selectedViewModel = new DashboardViewModel();
         private DelegateCommand _updateViewCommand;
-        private MainWindow _mainWindowView = (MainWindow)Application.Current.MainWindow;
+        private DelegateCommand _logout;
         #endregion
 
         #region Свойства
@@ -83,6 +85,23 @@ namespace WorldYachts.ViewModel
                         default:
                             throw new ArgumentException("404");
                     }
+                });
+            }
+        }
+
+        public DelegateCommand Logout
+        {
+            get
+            {
+                return _logout ??= new DelegateCommand((arg) =>
+                {
+                    if (File.Exists("bin"))
+                    {
+                        File.Delete("bin");
+                    }
+                    var thisWindow = (Window)arg;
+                    LoginWindow.ShowWindow();
+                    thisWindow.Close();
                 });
             }
         }
