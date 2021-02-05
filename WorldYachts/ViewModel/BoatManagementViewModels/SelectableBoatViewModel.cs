@@ -9,6 +9,7 @@ using WorldYachts.Helpers.Commands;
 using WorldYachts.View.Editors;
 using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.AccessoryControlViewModels;
+using WorldYachts.ViewModel.CatalogControlViewModels;
 using WorldYachts.ViewModel.MessageDialog;
 
 namespace WorldYachts.ViewModel.BoatManagementViewModels
@@ -175,6 +176,8 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
 
         #endregion
 
+        public AsyncRelayCommand OpenViewCommand => new AsyncRelayCommand(OpenViewBoat, null);
+
         #region Методы
 
         public override string ToString()
@@ -210,6 +213,21 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
                 Title = "Подтверждение удаления",
                 Message = "Будет удалена следующая лодка:\n\n" + this
             };
+        }
+
+        private async Task OpenViewBoat(object parameter)
+        {
+            var view = new View.MessageDialogs.MessageDialog()
+            {
+                DataContext = new MessageDialogViewModel(new BoatViewModel(Item))
+            };
+
+            var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
+        }
+
+        private void ClosingEventHandler(object sender, DialogOpenedEventArgs eventargs)
+        {
+
         }
         #endregion
     }

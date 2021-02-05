@@ -5,10 +5,11 @@ using System.Text;
 using WorldYachts.Data;
 using WorldYachts.View.Editors;
 using WorldYachts.View.MessageDialogs;
+using WorldYachts.ViewModel.CatalogControlViewModels;
 
 namespace WorldYachts.ViewModel.AccessoryControlViewModels
 {
-    class SelectableAccessoryViewModel:BaseSelectableViewModel<Accessory>
+    public class SelectableAccessoryViewModel:BaseSelectableViewModel<Accessory>
     {
         #region Поля
 
@@ -132,8 +133,22 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
                 OnPropertyChanged(nameof(PartnerId));
             }
         }
-        
+
+        public decimal PriceInclVat => Price + (Convert.ToDecimal(Vat * 0.01) * Price);
         public override BaseEditorViewModel<Accessory> Editor => new AccessoryEditorViewModel();
+
+        public override bool IsSelected
+        {
+            get => _isSelected;
+
+            set
+            {
+                _isSelected = value;
+                BoatViewModel.OnAccessoryChanged.Invoke(this);
+                OnPropertyChanged(nameof(IsSelected));
+            }
+        }
+
         #endregion
 
         #region Методы

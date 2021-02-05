@@ -38,12 +38,14 @@ namespace WorldYachts.ViewModel
         /// <summary>
         /// Является ли предмет выбранным
         /// </summary>
-        public bool IsSelected
+        public virtual bool IsSelected
         {
             get => _isSelected;
             set
             {
                 _isSelected = value;
+                if (_isSelected)
+                    BaseManagementViewModel<TItem>.OnItemChanged?.Invoke();
                 OnPropertyChanged(nameof(IsSelected));
             }
         }

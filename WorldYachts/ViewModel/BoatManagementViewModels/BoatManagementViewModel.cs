@@ -12,12 +12,19 @@ using WorldYachts.Helpers.Commands;
 using WorldYachts.Model;
 using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BoatManagementViewModels;
+using WorldYachts.ViewModel.CatalogControlViewModels;
 using WorldYachts.ViewModel.MessageDialog;
 
 namespace WorldYachts.ViewModel.BoatManagementViewModels
 {
     class BoatManagementViewModel:BaseManagementViewModel<Boat>
     {
+        #region Поля
+
+        private AsyncRelayCommand _openViewCommand;
+
+        #endregion
+
         #region Конструкторы
 
         public BoatManagementViewModel()
@@ -31,9 +38,14 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
         public override BaseEditorViewModel<Boat> Editor => new BoatEditorViewModel();
 
         #endregion
-        
-        #region Методы
 
+        #region Команды
+
+      
+        #endregion
+
+        #region Методы
+        
         protected override ObservableCollection<BaseSelectableViewModel<Boat>> GetSelectableViewModels(IEnumerable<Boat> items)
         {
             var collection = new ObservableCollection<BaseSelectableViewModel<Boat>>();

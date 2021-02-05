@@ -79,6 +79,29 @@
             Grid.RowSpan="3"
             Grid.Column="1" />
         <!--  Товары  -->
+        <materialDesign:Card
+            Grid.Row="2"
+            Grid.Column="0"
+            Width="120"
+            Height="120"
+            Margin="0,0,0,100"
+            Padding="10"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            UniformCornerRadius="10"
+            Visibility="{Binding ProgressBarVisibility}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ProgressBar
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    IsIndeterminate="True"
+                    Style="{StaticResource MaterialDesignCircularProgressBar}"
+                    Visibility="{Binding ProgressBarVisibility}"
+                    Value="0" />
+                <TextBlock Text="Загружаем лодки..." />
+            </StackPanel>
+
+        </materialDesign:Card>
         <ScrollViewer
             Grid.Row="2"
             Grid.Column="0"
@@ -112,7 +135,10 @@
                                     Grid.Row="2"
                                     FontSize="16"
                                     Text="{Binding Item.BasePrice, StringFormat=Цена: \{0\} ₽}" />
-                                <Button Grid.Row="3" HorizontalAlignment="Right">
+                                <Button
+                                    Grid.Row="3"
+                                    HorizontalAlignment="Right"
+                                    Command="{Binding OpenViewCommand}">
                                     Подробнее
                                 </Button>
                             </Grid>

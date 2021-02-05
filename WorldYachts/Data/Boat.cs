@@ -8,8 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using MaterialDesignThemes.Wpf;
 using WorldYachts.Helpers.Commands;
 using WorldYachts.Model;
+using WorldYachts.View.MessageDialogs;
+using WorldYachts.ViewModel.CatalogControlViewModels;
 
 namespace WorldYachts.Data
 {
@@ -75,6 +78,14 @@ namespace WorldYachts.Data
         [ForeignKey("BoatId")]
         public List<AccessoryToBoat> AccessoryToBoat { get; set; }
 
+        
+        #region Команды
+
+        public AsyncRelayCommand DeleteAccessoryToBoat => new AsyncRelayCommand(RemoveATB,null);
+
+        #endregion
+
+        #region Методы
         public int CompareTo(object? obj)
         {
             return Compare(this, obj);
@@ -82,8 +93,8 @@ namespace WorldYachts.Data
 
         public int Compare(object? x, object? y)
         {
-            var boat1 = (Boat) x;
-            var boat2 = (Boat) y;
+            var boat1 = (Boat)x;
+            var boat2 = (Boat)y;
             if (String.Compare(boat1.Model, boat2.Model, CultureInfo.CurrentCulture, CompareOptions.IgnoreCase) > 0)
             {
                 return 1;
@@ -108,20 +119,6 @@ namespace WorldYachts.Data
             return -1;
         }
 
-        #region Команды
-
-        public AsyncRelayCommand DeleteAccessoryToBoat
-        {
-            get
-            {
-                return new AsyncRelayCommand(RemoveATB,null);
-            }
-        }
-
-        #endregion
-
-        #region Методы
-
         public async Task RemoveATB(object parameter)
         {
             //Получаем название аксессуара
@@ -131,7 +128,7 @@ namespace WorldYachts.Data
             
             await Task.Run(() => new AccessoryToBoatModel().RemoveAsync(atb));
         }
-
+        
         #endregion
     }
 }

@@ -331,6 +331,7 @@
                                         </StackPanel>
                                     </Button>
                                 </ListViewItem>
+                                <!--AccessoryManagement-->
                                 <ListViewItem
                                     x:Name="AccessoryManagement"
                                     Width="130"

@@ -15,7 +15,7 @@ using WorldYachts.ViewModel.MessageDialog;
 
 namespace WorldYachts.ViewModel
 {
-    abstract class BaseManagementViewModel<TItem> : BaseViewModel
+    public abstract class BaseManagementViewModel<TItem> : BaseViewModel
     {
         #region Поля
 
@@ -278,7 +278,7 @@ namespace WorldYachts.ViewModel
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="eventArgs"></param>
-        private void ClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        protected void ClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
         {
             GetItemsCollection.Execute(null);
             OnPropertyChanged(nameof(FilteredCollection));

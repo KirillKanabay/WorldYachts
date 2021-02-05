@@ -15,14 +15,14 @@ namespace WorldYachts.Helpers
     }
     class ColorWorker
     {
-        public static Dictionary<string, Color> ColorsDictionary = new Dictionary<string, Color>()
+        public static Dictionary<string, Color> ColorsDictionary => new Dictionary<string, Color>()
         {
-            {"Коричневый", GetColorFromString("#8C6354")},
-            {"Белый", GetColorFromString("#FFFFFF")},
-            {"Черный", GetColorFromString("#2A2A2A")},
-            {"Зеленый", GetColorFromString("#4CAF50")},
-            {"Красный", GetColorFromString("#F44336")},
-            {"Синий", GetColorFromString("#2196F3")},
+            {"Коричневый", GetColorFromHex("#8C6354")},
+            {"Белый", GetColorFromHex("#FFFFFF")},
+            {"Черный", GetColorFromHex("#2A2A2A")},
+            {"Зеленый", GetColorFromHex("#4CAF50")},
+            {"Красный", GetColorFromHex("#F44336")},
+            {"Синий", GetColorFromHex("#2196F3")},
         };
         
         /// <summary>
@@ -42,7 +42,18 @@ namespace WorldYachts.Helpers
         /// <returns></returns>
         public static Color GetColorFromString(string color)
         {
-            return (Color)ColorConverter.ConvertFromString(color);
+            if (ColorsDictionary.Keys.Any(c => c == color))
+            {
+                return ColorsDictionary[color];
+            }
+            return GetColorFromHex(color);
+        }
+
+        public static Color GetColorFromHex(string hex)
+        {
+            if(!IsHexColor(hex))
+                throw new ArgumentException("Неверный формат цвета.");
+            return (Color)ColorConverter.ConvertFromString(hex);
         }
         /// <summary>
         /// Проверка строки на цвет

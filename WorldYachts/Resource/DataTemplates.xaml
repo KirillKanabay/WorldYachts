@@ -35,6 +35,9 @@
             <DataTemplate DataType="{x:Type vmcatalog:CatalogControlViewModel}">
                 <vcatalog:CatalogControlView />
             </DataTemplate>
+            <DataTemplate DataType="{x:Type vmcatalog:BoatViewModel}">
+                <boatControlViews:BoatView />
+            </DataTemplate>
         </ResourceDictionary>
         <!--  BoatManagement  -->
         <ResourceDictionary>
