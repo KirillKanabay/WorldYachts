@@ -47,18 +47,10 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
             <RowDefinition Height="30" />
-            <RowDefinition Height="30" />
-            <RowDefinition Height="30" />
-            <RowDefinition Height="30" />
-            <RowDefinition Height="30" />
-            <RowDefinition Height="30" />
-            <RowDefinition Height="30" />
-            <RowDefinition />
-            <RowDefinition Height="30" />
-            <RowDefinition Height="30" />
-            <RowDefinition Height="30" />
-            <RowDefinition Height="30" />
-            <RowDefinition Height="30" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <!--  Закрытие  -->
@@ -78,94 +70,187 @@
         <!--  Название лодки  -->
         <TextBlock
             Grid.Row="1"
-            FontSize="16"
+            FontSize="18"
             FontWeight="Bold"
             Text="{Binding Model}" />
-        <!--  Характеристики  -->
-        <TextBlock Grid.Row="2" Text="Характеристики:" />
-        <!--  Тип  -->
-        <TextBlock Grid.Row="3" Text="{Binding Type, StringFormat=Тип: \{0\}}" />
-        <!--  Тип дерева  -->
-        <TextBlock Grid.Row="4" Text="{Binding Wood, StringFormat=Тип\ дерева: \{0\}}" />
-        <!--  Наличие мачты  -->
-        <TextBlock Grid.Row="5" Text="{Binding Mast, StringFormat=Наличие\ мачты: \{0\}}" />
-        <!--  Цвет  -->
-        <StackPanel Grid.Row="6" Orientation="Horizontal">
-            <TextBlock VerticalAlignment="Center" Text="Цвет: " />
-            <materialDesign:PackIcon
-                Width="25"
-                Height="25"
-                Foreground="{Binding Color}"
-                Kind="Circle" />
-        </StackPanel>
-        <!--  Количество гребцов  -->
-        <TextBlock Grid.Row="7" Text="{Binding NumberOfRowers, StringFormat=Количество\ гребцов: \{0\}}" />
+        <Border
+            Grid.Row="2"
+            Grid.Column="0"
+            Height="auto"
+            Margin="0,5"
+            Padding="5,8"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            BorderBrush="#BABABA"
+            BorderThickness="1,1,1,1"
+            CornerRadius="3">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    Grid.Row="0"
+                    FontSize="14"
+                    FontWeight="Medium">
+                    Характеристики:
+                </TextBlock>
+                <!--  Тип  -->
+                <TextBlock Grid.Row="1" Text="{Binding Type, StringFormat=Тип: \{0\}}" />
+                <!--  Тип дерева  -->
+                <TextBlock Grid.Row="2" Text="{Binding Wood, StringFormat=Тип\ дерева: \{0\}}" />
+                <!--  Наличие мачты  -->
+                <TextBlock Grid.Row="3" Text="{Binding Mast, StringFormat=Наличие\ мачты: \{0\}}" />
+                <!--  Цвет  -->
+                <StackPanel Grid.Row="4" Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Цвет: " />
+                    <materialDesign:PackIcon
+                        Width="25"
+                        Height="25"
+                        Foreground="{Binding Color}"
+                        Kind="Circle" />
+                </StackPanel>
+                <!--  Количество гребцов  -->
+                <TextBlock Grid.Row="5" Text="{Binding NumberOfRowers, StringFormat=Количество\ гребцов: \{0\}}" />
+            </Grid>
+        </Border>
         <!--  Аксессуары  -->
-        <ItemsControl Grid.Row="8" ItemsSource="{Binding Accessories}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <materialDesign:Chip
-                        Margin="0,0,4,4"
-                        DeleteCommand="{Binding DeleteAccessoryToBoat}"
-                        DeleteCommandParameter="{Binding ElementName=ExpanderData}"
-                        ToolTip="{Binding Info}">
-                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                            <ToggleButton
-                                Width="18"
-                                Height="18"
-                                Background="#2196F3"
-                                IsChecked="{Binding IsSelected}"
-                                Style="{StaticResource MaterialDesignActionAccentToggleButton}">
-                                <ToggleButton.Content>
-                                    <materialDesign:PackIcon
-                                        Width="16"
-                                        Height="16"
-                                        Kind="Plus" />
-                                </ToggleButton.Content>
-                                <materialDesign:ToggleButtonAssist.OnContent>
-                                    <materialDesign:PackIcon
-                                        Width="16"
-                                        Height="16"
-                                        Kind="Check" />
-                                </materialDesign:ToggleButtonAssist.OnContent>
-                            </ToggleButton>
-                            <TextBlock
-                                Margin="7,1,0,0"
-                                HorizontalAlignment="Center"
-                                Text="{Binding Item.Name}" />
-                            <TextBlock
-                                Margin="2,1,0,0"
-                                HorizontalAlignment="Center"
-                                Text="{Binding PriceInclVat, StringFormat=| Цена: \{0:F2\}₽}" />
-                        </StackPanel>
-                    </materialDesign:Chip>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-        </ItemsControl>
-        <!--  Цена без НДС  -->
-        <Separator Grid.Row="9" />
-        <StackPanel Grid.Row="10" Orientation="Horizontal">
-            <TextBlock Margin="0,0,20,0" Text="{Binding Price, StringFormat=Цена\ лодки\ без\ НДС: \{0:F2\} ₽}" />
-            <TextBlock Text="{Binding Vat, StringFormat=НДС: \{0\}%}" />
-        </StackPanel>
-        <!--  Цена  -->
-        <TextBlock Grid.Row="11" Text="{Binding PriceInclVat, StringFormat=Цена\ лодки: \{0:F2\}₽}" />
-        <!--  Цена аксесcуаров  -->
-        <TextBlock Grid.Row="12" Text="{Binding AccessoriesPrice, StringFormat=Надбавка\ к\ стоимости\ за\ аксессуары: \{0:F2\}₽}" />
+        <Border
+            Grid.Row="3"
+            Grid.Column="0"
+            Height="auto"
+            Margin="0,5"
+            Padding="5,8"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            BorderBrush="#BABABA"
+            BorderThickness="1,1,1,1"
+            CornerRadius="3">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    Grid.Row="0"
+                    FontSize="14"
+                    FontWeight="Medium">
+                    Установка аксессуаров:
+                </TextBlock>
+                <!--  Аксессуары  -->
+                <ItemsControl Grid.Row="1" ItemsSource="{Binding Accessories}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <materialDesign:Chip
+                                Margin="0,0,4,4"
+                                DeleteCommand="{Binding DeleteAccessoryToBoat}"
+                                DeleteCommandParameter="{Binding ElementName=ExpanderData}"
+                                ToolTip="{Binding Info}">
+                                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                    <ToggleButton
+                                        Width="18"
+                                        Height="18"
+                                        Background="#2196F3"
+                                        IsChecked="{Binding IsSelected}"
+                                        Style="{StaticResource MaterialDesignActionAccentToggleButton}">
+                                        <ToggleButton.Content>
+                                            <materialDesign:PackIcon
+                                                Width="16"
+                                                Height="16"
+                                                Kind="Plus" />
+                                        </ToggleButton.Content>
+                                        <materialDesign:ToggleButtonAssist.OnContent>
+                                            <materialDesign:PackIcon
+                                                Width="16"
+                                                Height="16"
+                                                Kind="Check" />
+                                        </materialDesign:ToggleButtonAssist.OnContent>
+                                    </ToggleButton>
+                                    <TextBlock
+                                        Margin="7,1,0,0"
+                                        HorizontalAlignment="Center"
+                                        Text="{Binding Item.Name}" />
+                                    <TextBlock
+                                        Margin="2,1,0,0"
+                                        HorizontalAlignment="Center"
+                                        Text="{Binding PriceInclVat, StringFormat=| Цена: \{0:F2\}₽}" />
+                                </StackPanel>
+                            </materialDesign:Chip>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </Grid>
+        </Border>
+        <Border
+            Grid.Row="4"
+            Grid.Column="0"
+            Height="auto"
+            Margin="0,5"
+            Padding="5,8"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            BorderBrush="#BABABA"
+            BorderThickness="1,1,1,1"
+            CornerRadius="3">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    Grid.Row="0"
+                    FontSize="14"
+                    FontWeight="Medium">
+                    Расчет стоимости:
+                </TextBlock>
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <TextBlock Margin="0,0,20,0" Text="{Binding Price, StringFormat=Цена\ лодки\ без\ НДС: \{0:F2\} ₽}" />
+                    <TextBlock Text="{Binding Vat, StringFormat=НДС: \{0\}%}" />
+                </StackPanel>
+                <!--  Цена  -->
+                <TextBlock Grid.Row="2" Text="{Binding PriceInclVat, StringFormat=Цена\ лодки: \{0:F2\}₽}" />
+                <!--  Цена аксесcуаров  -->
+                <TextBlock Grid.Row="3" Text="{Binding AccessoriesPrice, StringFormat=Надбавка\ к\ стоимости\ за\ аксессуары: \{0:F2\}₽}" />
+            </Grid>
+        </Border>
+        <Border
+            Grid.Row="5"
+            Grid.Column="0"
+            Height="auto"
+            Margin="0,5"
+            Padding="5,8"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            BorderBrush="#BABABA"
+            BorderThickness="1,1,1,1"
+            CornerRadius="3">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30" />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    Grid.Row="0"
+                    FontSize="16"
+                    FontWeight="Medium"
+                    Text="{Binding FinishPrice, StringFormat=Итого: \{0:F2\}₽}" />
+            </Grid>
+        </Border>
         <!--  Итого  -->
-        <TextBlock
-            Grid.Row="13"
-            FontSize="16"
-            FontWeight="Medium"
-            Text="{Binding FinishPrice, StringFormat=Итого: \{0:F2\}₽}" />
+
         <!--  Заказать  -->
         <Button
-            Grid.Row="14"
+            Grid.Row="6"
             Width="200"
             HorizontalAlignment="Right">
             Заказать
