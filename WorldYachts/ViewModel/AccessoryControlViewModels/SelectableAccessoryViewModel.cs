@@ -149,6 +149,8 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             }
         }
 
+        public string Info => ToString();
+
         #endregion
 
         #region Методы
