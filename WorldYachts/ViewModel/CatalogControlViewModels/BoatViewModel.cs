@@ -10,6 +10,7 @@ using WorldYachts.Data;
 using WorldYachts.Helpers;
 using WorldYachts.Model;
 using WorldYachts.ViewModel.AccessoryControlViewModels;
+using WorldYachts.ViewModel.BaseViewModels;
 
 namespace WorldYachts.ViewModel.CatalogControlViewModels
 {

@@ -6,6 +6,7 @@ using System.Text;
 using WorldYachts.Data;
 using WorldYachts.Helpers;
 using WorldYachts.Model;
+using WorldYachts.ViewModel.BaseViewModels;
 using WorldYachts.ViewModel.BoatManagementViewModels;
 
 namespace WorldYachts.ViewModel.CatalogControlViewModels

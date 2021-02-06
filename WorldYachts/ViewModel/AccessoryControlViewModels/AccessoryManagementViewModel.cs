@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using WorldYachts.Data;
 using WorldYachts.Model;
+using WorldYachts.ViewModel.BaseViewModels;
 
 namespace WorldYachts.ViewModel.AccessoryControlViewModels
 {

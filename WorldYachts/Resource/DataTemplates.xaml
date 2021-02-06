@@ -10,13 +10,12 @@
     xmlns:vmaccessory="clr-namespace:WorldYachts.ViewModel.AccessoryControlViewModels"
     xmlns:vmboat="clr-namespace:WorldYachts.ViewModel.BoatManagementViewModels"
     xmlns:vmcatalog="clr-namespace:WorldYachts.ViewModel.CatalogControlViewModels"
-    xmlns:vmcm="clr-namespace:WorldYachts.ViewModel.BoatManagementViewModels">
+    xmlns:vmcm="clr-namespace:WorldYachts.ViewModel.BoatManagementViewModels"
+    xmlns:dashboardControlViewModels="clr-namespace:WorldYachts.ViewModel.DashboardControlViewModels"
+    xmlns:dashboardControlViews="clr-namespace:WorldYachts.View.DashboardControlViews">
     <ResourceDictionary.MergedDictionaries>
         <!--  Основные UC  -->
         <ResourceDictionary>
-            <DataTemplate DataType="{x:Type vm:DashboardViewModel}">
-                <v:DashboardView />
-            </DataTemplate>
             <DataTemplate DataType="{x:Type vm:OrdersViewModel}">
                 <v:OrdersView />
             </DataTemplate>
@@ -28,6 +27,12 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type vm:AboutProgramViewModel}">
                 <v:AboutProgramView />
+            </DataTemplate>
+        </ResourceDictionary>
+        <!-- Dashboard -->
+        <ResourceDictionary>
+            <DataTemplate DataType="{x:Type dashboardControlViewModels:DashboardViewModel}">
+                <dashboardControlViews:DashboardView />
             </DataTemplate>
         </ResourceDictionary>
         <!--  Catalog  -->

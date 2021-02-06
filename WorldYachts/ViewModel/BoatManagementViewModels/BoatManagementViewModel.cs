@@ -11,6 +11,7 @@ using WorldYachts.Helpers;
 using WorldYachts.Helpers.Commands;
 using WorldYachts.Model;
 using WorldYachts.View.MessageDialogs;
+using WorldYachts.ViewModel.BaseViewModels;
 using WorldYachts.ViewModel.BoatManagementViewModels;
 using WorldYachts.ViewModel.CatalogControlViewModels;
 using WorldYachts.ViewModel.MessageDialog;

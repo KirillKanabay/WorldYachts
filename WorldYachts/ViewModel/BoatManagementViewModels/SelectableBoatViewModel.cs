@@ -9,6 +9,7 @@ using WorldYachts.Helpers.Commands;
 using WorldYachts.View.Editors;
 using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.AccessoryControlViewModels;
+using WorldYachts.ViewModel.BaseViewModels;
 using WorldYachts.ViewModel.CatalogControlViewModels;
 using WorldYachts.ViewModel.MessageDialog;
 

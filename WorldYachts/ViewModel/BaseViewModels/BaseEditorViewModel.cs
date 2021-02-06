@@ -9,7 +9,7 @@ using WorldYachts.Model;
 using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.MessageDialog;
 
-namespace WorldYachts.ViewModel
+namespace WorldYachts.ViewModel.BaseViewModels
 {
     public abstract class BaseEditorViewModel<TItem> : BaseViewModel
     {

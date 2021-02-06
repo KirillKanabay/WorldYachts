@@ -34,6 +34,8 @@ namespace WorldYachts.Data
                     AuthUser.User = null;
                     throw new Exception("Неверный логин или пароль");
                 }
+
+                AuthUser.TypeOfUser = (TypeOfUser)user.TypeUser;
                 switch (user.TypeUser)
                 {
                         case (int)TypeOfUser.Customer:

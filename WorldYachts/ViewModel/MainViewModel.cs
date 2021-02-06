@@ -10,8 +10,10 @@ using MaterialDesignThemes.Wpf;
 using WorldYachts.Helpers;
 using WorldYachts.View;
 using WorldYachts.ViewModel.AccessoryControlViewModels;
+using WorldYachts.ViewModel.BaseViewModels;
 using WorldYachts.ViewModel.BoatManagementViewModels;
 using WorldYachts.ViewModel.CatalogControlViewModels;
+using WorldYachts.ViewModel.DashboardControlViewModels;
 
 namespace WorldYachts.ViewModel
 {

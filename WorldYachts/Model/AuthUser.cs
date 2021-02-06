@@ -20,5 +20,6 @@ namespace WorldYachts.Model
     static class AuthUser
     {
         public static IUser User;
+        public static TypeOfUser TypeOfUser;
     }
 }

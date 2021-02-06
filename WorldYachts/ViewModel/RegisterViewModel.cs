@@ -15,6 +15,7 @@ using WorldYachts.Helpers.Commands;
 using WorldYachts.Validators;
 using WorldYachts.View;
 using WorldYachts.View.MessageDialogs;
+using WorldYachts.ViewModel.BaseViewModels;
 using WorldYachts.ViewModel.MessageDialog;
 using IDataErrorInfo = System.ComponentModel.IDataErrorInfo;
 using Validation = WorldYachts.Validators.Validation;

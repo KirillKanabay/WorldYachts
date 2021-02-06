@@ -5,6 +5,7 @@ using System.Text;
 using WorldYachts.Data;
 using WorldYachts.View.Editors;
 using WorldYachts.View.MessageDialogs;
+using WorldYachts.ViewModel.BaseViewModels;
 using WorldYachts.ViewModel.CatalogControlViewModels;
 
 namespace WorldYachts.ViewModel.AccessoryControlViewModels

@@ -7,7 +7,7 @@ using WorldYachts.Helpers.Commands;
 using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.MessageDialog;
 
-namespace WorldYachts.ViewModel
+namespace WorldYachts.ViewModel.BaseViewModels
 {
     public abstract class BaseSelectableViewModel<TItem> : BaseViewModel
     {

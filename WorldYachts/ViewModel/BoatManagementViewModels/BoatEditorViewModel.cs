@@ -11,6 +11,7 @@ using WorldYachts.Helpers.Commands;
 using WorldYachts.Model;
 using WorldYachts.Validators;
 using WorldYachts.View.MessageDialogs;
+using WorldYachts.ViewModel.BaseViewModels;
 using WorldYachts.ViewModel.MessageDialog;
 using Validation = WorldYachts.Validators.Validation;
 

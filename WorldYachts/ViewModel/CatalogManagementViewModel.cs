@@ -4,6 +4,7 @@ using System.Text;
 using MaterialDesignThemes.Wpf;
 using WorldYachts.Helpers;
 using WorldYachts.View.MessageDialogs;
+using WorldYachts.ViewModel.BaseViewModels;
 using WorldYachts.ViewModel.BoatManagementViewModels;
 using WorldYachts.ViewModel.MessageDialog;
 

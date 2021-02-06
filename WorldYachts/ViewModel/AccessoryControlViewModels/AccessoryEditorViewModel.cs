@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using WorldYachts.Data;
 using WorldYachts.Model;
 using WorldYachts.Validators;
+using WorldYachts.ViewModel.BaseViewModels;
 
 namespace WorldYachts.ViewModel.AccessoryControlViewModels
 {

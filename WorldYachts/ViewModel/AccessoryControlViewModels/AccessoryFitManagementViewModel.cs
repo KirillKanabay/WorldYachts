@@ -6,6 +6,7 @@ using System.Text;
 using WorldYachts.Data;
 using WorldYachts.Model;
 using WorldYachts.View.AccessoryControlViews;
+using WorldYachts.ViewModel.BaseViewModels;
 
 namespace WorldYachts.ViewModel.AccessoryControlViewModels
 {

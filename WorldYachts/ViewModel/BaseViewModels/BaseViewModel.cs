@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using WorldYachts.Annotations;
 
-namespace WorldYachts.ViewModel
+namespace WorldYachts.ViewModel.BaseViewModels
 {
     public class BaseViewModel:INotifyPropertyChanged
     {

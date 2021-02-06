@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using WorldYachts.Data;
 using WorldYachts.Model;
+using WorldYachts.ViewModel.BaseViewModels;
 
 
 namespace WorldYachts.ViewModel.AccessoryControlViewModels

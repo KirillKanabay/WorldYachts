@@ -11,6 +11,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WorldYachts.ViewModel;
+using WorldYachts.ViewModel.BaseViewModels;
 
 namespace WorldYachts.View.Editors
 {
