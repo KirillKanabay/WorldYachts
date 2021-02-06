@@ -10,12 +10,14 @@ namespace WorldYachts.Model
 {
     class OrderModel:IDataModel<Order>
     {
+        public Order LastAdded { get; set; }
         public async Task AddAsync(Order item)
         {
             await IsRepeated(item);
             await using (var context = WorldYachtsContext.GetDataContext())
             {
                 await context.Orders.AddAsync(item);
+                LastAdded = item;
                 await context.SaveChangesAsync();
             }
         }

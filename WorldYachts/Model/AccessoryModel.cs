@@ -10,6 +10,8 @@ namespace WorldYachts.Model
 {
     class AccessoryModel:IDataModel<Accessory>
     {
+        public Accessory LastAdded { get; set; }
+
         public async Task AddAsync(Accessory item)
         {
             await IsRepeated(item);
@@ -17,6 +19,7 @@ namespace WorldYachts.Model
             {
                 await context.Accessories.AddAsync(item);
                 await context.SaveChangesAsync();
+                LastAdded = item;
             }
         }
 

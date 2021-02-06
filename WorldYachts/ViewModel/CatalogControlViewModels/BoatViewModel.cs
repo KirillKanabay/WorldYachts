@@ -40,6 +40,8 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
         private AsyncRelayCommand _addOrder;
 
         public static Action<object> OnAccessoryChanged;
+
+        private OrderModel _orderModel;
         #endregion
 
         #region Конструкторы
@@ -56,6 +58,8 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
             _accessoryToBoats = boat.AccessoryToBoat;
             _price = boat.BasePrice;
             _vat = boat.Vat;
+
+            _orderModel = new OrderModel();
 
             OnAccessoryChanged += (arg) =>
             {
@@ -190,7 +194,7 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
         }
 
         public override bool SaveButtonIsEnabled => !ErrorDictionary.Any();
-        public override IDataModel<Order> ModelItem => new OrderModel();
+        public override IDataModel<Order> ModelItem => _orderModel;
         protected override Order GetSaveItem(bool isEdit)
         {
             return new Order()
@@ -218,8 +222,14 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
             var item = GetSaveItem(false);
             try
             {
-                await Task.Run((() => ModelItem.AddAsync(item)));
-                
+                await Task.Run((() => ((OrderModel)ModelItem).AddAsync(item)));
+                int orderId = ((OrderModel)ModelItem).LastAdded.Id;
+                var selectedAccessories = Accessories.Where(a => a.IsSelected);
+                foreach (var accessory in selectedAccessories)
+                {
+                    await Task.Run((() => new OrderDetailsModel().AddAsync(new OrderDetails()
+                        {AccessoryId = accessory.Id, OrderId = orderId})));
+                }
             }
             finally
             {

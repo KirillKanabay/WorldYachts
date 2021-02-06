@@ -10,6 +10,8 @@ namespace WorldYachts.Model
 {
     class PartnerModel : IDataModel<Partner>
     {
+        public Partner LastAdded { get; set; }
+
         /// <summary>
         /// Асинхронный метод добавления партнера в БД
         /// </summary>
@@ -22,6 +24,8 @@ namespace WorldYachts.Model
             {
                 await context.Partners.AddAsync(partner);
                 await context.SaveChangesAsync();
+
+                LastAdded = partner;
             }
         }
         /// <summary>
