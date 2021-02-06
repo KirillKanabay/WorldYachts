@@ -18,10 +18,14 @@ namespace WorldYachts
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static Action<string> SendSnackbarAction;
+        public static Func<MainWindow> GetMainWindow;
         public MainWindow()
         {
             InitializeComponent();
 
+            SendSnackbarAction += SendSnackbar;
+            GetMainWindow += () => this;
             HeaderPanel.MouseDown += (s,e)=>
             {
                 if (WindowState == WindowState.Maximized)

@@ -24,8 +24,6 @@
 
   <ItemGroup>
     <Folder Include="Fonts\" />
-    <Folder Include="ViewModel\OrderControlViewModels\" />
-    <Folder Include="View\OrderControlViews\" />
   </ItemGroup>
 
   <ItemGroup>

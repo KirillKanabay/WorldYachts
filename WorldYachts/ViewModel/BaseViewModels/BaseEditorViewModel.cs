@@ -106,11 +106,10 @@ namespace WorldYachts.ViewModel.BaseViewModels
                 ProgressBarVisibility = Visibility.Collapsed;
             }
 
-            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            MainWindow.SendSnackbarAction?.Invoke(GetSaveSnackbarMessage(_isEdit));
             
-            mainWindow.SendSnackbar(GetSaveSnackbarMessage(_isEdit));
             //Закрываем диалог редактирования партнера
-            mainWindow.DialogHost.CurrentSession.Close();
+            MainWindow.GetMainWindow?.Invoke().DialogHost.CurrentSession.Close();
         }
 
         /// <summary>

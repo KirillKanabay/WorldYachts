@@ -7,7 +7,7 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:WorldYachts.ViewModel.CatalogControlViewModels"
-    Width="600"
+    Width="Auto"
     d:DesignHeight="450"
     Background="#FAFAFA"
     FontFamily="Google Sans"
@@ -40,6 +40,7 @@
                         </Style.Triggers>
                     </Style>
                 </ResourceDictionary>
+                <ResourceDictionary Source="../../Style/TextBoxStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -50,12 +51,16 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="350" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
         <!--  Закрытие  -->
         <Button
             Grid.Row="0"
+            Grid.Column="1"
             Margin="0,0,0,0"
             Padding="0"
             HorizontalAlignment="Right"
@@ -77,10 +82,10 @@
             Grid.Row="2"
             Grid.Column="0"
             Height="auto"
-            Margin="0,5"
+            Margin="5,5"
             Padding="5,8"
             HorizontalAlignment="Stretch"
-            VerticalAlignment="Center"
+            VerticalAlignment="Stretch"
             BorderBrush="#BABABA"
             BorderThickness="1,1,1,1"
             CornerRadius="3">
@@ -123,10 +128,10 @@
             Grid.Row="3"
             Grid.Column="0"
             Height="auto"
-            Margin="0,5"
+            Margin="5,5"
             Padding="5,8"
             HorizontalAlignment="Stretch"
-            VerticalAlignment="Center"
+            VerticalAlignment="Stretch"
             BorderBrush="#BABABA"
             BorderThickness="1,1,1,1"
             CornerRadius="3">
@@ -190,14 +195,15 @@
                 </ItemsControl>
             </Grid>
         </Border>
+        <!--  Расчет стоимости  -->
         <Border
-            Grid.Row="4"
-            Grid.Column="0"
+            Grid.Row="2"
+            Grid.Column="1"
             Height="auto"
-            Margin="0,5"
+            Margin="5,5"
             Padding="5,8"
             HorizontalAlignment="Stretch"
-            VerticalAlignment="Center"
+            VerticalAlignment="Stretch"
             BorderBrush="#BABABA"
             BorderThickness="1,1,1,1"
             CornerRadius="3">
@@ -224,11 +230,74 @@
                 <TextBlock Grid.Row="3" Text="{Binding AccessoriesPrice, StringFormat=Надбавка\ к\ стоимости\ за\ аксессуары: \{0:F2\}₽}" />
             </Grid>
         </Border>
+        <!--  Доставка  -->
+        <Border
+            Grid.Row="3"
+            Grid.Column="1"
+            Height="auto"
+            Margin="5,5"
+            Padding="5,8"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            BorderBrush="#BABABA"
+            BorderThickness="1,1,1,1"
+            CornerRadius="3">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    Grid.Row="0"
+                    FontSize="16"
+                    FontWeight="Medium"
+                    Text="Доставка" />
+                <TextBox
+                    Grid.Row="1"
+                    Margin="0,0,0,15"
+                    Style="{StaticResource InputTextBox}">
+                    <materialDesign:HintAssist.Hint>
+                        <TextBlock>Город доставки</TextBlock>
+                    </materialDesign:HintAssist.Hint>
+                    <TextBox.Text>
+                        <Binding
+                            Mode="TwoWay"
+                            Path="DeliveryCity"
+                            UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <DataErrorValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <TextBox
+                    Grid.Row="2"
+                    Margin="0,8,0,15"
+                    Style="{StaticResource InputTextBox}">
+                    <materialDesign:HintAssist.Hint>
+                        <TextBlock>Адрес доставки</TextBlock>
+                    </materialDesign:HintAssist.Hint>
+                    <TextBox.Text>
+                        <Binding
+                            Mode="TwoWay"
+                            Path="DeliveryAddress"
+                            UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <DataErrorValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </Grid>
+        </Border>
+        <!--  Заказать  -->
         <Border
             Grid.Row="5"
             Grid.Column="0"
+            Grid.ColumnSpan="2"
             Height="auto"
-            Margin="0,5"
+            Margin="5,5"
             Padding="5,8"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
@@ -241,19 +310,19 @@
                 </Grid.RowDefinitions>
                 <TextBlock
                     Grid.Row="0"
+                    VerticalAlignment="Center"
                     FontSize="16"
                     FontWeight="Medium"
                     Text="{Binding FinishPrice, StringFormat=Итого: \{0:F2\}₽}" />
+                <Button
+                    Width="200"
+                    HorizontalAlignment="Right"
+                    Command="{Binding SaveItem}"
+                    IsEnabled="{Binding SaveButtonIsEnabled}">
+                    Заказать
+                </Button>
             </Grid>
         </Border>
-        <!--  Итого  -->
 
-        <!--  Заказать  -->
-        <Button
-            Grid.Row="6"
-            Width="200"
-            HorizontalAlignment="Right">
-            Заказать
-        </Button>
     </Grid>
 </UserControl>

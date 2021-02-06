@@ -1,23 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Configuration;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
 using WorldYachts.Data;
 using WorldYachts.Helpers;
+using WorldYachts.Helpers.Commands;
 using WorldYachts.Model;
+using WorldYachts.Validators;
 using WorldYachts.ViewModel.AccessoryControlViewModels;
 using WorldYachts.ViewModel.BaseViewModels;
 
 namespace WorldYachts.ViewModel.CatalogControlViewModels
 {
-    public class BoatViewModel:BaseViewModel
+    public class BoatViewModel:BaseEditorViewModel<Order>,IDataErrorInfo
     {
         #region Поля
 
+        private int _id;
         private string _model;
         private string _type;
         private string _wood;
@@ -28,14 +34,19 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
         private ObservableCollection<SelectableAccessoryViewModel> _accessories;
         private decimal _price;
         private double _vat;
+        private string _deliveryAddress;
+        private string _deliveryCity;
+
+        private AsyncRelayCommand _addOrder;
 
         public static Action<object> OnAccessoryChanged;
         #endregion
 
         #region Конструкторы
 
-        public BoatViewModel(Boat boat)
+        public BoatViewModel(Boat boat):base(false)
         {
+            _id = boat.Id;
             _model = boat.Model;
             _type = boat.Type;
             _wood = boat.Wood;
@@ -157,6 +168,98 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
         public decimal AccessoriesPrice => Accessories.Sum(a => a.IsSelected ? a.PriceInclVat : 0);
 
         public decimal FinishPrice => PriceInclVat + AccessoriesPrice;
+
+        public string DeliveryAddress
+        {
+            get => _deliveryAddress;
+            set
+            {
+                _deliveryAddress = value;
+                OnPropertyChanged(nameof(DeliveryAddress));
+            }
+        }
+
+        public string DeliveryCity
+        {
+            get => _deliveryCity;
+            set
+            {
+                _deliveryCity = value;
+                OnPropertyChanged(nameof(DeliveryCity));
+            }
+        }
+
+        public override bool SaveButtonIsEnabled => !ErrorDictionary.Any();
+        public override IDataModel<Order> ModelItem => new OrderModel();
+        protected override Order GetSaveItem(bool isEdit)
+        {
+            return new Order()
+            {
+                Id = default,
+                CustomerId = ((Customer) AuthUser.User).Id,
+                SalesPersonId = 1,
+                Date = DateTime.Now,
+                BoatId = _id,
+                DeliveryAddress = DeliveryAddress,
+                City = DeliveryCity
+            };
+        }
+
+        protected override string GetSaveSnackbarMessage(bool _isEdit)
+        {
+            return _isEdit
+                ? $"Заказ успешно отредактирован."
+                : $"Заказ успешно добавлен.";
+        }
+
+        protected override async Task SaveMethod(object parameter)
+        {
+            ProgressBarVisibility = Visibility.Visible;
+            var item = GetSaveItem(false);
+            try
+            {
+                await Task.Run((() => ModelItem.AddAsync(item)));
+                
+            }
+            finally
+            {
+                ProgressBarVisibility = Visibility.Collapsed;
+            }
+
+            MainWindow.SendSnackbarAction?.Invoke(GetSaveSnackbarMessage(false));
+
+            //Закрываем диалог редактирования партнера
+            MainWindow.GetMainWindow?.Invoke().DialogHost.CurrentSession.Close();
+        }
+
+        #endregion
+        
+        #region Валидация полей
+
+        public string Error { get; }
+
+        private Dictionary<string, string> ErrorDictionary = new Dictionary<string, string>();
+        public string this[string columnName]
+        {
+            get
+            {
+                string error = String.Empty;
+                switch (columnName)
+                {
+                    case "DeliveryCity":
+                        new Validation(new NotEmptyFieldValidationRule(DeliveryCity)).Validate(ref error);
+                        break;
+                    case "DeliveryAddress":
+                        new Validation(new NotEmptyFieldValidationRule(DeliveryAddress)).Validate(ref error);
+                        break;
+                }
+                ErrorDictionary.Remove(columnName);
+                if (error != String.Empty)
+                    ErrorDictionary.Add(columnName, error);
+                OnPropertyChanged(nameof(SaveButtonIsEnabled));
+                return error;
+            }
+        }
 
         #endregion
     }

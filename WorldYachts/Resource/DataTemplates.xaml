@@ -2,6 +2,10 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:boatControlViews="clr-namespace:WorldYachts.View.BoatControlViews"
+    xmlns:dashboardControlViewModels="clr-namespace:WorldYachts.ViewModel.DashboardControlViewModels"
+    xmlns:dashboardControlViews="clr-namespace:WorldYachts.View.DashboardControlViews"
+    xmlns:orderControlViewModels="clr-namespace:WorldYachts.ViewModel.OrderControlViewModels"
+    xmlns:orderControlViews="clr-namespace:WorldYachts.View.OrderControlViews"
     xmlns:v="clr-namespace:WorldYachts.View"
     xmlns:vaccessory="clr-namespace:WorldYachts.View.AccessoryControlViews"
     xmlns:vcatalog="clr-namespace:WorldYachts.View.CatalogControlViews"
@@ -9,10 +13,7 @@
     xmlns:vm="clr-namespace:WorldYachts.ViewModel"
     xmlns:vmaccessory="clr-namespace:WorldYachts.ViewModel.AccessoryControlViewModels"
     xmlns:vmboat="clr-namespace:WorldYachts.ViewModel.BoatManagementViewModels"
-    xmlns:vmcatalog="clr-namespace:WorldYachts.ViewModel.CatalogControlViewModels"
-    xmlns:vmcm="clr-namespace:WorldYachts.ViewModel.BoatManagementViewModels"
-    xmlns:dashboardControlViewModels="clr-namespace:WorldYachts.ViewModel.DashboardControlViewModels"
-    xmlns:dashboardControlViews="clr-namespace:WorldYachts.View.DashboardControlViews">
+    xmlns:vmcatalog="clr-namespace:WorldYachts.ViewModel.CatalogControlViewModels">
     <ResourceDictionary.MergedDictionaries>
         <!--  Основные UC  -->
         <ResourceDictionary>
@@ -29,7 +30,7 @@
                 <v:AboutProgramView />
             </DataTemplate>
         </ResourceDictionary>
-        <!-- Dashboard -->
+        <!--  Dashboard  -->
         <ResourceDictionary>
             <DataTemplate DataType="{x:Type dashboardControlViewModels:DashboardViewModel}">
                 <dashboardControlViews:DashboardView />
@@ -44,6 +45,14 @@
                 <boatControlViews:BoatView />
             </DataTemplate>
         </ResourceDictionary>
+
+        <!--  Orders  -->
+        <ResourceDictionary>
+            <DataTemplate DataType="{x:Type orderControlViewModels:OrderControlViewModel}">
+                <orderControlViews:OrderControlView />
+            </DataTemplate>
+        </ResourceDictionary>
+
         <!--  BoatManagement  -->
         <ResourceDictionary>
             <DataTemplate DataType="{x:Type vmboat:BoatEditorViewModel}">

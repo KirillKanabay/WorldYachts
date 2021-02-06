@@ -53,18 +53,13 @@ namespace WorldYachts.Data
         // /// Ссылка на заказчика
         // /// </summary>
         // [ForeignKey("CustomerId")]
-        // public Customer Customer { get; set; }
+         public Customer Customer { get; set; }
 
         /// <summary>
         /// Ссылка на лодку
         /// </summary>
-        [ForeignKey("BoatId")] 
-        public Boat Boat;
+        //[ForeignKey("BoatId")] 
+        public Boat Boat { get; set; }
 
-        /// <summary>
-        /// Ссылка на список критериев доставки
-        /// </summary>
-        [ForeignKey("OrderId")] 
-        public List<OrderDetails> OrderDetails { get; set; }
     }
 }

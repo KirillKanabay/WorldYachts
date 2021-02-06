@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="WorldYachts.View.OrderControlViews.OrderControlView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WorldYachts.View.OrderControlViews"
+             xmlns:accessoryControlViews="clr-namespace:WorldYachts.View.AccessoryControlViews"
+             Background="#FAFAFA"
+             FontFamily="Google Sans"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.DataGrid.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignExtensions;component/Themes/Generic.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignExtensions;component/Themes/MaterialDesignLightTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid Margin="20,20,20,30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Label
+            Grid.Row="0"
+            Margin="0,0,0,0"
+            VerticalAlignment="Top"
+            FontSize="18"
+            FontWeight="Bold">
+            Заказы
+        </Label>
+        <TabControl Grid.Row="1" Style="{StaticResource MaterialDesignTabControl}">
+            <TabItem Header="Доставка">
+                <accessoryControlViews:PartnersManagementView />
+            </TabItem>
+            <TabItem Header="Заказы">
+                <accessoryControlViews:AccessoryManagementView />
+            </TabItem>
+            <TabItem Header="Счета">
+                <accessoryControlViews:AccessoryFitManagementView />
+            </TabItem>
+            <TabItem Header="Импорт/Экспорт данных" />
+        </TabControl>
+
+    </Grid>
+</UserControl>

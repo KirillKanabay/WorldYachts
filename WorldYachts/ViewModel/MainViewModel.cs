@@ -14,6 +14,7 @@ using WorldYachts.ViewModel.BaseViewModels;
 using WorldYachts.ViewModel.BoatManagementViewModels;
 using WorldYachts.ViewModel.CatalogControlViewModels;
 using WorldYachts.ViewModel.DashboardControlViewModels;
+using WorldYachts.ViewModel.OrderControlViewModels;
 
 namespace WorldYachts.ViewModel
 {
@@ -67,7 +68,7 @@ namespace WorldYachts.ViewModel
                             SelectedViewModel = new CatalogControlViewModel();
                             break;
                         case "Orders":
-                            SelectedViewModel = new OrdersViewModel();
+                            SelectedViewModel = new OrderControlViewModel();
                             break;
                         case "BoatManagement":
                             SelectedViewModel = new BoatManagementViewModel();
