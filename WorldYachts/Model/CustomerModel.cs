@@ -10,7 +10,7 @@ namespace WorldYachts.Model
 {
     class CustomerModel:IDataModel<Customer>
     {
-        public Customer LastAdded { get; set; }
+        public Customer LastAddedItem { get; set; }
         public async Task AddAsync(Customer item)
         {
             await IsRepeated(item);
@@ -18,7 +18,7 @@ namespace WorldYachts.Model
             {
                 await context.Customers.AddAsync(item);
                 await context.SaveChangesAsync();
-                LastAdded = item;
+                LastAddedItem = item;
             }
         }
 
@@ -79,10 +79,15 @@ namespace WorldYachts.Model
         {
             await using (var context = WorldYachtsContext.GetDataContext())
             {
-                if (context.Customers.ToList().Any(c => c.CompareTo(item) == 0))
-                {
-                    throw new ArgumentException("Такой покупатель уже существует.");
-                }
+                //Проверка уникальности почты
+                if (context.Customers.Any(c => c.Email == item.Email))
+                    throw new ArgumentException("Клиент с такой почтой уже существует.");
+                //Проверка уникальности серии документа
+                if (context.Customers.Any(c => c.IdNumber == item.IdNumber))
+                    throw new ArgumentException("Клиент с такими документами уже существует");
+                //Проверка уникальности номера телефона
+                if (context.Customers.Any(c => c.Phone == item.Phone))
+                    throw new ArgumentException("Клиент с таким номером телефона уже существует");
             }
         }
 

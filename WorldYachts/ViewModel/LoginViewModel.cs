@@ -10,6 +10,7 @@ using WorldYachts.Helpers;
 using WorldYachts.Data;
 using WorldYachts.Helpers.Commands;
 using WorldYachts.Infrastructure;
+using WorldYachts.Model;
 using WorldYachts.Validators;
 using WorldYachts.View;
 using WorldYachts.View.MessageDialogs;
@@ -132,10 +133,10 @@ namespace WorldYachts.ViewModel
         private async Task LoginMethod(object parameter)
         {
             ProgressBarVisibility = Visibility.Visible;
-            var loginModel = new LoginModel(_login, _password);
+            var um = new UserModel();
             try
             {
-                await Task.Run(() => loginModel.LoginAsync());
+                await Task.Run(() => um.LoginAsync(_login, _password));
                 if (AuthUser.User != null)
                 {
                     MainWindow.ShowWindow();
@@ -157,10 +158,10 @@ namespace WorldYachts.ViewModel
         private async Task LoginFromFileMethod(object parameter)
         {
             ProgressBarVisibility = Visibility.Visible;
-            var loginModel = new LoginModel(((SerializableUserInfo)parameter).Login, ((SerializableUserInfo)parameter).Password);
+            var um = new UserModel();
             try
             {
-                await Task.Run(() => loginModel.LoginAsync());
+                await Task.Run(() => um.LoginAsync(((SerializableUserInfo)parameter).Login, ((SerializableUserInfo)parameter).Password));
             }
             finally
             {

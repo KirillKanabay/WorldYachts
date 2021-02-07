@@ -11,7 +11,7 @@ namespace WorldYachts.Model
 {
     class BoatModel:IDataModel<Boat>
     {
-        public Boat LastAdded { get; set; }
+        public Boat LastAddedItem { get; set; }
 
         /// <summary>
         /// Асинхронный метод добавления лодки в БД
@@ -24,7 +24,7 @@ namespace WorldYachts.Model
             {
                 await context.Boats.AddAsync(boat);
                 await context.SaveChangesAsync();
-                LastAdded = boat;
+                LastAddedItem = boat;
             }
             
         }

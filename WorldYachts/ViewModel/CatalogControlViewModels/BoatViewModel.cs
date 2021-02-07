@@ -224,7 +224,7 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
             try
             {
                 await Task.Run((() => ((OrderModel)ModelItem).AddAsync(item)));
-                int orderId = ((OrderModel)ModelItem).LastAdded.Id;
+                int orderId = ((OrderModel)ModelItem).LastAddedItem.Id;
                 var selectedAccessories = Accessories.Where(a => a.IsSelected);
                 foreach (var accessory in selectedAccessories)
                 {

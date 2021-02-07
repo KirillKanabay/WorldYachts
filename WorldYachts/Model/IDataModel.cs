@@ -8,7 +8,7 @@ namespace WorldYachts.Model
 {
     public interface IDataModel<TData>
     {
-        public TData LastAdded { get; set; }
+        public TData LastAddedItem { get; set; }
         /// <summary>
         /// Асинхронный метод добавления элемента в БД
         /// </summary>

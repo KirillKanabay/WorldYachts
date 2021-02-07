@@ -10,7 +10,7 @@ namespace WorldYachts.Model
 {
     class AccessoryToBoatModel:IDataModel<AccessoryToBoat>
     {
-        public AccessoryToBoat LastAdded { get; set; }
+        public AccessoryToBoat LastAddedItem { get; set; }
 
         public async Task AddAsync(AccessoryToBoat item)
         {
@@ -19,7 +19,7 @@ namespace WorldYachts.Model
             {
                 await context.AccessoryToBoat.AddAsync(item);
                 await context.SaveChangesAsync();
-                LastAdded = item;
+                LastAddedItem = item;
             }
         }
 

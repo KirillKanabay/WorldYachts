@@ -10,7 +10,7 @@ namespace WorldYachts.Model
 {
     class InvoiceModel:IDataModel<Invoice>
     {
-        public Invoice LastAdded { get; set; }
+        public Invoice LastAddedItem { get; set; }
         public async Task AddAsync(Invoice item)
         {
             await IsRepeated(item);
@@ -18,7 +18,7 @@ namespace WorldYachts.Model
             {
                 await context.Invoices.AddAsync(item);
                 await context.SaveChangesAsync();
-                LastAdded = item;
+                LastAddedItem = item;
             }
         }
 

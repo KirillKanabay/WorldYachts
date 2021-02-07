@@ -12,6 +12,8 @@ using WorldYachts.Annotations;
 using WorldYachts.Helpers;
 using WorldYachts.Data;
 using WorldYachts.Helpers.Commands;
+using WorldYachts.Infrastructure;
+using WorldYachts.Model;
 using WorldYachts.Validators;
 using WorldYachts.View;
 using WorldYachts.View.MessageDialogs;
@@ -249,7 +251,8 @@ namespace WorldYachts.ViewModel
         {
             this.View = (Window) parameter;
             ProgressBarVisibility = Visibility.Visible;
-            var registerModel = new RegisterModel()
+            var um = new UserModel();
+            var customer = new Customer()
             {
                 Name = _name,
                 SecondName = _secondName,
@@ -258,15 +261,14 @@ namespace WorldYachts.ViewModel
                 BirthDate = _birthDate,
                 Email = _email,
                 IdDocumentName = _idDocumentName,
-                Login = _login,
                 OrganizationName = _organizationName,
                 IdNumber = _idNumber,
-                Phone = _phone,
-                Password = _password
+                Phone = _phone
             };
             try
             {
-                await Task.Run(() => registerModel.RegisterAsync());
+                await Task.Run(() => um.AddCustomerAsync(customer, Login, Password));
+                AuthUser.User = um.LastAddedUser;
             }
             finally
             {

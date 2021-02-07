@@ -10,7 +10,7 @@ namespace WorldYachts.Model
 {
     class ContractModel:IDataModel<Contract>
     {
-        public Contract LastAdded { get; set; }
+        public Contract LastAddedItem { get; set; }
         public async Task AddAsync(Contract item)
         {
             await IsRepeated(item);
@@ -18,7 +18,7 @@ namespace WorldYachts.Model
             {
                 await context.Contracts.AddAsync(item);
                 await context.SaveChangesAsync();
-                LastAdded = item;
+                LastAddedItem = item;
             }
         }
 

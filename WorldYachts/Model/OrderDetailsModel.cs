@@ -9,7 +9,7 @@ namespace WorldYachts.Model
 {
     class OrderDetailsModel:IDataModel<OrderDetails>
     {
-        public OrderDetails LastAdded { get; set; }
+        public OrderDetails LastAddedItem { get; set; }
 
         public async Task AddAsync(OrderDetails item)
         {
@@ -17,7 +17,7 @@ namespace WorldYachts.Model
             await using (var context = WorldYachtsContext.GetDataContext())
             {
                 await context.OrderDetails.AddAsync(item);
-                LastAdded = item;
+                LastAddedItem = item;
                 await context.SaveChangesAsync();
             }
         }
