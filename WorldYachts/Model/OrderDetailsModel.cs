@@ -29,18 +29,16 @@ namespace WorldYachts.Model
 
         public IEnumerable<OrderDetails> Load()
         {
-            List<OrderDetails> orderDetails = new List<OrderDetails>();
+            List<OrderDetails> odCollection = new List<OrderDetails>();
             using (var context = WorldYachtsContext.GetDataContext())
             {
-                var accessories = context.Accessories;
-                var orders = context.Orders;
-                foreach (var contextOrderDetails in context.OrderDetails)
+                foreach (var orderDetails in context.OrderDetails)
                 {
-                    contextOrderDetails.Accessory = accessories.FirstOrDefault(a => a.Id == contextOrderDetails.AccessoryId);
-                    contextOrderDetails.Order = orders.FirstOrDefault(o => o.Id == contextOrderDetails.OrderId);
-                    orderDetails.Add(contextOrderDetails);
+                    orderDetails.Accessory = new AccessoryModel().GetItemById(orderDetails.AccessoryId);
+                    orderDetails.Order = new OrderModel().GetItemById(orderDetails.OrderId);
+                    odCollection.Add(orderDetails);
                 }
-                return orderDetails;
+                return odCollection;
             }
         }
 

@@ -97,7 +97,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Expander x:Name="ExpanderData" Header="{Binding Item.Boat.Model}">
-                            <ItemsControl ItemsSource="{Binding Boats}">
+                            <!--<ItemsControl ItemsSource="{Binding Boats}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <materialDesign:Chip
@@ -114,7 +114,7 @@
                                         <WrapPanel />
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
-                            </ItemsControl>
+                            </ItemsControl>-->
                         </Expander>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

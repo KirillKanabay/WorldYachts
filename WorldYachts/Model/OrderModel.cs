@@ -34,9 +34,9 @@ namespace WorldYachts.Model
             {
                 foreach (var order in context.Orders)
                 {
-                    order.Boat = new BoatModel().Load().FirstOrDefault(b => b.Id == order.BoatId);
-                    order.SalesPerson = new SalesPersonModel().Load().FirstOrDefault(sp => sp.Id == order.SalesPersonId);
-                    order.Customer = new CustomerModel().Load().FirstOrDefault(c => c.Id == order.CustomerId);
+                    order.Boat = new BoatModel().GetItemById(order.BoatId);
+                    order.SalesPerson = new SalesPersonModel().GetItemById(order.SalesPersonId);
+                    order.Customer = new CustomerModel().GetItemById(order.CustomerId);
                     order.OrderDetails = new OrderDetailsModel().Load().Where(od => od.OrderId == order.Id).ToList();
                     orders.Add(order);
                 }
