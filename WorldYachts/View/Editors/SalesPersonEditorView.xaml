@@ -2,11 +2,147 @@
     x:Class="WorldYachts.View.Editors.SalesPersonEditorView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:accessoryControlViewModels="clr-namespace:WorldYachts.ViewModel.AccessoryControlViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:WorldYachts.View.Editors"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    xmlns:userControlViewModels="clr-namespace:WorldYachts.ViewModel.UserControlViewModels"
+    d:DesignHeight="350"
+    Background="#FFFAFAFA"
+    FontFamily="Google Sans"
     mc:Ignorable="d">
-    <Grid />
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Style/TextBoxStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <UserControl.DataContext>
+        <userControlViewModels:SalesPersonEditorViewModel />
+    </UserControl.DataContext>
+    <Grid Margin="20,20,20,10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <!--  Заголовок редактора  -->
+        <Label
+            Grid.Row="0"
+            Margin="0,0,0,0"
+            VerticalAlignment="Top"
+            FontSize="18"
+            FontWeight="Bold">
+            Редактор менеджеров
+        </Label>
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="0,0,40,0">
+            <!--  Имя  -->
+            <TextBox Margin="0,8,0,15" Style="{StaticResource InputTextBox}">
+                <materialDesign:HintAssist.Hint>
+                    <TextBlock>Имя</TextBlock>
+                </materialDesign:HintAssist.Hint>
+                <TextBox.Text>
+                    <Binding
+                        Mode="TwoWay"
+                        Path="Name"
+                        UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <DataErrorValidationRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <!--  Фамилия  -->
+            <TextBox Margin="0,8,0,15" Style="{StaticResource InputTextBox}">
+                <materialDesign:HintAssist.Hint>
+                    <TextBlock>Фамилия</TextBlock>
+                </materialDesign:HintAssist.Hint>
+                <TextBox.Text>
+                    <Binding Path="SecondName" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <DataErrorValidationRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+        </StackPanel>
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="0,0,40,0">
+            <!--  Логин  -->
+            <TextBox Margin="0,8,0,15" Style="{StaticResource InputTextBox}">
+                <materialDesign:HintAssist.Hint>
+                    <TextBlock>Логин</TextBlock>
+                </materialDesign:HintAssist.Hint>
+                <TextBox.Text>
+                    <Binding
+                        Mode="TwoWay"
+                        Path="Login"
+                        UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <DataErrorValidationRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <!--  Пароль  -->
+            <TextBox Margin="0,8,0,15" Style="{StaticResource InputTextBox}">
+                <materialDesign:HintAssist.Hint>
+                    <TextBlock>Пароль</TextBlock>
+                </materialDesign:HintAssist.Hint>
+                <TextBox.Text>
+                    <Binding Path="Password" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <DataErrorValidationRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+        </StackPanel>
+        <StackPanel
+            Grid.Row="2"
+            Grid.Column="1"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Orientation="Horizontal">
+            <ProgressBar
+                Margin="12,0,0,12"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                IsIndeterminate="True"
+                Style="{StaticResource MaterialDesignCircularProgressBar}"
+                Visibility="{Binding ProgressBarVisibility}"
+                Value="0" />
+            <Button
+                Margin="0,0,5,10"
+                HorizontalAlignment="Right"
+                Command="{Binding SaveItem}"
+                Cursor="Hand"
+                FontSize="14"
+                IsEnabled="{Binding SaveButtonIsEnabled}"
+                Style="{DynamicResource MaterialDesignFlatButton}">
+                Сохранить
+            </Button>
+            <Button
+                Margin="0,0,5,10"
+                HorizontalAlignment="Right"
+                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                Cursor="Hand"
+                FontSize="14"
+                IsDefault="True"
+                Style="{DynamicResource MaterialDesignFlatButton}">
+                Назад
+            </Button>
+        </StackPanel>
+    </Grid>
 </UserControl>

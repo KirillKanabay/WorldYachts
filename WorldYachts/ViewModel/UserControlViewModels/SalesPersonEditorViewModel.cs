@@ -9,6 +9,7 @@ using System.Windows;
 using WorldYachts.Data;
 using WorldYachts.Infrastructure;
 using WorldYachts.Model;
+using WorldYachts.Validators;
 using WorldYachts.ViewModel.BaseViewModels;
 
 namespace WorldYachts.ViewModel.UserControlViewModels
@@ -157,6 +158,31 @@ namespace WorldYachts.ViewModel.UserControlViewModels
             get
             {
                 string error = String.Empty;
+                switch (columnName)
+                {
+                    case "Name":
+                        new Validation(
+                            new NotEmptyFieldValidationRule(Name)).Validate(ref error);
+                        break;
+                    case "SecondName":
+                        new Validation(
+                            new NotEmptyFieldValidationRule(SecondName)).Validate(ref error);
+                        break;
+                    case "Login":
+                        new Validation(new SafePasswordValidationRule(Login),
+                            new NotEmptyFieldValidationRule(Login)).Validate(ref error);
+                        break;
+                    case "Password":
+                        new Validation(
+                            new LoginValidationRule(Password), 
+                            new NotEmptyFieldValidationRule(Password)).Validate(ref error);
+                        break;
+                }
+
+                ErrorDictionary.Remove(columnName);
+                if (error != String.Empty)
+                    ErrorDictionary.Add(columnName, error);
+                OnPropertyChanged(nameof(SaveButtonIsEnabled));
                 return error;
             }
         }
