@@ -7,12 +7,13 @@
     xmlns:local="clr-namespace:WorldYachts.View.UserControlViews"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:userControlViewModels="clr-namespace:WorldYachts.ViewModel.UserControlViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
     FontFamily="Google Sans"
     mc:Ignorable="d">
     <UserControl.DataContext>
-        <accessoryControlViewModels:AccessoryManagementViewModel />
+        <userControlViewModels:SalesPersonManagementViewModel />
     </UserControl.DataContext>
     <UserControl.Resources>
         <ResourceDictionary>
@@ -55,10 +56,10 @@
             </Grid.RowDefinitions>
             <Button
                 Grid.Row="0"
-                Width="175"
+                Width="200"
                 HorizontalAlignment="Left"
                 Command="{Binding OpenEditorDialog}"
-                Content="Добавить аксессуар"
+                Content="Добавить менеджера"
                 Cursor="Hand" />
             <Border
                 Grid.Row="0"
@@ -69,7 +70,7 @@
                 BorderBrush="#BABABA"
                 BorderThickness="1,1,1,1"
                 CornerRadius="3"
-                ToolTip="Введите модель или Id лодки">
+                ToolTip="Введите имя,фамилию или id менеджера">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -120,16 +121,11 @@
                         Binding="{Binding Item.Id}"
                         Header="Id"
                         IsReadOnly="True" />
-                    <materialDesign:DataGridTextColumn Binding="{Binding Item.Name}" Header="Название" />
+                    <materialDesign:DataGridTextColumn Binding="{Binding Item.Name}" Header="Имя" />
                     <materialDesign:DataGridTextColumn
-                        Binding="{Binding Item.Price}"
-                        Header="Цена без НДС"
+                        Binding="{Binding Item.SecondName}"
+                        Header="Фамилия"
                         IsReadOnly="True" />
-                    <materialDesign:DataGridTextColumn Binding="{Binding Item.Vat}" Header="НДС %" />
-                    <materialDesign:DataGridTextColumn Binding="{Binding Item.Inventory}" Header="Инв. №" />
-                    <materialDesign:DataGridTextColumn Binding="{Binding Item.OrderLevel}" Header="Ур. доставки" />
-                    <materialDesign:DataGridTextColumn Binding="{Binding Item.OrderLevel}" Header="№ партии" />
-                    <materialDesign:DataGridTextColumn Binding="{Binding Item.Partner.Name}" Header="Поставщик" />
                     <DataGridTemplateColumn Header="Редактировать">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>

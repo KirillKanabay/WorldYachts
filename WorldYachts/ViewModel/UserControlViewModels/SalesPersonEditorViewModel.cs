@@ -168,11 +168,11 @@ namespace WorldYachts.ViewModel.UserControlViewModels
                         new Validation(
                             new NotEmptyFieldValidationRule(SecondName)).Validate(ref error);
                         break;
-                    case "Login":
+                    case "Password":
                         new Validation(new SafePasswordValidationRule(Login),
                             new NotEmptyFieldValidationRule(Login)).Validate(ref error);
                         break;
-                    case "Password":
+                    case "Login":
                         new Validation(
                             new LoginValidationRule(Password), 
                             new NotEmptyFieldValidationRule(Password)).Validate(ref error);

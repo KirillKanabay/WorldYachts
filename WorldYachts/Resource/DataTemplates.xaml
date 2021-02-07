@@ -28,6 +28,12 @@
                 <v:AboutProgramView />
             </DataTemplate>
         </ResourceDictionary>
+        <!--  UsersManagement  -->
+        <ResourceDictionary>
+            <DataTemplate DataType="{x:Type userControlViewModels:SalesPersonEditorViewModel}">
+                <veditors:SalesPersonEditorView />
+            </DataTemplate>
+        </ResourceDictionary>
         <!--  Dashboard  -->
         <ResourceDictionary>
             <DataTemplate DataType="{x:Type dashboardControlViewModels:DashboardViewModel}">
