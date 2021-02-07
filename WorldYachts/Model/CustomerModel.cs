@@ -46,7 +46,7 @@ namespace WorldYachts.Model
         {
             await using (var context = WorldYachtsContext.GetDataContext())
             {
-                context.Cus.RemoveRange(removeItems);
+                context.Customers.RemoveRange(removeItems);
                 await context.SaveChangesAsync();
             }
         }
