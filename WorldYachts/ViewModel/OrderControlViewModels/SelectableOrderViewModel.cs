@@ -9,11 +9,20 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
 {
     class SelectableOrderViewModel:BaseSelectableViewModel<Order>
     {
-        public SelectableOrderViewModel(Order item) : base(item)
+        public SelectableOrderViewModel(Order item):base(item)
         {
+            
         }
 
+        #region Свойства
+
+        public Boat Boat => _item.Boat;
+        public List<OrderDetails> OrderDetails => _item.OrderDetails;
         public override BaseEditorViewModel<Order> Editor { get; }
+
+        #endregion
+
+        #region Методы
         protected override void ToggleViewEditorAfterLoaded()
         {
             throw new NotImplementedException();
@@ -26,7 +35,15 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
 
         protected override MessageDialogProperty GetConfirmDeleteDialogProperty()
         {
-            throw new NotImplementedException();
+            return new MessageDialogProperty()
+            {
+                Title = "Подтверждение удаления",
+                Message = "Будет удален следующий заказ:\n\n" + this
+            };
         }
+
+
+        #endregion
+
     }
 }

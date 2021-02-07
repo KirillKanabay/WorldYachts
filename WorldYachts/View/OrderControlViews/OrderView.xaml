@@ -1,12 +1,133 @@
-﻿<UserControl x:Class="WorldYachts.View.OrderControlViews.OrderView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:WorldYachts.View.OrderControlViews"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+﻿<UserControl
+    x:Class="WorldYachts.View.OrderControlViews.OrderView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:accessoryControlViewModels="clr-namespace:WorldYachts.ViewModel.AccessoryControlViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:WorldYachts.View.OrderControlViews"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:orderControlViewModels="clr-namespace:WorldYachts.ViewModel.OrderControlViewModels"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    FontFamily="Google Sans"
+    mc:Ignorable="d">
+    <UserControl.DataContext>
+        <orderControlViewModels:OrderViewModel />
+    </UserControl.DataContext>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <Style x:Key="TransparentButton" TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="Width" Value="Auto" />
+                        <Setter Property="Height" Value="Auto" />
+                        <Setter Property="Padding" Value="5" />
+                        <Setter Property="Foreground" Value="#6C6C6C" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border Background="{TemplateBinding Background}">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="#CC2a2a2a" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <materialDesign:Card
+        Grid.Row="2"
+        Padding="20"
+        Background="#FAFAFA">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+            <Border
+                Grid.Row="0"
+                Width="300"
+                Padding="5,3"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                BorderBrush="#BABABA"
+                BorderThickness="1,1,1,1"
+                CornerRadius="3"
+                ToolTip="Введите Id доставки">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Button
+                        x:Name="SearchButton"
+                        Width="24"
+                        Height="24"
+                        Command="{Binding SearchCommand}"
+                        CommandParameter="{Binding ElementName=SearchBox, Path=Text}"
+                        Style="{DynamicResource MaterialDesignToolButton}">
+                        <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
+                    </Button>
+                    <TextBox
+                        x:Name="SearchBox"
+                        Grid.Column="1"
+                        MinWidth="200"
+                        Margin="5,0,0,0"
+                        VerticalAlignment="Center"
+                        materialDesign:HintAssist.Hint="Поиск"
+                        materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
+                        BorderThickness="0"
+                        Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}" />
+                </Grid>
+            </Border>
+            <ItemsControl
+                Grid.Row="1"
+                Grid.IsSharedSizeScope="True"
+                ItemsSource="{Binding FilteredCollection}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Expander x:Name="ExpanderData" Header="{Binding Item.Boat.Model}">
+                            <ItemsControl ItemsSource="{Binding Boats}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <materialDesign:Chip
+                                            Margin="0,0,4,4"
+                                            Content="{Binding Model}"
+                                            DeleteCommand="{Binding DeleteAccessoryToBoat}"
+                                            DeleteCommandParameter="{Binding ElementName=ExpanderData}"
+                                            IsDeletable="True"
+                                            ToolTip="{Binding Type}" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </Expander>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <ProgressBar
+                Grid.Row="1"
+                Margin="100,25,100,50"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                IsIndeterminate="True"
+                Style="{StaticResource MaterialDesignCircularProgressBar}"
+                Visibility="{Binding ProgressBarVisibility}"
+                Value="0" />
+        </Grid>
+    </materialDesign:Card>
 </UserControl>

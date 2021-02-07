@@ -35,11 +35,13 @@ namespace WorldYachts.Model
                 var boats = context.Boats;
                 var salesPersons = context.SalesPersons;
                 var customers = context.Customers;
+                var orderDetails = context.OrderDetails;
                 foreach (var contextOrder in context.Orders)
                 {
-                    contextOrder.Boat = boats.FirstOrDefault(b => b.Id == contextOrder.BoatId);
-                    contextOrder.SalesPerson = salesPersons.FirstOrDefault(sp => sp.Id == contextOrder.SalesPersonId);
-                    contextOrder.Customer = customers.FirstOrDefault(c => c.Id == contextOrder.CustomerId);
+                    contextOrder.Boat = new BoatModel().Load().FirstOrDefault(b => b.Id == contextOrder.BoatId);
+                    contextOrder.SalesPerson = new SalesPersonModel().Load().FirstOrDefault(sp => sp.Id == contextOrder.SalesPersonId);
+                    contextOrder.Customer = new CustomerModel().Load().FirstOrDefault(c => c.Id == contextOrder.CustomerId);
+                    contextOrder.OrderDetails = new OrderModel().Load().Where(od => od.OrderId == contextOrder.Id).ToList();
                     orders.Add(contextOrder);
                 }
                 return orders;

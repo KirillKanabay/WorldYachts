@@ -51,6 +51,9 @@
             <DataTemplate DataType="{x:Type orderControlViewModels:OrderControlViewModel}">
                 <orderControlViews:OrderControlView />
             </DataTemplate>
+            <DataTemplate DataType="{x:Type orderControlViewModels:OrderViewModel}">
+                <v:OrdersView />
+            </DataTemplate>
         </ResourceDictionary>
 
         <!--  BoatManagement  -->

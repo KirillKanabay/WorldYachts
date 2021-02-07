@@ -61,5 +61,9 @@ namespace WorldYachts.Data
         //[ForeignKey("BoatId")] 
         public Boat Boat { get; set; }
 
+        /// <summary>
+        /// Ссылка на список деталей заказа
+        /// </summary>
+        public List<OrderDetails> OrderDetails;
     }
 }
