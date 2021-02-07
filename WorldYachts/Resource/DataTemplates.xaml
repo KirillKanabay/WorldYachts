@@ -6,6 +6,7 @@
     xmlns:dashboardControlViews="clr-namespace:WorldYachts.View.DashboardControlViews"
     xmlns:orderControlViewModels="clr-namespace:WorldYachts.ViewModel.OrderControlViewModels"
     xmlns:orderControlViews="clr-namespace:WorldYachts.View.OrderControlViews"
+    xmlns:userControlViewModels="clr-namespace:WorldYachts.ViewModel.UserControlViewModels"
     xmlns:v="clr-namespace:WorldYachts.View"
     xmlns:vaccessory="clr-namespace:WorldYachts.View.AccessoryControlViews"
     xmlns:vcatalog="clr-namespace:WorldYachts.View.CatalogControlViews"
@@ -13,8 +14,7 @@
     xmlns:vm="clr-namespace:WorldYachts.ViewModel"
     xmlns:vmaccessory="clr-namespace:WorldYachts.ViewModel.AccessoryControlViewModels"
     xmlns:vmboat="clr-namespace:WorldYachts.ViewModel.BoatManagementViewModels"
-    xmlns:vmcatalog="clr-namespace:WorldYachts.ViewModel.CatalogControlViewModels"
-    xmlns:userControlViewModels="clr-namespace:WorldYachts.ViewModel.UserControlViewModels">
+    xmlns:vmcatalog="clr-namespace:WorldYachts.ViewModel.CatalogControlViewModels">
     <ResourceDictionary.MergedDictionaries>
         <!--  Основные UC  -->
         <ResourceDictionary>

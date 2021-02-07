@@ -1,14 +1,15 @@
-﻿<UserControl x:Class="WorldYachts.View.UserManagementView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:WorldYachts.View"
-             xmlns:accessoryControlViews="clr-namespace:WorldYachts.View.AccessoryControlViews"
-             xmlns:userControlViews="clr-namespace:WorldYachts.View.UserControlViews"
-             Background="#FAFAFA"
-             FontFamily="Google Sans"
-             mc:Ignorable="d">
+﻿<UserControl
+    x:Class="WorldYachts.View.UserManagementView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:accessoryControlViews="clr-namespace:WorldYachts.View.AccessoryControlViews"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:WorldYachts.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:userControlViews="clr-namespace:WorldYachts.View.UserControlViews"
+    Background="#FAFAFA"
+    FontFamily="Google Sans"
+    mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
