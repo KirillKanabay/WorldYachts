@@ -62,6 +62,7 @@ namespace WorldYachts.Model
                 dbSP.SecondName = item.SecondName;
 
                 await context.SaveChangesAsync();
+                LastAddedItem = item;
             }
         }
 

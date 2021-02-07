@@ -20,7 +20,7 @@ namespace WorldYachts.ViewModel.BaseViewModels
         /// <summary>
         /// Флаг редактирования партнера
         /// </summary>
-        private bool _isEdit;
+        protected bool _isEdit;
 
         private AsyncRelayCommand _saveItem;
 
