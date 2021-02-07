@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using WorldYachts.Annotations;
 using WorldYachts.Data;
+using WorldYachts.Infrastructure;
 using WorldYachts.Model;
 using WorldYachts.ViewModel.BaseViewModels;
 

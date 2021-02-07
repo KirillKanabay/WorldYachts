@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using WorldYachts.Data;
 
-namespace WorldYachts.Model
+namespace WorldYachts.Infrastructure
 {
     [Serializable]
     struct SerializableUserInfo

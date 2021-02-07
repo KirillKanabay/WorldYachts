@@ -12,6 +12,7 @@ using System.Windows.Media;
 using WorldYachts.Data;
 using WorldYachts.Helpers;
 using WorldYachts.Helpers.Commands;
+using WorldYachts.Infrastructure;
 using WorldYachts.Model;
 using WorldYachts.Validators;
 using WorldYachts.ViewModel.AccessoryControlViewModels;
