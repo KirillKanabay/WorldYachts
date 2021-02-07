@@ -1,16 +1,16 @@
 ﻿<UserControl
-    x:Class="WorldYachts.View.AccessoryControlViews.AccessoryManagementView"
+    x:Class="WorldYachts.View.UserControlViews.SalesPersonManagementView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:accessoryControlViewModels="clr-namespace:WorldYachts.ViewModel.AccessoryControlViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:WorldYachts.View.AccessoryControlViews"
+    xmlns:local="clr-namespace:WorldYachts.View.UserControlViews"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    mc:Ignorable="d"
-    FontFamily="Google Sans">
+    FontFamily="Google Sans"
+    mc:Ignorable="d">
     <UserControl.DataContext>
         <accessoryControlViewModels:AccessoryManagementViewModel />
     </UserControl.DataContext>

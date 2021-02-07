@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using WorldYachts.ViewModel.BaseViewModels;
 
-namespace WorldYachts.ViewModel
+namespace WorldYachts.ViewModel.UserControlViewModels
 {
-    class UserManagementViewModel:BaseViewModel
+    class UserControlViewModel:BaseViewModel
     {
+
     }
 }
