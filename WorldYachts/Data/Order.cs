@@ -64,6 +64,8 @@ namespace WorldYachts.Data
         /// <summary>
         /// Ссылка на список деталей заказа
         /// </summary>
-        public List<OrderDetails> OrderDetails;
+        public List<OrderDetails> OrderDetails { get; set; }
+
+        public string OrderName => $"{Boat.Model} (Доставка #{Id})";
     }
 }

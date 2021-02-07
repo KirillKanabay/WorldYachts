@@ -78,7 +78,7 @@ namespace WorldYachts.Data
         [ForeignKey("BoatId")]
         public List<AccessoryToBoat> AccessoryToBoat { get; set; }
 
-        
+        public string MastString => Mast ? "Присутствует" : "Отсутствует"; 
         #region Команды
 
         public AsyncRelayCommand DeleteAccessoryToBoat => new AsyncRelayCommand(RemoveATB,null);

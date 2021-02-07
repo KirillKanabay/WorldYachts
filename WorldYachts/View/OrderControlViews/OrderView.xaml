@@ -90,35 +90,148 @@
                         Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}" />
                 </Grid>
             </Border>
-            <ItemsControl
-                Grid.Row="1"
-                Grid.IsSharedSizeScope="True"
-                ItemsSource="{Binding FilteredCollection}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Expander x:Name="ExpanderData" Header="{Binding Item.Boat.Model}">
-                            <!--<ItemsControl ItemsSource="{Binding Boats}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <materialDesign:Chip
-                                            Margin="0,0,4,4"
-                                            Content="{Binding Model}"
-                                            DeleteCommand="{Binding DeleteAccessoryToBoat}"
-                                            DeleteCommandParameter="{Binding ElementName=ExpanderData}"
-                                            IsDeletable="True"
-                                            ToolTip="{Binding Type}" />
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <WrapPanel />
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                            </ItemsControl>-->
-                        </Expander>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <ItemsControl
+                    Grid.Row="1"
+                    Grid.IsSharedSizeScope="True"
+                    ItemsSource="{Binding FilteredCollection}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Expander x:Name="ExpanderData" Header="{Binding Item.OrderName}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <!--  Детали лодки  -->
+                                    <Border
+                                        Grid.Column="0"
+                                        Height="auto"
+                                        Margin="5,5"
+                                        Padding="5,8"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        BorderBrush="#BABABA"
+                                        BorderThickness="1,1,1,1"
+                                        CornerRadius="3">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="30" />
+                                                <RowDefinition Height="30" />
+                                                <RowDefinition Height="30" />
+                                                <RowDefinition Height="30" />
+                                                <RowDefinition Height="30" />
+                                                <RowDefinition Height="30" />
+                                            </Grid.RowDefinitions>
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                FontSize="14"
+                                                FontWeight="Medium">
+                                                Детали лодки:
+                                            </TextBlock>
+                                            <!--  Тип  -->
+                                            <TextBlock Grid.Row="1" Text="{Binding Item.Boat.Type, StringFormat=Тип: \{0\}}" />
+                                            <!--  Тип дерева  -->
+                                            <TextBlock Grid.Row="2" Text="{Binding Item.Boat.Wood, StringFormat=Тип\ дерева: \{0\}}" />
+                                            <!--  Наличие мачты  -->
+                                            <TextBlock Grid.Row="3" Text="{Binding Item.Boat.MastString, StringFormat=Наличие\ мачты: \{0\}}" />
+                                            <!--  Цвет  -->
+                                            <StackPanel Grid.Row="4" Orientation="Horizontal">
+                                                <TextBlock VerticalAlignment="Center" Text="Цвет: " />
+                                                <materialDesign:PackIcon
+                                                    Width="25"
+                                                    Height="25"
+                                                    Foreground="{Binding Item.Boat.Color}"
+                                                    Kind="Circle" />
+                                            </StackPanel>
+                                            <!--  Количество гребцов  -->
+                                            <TextBlock Grid.Row="5" Text="{Binding Item.Boat.NumberOfRowers, StringFormat=Количество\ гребцов: \{0\}}" />
+                                        </Grid>
+                                    </Border>
+                                    <!--  Аксессуары  -->
+                                    <Border
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Height="auto"
+                                        Margin="5,5"
+                                        Padding="5,8"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        BorderBrush="#BABABA"
+                                        BorderThickness="1,1,1,1"
+                                        CornerRadius="3">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="30" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                FontSize="14"
+                                                FontWeight="Medium">
+                                                Аксессуары:
+                                            </TextBlock>
+                                            <!--  Аксессуары  -->
+                                            <ItemsControl Grid.Row="1" ItemsSource="{Binding Item.OrderDetails}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <materialDesign:Chip Margin="0,0,4,4">
+                                                            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                                                <TextBlock
+                                                                    Margin="0,1,0,0"
+                                                                    HorizontalAlignment="Center"
+                                                                    Text="{Binding Accessory.Name}" />
+                                                            </StackPanel>
+                                                        </materialDesign:Chip>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <WrapPanel />
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                            </ItemsControl>
+                                        </Grid>
+                                    </Border>
+                                    <!--  Детали доставки  -->
+                                    <Border
+                                        Grid.Column="2"
+                                        Height="auto"
+                                        Margin="5,5"
+                                        Padding="5,8"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        BorderBrush="#BABABA"
+                                        BorderThickness="1,1,1,1"
+                                        CornerRadius="3">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="30" />
+                                                <RowDefinition Height="30" />
+                                                <RowDefinition Height="30" />
+                                                <RowDefinition Height="30" />
+                                                <RowDefinition Height="30" />
+                                                <RowDefinition Height="30" />
+                                            </Grid.RowDefinitions>
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                FontSize="14"
+                                                FontWeight="Medium">
+                                                Детали доставки:
+                                            </TextBlock>
+                                            <!--  Город  -->
+                                            <TextBlock Grid.Row="1" Text="{Binding Item.City, StringFormat=Город\ доставки: \{0\}}" />
+                                            <!--  Адрес доставки  -->
+                                            <TextBlock Grid.Row="2" Text="{Binding Item.DeliveryAddress, StringFormat=Адрес\ доставки: \{0\}}" />
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+                            </Expander>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
             <ProgressBar
                 Grid.Row="1"
                 Margin="100,25,100,50"
