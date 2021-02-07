@@ -67,7 +67,8 @@ namespace WorldYachts.Model
                 dbOrder.BoatId = item.BoatId;
                 dbOrder.DeliveryAddress = item.DeliveryAddress;
                 dbOrder.City = item.City;
-                
+                dbOrder.Status = item.Status;
+
                 await context.SaveChangesAsync();
             }
         }

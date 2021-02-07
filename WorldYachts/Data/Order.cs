@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using WorldYachts.Infrastructure;
 
 namespace WorldYachts.Data
 {
@@ -42,7 +44,10 @@ namespace WorldYachts.Data
         /// Город доставки
         /// </summary>
         [Required] public string City { get; set; }
-
+        /// <summary>
+        /// Статус заказа
+        /// </summary>
+        [Required] public int Status { get; set; }
         /// <summary>
         /// Ссылка на менеджера
         /// </summary>
@@ -66,6 +71,28 @@ namespace WorldYachts.Data
         /// </summary>
         public List<OrderDetails> OrderDetails { get; set; }
 
-        public string OrderName => $"{Boat.Model} (Доставка #{Id})";
+        public string OrderName => $"{Boat.Model} (Заказ #{Id})";
+
+        public string StatusString
+        {
+            get
+            {
+                switch (Status)
+                {
+                    case (int)OrderStatus.InProcessing:
+                        return "В обработке.";
+                    case (int)OrderStatus.Accepted:
+                        return "Принят";
+                    case (int)OrderStatus.Canceled:
+                        return "Отменен";
+                    case (int)OrderStatus.Completed:
+                        return "Выполнен";
+                    default:
+                        return "Ошибка";
+                }
+            }
+        }
+
+        public string SalesPersonString => $"{SalesPerson.Name} {SalesPerson.SecondName}";
     }
 }

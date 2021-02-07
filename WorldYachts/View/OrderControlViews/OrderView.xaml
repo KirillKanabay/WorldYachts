@@ -104,8 +104,13 @@
                                         <ColumnDefinition />
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
                                     <!--  Детали лодки  -->
                                     <Border
+                                        Grid.Row="1"
                                         Grid.Column="0"
                                         Height="auto"
                                         Margin="5,5"
@@ -151,7 +156,7 @@
                                     </Border>
                                     <!--  Аксессуары  -->
                                     <Border
-                                        Grid.Row="0"
+                                        Grid.Row="1"
                                         Grid.Column="1"
                                         Height="auto"
                                         Margin="5,5"
@@ -196,6 +201,7 @@
                                     </Border>
                                     <!--  Детали доставки  -->
                                     <Border
+                                        Grid.Row="1"
                                         Grid.Column="2"
                                         Height="auto"
                                         Margin="5,5"
@@ -224,6 +230,49 @@
                                             <TextBlock Grid.Row="1" Text="{Binding Item.City, StringFormat=Город\ доставки: \{0\}}" />
                                             <!--  Адрес доставки  -->
                                             <TextBlock Grid.Row="2" Text="{Binding Item.DeliveryAddress, StringFormat=Адрес\ доставки: \{0\}}" />
+                                        </Grid>
+                                    </Border>
+
+                                    <Border
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="3"
+                                        Height="auto"
+                                        Margin="5,5"
+                                        Padding="5,8"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        BorderBrush="#BABABA"
+                                        BorderThickness="1,1,1,1"
+                                        CornerRadius="3">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="30" />
+                                                <RowDefinition Height="30" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                FontSize="14"
+                                                FontWeight="Medium">
+                                                Детали заказа:
+                                            </TextBlock>
+                                            <!--  Статус  -->
+                                            <TextBlock
+                                                Grid.Row="1"
+                                                FontSize="14"
+                                                FontWeight="Medium"
+                                                Text="{Binding Item.SalesPersonString, StringFormat=Менеджер\ заказа: \{0\}}" />
+                                            <!--  Адрес доставки  -->
+                                            <TextBlock
+                                                Grid.Row="1"
+                                                Grid.Column="1"
+                                                FontSize="14"
+                                                FontWeight="Medium"
+                                                Text="{Binding Item.StatusString, StringFormat=Статус\ заказа: \{0\}}" />
                                         </Grid>
                                     </Border>
                                 </Grid>

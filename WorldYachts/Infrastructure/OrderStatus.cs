@@ -8,6 +8,7 @@ namespace WorldYachts.Infrastructure
     {
         InProcessing = 0,
         Accepted = 1,
-        Canceled = 2,
+        Completed = 2,
+        Canceled = 3,
     }
 }
