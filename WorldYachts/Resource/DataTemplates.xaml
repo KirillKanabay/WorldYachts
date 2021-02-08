@@ -6,6 +6,8 @@
     xmlns:dashboardControlViews="clr-namespace:WorldYachts.View.DashboardControlViews"
     xmlns:orderControlViewModels="clr-namespace:WorldYachts.ViewModel.OrderControlViewModels"
     xmlns:orderControlViews="clr-namespace:WorldYachts.View.OrderControlViews"
+    xmlns:orderManagementControlViews="clr-namespace:WorldYachts.View.OrderManagementControlViews"
+    xmlns:orderManagementViewModels="clr-namespace:WorldYachts.ViewModel.OrderControlViewModels"
     xmlns:userControlViewModels="clr-namespace:WorldYachts.ViewModel.UserControlViewModels"
     xmlns:v="clr-namespace:WorldYachts.View"
     xmlns:vaccessory="clr-namespace:WorldYachts.View.AccessoryControlViews"
@@ -14,9 +16,7 @@
     xmlns:vm="clr-namespace:WorldYachts.ViewModel"
     xmlns:vmaccessory="clr-namespace:WorldYachts.ViewModel.AccessoryControlViewModels"
     xmlns:vmboat="clr-namespace:WorldYachts.ViewModel.BoatManagementViewModels"
-    xmlns:vmcatalog="clr-namespace:WorldYachts.ViewModel.CatalogControlViewModels"
-    xmlns:orderManagementViewModels="clr-namespace:WorldYachts.ViewModel.OrderControlViewModels"
-    xmlns:orderManagementControlViews="clr-namespace:WorldYachts.View.OrderManagementControlViews">
+    xmlns:vmcatalog="clr-namespace:WorldYachts.ViewModel.CatalogControlViewModels">
     <ResourceDictionary.MergedDictionaries>
         <!--  Основные UC  -->
         <ResourceDictionary>
@@ -61,7 +61,10 @@
                 <orderControlViews:OrderControlView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type orderManagementViewModels:OrderManagementControlViewModel}">
-                <orderManagementControlViews:OrderManagementControlView/>
+                <orderManagementControlViews:OrderManagementControlView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type orderControlViewModels:DepositEditorViewModel}">
+                <veditors:DepositEditorView />
             </DataTemplate>
         </ResourceDictionary>
 

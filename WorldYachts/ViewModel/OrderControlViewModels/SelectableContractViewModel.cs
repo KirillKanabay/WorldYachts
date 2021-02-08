@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using MaterialDesignThemes.Wpf;
 using WorldYachts.Data;
+using WorldYachts.Helpers.Commands;
 using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BaseViewModels;
 
@@ -20,7 +23,11 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
         private string _productionProcess;
         private Order _order;
 
+        private AsyncRelayCommand _deposit;
         #endregion
+
+        #region Конструкторы
+
         public SelectableContractViewModel(Contract item) : base(item)
         {
             Id = item.Id;
@@ -33,6 +40,8 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
 
             _order = item.Order;
         }
+
+        #endregion
 
         #region Свойства
 
@@ -107,20 +116,54 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
         }
         #endregion
 
-        public override BaseEditorViewModel<Contract> Editor { get; }
+        #region Команды
+
+        public AsyncRelayCommand Deposit
+        {
+            get
+            {
+                return _deposit ??= new AsyncRelayCommand(DepositMethod, (ex) =>
+                {
+                    ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message });
+                });
+            }
+        }
+
+        #endregion
+
+        #region Методы
+
+        private async Task DepositMethod(object parameter)
+        {
+            var view = new View.MessageDialogs.MessageDialog()
+            {
+                DataContext = new MessageDialogViewModel(new DepositEditorViewModel(Item))
+            };
+            var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
+            
+            //Извещаем об изменении предмета
+            BaseManagementViewModel<Contract>.OnItemChanged?.Invoke();
+        }
+
+        #endregion
+
         protected override void ToggleViewEditorAfterLoaded()
         {
             throw new NotImplementedException();
         }
 
+        #region NotImplementedMembers
+        public override BaseEditorViewModel<Contract> Editor { get; }
+        
         protected override BaseViewModel GetEditorViewModel()
         {
             throw new NotImplementedException();
         }
-
         protected override MessageDialogProperty GetConfirmDeleteDialogProperty()
         {
             throw new NotImplementedException();
         }
+        #endregion
+
     }
 }

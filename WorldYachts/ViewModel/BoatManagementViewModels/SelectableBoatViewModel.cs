@@ -226,10 +226,6 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
             var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
         }
 
-        private void ClosingEventHandler(object sender, DialogOpenedEventArgs eventargs)
-        {
-
-        }
         #endregion
     }
 }

@@ -108,7 +108,7 @@ namespace WorldYachts.ViewModel.BaseViewModels
 
             MainWindow.SendSnackbarAction?.Invoke(GetSaveSnackbarMessage(_isEdit));
             
-            //Закрываем диалог редактирования партнера
+            //Закрываем диалог редактирования
             MainWindow.GetMainWindow?.Invoke().DialogHost.CurrentSession.Close();
         }
 

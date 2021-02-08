@@ -179,7 +179,7 @@ namespace WorldYachts.ViewModel.BaseViewModels
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="eventArgs"></param>
-        private void ClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        protected void ClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
         {
         }
 

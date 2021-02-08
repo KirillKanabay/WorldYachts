@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
 using WorldYachts.Data;
+using WorldYachts.Helpers;
 using WorldYachts.Helpers.Commands;
 using WorldYachts.Infrastructure;
 using WorldYachts.Model;
@@ -80,6 +81,19 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
             Item.Status = (int) _os;
             Item.SalesPersonId = (_os == OrderStatus.InProcessing) ? 1 : AuthUser.User.Id;
             await Task.Run(() => new OrderModel().SaveAsync(Item));
+            if (_os == OrderStatus.Accepted)
+            {
+                var contract = new Contract()
+                {
+                    OrderId = Item.Id,
+                    Date = DateTime.Now,
+                    DepositPayed = 0,
+                    ContractTotalPrice = Item.CountPrice(),
+                    ContractTotalPriceInclVat = Item.CountPriceInclVat(),
+                    ProductionProcess = EnumWorker.GetDescription(ProductionProcess.NotStarted),
+                };
+                await Task.Run(() => new ContractModel().AddAsync(contract));
+            }
             OrderManagementViewModel.OnItemChanged?.Invoke();
             MainWindow.SendSnackbarAction?.Invoke(GetStatusOrderSnackbarMessage());
         }

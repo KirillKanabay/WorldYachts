@@ -121,11 +121,14 @@
                     <DataGridTemplateColumn Header="Ред. готовность">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Command="{Binding EditCommand}" Style="{StaticResource TransparentButton}">
+                                <Button
+                                    Command="{Binding ChangeProductionProcess}"
+                                    IsEnabled="{Binding ChangeProductionProcessEnabled}"
+                                    Style="{StaticResource TransparentButton}">
                                     <materialDesign:PackIcon
                                         Width="18"
                                         Height="18"
-                                        Kind="StateMachine" />
+                                        Kind="Cog" />
                                 </Button>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -133,23 +136,11 @@
                     <DataGridTemplateColumn Header="Внос суммы">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Command="{Binding EditCommand}" Style="{StaticResource TransparentButton}">
+                                <Button Command="{Binding Deposit}" Style="{StaticResource TransparentButton}">
                                     <materialDesign:PackIcon
                                         Width="18"
                                         Height="18"
                                         Kind="Dollar" />
-                                </Button>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Удалить">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Command="{Binding RemoveCommand}" Style="{StaticResource TransparentButton}">
-                                    <materialDesign:PackIcon
-                                        Width="18"
-                                        Height="18"
-                                        Kind="Trash" />
                                 </Button>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
