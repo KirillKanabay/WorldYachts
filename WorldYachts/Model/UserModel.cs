@@ -81,7 +81,8 @@ namespace WorldYachts.Model
         {
             using (var context = WorldYachtsContext.GetDataContext())
             {
-                return context.Users.FirstOrDefault(u => u.Id == id);
+                var item = context.Users.FirstOrDefault(u => u.Id == id);
+                return item;
             }
         }
 

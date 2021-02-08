@@ -99,7 +99,7 @@ namespace WorldYachts.Model
         public Customer GetItemById(int id)
         {
             using (var context = WorldYachtsContext.GetDataContext())
-            {
+            { 
                 return context.Customers.FirstOrDefault(c => c.Id == id);
             }
         }

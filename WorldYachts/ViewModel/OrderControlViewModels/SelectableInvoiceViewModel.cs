@@ -16,6 +16,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
         private bool _settled;
         private decimal _sum;
         private decimal _sumInclVat;
+        private DateTime _date;
         private Contract _contract;
 
         #endregion
@@ -23,7 +24,14 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
         #region Конструкторы
         public SelectableInvoiceViewModel(Invoice item) : base(item)
         {
+            Id = item.Id;
+            ContractId = item.ContractId;
+            Settled = item.Settled;
+            Sum = item.Sum;
+            SumInclVat = item.SumInclVat;
+            Date = item.Date;
 
+            _contract = item.Contract;
         }
 
         #endregion
@@ -80,7 +88,16 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
             }
         }
 
-
+        public DateTime Date
+        {
+            get => _date;
+            set
+            {
+                _date = value;
+                OnPropertyChanged(nameof(Date));
+            }
+        }
+        
 
         #endregion
 

@@ -106,7 +106,8 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
                     Sum = (item.DepositPayed + Deposit > item.ContractTotalPriceInclVat)
                         ? item.ContractTotalPriceInclVat - item.DepositPayed
                         : Deposit,
-                    SumInclVat = Deposit * (Convert.ToDecimal(item.Order.Boat.Vat * 0.01)),
+                    SumInclVat = Deposit * (Convert.ToDecimal(18 * 0.01)),
+                    Date = DateTime.Now,
                 };
 
                 if (invoice.Settled)
