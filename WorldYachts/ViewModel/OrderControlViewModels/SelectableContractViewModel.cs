@@ -24,6 +24,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
         private Order _order;
 
         private AsyncRelayCommand _deposit;
+        private AsyncRelayCommand _changeProductionProcess;
         #endregion
 
         #region Конструкторы
@@ -114,6 +115,9 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
                 OnPropertyChanged(nameof(ProductionProcess));
             }
         }
+        //Приступить к выполнению контракта можем после погашения 1/3 стоимости
+        public bool ChangeProductionProcessEnabled => DepositPayed >= (ContractTotalPriceInclVat / 3);
+
         #endregion
 
         #region Команды
@@ -123,6 +127,17 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
             get
             {
                 return _deposit ??= new AsyncRelayCommand(DepositMethod, (ex) =>
+                {
+                    ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message });
+                });
+            }
+        }
+
+        public AsyncRelayCommand ChangeProductionProcess
+        {
+            get
+            {
+                return _changeProductionProcess ??= new AsyncRelayCommand(ChangeProductionProcessMethod, (ex) =>
                 {
                     ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message });
                 });
@@ -141,6 +156,18 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
             };
             var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
             
+            //Извещаем об изменении предмета
+            BaseManagementViewModel<Contract>.OnItemChanged?.Invoke();
+        }
+
+        private async Task ChangeProductionProcessMethod(object parameter)
+        {
+            var view = new View.MessageDialogs.MessageDialog()
+            {
+                DataContext = new MessageDialogViewModel(new ProductProcessEditorViewModel(Item))
+            };
+            var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
+
             //Извещаем об изменении предмета
             BaseManagementViewModel<Contract>.OnItemChanged?.Invoke();
         }

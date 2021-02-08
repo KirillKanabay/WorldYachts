@@ -11,17 +11,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WorldYachts.View.OrderManagementControlViews
+namespace WorldYachts.View.Editors
 {
     /// <summary>
-    /// Логика взаимодействия для ContractManagementView.xaml
+    /// Логика взаимодействия для ProductProcessEditor.xaml
     /// </summary>
-    public partial class ContractManagementView : UserControl
+    public partial class ProductProcessEditor : UserControl
     {
-        public ContractManagementView()
+        public ProductProcessEditor()
         {
             InitializeComponent();
         }
-
     }
 }

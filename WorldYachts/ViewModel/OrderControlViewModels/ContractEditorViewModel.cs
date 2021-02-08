@@ -20,7 +20,18 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
         private decimal _deposit;
         private string _productionProcess;
         protected Contract _contract;
+
         protected Dictionary<string, string> ErrorDictionary = new Dictionary<string, string>();
+        public IEnumerable<string> _productProcesses = new List<string>()
+        {
+            EnumWorker.GetDescription(ProductionProcess.NotStarted),
+            EnumWorker.GetDescription(ProductionProcess.Started),
+            EnumWorker.GetDescription(ProductionProcess.InWork25),
+            EnumWorker.GetDescription(ProductionProcess.InWork50),
+            EnumWorker.GetDescription(ProductionProcess.InWork75),
+            EnumWorker.GetDescription(ProductionProcess.Finishing),
+            EnumWorker.GetDescription(ProductionProcess.Finished),
+        };
         #endregion
 
         #region Конструкторы
@@ -61,16 +72,15 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
             }
         }
 
-        public List<string> ProductProcesses = new List<string>()
+        public IEnumerable<string> ProductProcesses
         {
-            EnumWorker.GetDescription(ProductionProcess.NotStarted),
-            EnumWorker.GetDescription(ProductionProcess.Started),
-            EnumWorker.GetDescription(ProductionProcess.InWork25),
-            EnumWorker.GetDescription(ProductionProcess.InWork50),
-            EnumWorker.GetDescription(ProductionProcess.InWork75),
-            EnumWorker.GetDescription(ProductionProcess.Finishing),
-            EnumWorker.GetDescription(ProductionProcess.Finished),
-        };
+            get => _productProcesses;
+            set
+            {
+                _productProcesses = value;
+                OnPropertyChanged(nameof(ProductProcesses));
+            }
+        }
 
         public override bool SaveButtonIsEnabled => true;
         public override IDataModel<Contract> ModelItem => new ContractModel();

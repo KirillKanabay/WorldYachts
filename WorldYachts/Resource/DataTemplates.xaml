@@ -66,6 +66,9 @@
             <DataTemplate DataType="{x:Type orderControlViewModels:DepositEditorViewModel}">
                 <veditors:DepositEditorView />
             </DataTemplate>
+            <DataTemplate DataType="{x:Type orderManagementViewModels:ProductProcessEditorViewModel}">
+                <veditors:ProductProcessEditor />
+            </DataTemplate>
         </ResourceDictionary>
 
         <!--  BoatManagement  -->
