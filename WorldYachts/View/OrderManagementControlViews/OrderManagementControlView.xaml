@@ -39,7 +39,6 @@
             <TabItem Header="Управление счетами">
                 <local:InvoiceManagementView />
             </TabItem>
-            <TabItem Header="Импорт/Экспорт данных" />
         </TabControl>
 
     </Grid>

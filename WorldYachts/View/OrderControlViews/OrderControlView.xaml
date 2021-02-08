@@ -40,7 +40,6 @@
             <TabItem Header="Счета">
                 <accessoryControlViews:AccessoryFitManagementView />
             </TabItem>
-            <TabItem Header="Импорт/Экспорт данных" />
         </TabControl>
 
     </Grid>
