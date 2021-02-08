@@ -93,21 +93,35 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
         {
             ProgressBarVisibility = Visibility.Visible;
             var item = GetSaveItem(_isEdit);
-            if (item.DepositPayed + Deposit > item.ContractTotalPriceInclVat)
+            item.ProductionProcess = ProductProcess;
+            
+            Invoice invoice = null;
+            if (Deposit > 0)
             {
-                Deposit = item.ContractTotalPriceInclVat - item.DepositPayed;
-                item.DepositPayed = item.ContractTotalPriceInclVat;
+                invoice = new Invoice()
+                {
+                    ContractId = item.Id,
+                    Settled = AuthUser.TypeOfUser == TypeOfUser.SalesPerson,
+                    //Если внесено больше, чем требуется, пополняем оставшуюся сумму контракта
+                    Sum = (item.DepositPayed + Deposit > item.ContractTotalPriceInclVat)
+                        ? item.ContractTotalPriceInclVat - item.DepositPayed
+                        : Deposit,
+                    SumInclVat = Deposit * (Convert.ToDecimal(item.Order.Boat.Vat * 0.01)),
+                };
+
+                if (invoice.Settled)
+                {
+                    item.DepositPayed += invoice.Sum;
+                }
             }
-            else
-            {
-                item.DepositPayed += Deposit;
-            }
-            item.ProductionProcess = ProductProcess; 
+            
             try
             {
                 if (_isEdit)
                 {
                     await Task.Run(() => ModelItem.SaveAsync(item));
+                    if (invoice != null)
+                        await Task.Run(() => new InvoiceModel().AddAsync(invoice));
                 }
                 else
                 {
