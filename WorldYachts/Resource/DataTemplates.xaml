@@ -14,7 +14,9 @@
     xmlns:vm="clr-namespace:WorldYachts.ViewModel"
     xmlns:vmaccessory="clr-namespace:WorldYachts.ViewModel.AccessoryControlViewModels"
     xmlns:vmboat="clr-namespace:WorldYachts.ViewModel.BoatManagementViewModels"
-    xmlns:vmcatalog="clr-namespace:WorldYachts.ViewModel.CatalogControlViewModels">
+    xmlns:vmcatalog="clr-namespace:WorldYachts.ViewModel.CatalogControlViewModels"
+    xmlns:orderManagementViewModels="clr-namespace:WorldYachts.ViewModel.OrderManagementViewModels"
+    xmlns:orderManagementControlViews="clr-namespace:WorldYachts.View.OrderManagementControlViews">
     <ResourceDictionary.MergedDictionaries>
         <!--  Основные UC  -->
         <ResourceDictionary>
@@ -57,6 +59,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type orderControlViewModels:OrderViewModel}">
                 <orderControlViews:OrderControlView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type orderManagementViewModels:OrderManagementControlViewModel}">
+                <orderManagementControlViews:OrderManagementControlView/>
             </DataTemplate>
         </ResourceDictionary>
 

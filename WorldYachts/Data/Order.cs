@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 using System.Text;
 using WorldYachts.Infrastructure;
+using WorldYachts.Model;
 
 namespace WorldYachts.Data
 {
@@ -72,7 +74,7 @@ namespace WorldYachts.Data
         public List<OrderDetails> OrderDetails { get; set; }
 
         public string OrderName => $"{Boat.Model} (Заказ #{Id})";
-
+        [NotMapped]
         public string StatusString
         {
             get
@@ -94,5 +96,11 @@ namespace WorldYachts.Data
         }
 
         public string SalesPersonString => $"{SalesPerson.Name} {SalesPerson.SecondName}";
+
+        public string SelectedOrderStatus
+        {
+            get => StatusString;
+            
+        }
     }
 }

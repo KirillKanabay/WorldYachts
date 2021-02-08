@@ -33,7 +33,7 @@ namespace WorldYachts.Model
         {
             using (var context = WorldYachtsContext.GetDataContext())
             {
-                return context.Users;
+                return context.Users.ToList();
             }
         }
 

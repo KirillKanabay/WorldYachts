@@ -27,7 +27,7 @@ namespace WorldYachts.ViewModel.BaseViewModels
         /// <summary>
         /// Поисковая строка
         /// </summary>
-        private string _filterText;
+        protected string _filterText;
 
         private AsyncRelayCommand _getItemsCollection;
         private AsyncRelayCommand _removeItem;
@@ -71,7 +71,7 @@ namespace WorldYachts.ViewModel.BaseViewModels
             }
         }
 
-        public string FilterText
+        public virtual string FilterText
         {
             get => _filterText;
             set
@@ -224,7 +224,7 @@ namespace WorldYachts.ViewModel.BaseViewModels
         /// </summary>
         /// <param name="parameter"></param>
         /// <returns></returns>
-        private async Task GetCollectionMethod(object parameter)
+        protected virtual async Task GetCollectionMethod(object parameter)
         {
             ProgressBarVisibility = Visibility.Visible;
             var items = await ModelItem.LoadAsync();

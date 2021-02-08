@@ -14,7 +14,7 @@ using WorldYachts.ViewModel.BaseViewModels;
 
 namespace WorldYachts.ViewModel.UserControlViewModels
 {
-    class SalesPersonEditorViewModel:BaseEditorViewModel<SalesPerson>,IDataErrorInfo
+    class SalesPersonEditorViewModel : BaseEditorViewModel<SalesPerson>, IDataErrorInfo
     {
         #region Поля
 
@@ -23,20 +23,28 @@ namespace WorldYachts.ViewModel.UserControlViewModels
         private string _secondName;
         private string _login;
         private string _password;
+        private User _user;
 
         #endregion
 
         #region Конструкторы
+
         public SalesPersonEditorViewModel(SalesPerson item) : base(true)
         {
             _id = item.Id;
             _name = item.Name;
             _secondName = item.SecondName;
+            _user = new UserModel().Load()
+                .FirstOrDefault(u => u.TypeUser == (int) TypeOfUser.SalesPerson && u.UserId == item.Id);
+            
+            _password = _user.Password;
+            _login = _user.Login;
         }
 
-        public SalesPersonEditorViewModel():base(false)
+        public SalesPersonEditorViewModel() : base(false)
         {
         }
+
         #endregion
 
         #region Свойства
@@ -100,21 +108,18 @@ namespace WorldYachts.ViewModel.UserControlViewModels
                 if (_isEdit)
                 {
                     await spm.SaveAsync(GetSaveItem(_isEdit));
-                    var users = await um.LoadAsync();
-                    var spUser = users.FirstOrDefault(u => u.TypeUser == (int) TypeOfUser.SalesPerson &&
-                                                  u.UserId == spm.LastAddedItem.Id);
                     await um.SaveAsync(new User()
                     {
-                        Id = spUser.Id,
-                        TypeUser = (int)TypeOfUser.SalesPerson,
+                        Id = _user.Id,
+                        TypeUser = (int) TypeOfUser.SalesPerson,
                         Login = Login,
                         Password = Password,
-                        UserId = spUser.Id
+                        UserId = _user.UserId
                     });
                 }
                 else
                 {
-                    await Task.Run((() => um.AddSalesPersonAsync(GetSaveItem(_isEdit),Login,Password)));
+                    await Task.Run((() => um.AddSalesPersonAsync(GetSaveItem(_isEdit), Login, Password)));
                 }
             }
             finally
@@ -148,9 +153,9 @@ namespace WorldYachts.ViewModel.UserControlViewModels
         #endregion
 
         #region Валидация полей
-        
+
         private readonly Dictionary<string, string> ErrorDictionary = new Dictionary<string, string>();
-        
+
         public string Error { get; }
 
         public string this[string columnName]
@@ -169,13 +174,13 @@ namespace WorldYachts.ViewModel.UserControlViewModels
                             new NotEmptyFieldValidationRule(SecondName)).Validate(ref error);
                         break;
                     case "Password":
-                        new Validation(new SafePasswordValidationRule(Login),
-                            new NotEmptyFieldValidationRule(Login)).Validate(ref error);
+                        new Validation(new SafePasswordValidationRule(Password),
+                            new NotEmptyFieldValidationRule(Password)).Validate(ref error);
                         break;
                     case "Login":
                         new Validation(
-                            new LoginValidationRule(Password), 
-                            new NotEmptyFieldValidationRule(Password)).Validate(ref error);
+                            new LoginValidationRule(Login),
+                            new NotEmptyFieldValidationRule(Login)).Validate(ref error);
                         break;
                 }
 
@@ -186,8 +191,7 @@ namespace WorldYachts.ViewModel.UserControlViewModels
                 return error;
             }
         }
-        
-        #endregion
 
+        #endregion
     }
 }

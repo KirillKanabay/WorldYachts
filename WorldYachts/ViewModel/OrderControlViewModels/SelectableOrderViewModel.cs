@@ -1,18 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading.Tasks;
 using WorldYachts.Data;
+using WorldYachts.Helpers.Commands;
+using WorldYachts.Infrastructure;
+using WorldYachts.Model;
 using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BaseViewModels;
+using WorldYachts.ViewModel.OrderManagementViewModels;
 
 namespace WorldYachts.ViewModel.OrderControlViewModels
 {
-    class SelectableOrderViewModel:BaseSelectableViewModel<Order>
+    class SelectableOrderViewModel : BaseSelectableViewModel<Order>
     {
-        public SelectableOrderViewModel(Order item):base(item)
+        #region Поля
+
+        private AsyncRelayCommand _acceptCommand;
+        private AsyncRelayCommand _compliteCommand;
+        private AsyncRelayCommand _cancelCommand;
+        private AsyncRelayCommand _setOrderStatus;
+        private OrderStatus _os;
+
+        #endregion
+
+        #region Конструкторы
+
+        public SelectableOrderViewModel(Order item) : base(item)
         {
-            
         }
+
+        #endregion
 
         #region Свойства
 
@@ -22,7 +41,74 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
 
         #endregion
 
+        #region Команды
+
+        public AsyncRelayCommand SetOrderStatus
+        {
+            get
+            {
+                return _setOrderStatus ??= new AsyncRelayCommand(SetOrderStatusMethod,
+                    (ex) =>
+                    {
+                        ExecuteRunDialog(new MessageDialogProperty() {Title = "Ошибка", Message = ex.Message});
+                    });
+            }
+        }
+
+        #endregion
+
         #region Методы
+
+        private async Task SetOrderStatusMethod(object parameter)
+        {
+            string os = (string) parameter;
+            switch (os)
+            {
+                case "InProcessing":
+                    _os = OrderStatus.InProcessing;
+                    break;
+                case "Accepted":
+                    _os = OrderStatus.Accepted;
+                    break;
+                case "Completed":
+                    _os = OrderStatus.Completed;
+                    break;
+                case "Canceled":
+                    _os = OrderStatus.Canceled;
+                    break;
+            }
+
+            Item.Status = (int) _os;
+            Item.SalesPersonId = (_os == OrderStatus.InProcessing) ? 1 : AuthUser.User.Id;
+            await Task.Run(() => new OrderModel().SaveAsync(Item));
+            OrderManagementViewModel.OnItemChanged?.Invoke();
+            MainWindow.SendSnackbarAction?.Invoke(GetStatusOrderSnackbarMessage());
+        }
+
+        private string GetStatusOrderSnackbarMessage()
+        {
+            string os = "";
+            switch (_os)
+            {
+                case OrderStatus.InProcessing:
+                    os = "отправлен в обработку";
+                    break;
+                case OrderStatus.Accepted:
+                    os = "принят";
+                    break;
+                case OrderStatus.Canceled:
+                    os = "отменен";
+                    break;
+                case OrderStatus.Completed:
+                    os  = "выполнен";
+                    break;
+                default:
+                    throw new ArgumentException("Ошибка");
+            }
+
+            return $"Заказ #{Item.Id} {os}.";
+        }
+
         protected override void ToggleViewEditorAfterLoaded()
         {
             throw new NotImplementedException();
@@ -42,8 +128,6 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
             };
         }
 
-
         #endregion
-
     }
 }
