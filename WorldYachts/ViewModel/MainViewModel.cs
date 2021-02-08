@@ -15,7 +15,6 @@ using WorldYachts.ViewModel.BoatManagementViewModels;
 using WorldYachts.ViewModel.CatalogControlViewModels;
 using WorldYachts.ViewModel.DashboardControlViewModels;
 using WorldYachts.ViewModel.OrderControlViewModels;
-using WorldYachts.ViewModel.OrderManagementViewModels;
 using WorldYachts.ViewModel.UserControlViewModels;
 
 namespace WorldYachts.ViewModel

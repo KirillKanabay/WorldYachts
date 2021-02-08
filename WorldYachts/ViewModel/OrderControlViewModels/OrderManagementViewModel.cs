@@ -11,7 +11,7 @@ using WorldYachts.Model;
 using WorldYachts.ViewModel.BaseViewModels;
 using WorldYachts.ViewModel.OrderControlViewModels;
 
-namespace WorldYachts.ViewModel.OrderManagementViewModels
+namespace WorldYachts.ViewModel.OrderControlViewModels
 {
     class OrderManagementViewModel : BaseManagementViewModel<Order>
     {

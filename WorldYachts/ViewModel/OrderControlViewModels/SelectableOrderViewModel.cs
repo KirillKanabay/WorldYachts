@@ -9,7 +9,6 @@ using WorldYachts.Infrastructure;
 using WorldYachts.Model;
 using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BaseViewModels;
-using WorldYachts.ViewModel.OrderManagementViewModels;
 
 namespace WorldYachts.ViewModel.OrderControlViewModels
 {
@@ -83,6 +82,14 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
             await Task.Run(() => new OrderModel().SaveAsync(Item));
             OrderManagementViewModel.OnItemChanged?.Invoke();
             MainWindow.SendSnackbarAction?.Invoke(GetStatusOrderSnackbarMessage());
+        }
+
+        public override string ToString()
+        {
+            return $"id:{Item.Id}\n" +
+                   $"Лодка:{Item.Boat.Model}\n" +
+                   $"Покупатель: {Item.Customer.Name} {Item.Customer.SecondName}\n" +
+                   $"Дата оформления: {Item.Date:d}";
         }
 
         private string GetStatusOrderSnackbarMessage()

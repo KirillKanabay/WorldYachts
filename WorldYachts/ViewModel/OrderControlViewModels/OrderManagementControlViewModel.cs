@@ -1,6 +1,6 @@
 ﻿using WorldYachts.ViewModel.BaseViewModels;
 
-namespace WorldYachts.ViewModel.OrderManagementViewModels
+namespace WorldYachts.ViewModel.OrderControlViewModels
 {
     class OrderManagementControlViewModel:BaseViewModel
     {
