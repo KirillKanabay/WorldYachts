@@ -69,6 +69,9 @@
             <DataTemplate DataType="{x:Type orderManagementViewModels:ProductProcessEditorViewModel}">
                 <veditors:ProductProcessEditor />
             </DataTemplate>
+            <DataTemplate DataType="{x:Type orderControlViewModels:ContractViewModel}">
+                <orderControlViews:ContractView />
+            </DataTemplate>
         </ResourceDictionary>
 
         <!--  BoatManagement  -->

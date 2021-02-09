@@ -1,13 +1,14 @@
-﻿<UserControl x:Class="WorldYachts.View.OrderControlViews.OrderControlView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:WorldYachts.View.OrderControlViews"
-             xmlns:accessoryControlViews="clr-namespace:WorldYachts.View.AccessoryControlViews"
-             Background="#FAFAFA"
-             FontFamily="Google Sans"
-             mc:Ignorable="d">
+﻿<UserControl
+    x:Class="WorldYachts.View.OrderControlViews.OrderControlView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:accessoryControlViews="clr-namespace:WorldYachts.View.AccessoryControlViews"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:WorldYachts.View.OrderControlViews"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Background="#FAFAFA"
+    FontFamily="Google Sans"
+    mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -35,7 +36,7 @@
                 <local:OrderView />
             </TabItem>
             <TabItem Header="Заказы">
-                <accessoryControlViews:AccessoryManagementView />
+                <local:ContractView />
             </TabItem>
             <TabItem Header="Счета">
                 <accessoryControlViews:AccessoryFitManagementView />

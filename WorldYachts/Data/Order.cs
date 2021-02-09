@@ -83,7 +83,7 @@ namespace WorldYachts.Data
         /// </summary>
         public List<OrderDetails> OrderDetails { get; set; }
 
-        public string OrderName => $"{Boat.Model} (Заказ #{Id})";
+        public string OrderName => $"{Boat.Model} (Заказ #{Id}) (Статус: {StatusString})";
 
         [NotMapped]
         public string StatusString
@@ -93,7 +93,7 @@ namespace WorldYachts.Data
                 switch (Status)
                 {
                     case (int) OrderStatus.InProcessing:
-                        return "В обработке.";
+                        return "В обработке";
                     case (int) OrderStatus.Accepted:
                         return "Принят";
                     case (int) OrderStatus.Canceled:
