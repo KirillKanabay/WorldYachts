@@ -1,295 +1,443 @@
-﻿<Window x:Class="WorldYachts.View.RegisterWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WorldYachts.View"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:vm ="clr-namespace:WorldYachts.ViewModel"
-        xmlns:validators="clr-namespace:WorldYachts.Validators"
-        xmlns:helpers="clr-namespace:WorldYachts.Helpers"
-        mc:Ignorable="d"
-        Title="Регистрация пользователя" 
-        Height="700" 
-        Width="1000" 
-        ResizeMode="NoResize" 
-        Background="#FFFAFAFA" 
-        FontFamily="SF Pro Display" 
-        WindowStartupLocation="CenterScreen"
-        x:Name="RegisterWin">
+﻿<Window
+    x:Class="WorldYachts.View.RegisterWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="clr-namespace:WorldYachts.Helpers"
+    xmlns:local="clr-namespace:WorldYachts.View"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:validators="clr-namespace:WorldYachts.Validators"
+    xmlns:vm="[vm ]clr-namespace:WorldYachts.ViewModel"
+    xmlns:viewModel="clr-namespace:WorldYachts.ViewModel"
+    x:Name="RegisterWin"
+    Title="Регистрация пользователя"
+    Width="1000"
+    Height="700"
+    Background="#FFFAFAFA"
+    FontFamily="SF Pro Display"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="None"
+    mc:Ignorable="d">
     <Window.DataContext>
-        <vm:RegisterViewModel></vm:RegisterViewModel>
+        <viewModel:RegisterViewModel />
     </Window.DataContext>
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary
-                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ComboBox.xaml" />
-                <ResourceDictionary
-                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBox.xaml" />
-                <ResourceDictionary
-                    Source="../Resource/Logo.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ComboBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBox.xaml" />
+                <ResourceDictionary Source="../Resource/Logo.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <Style BasedOn="{StaticResource MaterialDesignListBoxItem}" TargetType="{x:Type ListBoxItem}">
+                <Setter Property="Height" Value="40" />
+                <Style.Triggers>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="FontWeight" Value="Bold" />
+                        <Setter Property="Background" Value="#33393939" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style
+                x:Key="HoverCloseButton"
+                BasedOn="{StaticResource MaterialDesignToolForegroundButton}"
+                TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Foreground" Value="#5E5F62" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Background="{TemplateBinding Background}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#F04747" />
+                        <Setter Property="Foreground" Value="White" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style
+                x:Key="HoverMinimizeButton"
+                BasedOn="{StaticResource MaterialDesignToolForegroundButton}"
+                TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Foreground" Value="#5E5F62" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Background="{TemplateBinding Background}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#C0C0C0" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
         </ResourceDictionary>
     </Window.Resources>
-    <materialDesign:DialogHost Identifier="RootDialog">
-        <materialDesign:DrawerHost>
-    <Grid Margin="10">
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="180px"></RowDefinition>
-            <RowDefinition Height="400px"></RowDefinition>
-            <RowDefinition Height="50px"></RowDefinition>
+            <RowDefinition MaxHeight="25" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="49*"></ColumnDefinition>
-            <ColumnDefinition Width="277*"/>
-            <ColumnDefinition Width="327*"></ColumnDefinition>
-            <ColumnDefinition Width="327*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,326,0">
-            <TextBox 
-                Width="300" 
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                Margin="0 8 0 15"
-                FontSize="16" >
-                <materialDesign:HintAssist.Hint>
-                    <TextBlock>Имя</TextBlock>
-                </materialDesign:HintAssist.Hint>
-                <TextBox.Text>
-                    <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <DataErrorValidationRule/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
-            <TextBox 
-                Width="300" 
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                Margin="0 8 0 15"
-                FontSize="16" >
-                <materialDesign:HintAssist.Hint>
-                    <TextBlock>Фамилия</TextBlock>
-                </materialDesign:HintAssist.Hint>
-                <TextBox.Text>
-                    <Binding Path="SecondName" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <DataErrorValidationRule/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
-            <DatePicker
-                materialDesign:HintAssist.Hint="Дата рождения"
-                materialDesign:HintAssist.FloatingScale="0.75"
-                Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
-                VerticalAlignment="Top" Width="300" FontSize="16"
-                HorizontalAlignment="Left" Margin="8 8 0 0">
-                <DatePicker.SelectedDate>
-                    <Binding Path="BirthDate" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <DataErrorValidationRule/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </DatePicker.SelectedDate>
-            </DatePicker>
-            <TextBox 
-                Width="300" 
-                Text="{Binding OrganizationName}"
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                Margin="0 8 0 0"
-                FontSize="16" >
-                <materialDesign:HintAssist.Hint>
-                    <TextBlock>Название организации (если есть)</TextBlock>
-                </materialDesign:HintAssist.Hint>
-            </TextBox>
-            <TextBox 
-                Width="300" 
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                Margin="0 8 0 15"
-                FontSize="16" >
-                <materialDesign:HintAssist.Hint>
-                    <TextBlock>Город проживания</TextBlock>
-                </materialDesign:HintAssist.Hint>
-                <TextBox.Text>
-                    <Binding Path="City" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <DataErrorValidationRule/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
-            <TextBox 
-                Width="300" 
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                Margin="0 8 0 8"
-                FontSize="16" >
-                <materialDesign:HintAssist.Hint>
-                    <TextBlock>Адрес проживания</TextBlock>
-                </materialDesign:HintAssist.Hint>
-                <TextBox.Text>
-                    <Binding Path="Address" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <DataErrorValidationRule/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
-        </StackPanel>
-        <StackPanel Grid.ColumnSpan="4" Grid.Row="0">
-            <Image 
-                Width="154px" 
-                Height="140px" 
-                Visibility="Visible"
-                Source="{StaticResource Logo}">
-            </Image>
-            <TextBlock FontSize="24" HorizontalAlignment="Center" FontWeight="Light">Регистрация</TextBlock>
-        </StackPanel>
+        <materialDesign:Card
+            x:Name="HeaderPanel"
+            Grid.Row="0"
+            Grid.Column="0"
+            materialDesign:ShadowAssist.ShadowDepth="Depth1">
+            <Grid Background="White">
+                <Button
+                    x:Name="CloseBtn"
+                    Width="40"
+                    Height="25"
+                    HorizontalAlignment="Right"
+                    materialDesign:RippleAssist.IsCentered="True"
+                    materialDesign:RippleAssist.RippleSizeMultiplier="0.7"
+                    Cursor="Hand"
+                    Style="{StaticResource HoverCloseButton}"
+                    ToolTip="Закрыть">
+                    <materialDesign:PackIcon
+                        Width="15"
+                        Height="15"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Kind="WindowClose" />
+                </Button>
+                <Button
+                    x:Name="MinimizeBtn"
+                    Width="40"
+                    Height="25"
+                    Margin="0,0,40,0"
+                    HorizontalAlignment="Right"
+                    materialDesign:RippleAssist.IsCentered="True"
+                    materialDesign:RippleAssist.RippleSizeMultiplier="0.7"
+                    Cursor="Hand"
+                    Style="{StaticResource HoverMinimizeButton}"
+                    ToolTip="Свернуть">
+                    <materialDesign:PackIcon
+                        Width="15"
+                        Height="15"
+                        HorizontalAlignment="Center"
+                        Kind="Minus" />
+                </Button>
+                <StackPanel
+                    Height="25"
+                    Margin="20,0,0,0"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontSize="15"
+                        Foreground="#2196f3">
+                        World
+                    </TextBlock>
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontSize="15"
+                        FontWeight="Bold"
+                        Foreground="#2196f3">
+                        Yacht
+                    </TextBlock>
+                </StackPanel>
+            </Grid>
+        </materialDesign:Card>
+        <materialDesign:DialogHost Grid.Row="1" Identifier="RootDialog">
+            <materialDesign:DrawerHost>
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="180px" />
+                        <RowDefinition Height="400px" />
+                        <RowDefinition Height="50px" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="49*" />
+                        <ColumnDefinition Width="277*" />
+                        <ColumnDefinition Width="327*" />
+                        <ColumnDefinition Width="327*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        Margin="0,0,326,0">
+                        <TextBox
+                            Width="300"
+                            Margin="0,8,0,15"
+                            FontSize="16"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                            <materialDesign:HintAssist.Hint>
+                                <TextBlock>Имя</TextBlock>
+                            </materialDesign:HintAssist.Hint>
+                            <TextBox.Text>
+                                <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <DataErrorValidationRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                        <TextBox
+                            Width="300"
+                            Margin="0,8,0,15"
+                            FontSize="16"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                            <materialDesign:HintAssist.Hint>
+                                <TextBlock>Фамилия</TextBlock>
+                            </materialDesign:HintAssist.Hint>
+                            <TextBox.Text>
+                                <Binding Path="SecondName" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <DataErrorValidationRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                        <DatePicker
+                            Width="300"
+                            Margin="8,8,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            materialDesign:HintAssist.FloatingScale="0.75"
+                            materialDesign:HintAssist.Hint="Дата рождения"
+                            FontSize="16"
+                            Style="{StaticResource MaterialDesignFloatingHintDatePicker}">
+                            <DatePicker.SelectedDate>
+                                <Binding Path="BirthDate" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <DataErrorValidationRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </DatePicker.SelectedDate>
+                        </DatePicker>
+                        <TextBox
+                            Width="300"
+                            Margin="0,8,0,0"
+                            FontSize="16"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                            Text="{Binding OrganizationName}">
+                            <materialDesign:HintAssist.Hint>
+                                <TextBlock>Название организации (если есть)</TextBlock>
+                            </materialDesign:HintAssist.Hint>
+                        </TextBox>
+                        <TextBox
+                            Width="300"
+                            Margin="0,8,0,15"
+                            FontSize="16"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                            <materialDesign:HintAssist.Hint>
+                                <TextBlock>Город проживания</TextBlock>
+                            </materialDesign:HintAssist.Hint>
+                            <TextBox.Text>
+                                <Binding Path="City" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <DataErrorValidationRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                        <TextBox
+                            Width="300"
+                            Margin="0,8,0,8"
+                            FontSize="16"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                            <materialDesign:HintAssist.Hint>
+                                <TextBlock>Адрес проживания</TextBlock>
+                            </materialDesign:HintAssist.Hint>
+                            <TextBox.Text>
+                                <Binding Path="Address" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <DataErrorValidationRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                    </StackPanel>
+                    <StackPanel Grid.Row="0" Grid.ColumnSpan="4">
+                        <Image
+                            Width="154px"
+                            Height="140px"
+                            Source="{StaticResource Logo}"
+                            Visibility="Visible" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            FontSize="24"
+                            FontWeight="Light">
+                            Регистрация
+                        </TextBlock>
+                    </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="2">
-            <TextBox 
-                Width="300" 
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                Margin="0 8 0 15"
-                FontSize="16" >
-                <materialDesign:HintAssist.Hint>
-                    <TextBlock>E-mail</TextBlock>
-                </materialDesign:HintAssist.Hint>
-                <TextBox.Text>
-                    <Binding Path="Email" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <DataErrorValidationRule/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
-            <TextBox 
-                Width="300" 
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                Margin="0 8 0 15"
-                FontSize="16" >
-                <materialDesign:HintAssist.Hint>
-                    <TextBlock>Телефон</TextBlock>
-                </materialDesign:HintAssist.Hint>
-                <TextBox.Text>
-                    <Binding Path="Phone" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <DataErrorValidationRule/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
-            <ComboBox materialDesign:HintAssist.Hint="Документ подтверждающий личность"
-                      Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                      Margin="0 12 0 0" Width="300" FontSize="16"
-                      materialDesign:HintAssist.FloatingScale="0.75">
-                <TextBlock>Паспорт РФ</TextBlock>
-                <TextBlock>Загранпаспорт</TextBlock>
-                <ComboBox.Text>
-                    <Binding Path="IdDocumentName" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <DataErrorValidationRule/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </ComboBox.Text>
-            </ComboBox>
-            <TextBox 
-                Width="300" 
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                Margin="0 8 0 8"
-                FontSize="16" >
-                <materialDesign:HintAssist.Hint>
-                    <TextBlock>Серия документа</TextBlock>
-                </materialDesign:HintAssist.Hint>
-                <TextBox.Text>
-                    <Binding Path="IdNumber" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <DataErrorValidationRule/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
-        </StackPanel>
-        <StackPanel Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Margin="326,0,0,0">
-            <TextBox 
-                Width="300" 
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                Margin="0 8 0 15"
-                FontSize="16" >
-                <materialDesign:HintAssist.Hint>
-                    <TextBlock>Логин</TextBlock>
-                </materialDesign:HintAssist.Hint>
-                <TextBox.Text>
-                    <Binding Path="Login" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <DataErrorValidationRule/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
-            <PasswordBox  helpers:PasswordBoxAssistant.BindPassword="True"
-                          x:Name ="PasswordBox"
-                          Style="{DynamicResource MaterialDesignFloatingHintPasswordBox}"
-                          Width="300" 
-                          Margin="0 15 0 8" Cursor="IBeam"  FontFamily="Arial"
-                          FontSize="11">
-                <materialDesign:HintAssist.Hint>
-                    <TextBlock FontSize="16">Пароль</TextBlock>
-                </materialDesign:HintAssist.Hint>
-                <helpers:PasswordBoxAssistant.BoundPassword>
-                    <Binding Path="Password" Mode="OneWayToSource">
-                        <Binding.ValidationRules>
-                            <DataErrorValidationRule/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </helpers:PasswordBoxAssistant.BoundPassword>
-            </PasswordBox>
-            <PasswordBox  helpers:PasswordBoxAssistant.BindPassword="True"
-                          x:Name ="PasswordBoxRepeated"
-                          Style="{DynamicResource MaterialDesignFloatingHintPasswordBox}"
-                          Width="300" 
-                          Margin="0 35 0 8" Cursor="IBeam"
-                          FontSize="11"
-                          FontFamily="Arial">
-                <materialDesign:HintAssist.Hint>
-                    <TextBlock FontSize="16">Повторите пароль</TextBlock>
-                </materialDesign:HintAssist.Hint>
-                <helpers:PasswordBoxAssistant.BoundPassword>
-                    <Binding Path="PasswordRepeated" Mode="OneWayToSource">
-                        <Binding.ValidationRules>
-                            <DataErrorValidationRule/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </helpers:PasswordBoxAssistant.BoundPassword>
-            </PasswordBox>
-        </StackPanel>
-        <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal" Grid.ColumnSpan="2">
-            <Button
-                Style="{DynamicResource MaterialDesignFlatButton}"
-                Command="{Binding ChangeToLoginWindow}"
-                CommandParameter="{Binding ElementName=RegisterWin }"
-                Cursor="Hand"
-                Margin="0 0 10 0">
-                Авторизация
-            </Button>
-            <Button Grid.Row="2"
-                    x:Name="RegisterButton"
-                    Command="{Binding Register}" 
-                    CommandParameter="{Binding ElementName=RegisterWin }"
-                    IsEnabled="{Binding ButtonIsEnabled}"
-                    Cursor="Hand" 
-                    Width="180" 
-                    Content="Зарегистрироваться"
-                    Grid.Column="2"/>
-            <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"                     
-                         Visibility="{Binding ProgressBarVisibility }"
-                         Value="0"
-                         IsIndeterminate="True"
-                         VerticalAlignment="Center" 
-                         HorizontalAlignment="Center" 
-                         Margin="12 12 12 12"/>
-        </StackPanel>
-    </Grid>
+                    <StackPanel Grid.Row="1" Grid.Column="2">
+                        <TextBox
+                            Width="300"
+                            Margin="0,8,0,15"
+                            FontSize="16"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                            <materialDesign:HintAssist.Hint>
+                                <TextBlock>E-mail</TextBlock>
+                            </materialDesign:HintAssist.Hint>
+                            <TextBox.Text>
+                                <Binding Path="Email" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <DataErrorValidationRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                        <TextBox
+                            Width="300"
+                            Margin="0,8,0,15"
+                            FontSize="16"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                            <materialDesign:HintAssist.Hint>
+                                <TextBlock>Телефон</TextBlock>
+                            </materialDesign:HintAssist.Hint>
+                            <TextBox.Text>
+                                <Binding Path="Phone" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <DataErrorValidationRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                        <ComboBox
+                            Width="300"
+                            Margin="0,12,0,0"
+                            materialDesign:HintAssist.FloatingScale="0.75"
+                            materialDesign:HintAssist.Hint="Документ подтверждающий личность"
+                            FontSize="16"
+                            Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                            <TextBlock>Паспорт РФ</TextBlock>
+                            <TextBlock>Загранпаспорт</TextBlock>
+                            <ComboBox.Text>
+                                <Binding Path="IdDocumentName" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <DataErrorValidationRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </ComboBox.Text>
+                        </ComboBox>
+                        <TextBox
+                            Width="300"
+                            Margin="0,8,0,8"
+                            FontSize="16"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                            <materialDesign:HintAssist.Hint>
+                                <TextBlock>Серия документа</TextBlock>
+                            </materialDesign:HintAssist.Hint>
+                            <TextBox.Text>
+                                <Binding Path="IdNumber" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <DataErrorValidationRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                    </StackPanel>
+                    <StackPanel
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="2"
+                        Margin="326,0,0,0">
+                        <TextBox
+                            Width="300"
+                            Margin="0,8,0,15"
+                            FontSize="16"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                            <materialDesign:HintAssist.Hint>
+                                <TextBlock>Логин</TextBlock>
+                            </materialDesign:HintAssist.Hint>
+                            <TextBox.Text>
+                                <Binding Path="Login" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <DataErrorValidationRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                        <PasswordBox
+                            x:Name="PasswordBox"
+                            Width="300"
+                            Margin="0,15,0,8"
+                            helpers:PasswordBoxAssistant.BindPassword="True"
+                            Cursor="IBeam"
+                            FontFamily="Arial"
+                            FontSize="11"
+                            Style="{DynamicResource MaterialDesignFloatingHintPasswordBox}">
+                            <materialDesign:HintAssist.Hint>
+                                <TextBlock FontSize="16">Пароль</TextBlock>
+                            </materialDesign:HintAssist.Hint>
+                            <helpers:PasswordBoxAssistant.BoundPassword>
+                                <Binding Mode="OneWayToSource" Path="Password">
+                                    <Binding.ValidationRules>
+                                        <DataErrorValidationRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </helpers:PasswordBoxAssistant.BoundPassword>
+                        </PasswordBox>
+                        <PasswordBox
+                            x:Name="PasswordBoxRepeated"
+                            Width="300"
+                            Margin="0,35,0,8"
+                            helpers:PasswordBoxAssistant.BindPassword="True"
+                            Cursor="IBeam"
+                            FontFamily="Arial"
+                            FontSize="11"
+                            Style="{DynamicResource MaterialDesignFloatingHintPasswordBox}">
+                            <materialDesign:HintAssist.Hint>
+                                <TextBlock FontSize="16">Повторите пароль</TextBlock>
+                            </materialDesign:HintAssist.Hint>
+                            <helpers:PasswordBoxAssistant.BoundPassword>
+                                <Binding Mode="OneWayToSource" Path="PasswordRepeated">
+                                    <Binding.ValidationRules>
+                                        <DataErrorValidationRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </helpers:PasswordBoxAssistant.BoundPassword>
+                        </PasswordBox>
+                    </StackPanel>
+                    <StackPanel
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="2"
+                        Orientation="Horizontal">
+                        <Button
+                            Margin="0,0,10,0"
+                            Command="{Binding ChangeToLoginWindow}"
+                            CommandParameter="{Binding ElementName=RegisterWin}"
+                            Cursor="Hand"
+                            Style="{DynamicResource MaterialDesignFlatButton}">
+                            Авторизация
+                        </Button>
+                        <Button
+                            x:Name="RegisterButton"
+                            Grid.Row="2"
+                            Grid.Column="2"
+                            Width="180"
+                            Command="{Binding Register}"
+                            CommandParameter="{Binding ElementName=RegisterWin}"
+                            Content="Зарегистрироваться"
+                            Cursor="Hand"
+                            IsEnabled="{Binding ButtonIsEnabled}" />
+                        <ProgressBar
+                            Margin="12,12,12,12"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            IsIndeterminate="True"
+                            Style="{StaticResource MaterialDesignCircularProgressBar}"
+                            Visibility="{Binding ProgressBarVisibility}"
+                            Value="0" />
+                    </StackPanel>
+                </Grid>
             </materialDesign:DrawerHost>
         </materialDesign:DialogHost>
+    </Grid>
+
 </Window>

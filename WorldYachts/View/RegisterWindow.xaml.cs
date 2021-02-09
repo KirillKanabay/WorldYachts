@@ -17,13 +17,31 @@ namespace WorldYachts.View
     /// </summary>
     public partial class RegisterWindow : Window
     {
+        public static Action CloseWindow;
         public RegisterWindow()
         {
             InitializeComponent();
+            CloseWindow += Close;
+            HeaderPanel.MouseDown += (s, e) =>
+            {
+                if (WindowState == WindowState.Maximized)
+                {
+                    WindowState = WindowState.Normal;
+                }
+                DragWindow(s, e);
+            };
+            MinimizeBtn.Click += (s, e) => WindowState = WindowState.Minimized;
+
+            CloseBtn.Click += (s, e) => Application.Current.Shutdown();
         }
         public static void ShowWindow()
         {
             ((Window)new RegisterWindow()).Show();
+        }
+
+        private void DragWindow(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == 0) { DragMove(); }
         }
     }
 }

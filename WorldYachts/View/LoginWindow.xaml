@@ -16,6 +16,7 @@
     Background="#FFFAFAFA"
     FontFamily="Google Sans"
     ResizeMode="NoResize"
+    WindowStyle="None"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Window.DataContext>
@@ -28,52 +29,170 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBox.xaml" />
                 <ResourceDictionary Source="../Resource/Logo.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <Style BasedOn="{StaticResource MaterialDesignListBoxItem}" TargetType="{x:Type ListBoxItem}">
+                <Setter Property="Height" Value="40" />
+                <Style.Triggers>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="FontWeight" Value="Bold" />
+                        <Setter Property="Background" Value="#33393939" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style
+                x:Key="HoverCloseButton"
+                BasedOn="{StaticResource MaterialDesignToolForegroundButton}"
+                TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Foreground" Value="#5E5F62" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Background="{TemplateBinding Background}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#F04747" />
+                        <Setter Property="Foreground" Value="White" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style
+                x:Key="HoverMinimizeButton"
+                BasedOn="{StaticResource MaterialDesignToolForegroundButton}"
+                TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Foreground" Value="#5E5F62" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Background="{TemplateBinding Background}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#C0C0C0" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
         </ResourceDictionary>
 
     </Window.Resources>
-    <materialDesign:DialogHost Identifier="RootDialogLogin">
-        <materialDesign:DrawerHost>
-            <Grid Margin="10">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="160px" />
-                    <RowDefinition Height="30px" />
-                    <RowDefinition Height="120px" />
-                    <RowDefinition Height="40px" />
-                    <RowDefinition Height="50px" />
-                    <RowDefinition Height="50px" />
-                </Grid.RowDefinitions>
-                <Image
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition MaxHeight="25" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <!--  HeaderPanel  -->
+        <materialDesign:Card
+            x:Name="HeaderPanel"
+            Grid.Row="0"
+            Grid.Column="0"
+            materialDesign:ShadowAssist.ShadowDepth="Depth1">
+            <Grid Background="White">
+                <Button
+                    x:Name="CloseBtn"
+                    Width="40"
+                    Height="25"
+                    HorizontalAlignment="Right"
+                    materialDesign:RippleAssist.IsCentered="True"
+                    materialDesign:RippleAssist.RippleSizeMultiplier="0.7"
+                    Cursor="Hand"
+                    Style="{StaticResource HoverCloseButton}"
+                    ToolTip="Закрыть">
+                    <materialDesign:PackIcon
+                        Width="15"
+                        Height="15"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Kind="WindowClose" />
+                </Button>
+                <Button
+                    x:Name="MinimizeBtn"
+                    Width="40"
+                    Height="25"
+                    Margin="0,0,40,0"
+                    HorizontalAlignment="Right"
+                    materialDesign:RippleAssist.IsCentered="True"
+                    materialDesign:RippleAssist.RippleSizeMultiplier="0.7"
+                    Cursor="Hand"
+                    Style="{StaticResource HoverMinimizeButton}"
+                    ToolTip="Свернуть">
+                    <materialDesign:PackIcon
+                        Width="15"
+                        Height="15"
+                        HorizontalAlignment="Center"
+                        Kind="Minus" />
+                </Button>
+                <StackPanel
+                    Height="25"
+                    Margin="20,0,0,0"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontSize="15"
+                        Foreground="#2196f3">
+                        World
+                    </TextBlock>
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontSize="15"
+                        FontWeight="Bold"
+                        Foreground="#2196f3">
+                        Yacht
+                    </TextBlock>
+                </StackPanel>
+            </Grid>
+        </materialDesign:Card>
+        <materialDesign:DialogHost Grid.Row="1" Identifier="RootDialogLogin">
+            <materialDesign:DrawerHost>
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="160px" />
+                        <RowDefinition Height="30px" />
+                        <RowDefinition Height="120px" />
+                        <RowDefinition Height="40px" />
+                        <RowDefinition Height="50px" />
+                        <RowDefinition Height="50px" />
+                    </Grid.RowDefinitions>
+                    <Image
                     Grid.Row="0"
                     Width="154px"
                     Height="140px"
                     Source="{StaticResource Logo}"
                     Visibility="Visible" />
-                <TextBlock
+                    <TextBlock
                     Grid.Row="1"
                     HorizontalAlignment="Center"
                     FontSize="24"
                     FontWeight="Light">
                     Авторизация
-                </TextBlock>
-                <StackPanel Grid.Row="2" Grid.ColumnSpan="2">
-                    <TextBox
+                    </TextBlock>
+                    <StackPanel Grid.Row="2" Grid.ColumnSpan="2">
+                        <TextBox
                         Width="300"
                         Margin="0,8,0,8"
                         FontSize="16"
                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                         IsEnabled="{Binding InputIsEnabled}">
-                        <materialDesign:HintAssist.Hint>
-                            <TextBlock>Логин</TextBlock>
-                        </materialDesign:HintAssist.Hint>
-                        <TextBox.Text>
-                            <Binding Path="Login" UpdateSourceTrigger="PropertyChanged">
-                                <Binding.ValidationRules>
-                                    <DataErrorValidationRule />
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </TextBox.Text>
-                    </TextBox>
-                    <PasswordBox
+                            <materialDesign:HintAssist.Hint>
+                                <TextBlock>Логин</TextBlock>
+                            </materialDesign:HintAssist.Hint>
+                            <TextBox.Text>
+                                <Binding Path="Login" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <DataErrorValidationRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                        <PasswordBox
                         x:Name="PasswordBox"
                         Width="300"
                         Margin="0,8,0,8"
@@ -83,38 +202,38 @@
                         FontSize="11"
                         Style="{DynamicResource MaterialDesignFloatingHintPasswordBox}"
                         IsEnabled="{Binding InputIsEnabled}">
-                        <materialDesign:HintAssist.Hint>
-                            <TextBlock FontSize="16">Пароль</TextBlock>
-                        </materialDesign:HintAssist.Hint>
-                        <helpers:PasswordBoxAssistant.BoundPassword>
-                            <Binding Mode="TwoWay" Path="Password">
-                                <Binding.ValidationRules>
-                                    <DataErrorValidationRule />
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </helpers:PasswordBoxAssistant.BoundPassword>
-                    </PasswordBox>
-                </StackPanel>
-                <CheckBox
+                            <materialDesign:HintAssist.Hint>
+                                <TextBlock FontSize="16">Пароль</TextBlock>
+                            </materialDesign:HintAssist.Hint>
+                            <helpers:PasswordBoxAssistant.BoundPassword>
+                                <Binding Mode="TwoWay" Path="Password">
+                                    <Binding.ValidationRules>
+                                        <DataErrorValidationRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </helpers:PasswordBoxAssistant.BoundPassword>
+                        </PasswordBox>
+                    </StackPanel>
+                    <CheckBox
                     Grid.Row="3"
                     HorizontalAlignment="Center"
                     FontSize="14"
                     IsChecked="{Binding SignOutCheck}"
                     IsEnabled="{Binding InputIsEnabled}">
-                    Оставаться в системе
-                </CheckBox>
-                <StackPanel
+                        Оставаться в системе
+                    </CheckBox>
+                    <StackPanel
                     Grid.Row="4"
                     HorizontalAlignment="Center"
                     Orientation="Horizontal">
-                    <Button
+                        <Button
                         Margin="0,10,10,0"
                         Command="{Binding ChangeToRegisterWindow}"
                         CommandParameter="{Binding ElementName=Window}"
                         Content="Регистрация"
                         Cursor="Hand"
                         Style="{DynamicResource MaterialDesignFlatButton}" />
-                    <Button
+                        <Button
                         Width="150"
                         Margin="0,10,0,0"
                         Command="{Binding Authorization}"
@@ -122,7 +241,7 @@
                         Content="Авторизоваться"
                         Cursor="Hand"
                         IsEnabled="{Binding ButtonIsEnabled}" />
-                    <ProgressBar
+                        <ProgressBar
                         Margin="12,12,12,12"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
@@ -130,9 +249,11 @@
                         Style="{StaticResource MaterialDesignCircularProgressBar}"
                         Visibility="{Binding ProgressBarVisibility}"
                         Value="0" />
-                </StackPanel>
+                    </StackPanel>
 
-            </Grid>
-        </materialDesign:DrawerHost>
-    </materialDesign:DialogHost>
+                </Grid>
+            </materialDesign:DrawerHost>
+        </materialDesign:DialogHost>
+    </Grid>
+    
 </Window>
