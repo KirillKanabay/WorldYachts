@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using MaterialDesignThemes.Wpf;
 using WorldYachts.Helpers;
+using WorldYachts.Infrastructure;
 using WorldYachts.View;
 using WorldYachts.ViewModel.AccessoryControlViewModels;
 using WorldYachts.ViewModel.BaseViewModels;
@@ -43,6 +44,24 @@ namespace WorldYachts.ViewModel
                 OnPropertyChanged(nameof(SelectedViewModel));
             }
         }
+
+        public Visibility BoatManagementVisibility =>
+            (AuthUser.TypeOfUser == TypeOfUser.Customer) ? Visibility.Collapsed : Visibility.Visible;
+        
+        public Visibility AccessoryManagementVisibility =>
+            (AuthUser.TypeOfUser == TypeOfUser.Customer) ? Visibility.Collapsed : Visibility.Visible;
+        
+        public Visibility UserManagementVisibility =>
+            (AuthUser.TypeOfUser == TypeOfUser.Admin) ? Visibility.Visible : Visibility.Collapsed;
+
+        public Visibility OrdersManagementVisibility =>
+            (AuthUser.TypeOfUser == TypeOfUser.SalesPerson) ? Visibility.Visible : Visibility.Collapsed;
+
+        public Visibility CatalogVisibility =>
+            (AuthUser.TypeOfUser == TypeOfUser.Customer) ? Visibility.Visible : Visibility.Collapsed;
+
+        public Visibility OrdersVisibility =>
+            (AuthUser.TypeOfUser == TypeOfUser.Customer) ? Visibility.Visible : Visibility.Collapsed;
 
         #endregion
 

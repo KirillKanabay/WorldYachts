@@ -27,6 +27,7 @@ namespace WorldYachts.ViewModel
         private string _password;
         private string _statusMessage = "Все ок пока!";
         private bool _signOutCheck;
+        private bool _inputIsEnabled = true;
         private Visibility _progressBarVisibility = Visibility.Collapsed;
 
         private AsyncRelayCommand _authorization;
@@ -106,6 +107,16 @@ namespace WorldYachts.ViewModel
             }
         }
 
+        public bool InputIsEnabled
+        {
+            get => _inputIsEnabled;
+            set
+            {
+                _inputIsEnabled = value;
+                OnPropertyChanged(nameof(InputIsEnabled));
+            }
+        }
+
         public bool ButtonIsEnabled => ErrorDictionary.Count == 0;
         #endregion
 
@@ -133,6 +144,7 @@ namespace WorldYachts.ViewModel
         private async Task LoginMethod(object parameter)
         {
             ProgressBarVisibility = Visibility.Visible;
+            InputIsEnabled = false;
             var um = new UserModel();
             try
             {
@@ -150,6 +162,7 @@ namespace WorldYachts.ViewModel
                 ProgressBarVisibility = Visibility.Collapsed;
                 Login = "";
                 Password = "";
+                InputIsEnabled = true;
             }
 
             
@@ -158,6 +171,7 @@ namespace WorldYachts.ViewModel
         private async Task LoginFromFileMethod(object parameter)
         {
             ProgressBarVisibility = Visibility.Visible;
+            InputIsEnabled = false;
             var um = new UserModel();
             try
             {
@@ -169,6 +183,7 @@ namespace WorldYachts.ViewModel
                 Login = "";
                 Password = "";
                 SignOutCheck = false;
+                InputIsEnabled = true;
             }
 
             if (AuthUser.User != null)

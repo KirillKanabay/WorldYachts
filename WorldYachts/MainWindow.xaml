@@ -235,7 +235,8 @@
                                     x:Name="Catalog"
                                     Width="130"
                                     Padding="0"
-                                    HorizontalAlignment="Left">
+                                    HorizontalAlignment="Left"
+                                    Visibility="{Binding CatalogVisibility}">
                                     <Button
                                         Width="130"
                                         Height="60"
@@ -267,7 +268,8 @@
                                     x:Name="Orders"
                                     Width="130"
                                     Padding="0"
-                                    HorizontalAlignment="Left">
+                                    HorizontalAlignment="Left"
+                                    Visibility="{Binding OrdersVisibility}">
                                     <Button
                                         Width="130"
                                         Height="60"
@@ -298,7 +300,8 @@
                                     x:Name="OrdersManagement"
                                     Width="130"
                                     Padding="0"
-                                    HorizontalAlignment="Left">
+                                    HorizontalAlignment="Left"
+                                    Visibility="{Binding OrdersManagementVisibility}">
                                     <Button
                                         Width="130"
                                         Height="60"
@@ -329,7 +332,8 @@
                                     x:Name="BoatManagement"
                                     Width="130"
                                     Padding="0"
-                                    HorizontalAlignment="Left">
+                                    HorizontalAlignment="Left"
+                                    Visibility="{Binding BoatManagementVisibility}">
                                     <Button
                                         Width="130"
                                         Height="60"
@@ -368,7 +372,8 @@
                                     x:Name="AccessoryManagement"
                                     Width="130"
                                     Padding="0"
-                                    HorizontalAlignment="Left">
+                                    HorizontalAlignment="Left"
+                                    Visibility="{Binding AccessoryManagementVisibility}">
                                     <Button
                                         Width="130"
                                         Height="60"
@@ -433,7 +438,8 @@
                                     x:Name="UserManagement"
                                     Width="130"
                                     Padding="0"
-                                    HorizontalAlignment="Left">
+                                    HorizontalAlignment="Left"
+                                    Visibility="{Binding UserManagementVisibility}">
                                     <Button
                                         Width="130"
                                         Height="60"

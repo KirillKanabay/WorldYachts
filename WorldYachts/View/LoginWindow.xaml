@@ -60,7 +60,8 @@
                         Width="300"
                         Margin="0,8,0,8"
                         FontSize="16"
-                        Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                        IsEnabled="{Binding InputIsEnabled}">
                         <materialDesign:HintAssist.Hint>
                             <TextBlock>Логин</TextBlock>
                         </materialDesign:HintAssist.Hint>
@@ -80,7 +81,8 @@
                         Cursor="IBeam"
                         FontFamily="Arial"
                         FontSize="11"
-                        Style="{DynamicResource MaterialDesignFloatingHintPasswordBox}">
+                        Style="{DynamicResource MaterialDesignFloatingHintPasswordBox}"
+                        IsEnabled="{Binding InputIsEnabled}">
                         <materialDesign:HintAssist.Hint>
                             <TextBlock FontSize="16">Пароль</TextBlock>
                         </materialDesign:HintAssist.Hint>
@@ -97,7 +99,8 @@
                     Grid.Row="3"
                     HorizontalAlignment="Center"
                     FontSize="14"
-                    IsChecked="{Binding SignOutCheck}">
+                    IsChecked="{Binding SignOutCheck}"
+                    IsEnabled="{Binding InputIsEnabled}">
                     Оставаться в системе
                 </CheckBox>
                 <StackPanel
