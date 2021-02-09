@@ -126,21 +126,22 @@
                     ItemsSource="{Binding FilteredCollection}"
                     VerticalScrollBarVisibility="Visible">
                     <DataGrid.Columns>
-                        <DataGridCheckBoxColumn
-                            Binding="{Binding IsSelected}"
-                            EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"
-                            ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
-                            Header="" />
                         <materialDesign:DataGridTextColumn
                             Binding="{Binding Item.Id}"
                             Header="Id"
                             IsReadOnly="True" />
-                        <materialDesign:DataGridTextColumn Binding="{Binding Model}" Header="Модель" />
+                        <materialDesign:DataGridTextColumn
+                            Binding="{Binding Model}"
+                            Header="Модель"
+                            IsReadOnly="True" />
                         <materialDesign:DataGridTextColumn
                             Binding="{Binding Item.Type}"
                             Header="Тип лодки"
                             IsReadOnly="True" />
-                        <materialDesign:DataGridTextColumn Binding="{Binding NumberOfRower}" Header="Количество гребцов" />
+                        <materialDesign:DataGridTextColumn
+                            Binding="{Binding NumberOfRower}"
+                            Header="Количество гребцов"
+                            IsReadOnly="True" />
                         <materialDesign:DataGridTextColumn
                             Binding="{Binding Item.Mast}"
                             Header="Наличие мачты"

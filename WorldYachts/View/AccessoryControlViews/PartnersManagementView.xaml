@@ -110,11 +110,6 @@
                 ItemsSource="{Binding FilteredCollection}"
                 VerticalScrollBarVisibility="Visible">
                 <DataGrid.Columns>
-                    <DataGridCheckBoxColumn
-                        Binding="{Binding IsSelected}"
-                        EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"
-                        ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
-                        Header="" />
                     <materialDesign:DataGridTextColumn
                         Binding="{Binding Item.Id}"
                         Header="Id"

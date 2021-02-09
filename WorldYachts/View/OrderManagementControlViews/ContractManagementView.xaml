@@ -109,15 +109,30 @@
                         Binding="{Binding Item.Id}"
                         Header="Id"
                         IsReadOnly="True" />
-                    <materialDesign:DataGridTextColumn Binding="{Binding Item.OrderId}" Header="Id заказа" />
+                    <materialDesign:DataGridTextColumn
+                        Binding="{Binding Item.OrderId}"
+                        Header="Id заказа"
+                        IsReadOnly="True" />
                     <materialDesign:DataGridTextColumn
                         Binding="{Binding Item.Date, StringFormat=d}"
                         Header="Дата принятия"
                         IsReadOnly="True" />
-                    <materialDesign:DataGridTextColumn Binding="{Binding Item.DepositPayed}" Header="Внесенная сумма" />
-                    <materialDesign:DataGridTextColumn Binding="{Binding Item.ContractTotalPrice}" Header="Сумма" />
-                    <materialDesign:DataGridTextColumn Binding="{Binding Item.ContractTotalPriceInclVat}" Header="Сумма с НДС" />
-                    <materialDesign:DataGridTextColumn Binding="{Binding Item.ProductionProcess}" Header="Готовность" />
+                    <materialDesign:DataGridTextColumn
+                        Binding="{Binding Item.DepositPayed}"
+                        Header="Внесенная сумма"
+                        IsReadOnly="True" />
+                    <materialDesign:DataGridTextColumn
+                        Binding="{Binding Item.ContractTotalPrice}"
+                        Header="Сумма"
+                        IsReadOnly="True" />
+                    <materialDesign:DataGridTextColumn
+                        Binding="{Binding Item.ContractTotalPriceInclVat}"
+                        Header="Сумма с НДС"
+                        IsReadOnly="True" />
+                    <materialDesign:DataGridTextColumn
+                        Binding="{Binding Item.ProductionProcess}"
+                        Header="Готовность"
+                        IsReadOnly="True" />
                     <DataGridTemplateColumn Header="Ред. готовность">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>

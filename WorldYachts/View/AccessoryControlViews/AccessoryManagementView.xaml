@@ -69,7 +69,7 @@
                 BorderBrush="#BABABA"
                 BorderThickness="1,1,1,1"
                 CornerRadius="3"
-                ToolTip="Введите модель или Id лодки">
+                ToolTip="Введите название или Id аксессуара">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -111,25 +111,38 @@
                 ItemsSource="{Binding FilteredCollection}"
                 VerticalScrollBarVisibility="Visible">
                 <DataGrid.Columns>
-                    <DataGridCheckBoxColumn
-                        Binding="{Binding IsSelected}"
-                        EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"
-                        ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
-                        Header="" />
                     <materialDesign:DataGridTextColumn
                         Binding="{Binding Item.Id}"
                         Header="Id"
                         IsReadOnly="True" />
-                    <materialDesign:DataGridTextColumn Binding="{Binding Item.Name}" Header="Название" />
+                    <materialDesign:DataGridTextColumn
+                        Binding="{Binding Item.Name}"
+                        Header="Название"
+                        IsReadOnly="True" />
                     <materialDesign:DataGridTextColumn
                         Binding="{Binding Item.Price}"
                         Header="Цена без НДС"
                         IsReadOnly="True" />
-                    <materialDesign:DataGridTextColumn Binding="{Binding Item.Vat}" Header="НДС %" />
-                    <materialDesign:DataGridTextColumn Binding="{Binding Item.Inventory}" Header="Инв. №" />
-                    <materialDesign:DataGridTextColumn Binding="{Binding Item.OrderLevel}" Header="Ур. доставки" />
-                    <materialDesign:DataGridTextColumn Binding="{Binding Item.OrderLevel}" Header="№ партии" />
-                    <materialDesign:DataGridTextColumn Binding="{Binding Item.Partner.Name}" Header="Поставщик" />
+                    <materialDesign:DataGridTextColumn
+                        Binding="{Binding Item.Vat}"
+                        Header="НДС %"
+                        IsReadOnly="True" />
+                    <materialDesign:DataGridTextColumn
+                        Binding="{Binding Item.Inventory}"
+                        Header="Инв. №"
+                        IsReadOnly="True" />
+                    <materialDesign:DataGridTextColumn
+                        Binding="{Binding Item.OrderLevel}"
+                        Header="Ур. доставки"
+                        IsReadOnly="True" />
+                    <materialDesign:DataGridTextColumn
+                        Binding="{Binding Item.OrderLevel}"
+                        Header="№ партии"
+                        IsReadOnly="True" />
+                    <materialDesign:DataGridTextColumn
+                        Binding="{Binding Item.Partner.Name}"
+                        Header="Поставщик"
+                        IsReadOnly="True" />
                     <DataGridTemplateColumn Header="Редактировать">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>

@@ -104,7 +104,7 @@
                 ItemsSource="{Binding Fits}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Expander Header="{Binding Name}" x:Name="ExpanderData">
+                        <Expander Background="#AAE7E7E7" Header="{Binding Name}" x:Name="ExpanderData">
                             <ItemsControl ItemsSource="{Binding Boats}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>

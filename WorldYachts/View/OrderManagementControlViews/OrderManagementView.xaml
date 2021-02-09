@@ -13,7 +13,7 @@
     FontFamily="Google Sans"
     mc:Ignorable="d">
     <UserControl.DataContext>
-        <orderManagementViewModels:OrderManagementViewModel/>
+        <orderManagementViewModels:OrderManagementViewModel />
     </UserControl.DataContext>
     <UserControl.Resources>
         <ResourceDictionary>
@@ -114,7 +114,10 @@
                                     Binding="{Binding Item.Id}"
                                     Header="Id"
                                     IsReadOnly="True" />
-                                <materialDesign:DataGridTextColumn Binding="{Binding Item.Boat.Model}" Header="Лодка" />
+                                <materialDesign:DataGridTextColumn
+                                    Binding="{Binding Item.Boat.Model}"
+                                    Header="Лодка"
+                                    IsReadOnly="True" />
                                 <materialDesign:DataGridTextColumn
                                     Binding="{Binding Item.Date, StringFormat=d}"
                                     Header="Дата"
@@ -187,7 +190,10 @@
                                     Binding="{Binding Item.Id}"
                                     Header="Id"
                                     IsReadOnly="True" />
-                                <materialDesign:DataGridTextColumn Binding="{Binding Item.Boat.Model}" Header="Лодка" />
+                                <materialDesign:DataGridTextColumn
+                                    Binding="{Binding Item.Boat.Model}"
+                                    Header="Лодка"
+                                    IsReadOnly="True" />
                                 <materialDesign:DataGridTextColumn
                                     Binding="{Binding Item.Date, StringFormat=d}"
                                     Header="Дата"
@@ -275,7 +281,9 @@
                                     Binding="{Binding Item.Id}"
                                     Header="Id"
                                     IsReadOnly="True" />
-                                <materialDesign:DataGridTextColumn Binding="{Binding Item.Boat.Model}" Header="Лодка" />
+                                <materialDesign:DataGridTextColumn
+                                    IsReadOnly="True"
+                                    Binding="{Binding Item.Boat.Model}" Header="Лодка" />
                                 <materialDesign:DataGridTextColumn
                                     Binding="{Binding Item.Date, StringFormat=d}"
                                     Header="Дата"
@@ -318,7 +326,7 @@
                                     Binding="{Binding Item.Id}"
                                     Header="Id"
                                     IsReadOnly="True" />
-                                <materialDesign:DataGridTextColumn Binding="{Binding Item.Boat.Model}" Header="Лодка" />
+                                <materialDesign:DataGridTextColumn IsReadOnly="True" Binding="{Binding Item.Boat.Model}" Header="Лодка" />
                                 <materialDesign:DataGridTextColumn
                                     Binding="{Binding Item.Date, StringFormat=d}"
                                     Header="Дата"
