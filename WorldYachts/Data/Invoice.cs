@@ -38,5 +38,7 @@ namespace WorldYachts.Data
         /// </summary>
         [ForeignKey("ContractId")]
         public Contract Contract { get; set; }
+
+        public string SettledString => Settled ? "Принят" : "В обработке";
     }
 }

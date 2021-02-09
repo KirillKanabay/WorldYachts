@@ -116,7 +116,7 @@
                                 <materialDesign:DataGridTextColumn Binding="{Binding Item.Contract.Id}" Header="Id контракта" />
                                 <materialDesign:DataGridTextColumn
                                     Binding="{Binding Item.Date, StringFormat=d}"
-                                    Header="Дата"
+                                    Header="Дата оплаты"
                                     IsReadOnly="True" />
                                 <materialDesign:DataGridTextColumn
                                     Binding="{Binding Item.Contract.Order.Customer.SecondName}"
@@ -179,10 +179,13 @@
                                     Binding="{Binding Item.Id}"
                                     Header="Id"
                                     IsReadOnly="True" />
-                                <materialDesign:DataGridTextColumn Binding="{Binding Item.Contract.Id}" Header="Id контракта" />
+                                <materialDesign:DataGridTextColumn
+                                    Binding="{Binding Item.Contract.Id}"
+                                    Header="Id контракта"
+                                    IsReadOnly="True" />
                                 <materialDesign:DataGridTextColumn
                                     Binding="{Binding Item.Date, StringFormat=d}"
-                                    Header="Дата"
+                                    Header="Дата оплаты"
                                     IsReadOnly="True" />
                                 <materialDesign:DataGridTextColumn
                                     Binding="{Binding Item.Contract.Order.Customer.SecondName}"

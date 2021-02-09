@@ -93,6 +93,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
         {
             OnPropertyChanged(nameof(SettledInvoices));
             OnPropertyChanged(nameof(NotSettledInvoices));
+            OnPropertyChanged(nameof(FilteredCollection));
         }
 
         protected override ObservableCollection<BaseSelectableViewModel<Invoice>> GetSelectableViewModels(

@@ -72,6 +72,9 @@
             <DataTemplate DataType="{x:Type orderControlViewModels:ContractViewModel}">
                 <orderControlViews:ContractView />
             </DataTemplate>
+            <DataTemplate DataType="{x:Type orderControlViewModels:InvoiceViewModel}">
+                <orderControlViews:InvoiceView />
+            </DataTemplate>
         </ResourceDictionary>
 
         <!--  BoatManagement  -->

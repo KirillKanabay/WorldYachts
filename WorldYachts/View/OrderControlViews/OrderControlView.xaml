@@ -39,7 +39,7 @@
                 <local:ContractView />
             </TabItem>
             <TabItem Header="Счета">
-                <accessoryControlViews:AccessoryFitManagementView />
+                <local:InvoiceView />
             </TabItem>
         </TabControl>
 
