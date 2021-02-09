@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Windows.Documents;
 using WorldYachts.Data;
 using WorldYachts.Helpers;
 using WorldYachts.Model;
@@ -11,25 +12,42 @@ using WorldYachts.ViewModel.BoatManagementViewModels;
 
 namespace WorldYachts.ViewModel.CatalogControlViewModels
 {
-    class CatalogControlViewModel:BaseManagementViewModel<Boat>
+    class CatalogControlViewModel : BaseManagementViewModel<Boat>
     {
         #region Поля
 
         private ObservableCollection<BaseSelectableViewModel<Boat>> _boats;
 
-        private decimal _priceFromFilter;
-        private decimal _priceToFilter;
-        private string _typeFilter;
-        private bool _mastFilter;
-        private bool _isFilter = false;
+        private decimal _defaultPriceFromFilter = new BoatModel().Load().Min(b => b.BasePrice);
+        private decimal _defaultPriceToFilter = new BoatModel().Load().Max(b => b.BasePrice);
+        private string _defaultTypeFilter = "Любой тип";
+        private string _defaultWoodFilter = "Любой тип";
+        private string _defaultMastFilter = "Любой";
 
-        private DelegateCommand _filterCommand;
+        private decimal _priceFromFilter = new BoatModel().Load().Min(b => b.BasePrice);
+        private decimal _priceToFilter = new BoatModel().Load().Max(b => b.BasePrice);
+        private string _typeFilter = "Любой тип";
+        private string _woodFilter = "Любой тип";
+        private string _mastFilter = "Любой";
+
+        private DelegateCommand _setDefaultFilter;
+
+        private IEnumerable<string> _boatTypes = new List<string>()
+            {"Любой тип", "Шлюпка", "Парусная лодка", "Галера"};
+
+        private IEnumerable<string> _woodTypes = new List<string>()
+            {"Любой тип", "Дуб", "Береза", "Eль", "Cосна", "Лиственница"};
+
+        private IEnumerable<string> _mastTypes = new List<string>()
+            {"Любой", "Присутствует", "Отсутствует"};
+
         #endregion
 
         #region Конструктор
 
         public CatalogControlViewModel()
         {
+            SetDefaultFilter?.Execute(null);
             OnItemChanged?.Invoke();
         }
 
@@ -37,33 +55,8 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
 
         #region Свойства
 
-        public override ObservableCollection<BaseSelectableViewModel<Boat>> FilteredCollection
-        {
-            get
-            {
-                if (_isFilter)
-                {
-                    _isFilter = false;
-                    if (!string.IsNullOrWhiteSpace(FilterText))
-                        return Filter(FilterText, FilterProperty());
-                    return FilterProperty();
-                }
-                if (!string.IsNullOrWhiteSpace(FilterText))
-                    return Filter(FilterText);
+        public override ObservableCollection<BaseSelectableViewModel<Boat>> FilteredCollection => Filter(_filterText);
 
-                return ItemsCollection;
-            }
-        }
-
-        public ObservableCollection<BaseSelectableViewModel<Boat>> Boats
-        {
-            get => FilteredCollection;
-            set
-            {
-                _boats = value;
-                OnPropertyChanged(nameof(Boats));
-            }
-        }
         /// <summary>
         /// Фильтр: цена с
         /// </summary>
@@ -74,8 +67,10 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
             {
                 _priceFromFilter = value;
                 OnPropertyChanged(nameof(PriceFromFilter));
+                OnPropertyChanged(nameof(FilteredCollection));
             }
         }
+
         /// <summary>
         /// Фильтр: цена до
         /// </summary>
@@ -86,8 +81,10 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
             {
                 _priceToFilter = value;
                 OnPropertyChanged(nameof(PriceToFilter));
+                OnPropertyChanged(nameof(FilteredCollection));
             }
         }
+
         /// <summary>
         /// Фильтр: тип лодки
         /// </summary>
@@ -98,20 +95,38 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
             {
                 _typeFilter = value;
                 OnPropertyChanged(nameof(TypeFilter));
+                OnPropertyChanged(nameof(FilteredCollection));
             }
         }
+
+        public string WoodFilter
+        {
+            get => _woodFilter;
+            set
+            {
+                _woodFilter = value;
+                OnPropertyChanged(nameof(WoodFilter));
+                OnPropertyChanged(nameof(FilteredCollection));
+            }
+        }
+
         /// <summary>
         /// Фильтр: наличие лодки
         /// </summary>
-        public bool MastFilter
+        public string MastFilter
         {
             get => _mastFilter;
             set
             {
                 _mastFilter = value;
                 OnPropertyChanged(nameof(MastFilter));
+                OnPropertyChanged(nameof(FilteredCollection));
             }
         }
+
+        public IEnumerable<string> BoatTypes => _boatTypes;
+        public IEnumerable<string> WoodTypes => _woodTypes;
+        public IEnumerable<string> MastTypes => _mastTypes;
         public override IDataModel<Boat> ModelItem => new BoatModel();
         public override BaseEditorViewModel<Boat> Editor => new BoatEditorViewModel();
 
@@ -119,24 +134,31 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
 
         #region Команды
 
-        public DelegateCommand FilterCommand
+        public DelegateCommand SetDefaultFilter
         {
             get
             {
-                return _filterCommand ??= new DelegateCommand((arg) =>
+                return _setDefaultFilter ??= new DelegateCommand((arg) =>
                 {
-                    _isFilter = true;
-                    OnItemChanged?.Invoke();
+                    PriceFromFilter = _defaultPriceFromFilter;
+                    PriceToFilter = _defaultPriceToFilter;
+                    TypeFilter = _defaultTypeFilter;
+                    WoodFilter = _defaultWoodFilter;
+                    MastFilter = _defaultMastFilter;
+                    OnPropertyChanged(nameof(FilteredCollection));
                 });
             }
         }
 
         #endregion
 
-        protected override ObservableCollection<BaseSelectableViewModel<Boat>> GetSelectableViewModels(IEnumerable<Boat> items)
+        #region Методы
+
+        protected override ObservableCollection<BaseSelectableViewModel<Boat>> GetSelectableViewModels(
+            IEnumerable<Boat> items)
         {
             var collection = new ObservableCollection<BaseSelectableViewModel<Boat>>();
-            
+
             foreach (var boat in items)
             {
                 collection.Add(new SelectableBoatViewModel(boat));
@@ -147,44 +169,41 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
 
         protected override ObservableCollection<BaseSelectableViewModel<Boat>> Filter(string filterText)
         {
-            return Filter(filterText, ItemsCollection);
-        }
+            var fc = ItemsCollection.Where(b => true);
 
-        private ObservableCollection<BaseSelectableViewModel<Boat>> Filter(string filterText,
-            ObservableCollection<BaseSelectableViewModel<Boat>> collection)
-        {
-            var filteredCollection = collection.Where(p =>
-                p.Item.Model.ToLower().Contains(filterText.ToLower()));
-
-            if (_isFilter)
+            //Фильтрация по поисковой строке
+            if (!string.IsNullOrWhiteSpace(filterText))
             {
-                ;
-                _isFilter = false;
+                fc = fc.Where(p =>
+                    p.Item.Model.ToLower().Contains(filterText.ToLower()));
             }
 
-            var boatsCollection = new ObservableCollection<BaseSelectableViewModel<Boat>>();
-            foreach (var selectableBoatViewModel in filteredCollection)
+            //Фильтрация по ценам
+            fc = fc.Where(i => i.Item.BasePrice >= _priceFromFilter);
+            fc = fc.Where(i => i.Item.BasePrice <= _priceToFilter);
+
+            //Фильтрация по типу лодки
+            if (_typeFilter != "Любой тип")
             {
-                boatsCollection.Add(selectableBoatViewModel);
+                fc = fc.Where(b => b.Item.Type == _typeFilter);
             }
 
-            return boatsCollection;
-        }
-
-        private ObservableCollection<BaseSelectableViewModel<Boat>> FilterProperty()
-        {
-            var filteredCollection = ItemsCollection.Where(i => i.Item.BasePrice >= _priceFromFilter)
-                .Where(i => i.Item.BasePrice <= _priceToFilter)
-                .Where(i => i.Item.Type == TypeFilter)
-                .Where(i => i.Item.Mast == MastFilter);
-
-            var boatsCollection = new ObservableCollection<BaseSelectableViewModel<Boat>>();
-            foreach (var selectableBoatViewModel in filteredCollection)
+            if (_woodFilter != "Любой тип")
             {
-                boatsCollection.Add(selectableBoatViewModel);
+                fc = fc.Where(b => b.Item.Wood == _woodFilter);
             }
 
-            return boatsCollection;
+            //Фильтрация по наличию мачты
+            if (_mastFilter != "Любой")
+            {
+                bool mast = _mastFilter == "Присутствует";
+                fc = fc.Where(b => b.Item.Mast == mast);
+            }
+
+            return new ObservableCollection<BaseSelectableViewModel<Boat>>(fc);
         }
+
+        #endregion
+
     }
 }
