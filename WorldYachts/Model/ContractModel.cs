@@ -67,7 +67,7 @@ namespace WorldYachts.Model
                 dbContract.ContractTotalPrice = item.ContractTotalPrice;
                 dbContract.ContractTotalPriceInclVat = item.ContractTotalPriceInclVat;
                 dbContract.ProductionProcess = item.ProductionProcess;
-                dbContract.IsDeleted = true;
+                dbContract.IsDeleted = item.IsDeleted;
                 await context.SaveChangesAsync();
             }
         }

@@ -32,10 +32,10 @@
             Заказы
         </Label>
         <TabControl Grid.Row="1" Style="{StaticResource MaterialDesignTabControl}">
-            <TabItem Header="Доставка">
+            <TabItem Header="Заказы">
                 <local:OrderView />
             </TabItem>
-            <TabItem Header="Заказы">
+            <TabItem Header="Контракты">
                 <local:ContractView />
             </TabItem>
             <TabItem Header="Счета">

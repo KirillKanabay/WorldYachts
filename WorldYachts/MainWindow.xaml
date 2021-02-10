@@ -465,39 +465,6 @@
                                         </StackPanel>
                                     </Button>
                                 </ListViewItem>
-                                <Separator />
-                                <!--  О программе  -->
-                                <ListViewItem
-                                    x:Name="AboutProgram"
-                                    Width="130"
-                                    Padding="0"
-                                    HorizontalAlignment="Left">
-                                    <Button
-                                        Width="125"
-                                        Height="60"
-                                        HorizontalAlignment="Left"
-                                        Background="{x:Null}"
-                                        BorderBrush="{x:Null}"
-                                        Command="{Binding UpdateViewCommand}"
-                                        CommandParameter="{Binding ElementName=AboutProgram}"
-                                        Cursor="Hand"
-                                        Foreground="Black">
-                                        <StackPanel Margin="0" Orientation="Vertical">
-                                            <materialDesign:PackIcon
-                                                Width="30"
-                                                Height="20"
-                                                HorizontalAlignment="Center"
-                                                Kind="InformationOutline" />
-                                            <TextBlock
-                                                FontSize="12"
-                                                FontWeight="Normal"
-                                                TextAlignment="Center"
-                                                TextWrapping="Wrap">
-                                                О программе
-                                            </TextBlock>
-                                        </StackPanel>
-                                    </Button>
-                                </ListViewItem>
                             </ListView>
                         </Grid>
                     </materialDesign:Card>

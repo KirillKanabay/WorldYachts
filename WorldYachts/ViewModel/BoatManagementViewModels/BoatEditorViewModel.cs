@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using MaterialDesignThemes.Wpf;
 using WorldYachts.Data;
 using WorldYachts.Helpers;
@@ -30,6 +31,7 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
         private string _wood;
         private string _basePrice;
         private string _vat;
+        private ColorStruct _selectedColor;
 
         private IEnumerable<string> _boatTypes = new List<string>()
             {"Шлюпка", "Парусная лодка", "Галера"};
@@ -172,6 +174,16 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
                 OnPropertyChanged(nameof(BoatTypes));
             }
         }
+
+        public ColorStruct SelectedColor
+        {
+            get => _selectedColor;
+            set
+            {
+                _selectedColor = value;
+                OnPropertyChanged(nameof(SelectedColor));
+            }
+        }
         /// <summary>
         /// Типы дерева
         /// </summary>
@@ -223,7 +235,7 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
                 Type = _type,
                 NumberOfRowers = _numberOfRower,
                 Mast = _mast,
-                Color = _color,
+                Color = _selectedColor.Name,
                 Wood = _wood,
                 BasePrice = Decimal.Parse(_basePrice),
                 Vat = double.Parse(_vat),

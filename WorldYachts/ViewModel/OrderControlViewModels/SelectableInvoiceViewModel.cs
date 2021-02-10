@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using WorldYachts.Data;
+using WorldYachts.Helpers.Commands;
+using WorldYachts.Model;
 using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BaseViewModels;
 
@@ -18,7 +21,9 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
         private decimal _sumInclVat;
         private DateTime _date;
         private Contract _contract;
+        private Invoice _item;
 
+        private AsyncRelayCommand _accept;
         #endregion
 
         #region Конструкторы
@@ -32,6 +37,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
             Date = item.Date;
 
             _contract = item.Contract;
+            _item = item;
         }
 
         #endregion
@@ -97,14 +103,30 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
                 OnPropertyChanged(nameof(Date));
             }
         }
+
+
+        #endregion
+
+        #region Команды
+
+        public AsyncRelayCommand Accept
+        {
+            get
+            {
+               return _accept ??= new AsyncRelayCommand(AcceptMethod, null);
+            }
+        }
         
 
         #endregion
 
-        #region Методы
-
-        #endregion
-
+        private async Task AcceptMethod(object parameter)
+        {
+            _item.Settled = true;
+            await Task.Run(() => new InvoiceModel().SaveAsync(_item));
+            //Извещаем об изменении предмета
+            BaseManagementViewModel<Invoice>.OnItemChanged?.Invoke();
+        }
 
         #region NotImplementedMembers
         public override BaseEditorViewModel<Invoice> Editor => throw new NotImplementedException();

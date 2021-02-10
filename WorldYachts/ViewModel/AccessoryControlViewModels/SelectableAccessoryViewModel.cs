@@ -23,7 +23,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         private int _orderLevel;
         private int _orderBatch;
         private int _partnerId;
-
+        private Partner _partner;
         #endregion
 
         #region Конструкторы
@@ -39,6 +39,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             OrderLevel = item.OrderLevel;
             OrderBatch = item.OrderBatch;
             PartnerId = item.PartnerId;
+            _partner = item.Partner;
         }
 
         #endregion
@@ -165,8 +166,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
                    $"НДС: {Vat} %\n" +
                    $"Инвентарный номер: {Inventory}\n" +
                    $"Уровень доставки: {OrderLevel}\n" +
-                   $"Партия доставки: {OrderBatch}\n" +
-                   $"Партнер";
+                   $"Партия доставки: {OrderBatch}\n";
         }
 
         protected override void ToggleViewEditorAfterLoaded()

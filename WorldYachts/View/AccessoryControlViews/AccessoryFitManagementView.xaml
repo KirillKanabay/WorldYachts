@@ -97,36 +97,41 @@
                         Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}" />
                 </Grid>
             </Border>
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <ItemsControl
+                    Grid.Row="1"
+                    Grid.IsSharedSizeScope="True"
+                    ItemsSource="{Binding Fits}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Expander
+                                x:Name="ExpanderData"
+                                Background="#AAE7E7E7"
+                                Header="{Binding Name}">
+                                <ItemsControl Background="White" ItemsSource="{Binding Boats}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <materialDesign:Chip
+                                                Margin="5"
+                                                Content="{Binding Model}"
+                                                DeleteCommand="{Binding DeleteAccessoryToBoat}"
+                                                DeleteCommandParameter="{Binding ElementName=ExpanderData}"
+                                                IsDeletable="True"
+                                                ToolTip="{Binding Type}" />
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </Expander>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
 
-            <ItemsControl
-                Grid.Row="1"
-                Grid.IsSharedSizeScope="True"
-                ItemsSource="{Binding Fits}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Expander Background="#AAE7E7E7" Header="{Binding Name}" x:Name="ExpanderData">
-                            <ItemsControl ItemsSource="{Binding Boats}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <materialDesign:Chip
-                                            Margin="0,0,4,4"
-                                            Content="{Binding Model}"
-                                            IsDeletable="True"
-                                            ToolTip="{Binding Type}"
-                                            DeleteCommand="{Binding DeleteAccessoryToBoat}"
-                                            DeleteCommandParameter="{Binding ElementName=ExpanderData}"/>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <WrapPanel />
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                            </ItemsControl>
-                        </Expander>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
 
             <ProgressBar
                 Grid.Row="1"

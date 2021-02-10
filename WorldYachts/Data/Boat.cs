@@ -8,7 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Media;
 using MaterialDesignThemes.Wpf;
+using WorldYachts.Helpers;
 using WorldYachts.Helpers.Commands;
 using WorldYachts.Model;
 using WorldYachts.View.MessageDialogs;
@@ -82,7 +84,9 @@ namespace WorldYachts.Data
         [ForeignKey("BoatId")]
         public List<AccessoryToBoat> AccessoryToBoat { get; set; }
 
-        public string MastString => Mast ? "Присутствует" : "Отсутствует"; 
+        public string MastString => Mast ? "Присутствует" : "Отсутствует";
+
+        public SolidColorBrush ColorBrush => new SolidColorBrush(ColorWorker.GetColorFromString(Color));
         #region Команды
 
         public AsyncRelayCommand DeleteAccessoryToBoat => new AsyncRelayCommand(RemoveATB,null);

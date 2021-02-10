@@ -134,8 +134,7 @@
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <Button
-                                                Command="{Binding SetOrderStatus}"
-                                                CommandParameter="Accepted"
+                                                Command="{Binding Accept}"
                                                 Style="{StaticResource TransparentButton}">
                                                 <materialDesign:PackIcon
                                                     Width="18"

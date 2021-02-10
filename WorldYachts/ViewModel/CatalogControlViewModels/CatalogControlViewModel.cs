@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Documents;
 using WorldYachts.Data;
 using WorldYachts.Helpers;
@@ -18,27 +20,27 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
 
         private ObservableCollection<BaseSelectableViewModel<Boat>> _boats;
 
-        private decimal _defaultPriceFromFilter = new BoatModel().Load().Min(b => b.BasePrice);
-        private decimal _defaultPriceToFilter = new BoatModel().Load().Max(b => b.BasePrice);
+        private decimal? _defaultPriceFromFilter = 0;
+        private decimal? _defaultPriceToFilter = 0;
         private string _defaultTypeFilter = "Любой тип";
         private string _defaultWoodFilter = "Любой тип";
         private string _defaultMastFilter = "Любой";
 
-        private decimal _priceFromFilter = new BoatModel().Load().Min(b => b.BasePrice);
-        private decimal _priceToFilter = new BoatModel().Load().Max(b => b.BasePrice);
+        private decimal _priceFromFilter = 0;
+        private decimal _priceToFilter = 0;
         private string _typeFilter = "Любой тип";
         private string _woodFilter = "Любой тип";
         private string _mastFilter = "Любой";
 
         private DelegateCommand _setDefaultFilter;
 
-        private IEnumerable<string> _boatTypes = new List<string>()
+        private readonly IEnumerable<string> _boatTypes = new List<string>()
             {"Любой тип", "Шлюпка", "Парусная лодка", "Галера"};
 
-        private IEnumerable<string> _woodTypes = new List<string>()
+        private readonly IEnumerable<string> _woodTypes = new List<string>()
             {"Любой тип", "Дуб", "Береза", "Eль", "Cосна", "Лиственница"};
 
-        private IEnumerable<string> _mastTypes = new List<string>()
+        private readonly IEnumerable<string> _mastTypes = new List<string>()
             {"Любой", "Присутствует", "Отсутствует"};
 
         #endregion
@@ -47,8 +49,6 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
 
         public CatalogControlViewModel()
         {
-            SetDefaultFilter?.Execute(null);
-            OnItemChanged?.Invoke();
         }
 
         #endregion
@@ -140,8 +140,8 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
             {
                 return _setDefaultFilter ??= new DelegateCommand((arg) =>
                 {
-                    PriceFromFilter = _defaultPriceFromFilter;
-                    PriceToFilter = _defaultPriceToFilter;
+                    PriceFromFilter = _defaultPriceFromFilter ?? 0;
+                    PriceToFilter = _defaultPriceToFilter ?? 0;
                     TypeFilter = _defaultTypeFilter;
                     WoodFilter = _defaultWoodFilter;
                     MastFilter = _defaultMastFilter;
@@ -153,6 +153,23 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
         #endregion
 
         #region Методы
+
+        protected override async Task GetCollectionMethod(object parameter)
+        {
+            ProgressBarVisibility = Visibility.Visible;
+            var items = await ModelItem.LoadAsync();
+            
+            ItemsCollection = GetSelectableViewModels(items);
+
+            //Установка фильтров
+            _defaultPriceFromFilter = ItemsCollection?.Min(b => b.Item.BasePrice) ?? 0;
+            _defaultPriceToFilter = ItemsCollection?.Max(b => b.Item.BasePrice) ?? 0;
+            SetDefaultFilter?.Execute(null);
+
+            //OnPropertyChanged(nameof(FilteredCollection));
+            
+            ProgressBarVisibility = Visibility.Collapsed;
+        }
 
         protected override ObservableCollection<BaseSelectableViewModel<Boat>> GetSelectableViewModels(
             IEnumerable<Boat> items)

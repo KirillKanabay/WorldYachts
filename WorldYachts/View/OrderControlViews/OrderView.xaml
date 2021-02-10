@@ -150,7 +150,7 @@
                                                 <materialDesign:PackIcon
                                                     Width="25"
                                                     Height="25"
-                                                    Foreground="{Binding Item.Boat.Color}"
+                                                    Foreground="{Binding Item.Boat.ColorBrush}"
                                                     Kind="Circle" />
                                             </StackPanel>
                                             <!--  Количество гребцов  -->

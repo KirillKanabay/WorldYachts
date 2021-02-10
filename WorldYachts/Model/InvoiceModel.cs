@@ -66,7 +66,7 @@ namespace WorldYachts.Model
                 dbInvoice.Sum = item.Sum;
                 dbInvoice.SumInclVat = item.SumInclVat;
                 dbInvoice.Date = item.Date;
-                dbInvoice.IsDeleted = true;
+                dbInvoice.IsDeleted = item.IsDeleted;
 
                 await context.SaveChangesAsync();
             }

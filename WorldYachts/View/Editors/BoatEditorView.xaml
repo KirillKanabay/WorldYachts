@@ -124,8 +124,10 @@
                         FontSize="14"
                         Text="Цвет лодки:" />
                     <ListBox
+                        x:Name="ColorBox"
                         ItemsSource="{Binding ColorsCollection}"
-                        SelectedValue="{Binding Path=SelectedButton}"
+                        SelectedIndex="0"
+                        SelectedItem="{Binding Path=SelectedColor}"
                         SelectedValuePath="Tag"
                         Style="{StaticResource ToggleButtonList}">
                         <ListBox.ItemsPanel>

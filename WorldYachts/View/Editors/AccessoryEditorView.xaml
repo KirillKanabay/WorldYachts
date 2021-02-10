@@ -130,7 +130,7 @@
                 </ComboBox.Text>
             </ComboBox>
             <!--  Цена  -->
-            <TextBox Margin="0,8,0,15" Style="{StaticResource InputTextBox}">
+            <TextBox Margin="0,25,0,15" Style="{StaticResource InputTextBox}">
                 <materialDesign:HintAssist.Hint>
                     <TextBlock>Цена без НДС</TextBlock>
                 </materialDesign:HintAssist.Hint>

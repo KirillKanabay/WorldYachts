@@ -113,11 +113,18 @@
                 <!--  Цвет  -->
                 <StackPanel Grid.Row="4" Orientation="Horizontal">
                     <TextBlock VerticalAlignment="Center" Text="Цвет: " />
-                    <materialDesign:PackIcon
-                        Width="25"
-                        Height="25"
-                        Foreground="{Binding Color}"
-                        Kind="Circle" />
+                    <Grid>
+                        <materialDesign:PackIcon
+                            Width="25"
+                            Height="25"
+                            Foreground="#2a2a2a"
+                            Kind="Circle" />
+                        <materialDesign:PackIcon
+                            Width="25"
+                            Height="25"
+                            Foreground="{Binding Color}"
+                            Kind="Circle" />
+                    </Grid>
                 </StackPanel>
                 <!--  Количество гребцов  -->
                 <TextBlock Grid.Row="5" Text="{Binding NumberOfRowers, StringFormat=Количество\ гребцов: \{0\}}" />
@@ -134,8 +141,7 @@
             VerticalAlignment="Stretch"
             BorderBrush="#BABABA"
             BorderThickness="1,1,1,1"
-            CornerRadius="3"
-            IsEnabled="{Binding IsCustomer}">
+            CornerRadius="3">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30" />
@@ -147,53 +153,59 @@
                     FontWeight="Medium">
                     Установка аксессуаров:
                 </TextBlock>
-                <!--  Аксессуары  -->
-                <ItemsControl Grid.Row="1" ItemsSource="{Binding Accessories}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <materialDesign:Chip
-                                Margin="0,0,4,4"
-                                DeleteCommand="{Binding DeleteAccessoryToBoat}"
-                                DeleteCommandParameter="{Binding ElementName=ExpanderData}"
-                                ToolTip="{Binding Info}">
-                                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                                    <ToggleButton
-                                        Width="18"
-                                        Height="18"
-                                        Background="#2196F3"
-                                        IsChecked="{Binding IsSelected}"
-                                        Style="{StaticResource MaterialDesignActionAccentToggleButton}">
-                                        <ToggleButton.Content>
-                                            <materialDesign:PackIcon
-                                                Width="16"
-                                                Height="16"
-                                                Kind="Plus" />
-                                        </ToggleButton.Content>
-                                        <materialDesign:ToggleButtonAssist.OnContent>
-                                            <materialDesign:PackIcon
-                                                Width="16"
-                                                Height="16"
-                                                Kind="Check" />
-                                        </materialDesign:ToggleButtonAssist.OnContent>
-                                    </ToggleButton>
-                                    <TextBlock
-                                        Margin="7,1,0,0"
-                                        HorizontalAlignment="Center"
-                                        Text="{Binding Item.Name}" />
-                                    <TextBlock
-                                        Margin="2,1,0,0"
-                                        HorizontalAlignment="Center"
-                                        Text="{Binding PriceInclVat, StringFormat=| Цена: \{0:F2\}₽}" />
-                                </StackPanel>
-                            </materialDesign:Chip>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
+                <ScrollViewer
+                    Grid.Row="1"
+                    MaxHeight="200"
+                    VerticalScrollBarVisibility="Auto">
+                    <!--  Аксессуары  -->
+                    <ItemsControl Grid.Row="1" ItemsSource="{Binding Accessories}" IsEnabled="{Binding IsCustomer}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <materialDesign:Chip
+                                    Margin="0,0,4,4"
+                                    DeleteCommand="{Binding DeleteAccessoryToBoat}"
+                                    DeleteCommandParameter="{Binding ElementName=ExpanderData}"
+                                    ToolTip="{Binding Info}">
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                        <ToggleButton
+                                            Width="18"
+                                            Height="18"
+                                            Background="#2196F3"
+                                            IsChecked="{Binding IsSelected}"
+                                            Style="{StaticResource MaterialDesignActionAccentToggleButton}">
+                                            <ToggleButton.Content>
+                                                <materialDesign:PackIcon
+                                                    Width="16"
+                                                    Height="16"
+                                                    Kind="Plus" />
+                                            </ToggleButton.Content>
+                                            <materialDesign:ToggleButtonAssist.OnContent>
+                                                <materialDesign:PackIcon
+                                                    Width="16"
+                                                    Height="16"
+                                                    Kind="Check" />
+                                            </materialDesign:ToggleButtonAssist.OnContent>
+                                        </ToggleButton>
+                                        <TextBlock
+                                            Margin="7,1,0,0"
+                                            HorizontalAlignment="Center"
+                                            Text="{Binding Item.Name}" />
+                                        <TextBlock
+                                            Margin="2,1,0,0"
+                                            HorizontalAlignment="Center"
+                                            Text="{Binding PriceInclVat, StringFormat=| Цена: \{0:F2\}₽}" />
+                                    </StackPanel>
+                                </materialDesign:Chip>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </ScrollViewer>
+
             </Grid>
         </Border>
         <!--  Расчет стоимости  -->
