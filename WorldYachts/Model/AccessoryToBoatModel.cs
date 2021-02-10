@@ -33,7 +33,7 @@ namespace WorldYachts.Model
             var accessoryToBoatCollection = new List<AccessoryToBoat>();
             using (var context = WorldYachtsContext.GetDataContext())
             {
-                foreach (var atb in context.AccessoryToBoat)
+                foreach (var atb in context.AccessoryToBoat.Where(i=>!i.IsDeleted))
                 {
                     atb.Accessory = new AccessoryModel().GetItemById(atb.AccessoryId);
                     atb.Boat = new BoatModel().GetItemById(atb.BoatId);
@@ -48,8 +48,11 @@ namespace WorldYachts.Model
         {
             await using (var context = WorldYachtsContext.GetDataContext())
             {
-                context.AccessoryToBoat.RemoveRange(removeItems);
-                await context.SaveChangesAsync();
+                foreach (var accessoryToBoat in removeItems)
+                {
+                    accessoryToBoat.IsDeleted = true;
+                    await SaveAsync(accessoryToBoat);
+                }
             }
         }
 
@@ -63,6 +66,7 @@ namespace WorldYachts.Model
                 //Копируем измененную связь в БД
                 dbAtb.AccessoryId = item.AccessoryId;
                 dbAtb.BoatId = item.BoatId;
+                dbAtb.IsDeleted = item.IsDeleted;
 
                 await context.SaveChangesAsync();
             }

@@ -13,6 +13,10 @@ namespace WorldYachts.Data
         /// </summary>
         [Required] public int Id { get; set; }
         /// <summary>
+        /// Является ли предмет удаленным
+        /// </summary>
+        [Required] public bool IsDeleted { get; set; }
+        /// <summary>
         /// Идентификатор заказа 
         /// </summary>
         [Required] public int ContractId { get; set; }

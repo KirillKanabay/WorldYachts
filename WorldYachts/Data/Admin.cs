@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace WorldYachts.Data
@@ -18,5 +19,10 @@ namespace WorldYachts.Data
         /// Фамилия администратора
         /// </summary>
         public string SecondName { get; set; }
+
+        /// <summary>
+        /// Является ли предмет удаленным
+        /// </summary>
+        [Required] public bool IsDeleted { get; set; }
     }
 }

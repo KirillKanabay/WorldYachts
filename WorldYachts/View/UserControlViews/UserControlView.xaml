@@ -33,14 +33,8 @@
             Управление аксессуарами
         </Label>
         <TabControl Grid.Row="1" Style="{StaticResource MaterialDesignTabControl}">
-            <TabItem Header="Управление клиентами">
-                <accessoryControlViews:PartnersManagementView />
-            </TabItem>
             <TabItem Header="Управление менеджерами">
                 <userControlViews:SalesPersonManagementView />
-            </TabItem>
-            <TabItem Header="Управление совместимостью">
-                <accessoryControlViews:AccessoryFitManagementView />
             </TabItem>
         </TabControl>
 

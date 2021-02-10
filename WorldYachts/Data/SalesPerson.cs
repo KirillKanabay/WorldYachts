@@ -13,7 +13,10 @@ namespace WorldYachts.Data
         /// Идентификатор менеджера 
         /// </summary>
         [Required] public int Id { get; set; }
-        
+        /// <summary>
+        /// Является ли предмет удаленным
+        /// </summary>
+        [Required] public bool IsDeleted { get; set; }
         /// <summary>
         /// Имя менеджера
         /// </summary>

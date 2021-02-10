@@ -32,7 +32,7 @@ namespace WorldYachts.Model
             List<OrderDetails> odCollection = new List<OrderDetails>();
             using (var context = WorldYachtsContext.GetDataContext())
             {
-                foreach (var orderDetails in context.OrderDetails)
+                foreach (var orderDetails in context.OrderDetails.Where(i=>!i.IsDeleted))
                 {
                     orderDetails.Accessory = new AccessoryModel().GetItemById(orderDetails.AccessoryId);
                     orderDetails.Order = new OrderModel().GetItemById(orderDetails.OrderId);
@@ -46,8 +46,11 @@ namespace WorldYachts.Model
         {
             await using (var context = WorldYachtsContext.GetDataContext())
             {
-                context.OrderDetails.RemoveRange(removeItems);
-                await context.SaveChangesAsync();
+                foreach (var orderDetails in removeItems)
+                {
+                    orderDetails.IsDeleted = true;
+                    await SaveAsync(orderDetails);
+                }
             }
         }
 
@@ -61,7 +64,8 @@ namespace WorldYachts.Model
                 dbOrderDetail.Id = item.Id;
                 dbOrderDetail.AccessoryId = item.AccessoryId;
                 dbOrderDetail.OrderId = item.OrderId;
-                
+                dbOrderDetail.IsDeleted = item.IsDeleted;
+
                 await context.SaveChangesAsync();
             }
         }

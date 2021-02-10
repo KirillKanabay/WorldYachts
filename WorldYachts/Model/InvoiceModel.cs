@@ -32,7 +32,7 @@ namespace WorldYachts.Model
             var invoiceCollection = new List<Invoice>();
             using (var context = WorldYachtsContext.GetDataContext())
             {
-                foreach (var invoice in context.Invoices)
+                foreach (var invoice in context.Invoices.Where(i=>!i.IsDeleted))
                 {
                     invoice.Contract = new ContractModel().GetItemById(invoice.ContractId);
                     invoiceCollection.Add(invoice);
@@ -46,8 +46,11 @@ namespace WorldYachts.Model
         {
             await using (var context = WorldYachtsContext.GetDataContext())
             {
-                context.Invoices.RemoveRange(removeItems);
-                await context.SaveChangesAsync();
+                foreach (var removeItem in removeItems)
+                {
+                    removeItem.IsDeleted = true;
+                    await SaveAsync(removeItem);
+                }
             }
         }
 
@@ -63,6 +66,7 @@ namespace WorldYachts.Model
                 dbInvoice.Sum = item.Sum;
                 dbInvoice.SumInclVat = item.SumInclVat;
                 dbInvoice.Date = item.Date;
+                dbInvoice.IsDeleted = true;
 
                 await context.SaveChangesAsync();
             }

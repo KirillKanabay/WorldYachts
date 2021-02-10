@@ -44,7 +44,7 @@ namespace WorldYachts.Model
         {
             using (var context = WorldYachtsContext.GetDataContext())
             {
-                return context.Partners.ToList();
+                return context.Partners.Where(i=>!i.IsDeleted).ToList();
             }
         }
         /// <summary>
@@ -56,8 +56,11 @@ namespace WorldYachts.Model
         {
             await using (var context = WorldYachtsContext.GetDataContext())
             {
-                context.Partners.RemoveRange(removePartners);
-                await context.SaveChangesAsync();
+                foreach (var removePartner in removePartners)
+                {
+                    removePartner.IsDeleted = true;
+                    await SaveAsync(removePartner);
+                }
             }
         }
         /// <summary>
@@ -76,6 +79,7 @@ namespace WorldYachts.Model
                 dbPartner.Name = partner.Name;
                 dbPartner.Address = partner.Address;
                 dbPartner.City = partner.City;
+                dbPartner.IsDeleted = partner.IsDeleted;
 
                 await context.SaveChangesAsync();
             }

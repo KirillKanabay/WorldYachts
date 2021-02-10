@@ -32,7 +32,7 @@ namespace WorldYachts.Model
             var contractCollection = new List<Contract>();
             using (var context = WorldYachtsContext.GetDataContext())
             {
-                foreach (var contract in context.Contracts)
+                foreach (var contract in context.Contracts.Where(i=>!i.IsDeleted))
                 {
                     contract.Order = new OrderModel().GetItemById(contract.OrderId);
                     contractCollection.Add(contract);
@@ -46,8 +46,11 @@ namespace WorldYachts.Model
         {
             await using (var context = WorldYachtsContext.GetDataContext())
             {
-                context.Contracts.RemoveRange(removeItems);
-                await context.SaveChangesAsync();
+                foreach (var removeItem in removeItems)
+                {
+                    removeItem.IsDeleted = true;
+                    await SaveAsync(removeItem);
+                }
             }
         }
 
@@ -64,7 +67,7 @@ namespace WorldYachts.Model
                 dbContract.ContractTotalPrice = item.ContractTotalPrice;
                 dbContract.ContractTotalPriceInclVat = item.ContractTotalPriceInclVat;
                 dbContract.ProductionProcess = item.ProductionProcess;
-
+                dbContract.IsDeleted = true;
                 await context.SaveChangesAsync();
             }
         }

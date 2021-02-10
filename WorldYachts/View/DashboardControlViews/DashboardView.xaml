@@ -9,7 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:WorldYachts.ViewModel"
     d:DesignHeight="450"
-    d:DesignWidth="800"
+    d:DesignWidth="1500"
     Background="#fafafa"
     FontFamily="Google Sans"
     FontSize="16"
@@ -19,8 +19,9 @@
     </UserControl.DataContext>
     <Grid Margin="20">
         <Grid.RowDefinitions>
-            <RowDefinition Height="30" />
-            <RowDefinition />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="200" />
+            <RowDefinition Height="200" />
         </Grid.RowDefinitions>
         <Label
             Grid.Row="0"
@@ -28,40 +29,191 @@
             VerticalAlignment="Top"
             FontSize="18"
             FontWeight="Bold">
-            Главная
+            Добро пожаловать!
         </Label>
-        <materialDesign:Card
+        <StackPanel
             Grid.Row="1"
-            Width="auto"
-            Height="200"
-            Padding="10"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top">
-            <Grid Width="auto" Height="200">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="100" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <materialDesign:ColorZone VerticalAlignment="Stretch" Mode="PrimaryLight">
-                    <materialDesign:PackIcon
-                        Width="64"
-                        Height="64"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Kind="AccountCircle" />
-                </materialDesign:ColorZone>
-                <StackPanel
-                    Grid.Row="1"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Margin="0,0,5,0" Text="{Binding Name}" />
-                        <TextBlock Text="{Binding SecondName}" />
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <!--  Пользователь  -->
+            <materialDesign:Card
+                Grid.Row="1"
+                Width="300"
+                Height="100"
+                Padding="10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top">
+                <Grid Margin="10,5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Row="0"
+                        FontSize="14"
+                        Foreground="#2196f3"
+                        Text="{Binding TypeUser}" />
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,0,5,0"
+                            FontSize="18"
+                            FontWeight="Bold"
+                            Text="{Binding Name}" />
+                        <TextBlock
+                            FontSize="18"
+                            FontWeight="Bold"
+                            Text="{Binding SecondName}" />
                     </StackPanel>
-                    <TextBlock Text="{Binding TypeUser}" />
-                </StackPanel>
-            </Grid>
-        </materialDesign:Card>
+                </Grid>
+            </materialDesign:Card>
+
+            <!--  Сумма оплат  -->
+            <materialDesign:Card
+                Grid.Row="1"
+                Width="300"
+                Height="100"
+                Margin="50,0,0,0"
+                Padding="10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top">
+                <Grid Margin="10,5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Row="0"
+                        FontSize="14"
+                        Foreground="#2196f3"
+                        Text="Сумма оплат:" />
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,0,5,0"
+                            FontSize="18"
+                            FontWeight="Bold"
+                            Text="{Binding SpentSum}"
+                            Visibility="{Binding SpentByCustomerVisibility}" />
+                    </StackPanel>
+                </Grid>
+            </materialDesign:Card>
+
+            <!--  Оформлено контрактов  -->
+            <materialDesign:Card
+                Grid.Row="1"
+                Width="300"
+                Height="100"
+                Margin="50,0,0,0"
+                Padding="10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top">
+                <Grid Margin="10,5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Row="0"
+                        FontSize="14"
+                        Foreground="#2196f3"
+                        Text="Оформлено контрактов:" />
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,0,5,0"
+                            FontSize="18"
+                            FontWeight="Bold"
+                            Text="{Binding ContractСount}" />
+                    </StackPanel>
+                </Grid>
+            </materialDesign:Card>
+        </StackPanel>
+        <StackPanel
+            Grid.Row="2"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <!--  Количество оформленных заказов  -->
+            <materialDesign:Card
+                Grid.Row="1"
+                Width="300"
+                Height="100"
+                Padding="10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top">
+                <Grid Margin="10,5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Row="0"
+                        FontSize="14"
+                        Foreground="#2196f3"
+                        Text="Количество оформленных заказов" />
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,0,5,0"
+                            FontSize="18"
+                            FontWeight="Bold"
+                            Text="{Binding OrderCount}" />
+                    </StackPanel>
+                </Grid>
+            </materialDesign:Card>
+            <!--  Общая стоимость контрактов  -->
+            <materialDesign:Card
+                Grid.Row="1"
+                Width="300"
+                Height="100"
+                Margin="50,0,0,0"
+                Padding="10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top">
+                <Grid Margin="10,5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Row="0"
+                        FontSize="14"
+                        Foreground="#2196f3"
+                        Text="Общая стоимость контрактов:" />
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,0,5,0"
+                            FontSize="18"
+                            FontWeight="Bold"
+                            Text="{Binding ContractsPrice}" />
+                    </StackPanel>
+                </Grid>
+            </materialDesign:Card>
+            <!--  Непогашенная стоимость  -->
+            <materialDesign:Card
+                Grid.Row="1"
+                Width="300"
+                Height="100"
+                Margin="50,0,0,0"
+                Padding="10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top">
+                <Grid Margin="10,5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Row="0"
+                        FontSize="14"
+                        Foreground="#2196f3"
+                        Text="Непогашенная стоимость контрактов:" />
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,0,5,0"
+                            FontSize="18"
+                            FontWeight="Bold"
+                            Text="{Binding NotPayedDeposit}" />
+                    </StackPanel>
+                </Grid>
+            </materialDesign:Card>
+        </StackPanel>
     </Grid>
 
 </UserControl>

@@ -193,8 +193,8 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
                 OnPropertyChanged(nameof(DeliveryCity));
             }
         }
-
-        public override bool SaveButtonIsEnabled => !ErrorDictionary.Any();
+        public bool IsCustomer => AuthUser.TypeOfUser == TypeOfUser.Customer;
+        public override bool SaveButtonIsEnabled => !ErrorDictionary.Any() && IsCustomer;
         public override IDataModel<Order> ModelItem => _orderModel;
         protected override Order GetSaveItem(bool isEdit)
         {

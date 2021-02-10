@@ -22,7 +22,7 @@
     <UserControl.DataContext>
         <vm:CatalogControlViewModel />
     </UserControl.DataContext>
-    <Grid>
+    <Grid Margin="20,20,0,20">
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
             <RowDefinition Height="40" />

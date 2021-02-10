@@ -33,6 +33,10 @@ namespace WorldYachts.Data
         // [ForeignKey("AccessoryId")]
         public virtual Accessory Accessory { get; set; }
 
+        /// <summary>
+        /// Является ли предмет удаленным
+        /// </summary>
+        [Required] public bool IsDeleted { get; set; }
 
         public int CompareTo(object? obj)
         {

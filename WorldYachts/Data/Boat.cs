@@ -18,12 +18,16 @@ namespace WorldYachts.Data
 {
     public class Boat : IComparable, IComparer
     {
+
         /// <summary>
         /// Идентификатор яхты
         /// </summary>
         [Required]
         public int Id { get; set; }
-
+        /// <summary>
+        /// Является ли предмет удаленным
+        /// </summary>
+        [Required] public bool IsDeleted { get; set; }
         /// <summary>
         /// Модель яхты
         /// </summary>

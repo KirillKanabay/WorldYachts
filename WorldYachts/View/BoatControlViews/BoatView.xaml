@@ -134,7 +134,8 @@
             VerticalAlignment="Stretch"
             BorderBrush="#BABABA"
             BorderThickness="1,1,1,1"
-            CornerRadius="3">
+            CornerRadius="3"
+            IsEnabled="{Binding IsCustomer}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30" />
@@ -241,7 +242,8 @@
             VerticalAlignment="Stretch"
             BorderBrush="#BABABA"
             BorderThickness="1,1,1,1"
-            CornerRadius="3">
+            CornerRadius="3"
+            IsEnabled="{Binding IsCustomer}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30" />

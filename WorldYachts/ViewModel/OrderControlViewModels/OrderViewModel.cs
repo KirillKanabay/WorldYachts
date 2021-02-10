@@ -5,20 +5,36 @@ using System.Linq;
 using System.Text;
 using WorldYachts.Data;
 using WorldYachts.Model;
+using WorldYachts.Infrastructure;
 using WorldYachts.ViewModel.BaseViewModels;
 
 namespace WorldYachts.ViewModel.OrderControlViewModels
 {
-    class OrderViewModel:BaseManagementViewModel<Order>
+    class OrderViewModel : BaseManagementViewModel<Order>
     {
         public OrderViewModel()
         {
             OnItemChanged?.Invoke();
         }
 
+        public override ObservableCollection<BaseSelectableViewModel<Order>> FilteredCollection
+        {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(_filterText))
+                    return new ObservableCollection<BaseSelectableViewModel<Order>>(Filter(_filterText)
+                        .Where(i => i.Item.CustomerId == AuthUser.User.Id));
+
+                return new ObservableCollection<BaseSelectableViewModel<Order>>(
+                    ItemsCollection.Where(i => i.Item.CustomerId == AuthUser.User.Id));
+            }
+        }
+
         public override IDataModel<Order> ModelItem => new OrderModel();
         public override BaseEditorViewModel<Order> Editor { get; }
-        protected override ObservableCollection<BaseSelectableViewModel<Order>> GetSelectableViewModels(IEnumerable<Order> items)
+
+        protected override ObservableCollection<BaseSelectableViewModel<Order>> GetSelectableViewModels(
+            IEnumerable<Order> items)
         {
             var collection = new ObservableCollection<BaseSelectableViewModel<Order>>();
             OnPropertyChanged(nameof(ItemsCollection));

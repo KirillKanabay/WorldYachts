@@ -46,7 +46,7 @@ namespace WorldYachts.Model
             using (var context = WorldYachtsContext.GetDataContext())
             {
                 var atb = context.AccessoryToBoat;
-                foreach (var contextBoat in context.Boats)
+                foreach (var contextBoat in context.Boats.Where(i=>!i.IsDeleted))
                 {
                     contextBoat.AccessoryToBoat = new AccessoryToBoatModel().Load()
                         .Where(i=>i.Boat.Model == contextBoat.Model).ToList();
@@ -65,8 +65,11 @@ namespace WorldYachts.Model
         {
             await using (var context = WorldYachtsContext.GetDataContext())
             {
-                context.Boats.RemoveRange(removeBoats);
-                await context.SaveChangesAsync();
+                foreach (var removeBoat in removeBoats)
+                {
+                    removeBoat.IsDeleted = true;
+                    await SaveAsync(removeBoat);
+                }
             }
         }
 
@@ -91,6 +94,7 @@ namespace WorldYachts.Model
                 dbBoat.Wood = boat.Wood;
                 dbBoat.BasePrice = boat.BasePrice;
                 dbBoat.Vat = boat.Vat;
+                dbBoat.IsDeleted = boat.IsDeleted;
 
                 await context.SaveChangesAsync();
             }

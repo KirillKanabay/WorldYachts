@@ -33,7 +33,7 @@ namespace WorldYachts.Model
             var accessoryCollection = new List<Accessory>();
             using (var context = WorldYachtsContext.GetDataContext())
             {
-                foreach (var accessory in context.Accessories)
+                foreach (var accessory in context.Accessories.Where(a=>!a.IsDeleted))
                 {
                     accessory.Partner = new PartnerModel().GetItemById(accessory.PartnerId);
                     accessoryCollection.Add(accessory);
@@ -47,8 +47,11 @@ namespace WorldYachts.Model
         {
             await using (var context = WorldYachtsContext.GetDataContext())
             {
-                context.Accessories.RemoveRange(removeItems);
-                await context.SaveChangesAsync();
+                foreach (var item in removeItems)
+                {
+                    item.IsDeleted = true;
+                    await SaveAsync(item);
+                }
             }
         }
 
@@ -68,7 +71,7 @@ namespace WorldYachts.Model
                 dbAcc.OrderLevel = item.OrderLevel;
                 dbAcc.OrderBatch = item.OrderBatch;
                 dbAcc.PartnerId = item.PartnerId;
-
+                dbAcc.IsDeleted = item.IsDeleted;
                 await context.SaveChangesAsync();
             }
         }

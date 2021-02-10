@@ -32,7 +32,7 @@ namespace WorldYachts.Model
             List<Order> orders = new List<Order>();
             using (var context = WorldYachtsContext.GetDataContext())
             {
-                foreach (var order in context.Orders)
+                foreach (var order in context.Orders.Where(i=>!i.IsDeleted))
                 {
                     order.Boat = new BoatModel().GetItemById(order.BoatId);
                     order.SalesPerson = new SalesPersonModel().GetItemById(order.SalesPersonId);
@@ -68,6 +68,7 @@ namespace WorldYachts.Model
                 dbOrder.DeliveryAddress = item.DeliveryAddress;
                 dbOrder.City = item.City;
                 dbOrder.Status = item.Status;
+                dbOrder.IsDeleted = item.IsDeleted;
 
                 await context.SaveChangesAsync();
             }

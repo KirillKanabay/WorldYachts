@@ -33,7 +33,7 @@ namespace WorldYachts.Model
         {
             using (var context = WorldYachtsContext.GetDataContext())
             {
-                return context.Users.ToList();
+                return context.Users.Where(i=>!i.IsDeleted).ToList();
             }
         }
 
@@ -41,8 +41,11 @@ namespace WorldYachts.Model
         {
             await using (var context = WorldYachtsContext.GetDataContext())
             {
-                context.Users.RemoveRange(removeItems);
-                await context.SaveChangesAsync();
+                foreach (var removeItem in removeItems)
+                {
+                    removeItem.IsDeleted = true;
+                    await SaveAsync(removeItem);
+                }
             }
         }
 
@@ -57,6 +60,7 @@ namespace WorldYachts.Model
                 dbUser.Login = item.Login;
                 dbUser.Password = item.Password;
                 dbUser.UserId = item.UserId;
+                dbUser.IsDeleted = item.IsDeleted;
 
                 await context.SaveChangesAsync();
             }

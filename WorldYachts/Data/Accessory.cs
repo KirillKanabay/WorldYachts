@@ -45,6 +45,11 @@ namespace WorldYachts.Data
         /// </summary>
         [Required] public int PartnerId { get; set; }
 
+        /// <summary>
+        /// Является ли предмет удаленным
+        /// </summary>
+        [Required] public bool IsDeleted { get; set; }
+
         [ForeignKey("PartnerId")]
         public Partner Partner { get; set; }
 
