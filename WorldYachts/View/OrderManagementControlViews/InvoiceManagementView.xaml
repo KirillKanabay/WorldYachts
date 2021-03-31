@@ -133,9 +133,7 @@
                                 <DataGridTemplateColumn Header="Принять">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button
-                                                Command="{Binding Accept}"
-                                                Style="{StaticResource TransparentButton}">
+                                            <Button Command="{Binding Accept}" Style="{StaticResource TransparentButton}">
                                                 <materialDesign:PackIcon
                                                     Width="18"
                                                     Height="18"

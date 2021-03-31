@@ -158,7 +158,10 @@
                     MaxHeight="200"
                     VerticalScrollBarVisibility="Auto">
                     <!--  Аксессуары  -->
-                    <ItemsControl Grid.Row="1" ItemsSource="{Binding Accessories}" IsEnabled="{Binding IsCustomer}">
+                    <ItemsControl
+                        Grid.Row="1"
+                        IsEnabled="{Binding IsCustomer}"
+                        ItemsSource="{Binding Accessories}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <materialDesign:Chip
