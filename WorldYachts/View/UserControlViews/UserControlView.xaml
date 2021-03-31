@@ -30,7 +30,7 @@
             VerticalAlignment="Top"
             FontSize="18"
             FontWeight="Bold">
-            Управление аксессуарами
+            Управление пользователями
         </Label>
         <TabControl Grid.Row="1" Style="{StaticResource MaterialDesignTabControl}">
             <TabItem Header="Управление менеджерами">

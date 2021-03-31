@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Configuration;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -196,6 +193,7 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
         public bool IsCustomer => AuthUser.TypeOfUser == TypeOfUser.Customer;
         public override bool SaveButtonIsEnabled => !ErrorDictionary.Any() && IsCustomer;
         public override IDataModel<Order> ModelItem => _orderModel;
+        
         protected override Order GetSaveItem(bool isEdit)
         {
             return new Order()
@@ -209,14 +207,14 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
                 City = DeliveryCity
             };
         }
-
+        
         protected override string GetSaveSnackbarMessage(bool _isEdit)
         {
             return _isEdit
                 ? $"Заказ успешно отредактирован."
                 : $"Заказ успешно добавлен.";
         }
-
+        
         protected override async Task SaveMethod(object parameter)
         {
             ProgressBarVisibility = Visibility.Visible;

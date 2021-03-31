@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WorldYachts.Data;
 using WorldYachts.Infrastructure;
@@ -76,7 +74,6 @@ namespace WorldYachts.Model
 
         public async Task IsRepeated(Order item)
         {
-
         }
 
         public async Task<Order> GetItemByIdAsync(int id)
