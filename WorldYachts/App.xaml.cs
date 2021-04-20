@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
+using Microsoft.Extensions.DependencyInjection;
+using WorldYachts.Services;
+using WorldYachts.View;
+using WorldYachts.ViewModel;
 
 namespace WorldYachts
 {
@@ -13,6 +12,35 @@ namespace WorldYachts
     /// </summary>
     public partial class App : Application
     {
-    
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            IServiceProvider serviceProvider = CreateServiceProvider();
+
+            IWebClientService wcs = serviceProvider.GetRequiredService<IWebClientService>();
+
+            //Console.WriteLine();
+            Window window = new LoginWindow();
+            window.DataContext = serviceProvider.GetRequiredService<LoginViewModel>();
+            window.Show();
+
+            using (IServiceScope scope = serviceProvider.CreateScope())
+            {
+                var differentViewModel = scope.ServiceProvider.GetRequiredService<LoginViewModel>();
+                var equal = differentViewModel == window.DataContext;
+            }
+
+            base.OnStartup(e);
+        }
+
+        private IServiceProvider CreateServiceProvider()
+        {
+            IServiceCollection services = new ServiceCollection();
+
+            services.AddSingleton<IWebClientService, WebClientService>();
+
+            services.AddScoped<LoginViewModel>();
+
+            return services.BuildServiceProvider();
+        }
     }
 }

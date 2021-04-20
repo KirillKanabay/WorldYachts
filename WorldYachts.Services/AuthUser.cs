@@ -17,7 +17,7 @@ namespace WorldYachts.Services
             UserId = response.UserId;
             Token = response.Token;
 
-            WebClientWorker.GetInstance().Token = Token;
+            //WebClientService.GetInstance().Token = Token;
         }
 
         private static AuthUser _instance;

@@ -4,8 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:WorldYachts"
     xmlns:viewModels="clr-namespace:WorldYachts.ViewModel"
-    xmlns:views="clr-namespace:WorldYachts.View"
-    StartupUri="View/LoginWindow.xaml">
+    xmlns:views="clr-namespace:WorldYachts.View">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

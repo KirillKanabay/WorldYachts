@@ -3,49 +3,23 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace WorldYachts.Services
 {
-    class WebClientWorker
+    public class WebClientService : IWebClientService
     {
-        #region Singleton
-        private WebClientWorker(string connectionUrl)
+        public WebClientService()
         {
-            ConnectionUrl = connectionUrl;
-            
+            //ConnectionUrl = configuration["ConnectionUrl"];
+
             _client = new HttpClient();
 
-            _client.BaseAddress = new Uri(ConnectionUrl);
+            _client.BaseAddress = new Uri("https://localhost:44311/");
             _client.DefaultRequestHeaders.Accept.Clear();
             _client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
         }
-
-        private static WebClientWorker _instance;
-
-        private static readonly object _lock = new object();
-
-        public static WebClientWorker GetInstance(string connectionUrl)
-        {
-            if (_instance == null)
-            {
-                lock (_lock)
-                {
-                    if (_instance == null)
-                    {
-                        _instance = new WebClientWorker(connectionUrl);
-                    }
-                }
-            }
-
-            return _instance;
-        }
-
-        public static WebClientWorker GetInstance()
-        {
-            return _instance;
-        }
-        #endregion
 
         private HttpClient _client { get; set; }
         private string _token;
@@ -62,7 +36,7 @@ namespace WorldYachts.Services
         }
 
         public async Task<TResponse> GetAsync<TResponse>(string path, int? id = null)
-            where TResponse: class
+            where TResponse : class
         {
             TResponse entity = null;
             HttpResponseMessage response = await _client.GetAsync($"api/{path}/{id ?? ' '}");
@@ -74,7 +48,7 @@ namespace WorldYachts.Services
             return entity;
         }
 
-        public async Task<TResponse> PostAsync<TRequest, TResponse>(string path, TRequest entity) 
+        public async Task<TResponse> PostAsync<TRequest, TResponse>(string path, TRequest entity)
             where TRequest : class
             where TResponse : class
         {

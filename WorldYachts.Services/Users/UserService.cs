@@ -7,13 +7,13 @@ namespace WorldYachts.Services.Users
     {
         public async Task LoginAsync(string username, string password)
         {
-            var request = new AuthenticateRequest(){Username = username, Password = password};
-            var webClientWorker = WebClientWorker.GetInstance("https://localhost:5001/");
+            //var request = new AuthenticateRequest(){Username = username, Password = password};
+            ////var webClientWorker = WebClientService.GetInstance("https://localhost:5001/");
             
-            var response = await webClientWorker
-                .PostAsync<AuthenticateRequest,AuthenticateResponse>("users/authenticate", request);
+            //var response = await webClientWorker
+            //    .PostAsync<AuthenticateRequest,AuthenticateResponse>("users/authenticate", request);
             
-            var user = AuthUser.GetInstance(response);
+            //var user = AuthUser.GetInstance(response);
         }
     }
 }
