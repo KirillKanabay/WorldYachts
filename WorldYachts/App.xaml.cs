@@ -22,13 +22,7 @@ namespace WorldYachts
             Window window = new LoginWindow();
             window.DataContext = serviceProvider.GetRequiredService<LoginViewModel>();
             window.Show();
-
-            using (IServiceScope scope = serviceProvider.CreateScope())
-            {
-                var differentViewModel = scope.ServiceProvider.GetRequiredService<LoginViewModel>();
-                var equal = differentViewModel == window.DataContext;
-            }
-
+            
             base.OnStartup(e);
         }
 
