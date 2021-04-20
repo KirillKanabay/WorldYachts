@@ -93,37 +93,37 @@ namespace WorldYachts.Model
 
         public async Task LoginAsync(string login, string password)
         {
-            var us = new UserService();
-            await us.LoginAsync(login, password);
+            //var us = new UserService();
+            //await us.LoginAsync(login, password);
 
-            AuthUser.User = new Admin(){};
+            //AuthUser.User = new Admin(){};
 
-            //await using (var context = WorldYachtsContext.GetDataContext())
-            //{
-            //    var user = context.Users.SingleOrDefault(u => u.Login == login && u.Password == password);
+            await using (var context = WorldYachtsContext.GetDataContext())
+            {
+                var user = context.Users.SingleOrDefault(u => u.Login == login && u.Password == password);
 
-            //    if (user == null)
-            //    {
-            //        AuthUser.User = null;
-            //        throw new Exception("Неверный логин или пароль");
-            //    }
+                if (user == null)
+                {
+                    AuthUser.User = null;
+                    throw new Exception("Неверный логин или пароль");
+                }
 
-            //    AuthUser.TypeOfUser = (TypeOfUser)user.TypeUser;
-            //    switch (user.TypeUser)
-            //    {
-            //        case (int)TypeOfUser.Customer:
-            //            AuthUser.User = context.Customers.SingleOrDefault(u => user.UserId == u.Id);
-            //            break;
-            //        case (int)TypeOfUser.SalesPerson:
-            //            AuthUser.User = context.SalesPersons.SingleOrDefault(u => user.UserId == u.Id);
-            //            break;
-            //        case (int)TypeOfUser.Admin:
-            //            AuthUser.User = context.Admin.SingleOrDefault(u => user.UserId == u.Id);
-            //            break;
-            //        default:
-            //            throw new ArgumentException("Неверный тип пользователя");
-            //    }
-            //}
+                AuthUser.TypeOfUser = (TypeOfUser)user.TypeUser;
+                switch (user.TypeUser)
+                {
+                    case (int)TypeOfUser.Customer:
+                        AuthUser.User = context.Customers.SingleOrDefault(u => user.UserId == u.Id);
+                        break;
+                    case (int)TypeOfUser.SalesPerson:
+                        AuthUser.User = context.SalesPersons.SingleOrDefault(u => user.UserId == u.Id);
+                        break;
+                    case (int)TypeOfUser.Admin:
+                        AuthUser.User = context.Admin.SingleOrDefault(u => user.UserId == u.Id);
+                        break;
+                    default:
+                        throw new ArgumentException("Неверный тип пользователя");
+                }
+            }
         }
         
         public async Task AddCustomerAsync(Customer customer, string login, string password)
