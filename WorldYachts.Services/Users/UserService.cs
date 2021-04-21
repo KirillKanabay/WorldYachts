@@ -5,13 +5,13 @@ namespace WorldYachts.Services.Users
 {
     public class UserService:IUserService
     {
-        private readonly WebClientService _webClientService;
+        private readonly IWebClientService _webClientService;
         private readonly AuthUser _authUser;
 
-        public UserService(WebClientService webClientService, AuthUser authUser)
+        public UserService()
         {
-            _webClientService = webClientService;
-            _authUser = authUser;
+            _webClientService = WebClientService.GetInstance();
+            _authUser = AuthUser.GetInstance();
         }
         
         public async Task AuthenticateAsync(string username, string password)
@@ -23,7 +23,7 @@ namespace WorldYachts.Services.Users
             
             if (response != null)
             {
-                _authUser.Authenticate(response);
+               await _authUser.Authenticate(response);
             }
             //var response = await webClientWorker
             //    .PostAsync<AuthenticateRequest,AuthenticateResponse>("users/authenticate", request);

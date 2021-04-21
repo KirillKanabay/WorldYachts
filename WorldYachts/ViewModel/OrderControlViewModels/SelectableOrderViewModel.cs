@@ -8,6 +8,7 @@ using WorldYachts.Helpers;
 using WorldYachts.Helpers.Commands;
 using WorldYachts.Infrastructure;
 using WorldYachts.Model;
+using WorldYachts.Services;
 using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BaseViewModels;
 
@@ -23,12 +24,15 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
         private AsyncRelayCommand _setOrderStatus;
         private OrderStatus _os;
 
+        private AuthUser _authUser;
+
         #endregion
 
         #region Конструкторы
 
         public SelectableOrderViewModel(Order item) : base(item)
         {
+            _authUser = AuthUser.GetInstance();
         }
 
         #endregion
@@ -79,7 +83,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
             }
 
             Item.Status = (int) _os;
-            Item.SalesPersonId = (_os == OrderStatus.InProcessing) ? 1 : AuthUser.User.Id;
+            //Item.SalesPersonId = (_os == OrderStatus.InProcessing) ? 1 : _.Id;
             await Task.Run(() => new OrderModel().SaveAsync(Item));
             if (_os == OrderStatus.Accepted)
             {

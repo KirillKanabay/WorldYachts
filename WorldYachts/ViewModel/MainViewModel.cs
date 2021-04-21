@@ -1,22 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Net.Mime;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
-using MaterialDesignThemes.Wpf;
+using WorldYachts.Data;
 using WorldYachts.Helpers;
-using WorldYachts.Infrastructure;
+using WorldYachts.Services;
 using WorldYachts.View;
-using WorldYachts.ViewModel.AccessoryControlViewModels;
 using WorldYachts.ViewModel.BaseViewModels;
-using WorldYachts.ViewModel.BoatManagementViewModels;
 using WorldYachts.ViewModel.CatalogControlViewModels;
 using WorldYachts.ViewModel.DashboardControlViewModels;
 using WorldYachts.ViewModel.OrderControlViewModels;
-using WorldYachts.ViewModel.UserControlViewModels;
 
 namespace WorldYachts.ViewModel
 {
@@ -26,39 +19,47 @@ namespace WorldYachts.ViewModel
     class MainViewModel:BaseViewModel
     {
         #region Поля
-        private BaseViewModel _selectedViewModel = new DashboardViewModel();
+
         private DelegateCommand _updateViewCommand;
         private DelegateCommand _logout;
+
+        private BaseViewModel _currentViewModel;
         #endregion
 
+        public MainViewModel()
+        {
+            _currentViewModel = new DashboardViewModel();
+        }
+
         #region Свойства
+
         /// <summary>
         /// Текущий выбранный VM
         /// </summary>
-        public BaseViewModel SelectedViewModel
+        public BaseViewModel CurrentViewModel
         {
-            get => _selectedViewModel;
+            get => _currentViewModel;
             set
             {
-                _selectedViewModel = value;
-                OnPropertyChanged(nameof(SelectedViewModel));
+                _currentViewModel = value;
+                OnPropertyChanged(nameof(CurrentViewModel));
             }
         }
 
         public Visibility BoatManagementVisibility =>
-            (AuthUser.TypeOfUser == TypeOfUser.Customer) ? Visibility.Collapsed : Visibility.Visible;
+            (AuthUser.GetInstance().TypeOfUser == TypeOfUser.Customer) ? Visibility.Collapsed : Visibility.Visible;
         
         public Visibility AccessoryManagementVisibility =>
-            (AuthUser.TypeOfUser == TypeOfUser.Customer) ? Visibility.Collapsed : Visibility.Visible;
+            (AuthUser.GetInstance().TypeOfUser == TypeOfUser.Customer) ? Visibility.Collapsed : Visibility.Visible;
         
         public Visibility UserManagementVisibility =>
-            (AuthUser.TypeOfUser == TypeOfUser.Admin) ? Visibility.Visible : Visibility.Collapsed;
+            (AuthUser.GetInstance().TypeOfUser == TypeOfUser.Admin) ? Visibility.Visible : Visibility.Collapsed;
 
         public Visibility OrdersManagementVisibility =>
-            (AuthUser.TypeOfUser == TypeOfUser.SalesPerson) ? Visibility.Visible : Visibility.Collapsed;
+            (AuthUser.GetInstance().TypeOfUser == TypeOfUser.SalesPerson) ? Visibility.Visible : Visibility.Collapsed;
         
         public Visibility OrdersVisibility =>
-            (AuthUser.TypeOfUser == TypeOfUser.Customer) ? Visibility.Visible : Visibility.Collapsed;
+            (AuthUser.GetInstance().TypeOfUser == TypeOfUser.Customer) ? Visibility.Visible : Visibility.Collapsed;
 
         #endregion
 
@@ -79,32 +80,37 @@ namespace WorldYachts.ViewModel
                     switch (viewModelName)
                     {
                         case "Dashboard":
-                            SelectedViewModel = new DashboardViewModel();
+                            CurrentViewModel = new DashboardViewModel();
                             break;
                         case "Catalog":
-                            SelectedViewModel = new CatalogControlViewModel();
+                            CurrentViewModel = new CatalogControlViewModel();
                             break;
                         case "Orders":
-                            SelectedViewModel = new OrderControlViewModel();
+                            CurrentViewModel = new OrderControlViewModel();
                             break;
                         case "OrdersManagement":
-                            SelectedViewModel = new OrderManagementControlViewModel();
+                            CurrentViewModel = new OrderManagementControlViewModel();
                             break;
-                        case "BoatManagement":
-                            SelectedViewModel = new BoatManagementViewModel();
-                            break;
-                        case "AccessoryManagement":
-                            SelectedViewModel = new AccessoryControlViewModel();
-                            break;
-                        case "UserManagement":
-                            SelectedViewModel = new UserControlViewModel();
-                            break;
-                        case "AccountSettings":
-                            SelectedViewModel = new AccountSettingsViewModel();
-                            break;
-                        case "AboutProgram":
-                            SelectedViewModel = new AboutProgramViewModel();
-                            break;
+                        //case "BoatManagement":
+                        //    new NavigateCommand<BoatManagementViewModel>(_navigationStore,
+                        //        () => new BoatManagementViewModel()).Execute(null);
+                        //    break;
+                        //case "AccessoryManagement":
+                        //    new NavigateCommand<AccessoryControlViewModel>(_navigationStore,
+                        //        () => new AccessoryControlViewModel()).Execute(null);
+                        //    break;
+                        //case "UserManagement":
+                        //    new NavigateCommand<UserControlViewModel>(_navigationStore,
+                        //        () => new UserControlViewModel()).Execute(null);
+                        //    break;
+                        //case "AccountSettings":
+                        //    new NavigateCommand<AccountSettingsViewModel>(_navigationStore,
+                        //        () => new AccountSettingsViewModel()).Execute(null);
+                        //    break;
+                        //case "AboutProgram":
+                        //    new NavigateCommand<AboutProgramViewModel>(_navigationStore,
+                        //        () => new AboutProgramViewModel()).Execute(null);
+                        //    break;
                         default:
                             throw new ArgumentException("404");
                     }

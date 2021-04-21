@@ -4,6 +4,7 @@ using System.Linq;
 using WorldYachts.Data;
 using WorldYachts.Model;
 using WorldYachts.Infrastructure;
+using WorldYachts.Services;
 using WorldYachts.ViewModel.BaseViewModels;
 
 namespace WorldYachts.ViewModel.OrderControlViewModels
@@ -21,10 +22,10 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
             {
                 if (!string.IsNullOrWhiteSpace(_filterText))
                     return new ObservableCollection<BaseSelectableViewModel<Order>>(Filter(_filterText)
-                        .Where(i => i.Item.CustomerId == AuthUser.User.Id));
+                        .Where(i => i.Item.CustomerId == AuthUser.GetInstance().User.Id));
 
                 return new ObservableCollection<BaseSelectableViewModel<Order>>(
-                    ItemsCollection.Where(i => i.Item.CustomerId == AuthUser.User.Id));
+                    ItemsCollection.Where(i => i.Item.CustomerId == AuthUser.GetInstance().User.Id));
             }
         }
 

@@ -8,6 +8,7 @@ using WorldYachts.Data;
 using WorldYachts.Helpers;
 using WorldYachts.Infrastructure;
 using WorldYachts.Model;
+using WorldYachts.Services;
 using WorldYachts.ViewModel.BaseViewModels;
 
 namespace WorldYachts.ViewModel.OrderControlViewModels
@@ -101,7 +102,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
                 invoice = new Invoice()
                 {
                     ContractId = item.Id,
-                    Settled = AuthUser.TypeOfUser == TypeOfUser.SalesPerson,
+                    Settled = AuthUser.GetInstance().TypeOfUser == TypeOfUser.SalesPerson,
                     //Если внесено больше, чем требуется, пополняем оставшуюся сумму контракта
                     Sum = (item.DepositPayed + Deposit > item.ContractTotalPriceInclVat)
                         ? item.ContractTotalPriceInclVat - item.DepositPayed

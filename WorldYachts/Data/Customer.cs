@@ -10,7 +10,7 @@ using WorldYachts.Data;
 
 namespace WorldYachts.Data
 {
-    public class Customer : IUser, IComparable, IComparer
+    public class Customer : IComparable, IComparer
     {
         /// <summary>
         /// Идентификатор клиента

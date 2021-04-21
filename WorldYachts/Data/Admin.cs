@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WorldYachts.Data
 {
-    public class Admin:IUser
+    public class Admin
     {
         /// <summary>
         /// Идентификатор администратора

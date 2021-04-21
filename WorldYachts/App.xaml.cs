@@ -18,7 +18,7 @@ namespace WorldYachts
             IServiceProvider serviceProvider = CreateServiceProvider();
 
             //IWebClientService wcs = serviceProvider.GetRequiredService<IWebClientService>();
-
+            
             //Console.WriteLine();
             Window window = new LoginWindow();
             window.DataContext = serviceProvider.GetRequiredService<LoginViewModel>();

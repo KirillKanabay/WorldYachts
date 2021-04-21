@@ -5,13 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 using MaterialDesignColors.Recommended;
 using WorldYachts.Data;
+using WorldYachts.Data.Entities;
 using WorldYachts.Infrastructure;
+using WorldYachts.Services;
 using WorldYachts.Services.Users;
+using Customer = WorldYachts.Data.Customer;
 
 namespace WorldYachts.Model
 {
     class UserModel:IDataModel<User>
     {
+        private readonly AuthUser _authUser;
+        public UserModel()
+        {
+            _authUser = AuthUser.GetInstance();
+        }
         public User LastAddedItem { get; set; }
         public IUser LastAddedUser { get; set; }
         public async Task AddAsync(User item)
@@ -91,39 +99,14 @@ namespace WorldYachts.Model
             }
         }
 
-        public async Task LoginAsync(string login, string password)
+        public async Task LoginAsync(string username, string password)
         {
+            IUserService userService = new UserService();
+            await userService.AuthenticateAsync(username, password);
             //var us = new UserService();
             //await us.LoginAsync(login, password);
 
             //AuthUser.User = new Admin(){};
-
-            await using (var context = WorldYachtsContext.GetDataContext())
-            {
-                var user = context.Users.SingleOrDefault(u => u.Login == login && u.Password == password);
-
-                if (user == null)
-                {
-                    AuthUser.User = null;
-                    throw new Exception("Неверный логин или пароль");
-                }
-
-                AuthUser.TypeOfUser = (TypeOfUser)user.TypeUser;
-                switch (user.TypeUser)
-                {
-                    case (int)TypeOfUser.Customer:
-                        AuthUser.User = context.Customers.SingleOrDefault(u => user.UserId == u.Id);
-                        break;
-                    case (int)TypeOfUser.SalesPerson:
-                        AuthUser.User = context.SalesPersons.SingleOrDefault(u => user.UserId == u.Id);
-                        break;
-                    case (int)TypeOfUser.Admin:
-                        AuthUser.User = context.Admin.SingleOrDefault(u => user.UserId == u.Id);
-                        break;
-                    default:
-                        throw new ArgumentException("Неверный тип пользователя");
-                }
-            }
         }
         
         public async Task AddCustomerAsync(Customer customer, string login, string password)
@@ -145,7 +128,7 @@ namespace WorldYachts.Model
                     UserId = cm.LastAddedItem.Id
                 });
 
-                LastAddedUser = cm.LastAddedItem;
+                //LastAddedUser = cm.LastAddedItem;
             }
         }
 
@@ -156,7 +139,7 @@ namespace WorldYachts.Model
                 var spm = new SalesPersonModel();
 
                 //Добавление менеджера
-                await spm.AddAsync(salesPerson);
+                //await spm.AddAsync(salesPerson);
 
                 //Добавление пользователя
                 await AddAsync(new User()

@@ -11,6 +11,7 @@ using WorldYachts.Helpers;
 using WorldYachts.Helpers.Commands;
 using WorldYachts.Infrastructure;
 using WorldYachts.Model;
+using WorldYachts.Services;
 using WorldYachts.Validators;
 using WorldYachts.ViewModel.AccessoryControlViewModels;
 using WorldYachts.ViewModel.BaseViewModels;
@@ -34,6 +35,7 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
         private double _vat;
         private string _deliveryAddress;
         private string _deliveryCity;
+        private AuthUser _authUser; 
 
         private AsyncRelayCommand _addOrder;
 
@@ -58,6 +60,8 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
             _vat = boat.Vat;
 
             _orderModel = new OrderModel();
+
+            _authUser = AuthUser.GetInstance();
 
             OnAccessoryChanged += (arg) =>
             {
@@ -190,7 +194,7 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
                 OnPropertyChanged(nameof(DeliveryCity));
             }
         }
-        public bool IsCustomer => AuthUser.TypeOfUser == TypeOfUser.Customer;
+        public bool IsCustomer => _authUser.Role == "Customer";
         public override bool SaveButtonIsEnabled => !ErrorDictionary.Any() && IsCustomer;
         public override IDataModel<Order> ModelItem => _orderModel;
         
@@ -199,7 +203,7 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
             return new Order()
             {
                 Id = default,
-                CustomerId = ((Customer) AuthUser.User).Id,
+                CustomerId = _authUser.UserId,
                 SalesPersonId = 1,
                 Date = DateTime.Now,
                 BoatId = _id,

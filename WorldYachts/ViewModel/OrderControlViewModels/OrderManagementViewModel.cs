@@ -8,6 +8,7 @@ using System.Windows;
 using WorldYachts.Data;
 using WorldYachts.Infrastructure;
 using WorldYachts.Model;
+using WorldYachts.Services;
 using WorldYachts.ViewModel.BaseViewModels;
 using WorldYachts.ViewModel.OrderControlViewModels;
 
@@ -65,7 +66,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
             {
                 var ipCollection = ItemsCollection
                     .Where(o => o.Item.Status == (int) OrderStatus.Accepted
-                                && o.Item.SalesPersonId == AuthUser.User.Id);
+                                && o.Item.SalesPersonId == AuthUser.GetInstance().User.Id);
                 var oc = new ObservableCollection<BaseSelectableViewModel<Order>>();
                 foreach (var order in ipCollection)
                 {
@@ -85,7 +86,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
             {
                 var ipCollection = ItemsCollection
                     .Where(o => o.Item.Status == (int) OrderStatus.Completed
-                                && o.Item.SalesPersonId == AuthUser.User.Id);
+                                && o.Item.SalesPersonId == AuthUser.GetInstance().User.Id);
                 var oc = new ObservableCollection<BaseSelectableViewModel<Order>>();
                 foreach (var order in ipCollection)
                 {
@@ -106,7 +107,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
             {
                 var ipCollection = ItemsCollection
                     .Where(o => o.Item.Status == (int) OrderStatus.Canceled
-                                && o.Item.SalesPersonId == AuthUser.User.Id);
+                                && o.Item.SalesPersonId == AuthUser.GetInstance().User.Id);
                 var oc = new ObservableCollection<BaseSelectableViewModel<Order>>();
                 foreach (var order in ipCollection)
                 {

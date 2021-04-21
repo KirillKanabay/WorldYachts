@@ -14,6 +14,7 @@ using WorldYachts.Data;
 using WorldYachts.Helpers.Commands;
 using WorldYachts.Infrastructure;
 using WorldYachts.Model;
+using WorldYachts.Services;
 using WorldYachts.Validators;
 using WorldYachts.View;
 using WorldYachts.View.MessageDialogs;
@@ -268,7 +269,7 @@ namespace WorldYachts.ViewModel
             try
             {
                 await Task.Run(() => um.AddCustomerAsync(customer, Login, Password));
-                AuthUser.User = um.LastAddedUser;
+                AuthUser.GetInstance().User = um.LastAddedUser;
             }
             finally
             {

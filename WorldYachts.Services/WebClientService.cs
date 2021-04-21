@@ -9,7 +9,7 @@ namespace WorldYachts.Services
 {
     public class WebClientService : IWebClientService
     {
-        public WebClientService()
+        private WebClientService()
         {
             //ConnectionUrl = configuration["ConnectionUrl"];
 
@@ -19,6 +19,18 @@ namespace WorldYachts.Services
             _client.DefaultRequestHeaders.Accept.Clear();
             _client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
+        }
+
+        private static WebClientService _instance;
+
+        public static WebClientService GetInstance()
+        {
+            if (_instance == null)
+            {
+                _instance = new WebClientService();
+            }
+
+            return _instance;
         }
 
         private HttpClient _client { get; set; }

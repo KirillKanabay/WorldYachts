@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using WorldYachts.Data;
+using WorldYachts.Data.Entities;
 using WorldYachts.View.Editors;
 using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BaseViewModels;
@@ -20,7 +21,7 @@ namespace WorldYachts.ViewModel.UserControlViewModels
         public SelectableSalesPersonViewModel(SalesPerson item) : base(item)
         {
             Id = item.Id;
-            Name = item.Name;
+            Name = item.FirstName;
             SecondName = item.SecondName;
         }
 

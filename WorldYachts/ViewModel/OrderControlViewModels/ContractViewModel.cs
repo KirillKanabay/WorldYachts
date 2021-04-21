@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using WorldYachts.Data;
 using WorldYachts.Infrastructure;
+using WorldYachts.Services;
 using WorldYachts.ViewModel.BaseViewModels;
 
 namespace WorldYachts.ViewModel.OrderControlViewModels
@@ -17,9 +18,9 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
             {
                 if (!string.IsNullOrWhiteSpace(_filterText))
                     return new ObservableCollection<BaseSelectableViewModel<Contract>>(Filter(_filterText)
-                        .Where(i => i.Item.Order.CustomerId == AuthUser.User.Id));
+                        .Where(i => i.Item.Order.CustomerId == AuthUser.GetInstance().User.Id));
 
-                return new ObservableCollection<BaseSelectableViewModel<Contract>>(ItemsCollection.Where(i => i.Item.Order.CustomerId == AuthUser.User.Id));
+                return new ObservableCollection<BaseSelectableViewModel<Contract>>(ItemsCollection.Where(i => i.Item.Order.CustomerId == AuthUser.GetInstance().User.Id));
             }
         }
     }

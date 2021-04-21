@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldYachts.Services", "Wor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldYachts.Tests", "WorldYachts.Tests\WorldYachts.Tests.csproj", "{ADEE1976-F947-413B-A18E-EA232F352758}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldYachts.Data", "WorldYachts.Data\WorldYachts.Data.csproj", "{C0D47F0B-4CA4-453D-8A30-40E0CF672402}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{ADEE1976-F947-413B-A18E-EA232F352758}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADEE1976-F947-413B-A18E-EA232F352758}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADEE1976-F947-413B-A18E-EA232F352758}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0D47F0B-4CA4-453D-8A30-40E0CF672402}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0D47F0B-4CA4-453D-8A30-40E0CF672402}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0D47F0B-4CA4-453D-8A30-40E0CF672402}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0D47F0B-4CA4-453D-8A30-40E0CF672402}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

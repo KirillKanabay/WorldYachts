@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using WorldYachts.Data;
 using WorldYachts.Infrastructure;
+using WorldYachts.Services;
 using WorldYachts.Validators;
 
 namespace WorldYachts.ViewModel.OrderControlViewModels
@@ -32,7 +33,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
 
         protected override string GetSaveSnackbarMessage(bool _isEdit)
         {
-            return (AuthUser.TypeOfUser==TypeOfUser.SalesPerson)
+            return (AuthUser.GetInstance().TypeOfUser==TypeOfUser.SalesPerson)
                 ? $"В контракт #{_contract.Id} внесена сумма: {Deposit:F2}₽":
                 $"Сумма: {Deposit:F2}₽ отправлена на рассмотрение. Контракт #{_contract.Id}";
         }

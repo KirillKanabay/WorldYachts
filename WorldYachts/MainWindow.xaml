@@ -20,9 +20,6 @@
     WindowState="Maximized"
     WindowStyle="None"
     mc:Ignorable="d">
-    <Window.DataContext>
-        <vm:MainViewModel />
-    </Window.DataContext>
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -83,6 +80,9 @@
             </Style>
         </ResourceDictionary>
     </Window.Resources>
+    <Window.DataContext>
+        <vm:MainViewModel />
+    </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition MaxHeight="25" />
@@ -181,7 +181,7 @@
                     <ContentControl
                         Grid.Row="1"
                         Grid.Column="1"
-                        Content="{Binding SelectedViewModel}" />
+                        Content="{Binding CurrentViewModel}" />
                     <!--  Меню  -->
                     <materialDesign:Card
                         Grid.Row="1"

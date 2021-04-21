@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using WorldYachts.Data.Entities;
 using WorldYachts.Infrastructure;
 
 namespace WorldYachts.Data
@@ -106,7 +106,7 @@ namespace WorldYachts.Data
             }
         }
 
-        public string SalesPersonString => $"{SalesPerson.Name} {SalesPerson.SecondName}";
+        public string SalesPersonString => $"{SalesPerson.FirstName} {SalesPerson.SecondName}";
 
         public decimal CountPrice()
         {

@@ -13,13 +13,13 @@ namespace WorldYachts.Tests
         {
             //Arrange
             var request = new AuthenticateRequest() {Username = "admin", Password = "admin"};
-            var webClient = new WebClientService();
-            var authUser = new AuthUser();
+            var webClient = WebClientService.GetInstance();
+            var authUser = AuthUser.GetInstance();
             
             //Act
             var response =
                 await webClient.PostAsync<AuthenticateRequest, AuthenticateResponse>("users/authenticate", request);
-            authUser.Authenticate(response);
+            await authUser.Authenticate(response);
             
             //Assert
             Assert.Equal("admin@gmail.com", authUser.Email);

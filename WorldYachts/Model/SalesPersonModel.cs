@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorldYachts.Data;
+using WorldYachts.Data.Entities;
 using WorldYachts.Infrastructure;
 
 namespace WorldYachts.Model
@@ -29,17 +30,17 @@ namespace WorldYachts.Model
 
         public IEnumerable<SalesPerson> Load()
         {
-            var spCollection = new List<SalesPerson>();
-            using (var context = WorldYachtsContext.GetDataContext())
-            {
-                foreach (var sp in context.SalesPersons.Where(i=>!i.IsDeleted))
-                {
-                    sp.Orders = new OrderModel().Load().Where(o => o.SalesPersonId == sp.Id).ToList();
-                    spCollection.Add(sp);
-                }
-            }
+            //var spCollection = new List<SalesPerson>();
+            //using (var context = WorldYachtsContext.GetDataContext())
+            //{
+            //    foreach (var sp in context.SalesPersons.Where(i=>!i.IsDeleted))
+            //    {
+            //        sp.Orders = new OrderModel().Load().Where(o => o.SalesPersonId == sp.Id).ToList();
+            //        spCollection.Add(sp);
+            //    }
+            //}
 
-            return spCollection;
+            return new List<SalesPerson>();
         }
 
         public async Task RemoveAsync(IEnumerable<SalesPerson> removeItems)
@@ -48,7 +49,7 @@ namespace WorldYachts.Model
             {
                 foreach (var salesPerson in removeItems)
                 {
-                    salesPerson.IsDeleted = true;
+                    //salesPerson.IsDeleted = true;
                     await SaveAsync(salesPerson);
                 }
             }
@@ -61,9 +62,9 @@ namespace WorldYachts.Model
                 await IsRepeated(item);
                 var dbSP = context.SalesPersons.FirstOrDefault(sp => sp.Id == item.Id);
 
-                dbSP.Name = item.Name;
+                dbSP.FirstName = item.FirstName;
                 dbSP.SecondName = item.SecondName;
-                dbSP.IsDeleted = item.IsDeleted;
+               // dbSP.IsDeleted = item.IsDeleted;
 
                 await context.SaveChangesAsync();
                 LastAddedItem = item;

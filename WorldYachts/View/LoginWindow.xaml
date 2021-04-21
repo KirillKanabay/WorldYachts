@@ -7,8 +7,8 @@
     xmlns:local="clr-namespace:WorldYachts.View"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vm="[vm ]clr-namespace:WorldYachts.ViewModel"
     xmlns:viewModel="clr-namespace:WorldYachts.ViewModel"
+    xmlns:vm="[vm ]clr-namespace:WorldYachts.ViewModel"
     x:Name="Window"
     Title="Авторизация пользователя"
     Width="400px"
@@ -16,8 +16,8 @@
     Background="#FFFAFAFA"
     FontFamily="Google Sans"
     ResizeMode="NoResize"
-    WindowStyle="None"
     WindowStartupLocation="CenterScreen"
+    WindowStyle="None"
     mc:Ignorable="d">
     <Window.DataContext>
         <viewModel:LoginViewModel />
@@ -162,30 +162,30 @@
                         <RowDefinition Height="50px" />
                     </Grid.RowDefinitions>
                     <Image
-                    Grid.Row="0"
-                    Width="154px"
-                    Height="140px"
-                    Source="{StaticResource Logo}"
-                    Visibility="Visible" />
+                        Grid.Row="0"
+                        Width="154px"
+                        Height="140px"
+                        Source="{StaticResource Logo}"
+                        Visibility="Visible" />
                     <TextBlock
-                    Grid.Row="1"
-                    HorizontalAlignment="Center"
-                    FontSize="24"
-                    FontWeight="Light">
-                    Авторизация
+                        Grid.Row="1"
+                        HorizontalAlignment="Center"
+                        FontSize="24"
+                        FontWeight="Light">
+                        Авторизация
                     </TextBlock>
                     <StackPanel Grid.Row="2" Grid.ColumnSpan="2">
                         <TextBox
-                        Width="300"
-                        Margin="0,8,0,8"
-                        FontSize="16"
-                        Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                        IsEnabled="{Binding InputIsEnabled}">
+                            Width="300"
+                            Margin="0,8,0,8"
+                            FontSize="16"
+                            IsEnabled="{Binding InputIsEnabled}"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}">
                             <materialDesign:HintAssist.Hint>
                                 <TextBlock>Логин</TextBlock>
                             </materialDesign:HintAssist.Hint>
                             <TextBox.Text>
-                                <Binding Path="Login" UpdateSourceTrigger="PropertyChanged">
+                                <Binding Path="Username" UpdateSourceTrigger="PropertyChanged">
                                     <Binding.ValidationRules>
                                         <DataErrorValidationRule />
                                     </Binding.ValidationRules>
@@ -193,15 +193,15 @@
                             </TextBox.Text>
                         </TextBox>
                         <PasswordBox
-                        x:Name="PasswordBox"
-                        Width="300"
-                        Margin="0,8,0,8"
-                        helpers:PasswordBoxAssistant.BindPassword="True"
-                        Cursor="IBeam"
-                        FontFamily="Arial"
-                        FontSize="11"
-                        Style="{DynamicResource MaterialDesignFloatingHintPasswordBox}"
-                        IsEnabled="{Binding InputIsEnabled}">
+                            x:Name="PasswordBox"
+                            Width="300"
+                            Margin="0,8,0,8"
+                            helpers:PasswordBoxAssistant.BindPassword="True"
+                            Cursor="IBeam"
+                            FontFamily="Arial"
+                            FontSize="11"
+                            IsEnabled="{Binding InputIsEnabled}"
+                            Style="{DynamicResource MaterialDesignFloatingHintPasswordBox}">
                             <materialDesign:HintAssist.Hint>
                                 <TextBlock FontSize="16">Пароль</TextBlock>
                             </materialDesign:HintAssist.Hint>
@@ -215,45 +215,45 @@
                         </PasswordBox>
                     </StackPanel>
                     <CheckBox
-                    Grid.Row="3"
-                    HorizontalAlignment="Center"
-                    FontSize="14"
-                    IsChecked="{Binding SignOutCheck}"
-                    IsEnabled="{Binding InputIsEnabled}">
+                        Grid.Row="3"
+                        HorizontalAlignment="Center"
+                        FontSize="14"
+                        IsChecked="{Binding SignOutCheck}"
+                        IsEnabled="{Binding InputIsEnabled}">
                         Оставаться в системе
                     </CheckBox>
                     <StackPanel
-                    Grid.Row="4"
-                    HorizontalAlignment="Center"
-                    Orientation="Horizontal">
-                        <Button
-                        Margin="0,10,10,0"
-                        Command="{Binding ChangeToRegisterWindow}"
-                        CommandParameter="{Binding ElementName=Window}"
-                        Content="Регистрация"
-                        Cursor="Hand"
-                        Style="{DynamicResource MaterialDesignFlatButton}" />
-                        <Button
-                        Width="150"
-                        Margin="0,10,0,0"
-                        Command="{Binding Authorization}"
-                        CommandParameter="{Binding ElementName=Window}"
-                        Content="Авторизоваться"
-                        Cursor="Hand"
-                        IsEnabled="{Binding ButtonIsEnabled}" />
-                        <ProgressBar
-                        Margin="12,12,12,12"
+                        Grid.Row="4"
                         HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        IsIndeterminate="True"
-                        Style="{StaticResource MaterialDesignCircularProgressBar}"
-                        Visibility="{Binding ProgressBarVisibility}"
-                        Value="0" />
+                        Orientation="Horizontal">
+                        <Button
+                            Margin="0,10,10,0"
+                            Command="{Binding ChangeToRegisterWindow}"
+                            CommandParameter="{Binding ElementName=Window}"
+                            Content="Регистрация"
+                            Cursor="Hand"
+                            Style="{DynamicResource MaterialDesignFlatButton}" />
+                        <Button
+                            Width="150"
+                            Margin="0,10,0,0"
+                            Command="{Binding Authorization}"
+                            CommandParameter="{Binding ElementName=Window}"
+                            Content="Авторизоваться"
+                            Cursor="Hand"
+                            IsEnabled="{Binding ButtonIsEnabled}" />
+                        <ProgressBar
+                            Margin="12,12,12,12"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            IsIndeterminate="True"
+                            Style="{StaticResource MaterialDesignCircularProgressBar}"
+                            Visibility="{Binding ProgressBarVisibility}"
+                            Value="0" />
                     </StackPanel>
 
                 </Grid>
             </materialDesign:DrawerHost>
         </materialDesign:DialogHost>
     </Grid>
-    
+
 </Window>

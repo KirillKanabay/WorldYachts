@@ -15,7 +15,7 @@
     FontSize="16"
     mc:Ignorable="d">
     <UserControl.DataContext>
-        <dashboardControlViewModels:DashboardViewModel />
+        <dashboardControlViewModels:DashboardViewModel/>
     </UserControl.DataContext>
     <Grid Margin="20">
         <Grid.RowDefinitions>

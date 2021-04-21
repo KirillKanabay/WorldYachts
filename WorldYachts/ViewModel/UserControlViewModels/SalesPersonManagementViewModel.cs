@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using WorldYachts.Data;
+using WorldYachts.Data.Entities;
 using WorldYachts.Model;
 using WorldYachts.ViewModel.BaseViewModels;
 using WorldYachts.ViewModel.UserControlViewModels;
@@ -28,7 +29,7 @@ namespace WorldYachts.ViewModel.UserControlViewModels
         protected override ObservableCollection<BaseSelectableViewModel<SalesPerson>> Filter(string filterText)
         {
             var filteredCollection = ItemsCollection.Where(sp =>
-                sp.Item.Name.ToLower().Contains(filterText.ToLower()) ||
+                sp.Item.FirstName.ToLower().Contains(filterText.ToLower()) ||
                 sp.Item.SecondName.ToLower().Contains(filterText.ToLower()) ||
                 sp.Item.Id.ToString() == filterText);
 

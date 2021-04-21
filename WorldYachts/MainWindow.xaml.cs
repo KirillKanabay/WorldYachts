@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using WorldYachts.Infrastructure;
 using WorldYachts.Data;
 using WorldYachts.View;
+using WorldYachts.ViewModel;
 
 namespace WorldYachts
 {
@@ -23,7 +24,7 @@ namespace WorldYachts
         public MainWindow()
         {
             InitializeComponent();
-
+            
             SendSnackbarAction += SendSnackbar;
             GetMainWindow += () => this;
             HeaderPanel.MouseDown += (s,e)=>

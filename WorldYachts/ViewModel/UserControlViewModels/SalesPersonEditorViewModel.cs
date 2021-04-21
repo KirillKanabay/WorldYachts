@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using WorldYachts.Data;
+using WorldYachts.Data.Entities;
 using WorldYachts.Infrastructure;
 using WorldYachts.Model;
 using WorldYachts.Validators;
@@ -32,7 +33,7 @@ namespace WorldYachts.ViewModel.UserControlViewModels
         public SalesPersonEditorViewModel(SalesPerson item) : base(true)
         {
             _id = item.Id;
-            _name = item.Name;
+            _name = item.FirstName;
             _secondName = item.SecondName;
             _user = new UserModel().Load()
                 .FirstOrDefault(u => u.TypeUser == (int) TypeOfUser.SalesPerson && u.UserId == item.Id);
@@ -138,7 +139,7 @@ namespace WorldYachts.ViewModel.UserControlViewModels
             return new SalesPerson()
             {
                 Id = (isEdit) ? _id : default,
-                Name = _name,
+                FirstName = _name,
                 SecondName = _secondName
             };
         }

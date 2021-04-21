@@ -8,6 +8,7 @@ using System.Windows;
 using WorldYachts.Data;
 using WorldYachts.Infrastructure;
 using WorldYachts.Model;
+using WorldYachts.Services;
 using WorldYachts.ViewModel.BaseViewModels;
 
 namespace WorldYachts.ViewModel.OrderControlViewModels
@@ -31,7 +32,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
             {
                 var siCollection = ItemsCollection.Where(o => o.Item.Settled
                                                               && o.Item.Contract.Order.SalesPersonId ==
-                                                              AuthUser.User.Id);
+                                                              AuthUser.GetInstance().User.Id);
                 //Invoices collection
                 var ic = new ObservableCollection<BaseSelectableViewModel<Invoice>>(siCollection);
                 
@@ -48,7 +49,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
             {
                 var nsiCollection = ItemsCollection.Where(o => !o.Item.Settled
                                                      && o.Item.Contract.Order.SalesPersonId ==
-                                                     AuthUser.User.Id);
+                                                     AuthUser.GetInstance().User.Id);
 
                 var ic = new ObservableCollection<BaseSelectableViewModel<Invoice>>(nsiCollection);
 
