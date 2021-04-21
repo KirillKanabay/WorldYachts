@@ -1,6 +1,5 @@
 ﻿
 using System.Linq;
-using System.Windows;
 using WorldYachts.Data;
 using WorldYachts.Infrastructure;
 using WorldYachts.Model;
@@ -16,6 +15,8 @@ namespace WorldYachts.ViewModel.DashboardControlViewModels
         private string _name;
         private string _secondName;
         private string _typeOfUser;
+
+        private readonly Services.AuthUser _authUser;
         #endregion
 
         #region Конструкторы
@@ -23,7 +24,7 @@ namespace WorldYachts.ViewModel.DashboardControlViewModels
         public DashboardViewModel()
         {
             _user = AuthUser.User;
-            _name = _user.Name;
+            //_name = authUser.Username;
             _secondName = _user.SecondName;
 
             switch (AuthUser.TypeOfUser)

@@ -2,6 +2,7 @@
 using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using WorldYachts.Services;
+using WorldYachts.Services.Users;
 using WorldYachts.View;
 using WorldYachts.ViewModel;
 
@@ -16,7 +17,7 @@ namespace WorldYachts
         {
             IServiceProvider serviceProvider = CreateServiceProvider();
 
-            IWebClientService wcs = serviceProvider.GetRequiredService<IWebClientService>();
+            //IWebClientService wcs = serviceProvider.GetRequiredService<IWebClientService>();
 
             //Console.WriteLine();
             Window window = new LoginWindow();
@@ -30,8 +31,9 @@ namespace WorldYachts
         {
             IServiceCollection services = new ServiceCollection();
 
-            services.AddSingleton<IWebClientService, WebClientService>();
+            services.AddSingleton<WebClientService>();
 
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<LoginViewModel>();
 
             return services.BuildServiceProvider();
