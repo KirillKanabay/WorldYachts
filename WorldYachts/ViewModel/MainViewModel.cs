@@ -7,6 +7,7 @@ using WorldYachts.Helpers;
 using WorldYachts.Services;
 using WorldYachts.View;
 using WorldYachts.ViewModel.BaseViewModels;
+using WorldYachts.ViewModel.BoatManagementViewModels;
 using WorldYachts.ViewModel.CatalogControlViewModels;
 using WorldYachts.ViewModel.DashboardControlViewModels;
 using WorldYachts.ViewModel.OrderControlViewModels;
@@ -91,10 +92,9 @@ namespace WorldYachts.ViewModel
                         case "OrdersManagement":
                             CurrentViewModel = new OrderManagementControlViewModel();
                             break;
-                        //case "BoatManagement":
-                        //    new NavigateCommand<BoatManagementViewModel>(_navigationStore,
-                        //        () => new BoatManagementViewModel()).Execute(null);
-                        //    break;
+                        case "BoatManagement":
+                            CurrentViewModel = new BoatManagementViewModel();
+                            break;
                         //case "AccessoryManagement":
                         //    new NavigateCommand<AccessoryControlViewModel>(_navigationStore,
                         //        () => new AccessoryControlViewModel()).Execute(null);

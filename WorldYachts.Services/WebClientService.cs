@@ -51,7 +51,7 @@ namespace WorldYachts.Services
             where TResponse : class
         {
             TResponse entity = null;
-            HttpResponseMessage response = await _client.GetAsync($"api/{path}/{id ?? ' '}");
+            HttpResponseMessage response = await _client.GetAsync($"api/{path}" + (id != null ? $"/{id}" : ""));
             if (response.IsSuccessStatusCode)
             {
                 entity = await response.Content.ReadAsAsync<TResponse>();
@@ -70,7 +70,7 @@ namespace WorldYachts.Services
             return await response.Content.ReadAsAsync<TResponse>();
         }
 
-        public async Task<TResponse> UpdateProductAsync<TRequest, TResponse>(TRequest entity, string path, int id)
+        public async Task<TResponse> UpdateAsync<TRequest, TResponse>(TRequest entity, string path, int id)
             where TRequest : class
             where TResponse : class
         {
@@ -81,11 +81,12 @@ namespace WorldYachts.Services
             return await response.Content.ReadAsAsync<TResponse>();
         }
 
-        public async Task<HttpStatusCode> DeleteProductAsync(string path, int id)
+        public async Task<TResponse> DeleteAsync<TResponse>(string path, int id)
         {
             HttpResponseMessage response = await _client.DeleteAsync(
                 $"api/{path}/{id}");
-            return response.StatusCode;
+
+            return await response.Content.ReadAsAsync<TResponse>();
         }
     }
 }
