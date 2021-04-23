@@ -9,13 +9,11 @@ namespace WorldYachts.Services
 {
     public class WebClientService : IWebClientService
     {
-        private WebClientService()
+        private WebClientService(IConfiguration configuration)
         {
-            //ConnectionUrl = configuration["ConnectionUrl"];
-
             _client = new HttpClient();
 
-            _client.BaseAddress = new Uri("https://localhost:44311/");
+            _client.BaseAddress = new Uri(configuration.GetConnectionString("Default"));
             _client.DefaultRequestHeaders.Accept.Clear();
             _client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
@@ -23,16 +21,16 @@ namespace WorldYachts.Services
 
         private static WebClientService _instance;
 
-        public static WebClientService GetInstance()
+        public static WebClientService GetInstance(IConfiguration configuration = null)
         {
             if (_instance == null)
             {
-                _instance = new WebClientService();
+                _instance = new WebClientService(configuration);
             }
 
             return _instance;
         }
-
+        
         private HttpClient _client { get; set; }
         private string _token;
         public string ConnectionUrl { get; set; }

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Windows;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WorldYachts.Services;
 using WorldYachts.Services.Users;
@@ -13,30 +15,25 @@ namespace WorldYachts
     /// </summary>
     public partial class App : Application
     {
+        public IConfiguration Configuration { get; private set; }
+
         protected override void OnStartup(StartupEventArgs e)
         {
-            IServiceProvider serviceProvider = CreateServiceProvider();
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
-            //IWebClientService wcs = serviceProvider.GetRequiredService<IWebClientService>();
-            
-            //Console.WriteLine();
-            Window window = new LoginWindow();
-            window.DataContext = serviceProvider.GetRequiredService<LoginViewModel>();
-            window.Show();
+            Configuration = builder.Build();
+
+            WebClientService.GetInstance(Configuration);
+
+            Window startWindow = new LoginWindow();
+            startWindow.DataContext = new LoginViewModel();
+            startWindow.Show();
             
             base.OnStartup(e);
         }
 
-        private IServiceProvider CreateServiceProvider()
-        {
-            IServiceCollection services = new ServiceCollection();
 
-            services.AddSingleton<WebClientService>();
-
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<LoginViewModel>();
-
-            return services.BuildServiceProvider();
-        }
     }
 }
