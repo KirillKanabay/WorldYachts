@@ -91,7 +91,7 @@ namespace WorldYachts.ViewModel.BaseViewModels
             {
                 if (_isEdit)
                 {
-                    await Task.Run(() => ModelItem.SaveAsync(item));
+                    await Task.Run(() => ModelItem.UpdateAsync(item));
                 }
                 else
                 {

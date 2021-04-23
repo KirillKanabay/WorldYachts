@@ -32,7 +32,7 @@ namespace WorldYachts.Model
         /// Асинхронный метод загрузки партнеров из БД
         /// </summary>
         /// <returns>Коллекция партнеров</returns>
-        public async Task<IEnumerable<Partner>> LoadAsync()
+        public async Task<IEnumerable<Partner>> GetAllAsync()
         {
             return await Task.Run(() => Load());
         }
@@ -52,14 +52,14 @@ namespace WorldYachts.Model
         /// </summary>
         /// <param name="removePartners">Коллекция партнеров</param>
         /// <returns></returns>
-        public async Task RemoveAsync(IEnumerable<Partner> removePartners)
+        public async Task DeleteAsync(IEnumerable<Partner> removePartners)
         {
             await using (var context = WorldYachtsContext.GetDataContext())
             {
                 foreach (var removePartner in removePartners)
                 {
                     removePartner.IsDeleted = true;
-                    await SaveAsync(removePartner);
+                    await UpdateAsync(removePartner);
                 }
             }
         }
@@ -68,7 +68,7 @@ namespace WorldYachts.Model
         /// </summary>
         /// <param name="partner">Партнер</param>
         /// <returns></returns>
-        public async Task SaveAsync(Partner partner)
+        public async Task UpdateAsync(Partner partner)
         {
             await IsRepeated(partner);
             await using (var context = WorldYachtsContext.GetDataContext())
@@ -100,7 +100,7 @@ namespace WorldYachts.Model
             }
         }
 
-        public async Task<Partner> GetItemByIdAsync(int id)
+        public async Task<Partner> GetByIdAsync(int id)
         {
             return await Task.Run((() => GetItemById(id)));
         }

@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using MaterialDesignThemes.Wpf;
 using WorldYachts.Data;
+using WorldYachts.Data.Entities;
 using WorldYachts.Helpers;
 using WorldYachts.Helpers.Commands;
 using WorldYachts.Model;
@@ -52,11 +53,11 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
         {
             _id = boat.Id;
             _model = boat.Model;
-            _type = boat.Type;
+            _type = boat.BoatType.Type;
             _numberOfRower = boat.NumberOfRowers;
             _mast = boat.Mast;
             _color = boat.Color;
-            _wood = boat.Wood;
+            _wood = boat.BoatWood.Wood;
             _basePrice = boat.BasePrice.ToString();
             _vat = boat.Vat.ToString();
         }
@@ -232,11 +233,11 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
             {
                 Id = (isEdit) ? _id : default,
                 Model = _model,
-                Type = _type,
+                //BoatType = _type,
                 NumberOfRowers = _numberOfRower,
                 Mast = _mast,
                 Color = _selectedColor.Name,
-                Wood = _wood,
+                //Wood = _wood,
                 BasePrice = Decimal.Parse(_basePrice),
                 Vat = double.Parse(_vat),
             };

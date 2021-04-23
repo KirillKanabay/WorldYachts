@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
 using WorldYachts.Data;
+using WorldYachts.Data.Entities;
 using WorldYachts.Helpers;
 using WorldYachts.Helpers.Commands;
 using WorldYachts.Infrastructure;
@@ -11,6 +12,7 @@ using WorldYachts.Model;
 using WorldYachts.Services;
 using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BaseViewModels;
+using Order = WorldYachts.Data.Order;
 
 namespace WorldYachts.ViewModel.OrderControlViewModels
 {
@@ -84,7 +86,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
 
             Item.Status = (int) _os;
             //Item.SalesPersonId = (_os == OrderStatus.InProcessing) ? 1 : _.Id;
-            await Task.Run(() => new OrderModel().SaveAsync(Item));
+            await Task.Run(() => new OrderModel().UpdateAsync(Item));
             if (_os == OrderStatus.Accepted)
             {
                 var contract = new Contract()

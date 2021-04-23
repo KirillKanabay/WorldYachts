@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using WorldYachts.Data;
-using WorldYachts.Data;
 using WorldYachts.Data.Entities;
 using Admin = WorldYachts.Data.Admin;
 using Customer = WorldYachts.Data.Customer;
@@ -19,11 +18,11 @@ namespace WorldYachts.Infrastructure
         /// <summary>
         /// Аксессуары
         /// </summary>
-        public DbSet<Accessory> Accessories { get; set; }
+        public DbSet<Data.Accessory> Accessories { get; set; }
         /// <summary>
         /// Ссылка на доступные аксессуары для определенных лодок
         /// </summary>
-        public DbSet<AccessoryToBoat> AccessoryToBoat { get; set; }
+        public DbSet<Data.AccessoryToBoat> AccessoryToBoat { get; set; }
         /// <summary>
         /// Лодки
         /// </summary>
@@ -43,7 +42,7 @@ namespace WorldYachts.Infrastructure
         /// <summary>
         /// Доставки
         /// </summary>
-        public DbSet<Order> Orders { get; set; }
+        public DbSet<Data.Order> Orders { get; set; }
         /// <summary>
         /// Критерии доставки
         /// </summary>
@@ -51,7 +50,7 @@ namespace WorldYachts.Infrastructure
         /// <summary>
         /// Партнеры
         /// </summary>
-        public DbSet<Partner> Partners { get; set; }
+        public DbSet<Data.Partner> Partners { get; set; }
         /// <summary>
         /// Менеджеры
         /// </summary>

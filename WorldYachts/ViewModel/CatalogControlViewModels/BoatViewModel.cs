@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using WorldYachts.Data;
+using WorldYachts.Data.Entities;
 using WorldYachts.Helpers;
 using WorldYachts.Helpers.Commands;
 using WorldYachts.Infrastructure;
@@ -15,6 +16,8 @@ using WorldYachts.Services;
 using WorldYachts.Validators;
 using WorldYachts.ViewModel.AccessoryControlViewModels;
 using WorldYachts.ViewModel.BaseViewModels;
+using AccessoryToBoat = WorldYachts.Data.AccessoryToBoat;
+using Order = WorldYachts.Data.Order;
 
 namespace WorldYachts.ViewModel.CatalogControlViewModels
 {
@@ -29,7 +32,7 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
         private bool _mast;
         private string _color;
         private int _numberOfRowers;
-        private List<AccessoryToBoat> _accessoryToBoats;
+        private List<Data.Entities.AccessoryToBoat> _accessoryToBoats;
         private ObservableCollection<SelectableAccessoryViewModel> _accessories;
         private decimal _price;
         private double _vat;
@@ -50,12 +53,12 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
         {
             _id = boat.Id;
             _model = boat.Model;
-            _type = boat.Type;
-            _wood = boat.Wood;
+            _type = boat.BoatType.Type;
+            _wood = boat.BoatWood.Wood;
             _mast = boat.Mast;
             _color = boat.Color;
             _numberOfRowers = boat.NumberOfRowers;
-            _accessoryToBoats = boat.AccessoryToBoat;
+            _accessoryToBoats = boat.AccessoryToBoat.ToList();
             _price = boat.BasePrice;
             _vat = boat.Vat;
 

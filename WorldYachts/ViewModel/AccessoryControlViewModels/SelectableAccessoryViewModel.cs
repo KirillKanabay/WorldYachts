@@ -7,10 +7,11 @@ using WorldYachts.View.Editors;
 using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BaseViewModels;
 using WorldYachts.ViewModel.CatalogControlViewModels;
+using Accessory = WorldYachts.Data.Entities.Accessory;
 
 namespace WorldYachts.ViewModel.AccessoryControlViewModels
 {
-    public class SelectableAccessoryViewModel:BaseSelectableViewModel<Accessory>
+    public class SelectableAccessoryViewModel:BaseSelectableViewModel<Data.Entities.Accessory>
     {
         #region Поля
 
@@ -23,12 +24,12 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         private int _orderLevel;
         private int _orderBatch;
         private int _partnerId;
-        private Partner _partner;
+        private Data.Entities.Partner _partner;
         #endregion
 
         #region Конструкторы
 
-        public SelectableAccessoryViewModel(Accessory item) : base(item)
+        public SelectableAccessoryViewModel(Data.Entities.Accessory item) : base(item)
         {
             Id = item.Id;
             Name = item.Name;
@@ -36,8 +37,6 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             Price = item.Price;
             Vat = item.Vat;
             Inventory = item.Inventory;
-            OrderLevel = item.OrderLevel;
-            OrderBatch = item.OrderBatch;
             PartnerId = item.PartnerId;
             _partner = item.Partner;
         }
@@ -137,7 +136,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         }
 
         public decimal PriceInclVat => Price + (Convert.ToDecimal(Vat * 0.01) * Price);
-        public override BaseEditorViewModel<Accessory> Editor => new AccessoryEditorViewModel();
+        //public override BaseEditorViewModel<Data.Entities.Accessory> Editor => new AccessoryEditorViewModel();
 
         public override bool IsSelected
         {
@@ -168,6 +167,8 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
                    $"Уровень доставки: {OrderLevel}\n" +
                    $"Партия доставки: {OrderBatch}\n";
         }
+
+        public override BaseEditorViewModel<Accessory> Editor { get; }
 
         protected override void ToggleViewEditorAfterLoaded()
         {

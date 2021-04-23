@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MaterialDesignThemes.Wpf;
 using WorldYachts.Data;
+using WorldYachts.Data.Entities;
 using WorldYachts.Helpers;
 using WorldYachts.Helpers.Commands;
 using WorldYachts.View.Editors;
@@ -37,11 +38,11 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
         {
             Id = boat.Id;
             Model = boat.Model;
-            Type = boat.Type;
+            Type = boat.BoatType.Type;
             NumberOfRower = boat.NumberOfRowers;
             Mast = boat.Mast ? "Присутствует" : "Отсутствует";
             Color = boat.Color;
-            Wood = boat.Wood;
+            Wood = boat.BoatWood.Wood;
             BasePrice = boat.BasePrice;
             Vat = boat.Vat;
         }

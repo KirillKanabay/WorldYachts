@@ -1,16 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using WorldYachts.Data;
-using WorldYachts.Infrastructure;
+using WorldYachts.Data.Entities;
+using WorldYachts.Services.Boat;
 
 namespace WorldYachts.Model
 {
     class BoatModel:IDataModel<Boat>
     {
+        private readonly IBoatService _service;
+
+        public BoatModel()
+        {
+            _service = new BoatService();
+        }
         public Boat LastAddedItem { get; set; }
 
         /// <summary>
@@ -19,57 +21,27 @@ namespace WorldYachts.Model
         /// <returns></returns>
         public async Task AddAsync(Boat boat)
         {
-            await IsRepeated(boat);
-            await using (var context = WorldYachtsContext.GetDataContext())
-            {
-                await context.Boats.AddAsync(boat);
-                await context.SaveChangesAsync();
-                LastAddedItem = boat;
-            }
-            
+            await _service.AddAsync(boat);
         }
         /// <summary>
         /// Асинхронный метод загрузки лодок из БД
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<Boat>> LoadAsync()
+        public async Task<IEnumerable<Boat>> GetAllAsync()
         {
-            return await Task.Run(() => Load());
+            return await _service.GetAllAsync();
         }
-        /// <summary>
-        /// Синхронный метод загрузки лодок из БД
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<Boat> Load()
-        {
-            List<Boat> boats = new List<Boat>();
-            using (var context = WorldYachtsContext.GetDataContext())
-            {
-                var atb = context.AccessoryToBoat;
-                foreach (var contextBoat in context.Boats.Where(i=>!i.IsDeleted))
-                {
-                    contextBoat.AccessoryToBoat = new AccessoryToBoatModel().Load()
-                        .Where(i=>i.Boat.Model == contextBoat.Model).ToList();
-                    boats.Add(contextBoat);
-                }
-                return boats;
-            }
-        }
-
+        
         /// <summary>
         /// Асинхронный метод удаления коллекции лодок из БД
         /// </summary>
         /// <param name="removeBoats">Коллекция лодок</param>
         /// <returns></returns>
-        public async Task RemoveAsync(IEnumerable<Boat> removeBoats)
+        public async Task DeleteAsync(IEnumerable<Boat> removeBoats)
         {
-            await using (var context = WorldYachtsContext.GetDataContext())
+            foreach (var removeBoat in removeBoats)
             {
-                foreach (var removeBoat in removeBoats)
-                {
-                    removeBoat.IsDeleted = true;
-                    await SaveAsync(removeBoat);
-                }
+                await _service.DeleteAsync(removeBoat.Id);
             }
         }
 
@@ -78,60 +50,14 @@ namespace WorldYachts.Model
         /// Сохранение измененной лодки в БД
         /// </summary>
         /// <returns></returns>
-        public async Task SaveAsync(Boat boat)
+        public async Task UpdateAsync(Boat boat)
         {
-            await using (var context = WorldYachtsContext.GetDataContext())
-            {
-                await IsRepeated(boat);
-                var dbBoat = context.Boats.FirstOrDefault(b => b.Id == boat.Id);
-                
-                //Копируем измененую лодку в БД
-                dbBoat.Model = boat.Model;
-                dbBoat.Type = boat.Type;
-                dbBoat.NumberOfRowers = boat.NumberOfRowers;
-                dbBoat.Mast = boat.Mast;
-                dbBoat.Color = boat.Color;
-                dbBoat.Wood = boat.Wood;
-                dbBoat.BasePrice = boat.BasePrice;
-                dbBoat.Vat = boat.Vat;
-                dbBoat.IsDeleted = boat.IsDeleted;
-
-                await context.SaveChangesAsync();
-            }
+            await _service.UpdateAsync(boat.Id, boat);
         }
-
-        Task IDataModel<Boat>.IsRepeated(Boat item)
+    
+        public async Task<Boat> GetByIdAsync(int id)
         {
-            return IsRepeated(item);
-        }
-
-        public async Task<Boat> GetItemByIdAsync(int id)
-        {
-            return await Task.Run(() => GetItemById(id));
-        }
-
-        public Boat GetItemById(int id)
-        {
-            using (var context = WorldYachtsContext.GetDataContext())
-            {
-                return context.Boats.FirstOrDefault(b => b.Id == id);
-            }
-        }
-
-        /// <summary>
-        /// Проверка идентичной лодки в БД
-        /// </summary>
-        /// <param name="boat"></param>
-        /// <returns></returns>
-        public static async Task IsRepeated(Boat boat)
-        {
-            await using (var context = WorldYachtsContext.GetDataContext())
-            {
-                if (context.Boats.ToList().Any(c => c.CompareTo(boat) == 0))
-                {
-                    throw new ArgumentException("Такая лодка уже существует.");
-                }
-            }
+            return await _service.GetByIdAsync(id);
         }
     }
 }

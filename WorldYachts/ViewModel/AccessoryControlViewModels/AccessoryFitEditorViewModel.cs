@@ -5,9 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using WorldYachts.Data;
+using WorldYachts.Data.Entities;
 using WorldYachts.Model;
 using WorldYachts.ViewModel.BaseViewModels;
+using Accessory = WorldYachts.Data.Accessory;
+using AccessoryToBoat = WorldYachts.Data.AccessoryToBoat;
 
 namespace WorldYachts.ViewModel.AccessoryControlViewModels
 {
@@ -85,7 +87,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             }
         }
         public IEnumerable<Accessory> AccessoryCollection => new AccessoryModel().Load();
-        public IEnumerable<Boat> BoatCollection => new BoatModel().Load();
+        public IEnumerable<Boat> BoatCollection => Task.Run(async () => await new BoatModel().GetAllAsync()).Result;
         public override bool SaveButtonIsEnabled => !ErrorDictionary.Any();
         #endregion
 

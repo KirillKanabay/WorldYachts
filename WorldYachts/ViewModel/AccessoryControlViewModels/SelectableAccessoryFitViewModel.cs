@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using WorldYachts.Data;
+using WorldYachts.Data.Entities;
 using WorldYachts.Model;
 using WorldYachts.View.Editors;
 using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BaseViewModels;
+using Accessory = WorldYachts.Data.Accessory;
+using AccessoryToBoat = WorldYachts.Data.AccessoryToBoat;
 
 namespace WorldYachts.ViewModel.AccessoryControlViewModels
 {

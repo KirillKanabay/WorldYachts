@@ -184,7 +184,7 @@ namespace WorldYachts.ViewModel.BaseViewModels
 
             if (removeItems.Any())
             {
-                await Task.Run(() => ModelItem.RemoveAsync(removeItems));
+                await Task.Run(() => ModelItem.DeleteAsync(removeItems));
 
                 //Получаем главное окно для показа уведомления о удалении
                 var mainWindow = (MainWindow)Application.Current.MainWindow;
@@ -207,7 +207,7 @@ namespace WorldYachts.ViewModel.BaseViewModels
 
             if (removeItems.Any())
             {
-                await Task.Run(() => ModelItem.RemoveAsync(removeItems));
+                await Task.Run(() => ModelItem.DeleteAsync(removeItems));
 
                 //Получаем главное окно для показа уведомления о удалении
                 var mainWindow = (MainWindow) Application.Current.MainWindow;
@@ -226,7 +226,7 @@ namespace WorldYachts.ViewModel.BaseViewModels
         protected virtual async Task GetCollectionMethod(object parameter)
         {
             ProgressBarVisibility = Visibility.Visible;
-            var items = await ModelItem.LoadAsync();
+            var items = await ModelItem.GetAllAsync();
             ItemsCollection = GetSelectableViewModels(items);
             OnPropertyChanged(nameof(FilteredCollection));
             ProgressBarVisibility = Visibility.Collapsed;

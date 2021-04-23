@@ -123,7 +123,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
         private async Task AcceptMethod(object parameter)
         {
             _item.Settled = true;
-            await Task.Run(() => new InvoiceModel().SaveAsync(_item));
+            await Task.Run(() => new InvoiceModel().UpdateAsync(_item));
             //Извещаем об изменении предмета
             BaseManagementViewModel<Invoice>.OnItemChanged?.Invoke();
         }

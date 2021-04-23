@@ -70,9 +70,8 @@ namespace WorldYachts.Services
             return await response.Content.ReadAsAsync<TResponse>();
         }
 
-        public async Task<TResponse> UpdateAsync<TRequest, TResponse>(TRequest entity, string path, int id)
-            where TRequest : class
-            where TResponse : class
+        public async Task<TResponse> PutAsync<TRequest, TResponse>(string path, int id, TRequest entity) 
+            where TRequest : class where TResponse : class
         {
             HttpResponseMessage response = await _client.PutAsJsonAsync(
                 $"api/{path}/{id}", entity);

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
 using WorldYachts.Data;
+using WorldYachts.Data.Entities;
 using WorldYachts.Helpers;
 using WorldYachts.Model;
 using WorldYachts.ViewModel.BaseViewModels;
@@ -157,7 +158,7 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
         protected override async Task GetCollectionMethod(object parameter)
         {
             ProgressBarVisibility = Visibility.Visible;
-            var items = await ModelItem.LoadAsync();
+            var items = await ModelItem.GetAllAsync();
             
             ItemsCollection = GetSelectableViewModels(items);
 
@@ -202,12 +203,12 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
             //Фильтрация по типу лодки
             if (_typeFilter != "Любой тип")
             {
-                fc = fc.Where(b => b.Item.Type == _typeFilter);
+                fc = fc.Where(b => b.Item.BoatType.Type == _typeFilter);
             }
 
             if (_woodFilter != "Любой тип")
             {
-                fc = fc.Where(b => b.Item.Wood == _woodFilter);
+                fc = fc.Where(b => b.Item.BoatWood.Wood == _woodFilter);
             }
 
             //Фильтрация по наличию мачты

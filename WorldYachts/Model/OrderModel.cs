@@ -20,7 +20,7 @@ namespace WorldYachts.Model
             }
         }
 
-        public async Task<IEnumerable<Order>> LoadAsync()
+        public async Task<IEnumerable<Order>> GetAllAsync()
         {
             return await Task.Run(() => Load());
         }
@@ -32,7 +32,7 @@ namespace WorldYachts.Model
             {
                 foreach (var order in context.Orders.Where(i=>!i.IsDeleted))
                 {
-                    order.Boat = new BoatModel().GetItemById(order.BoatId);
+                    //order.Boat = new BoatModel().GetByIdAsync(order.BoatId);
                     order.SalesPerson = new SalesPersonModel().GetItemById(order.SalesPersonId);
                     order.Customer = new CustomerModel().GetItemById(order.CustomerId);
                     order.OrderDetails = new OrderDetailsModel().Load().Where(od => od.OrderId == order.Id).ToList();
@@ -42,7 +42,7 @@ namespace WorldYachts.Model
             }
         }
 
-        public async Task RemoveAsync(IEnumerable<Order> removeItems)
+        public async Task DeleteAsync(IEnumerable<Order> removeItems)
         {
             await using (var context = WorldYachtsContext.GetDataContext())
             {
@@ -51,7 +51,7 @@ namespace WorldYachts.Model
             }
         }
 
-        public async Task SaveAsync(Order item)
+        public async Task UpdateAsync(Order item)
         {
             await using (var context = WorldYachtsContext.GetDataContext())
             {
@@ -76,7 +76,7 @@ namespace WorldYachts.Model
         {
         }
 
-        public async Task<Order> GetItemByIdAsync(int id)
+        public async Task<Order> GetByIdAsync(int id)
         {
             return await Task.Run(() => GetItemById(id));
         }
@@ -86,7 +86,7 @@ namespace WorldYachts.Model
             using (var context = WorldYachtsContext.GetDataContext())
             {
                 var item = context.Orders.FirstOrDefault(o => o.Id == id);
-                item.Boat = new BoatModel().GetItemById(item.BoatId);
+                //item.Boat = new BoatModel().GetByIdAsync(item.BoatId);
                 item.SalesPerson = new SalesPersonModel().GetItemById(item.SalesPersonId);
                 item.Customer = new CustomerModel().GetItemById(item.CustomerId);
                 item.OrderDetails = new OrderDetailsModel().Load().Where(od => od.OrderId == item.Id).ToList();

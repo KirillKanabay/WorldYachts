@@ -26,14 +26,14 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         private int _orderLevel;
         private int _orderBatch;
 
-        private Partner _partner;
+        private Data.Entities.Partner _partner;
         private string _partnerName;
 
         private List<Partner> _partners;
         #endregion
 
         #region Конструкторы
-        public AccessoryEditorViewModel(Accessory accessory) : base(true)
+        public AccessoryEditorViewModel(Data.Entities.Accessory accessory) : base(true)
         {
             _id = accessory.Id;
             _name = accessory.Name;
@@ -41,8 +41,6 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             _price = accessory.Price;
             _vat = accessory.Vat;
             _inventory = accessory.Inventory;
-            _orderLevel = accessory.OrderLevel;
-            _orderBatch = accessory.OrderBatch;
             _partner = accessory.Partner;
 
             _partnerName = _partner.Name;

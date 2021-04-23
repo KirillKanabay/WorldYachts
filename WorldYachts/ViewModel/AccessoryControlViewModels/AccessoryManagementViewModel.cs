@@ -17,7 +17,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             var collection = new ObservableCollection<BaseSelectableViewModel<Accessory>>();
             foreach (var accessory in items)
             {
-                collection.Add(new SelectableAccessoryViewModel(accessory));
+               // collection.Add(new SelectableAccessoryViewModel(accessory));
             }
 
             return collection;

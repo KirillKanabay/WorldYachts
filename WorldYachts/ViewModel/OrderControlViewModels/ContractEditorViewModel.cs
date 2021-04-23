@@ -121,7 +121,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
             {
                 if (_isEdit)
                 {
-                    await Task.Run(() => ModelItem.SaveAsync(item));
+                    await Task.Run(() => ModelItem.UpdateAsync(item));
                     if (invoice != null)
                         await Task.Run(() => new InvoiceModel().AddAsync(invoice));
                 }

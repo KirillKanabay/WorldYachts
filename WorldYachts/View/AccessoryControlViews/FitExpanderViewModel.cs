@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using WorldYachts.Data;
+using WorldYachts.Data.Entities;
 using WorldYachts.ViewModel;
 using WorldYachts.ViewModel.BaseViewModels;
 

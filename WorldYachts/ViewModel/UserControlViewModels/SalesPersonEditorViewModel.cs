@@ -108,8 +108,8 @@ namespace WorldYachts.ViewModel.UserControlViewModels
             {
                 if (_isEdit)
                 {
-                    await spm.SaveAsync(GetSaveItem(_isEdit));
-                    await um.SaveAsync(new User()
+                    await spm.UpdateAsync(GetSaveItem(_isEdit));
+                    await um.UpdateAsync(new User()
                     {
                         Id = _user.Id,
                         TypeUser = (int) TypeOfUser.SalesPerson,

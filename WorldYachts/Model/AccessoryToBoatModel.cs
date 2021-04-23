@@ -23,7 +23,7 @@ namespace WorldYachts.Model
             }
         }
 
-        public async Task<IEnumerable<AccessoryToBoat>> LoadAsync()
+        public async Task<IEnumerable<AccessoryToBoat>> GetAllAsync()
         {
             return await Task.Run(() => Load());
         }
@@ -36,7 +36,7 @@ namespace WorldYachts.Model
                 foreach (var atb in context.AccessoryToBoat.Where(i=>!i.IsDeleted))
                 {
                     atb.Accessory = new AccessoryModel().GetItemById(atb.AccessoryId);
-                    atb.Boat = new BoatModel().GetItemById(atb.BoatId);
+                    //atb.Boat = new BoatModel().GetByIdAsync(atb.BoatId);
                     accessoryToBoatCollection.Add(atb);
                 }
             }
@@ -44,19 +44,19 @@ namespace WorldYachts.Model
             return accessoryToBoatCollection;
         }
 
-        public async Task RemoveAsync(IEnumerable<AccessoryToBoat> removeItems)
+        public async Task DeleteAsync(IEnumerable<AccessoryToBoat> removeItems)
         {
             await using (var context = WorldYachtsContext.GetDataContext())
             {
                 foreach (var accessoryToBoat in removeItems)
                 {
                     accessoryToBoat.IsDeleted = true;
-                    await SaveAsync(accessoryToBoat);
+                    await UpdateAsync(accessoryToBoat);
                 }
             }
         }
 
-        public async Task SaveAsync(AccessoryToBoat item)
+        public async Task UpdateAsync(AccessoryToBoat item)
         {
             await using (var context = WorldYachtsContext.GetDataContext())
             {
@@ -83,7 +83,7 @@ namespace WorldYachts.Model
             }
         }
 
-        public async Task<AccessoryToBoat> GetItemByIdAsync(int id)
+        public async Task<AccessoryToBoat> GetByIdAsync(int id)
         {
             return await Task.Run((() => GetItemById(id)));
         }

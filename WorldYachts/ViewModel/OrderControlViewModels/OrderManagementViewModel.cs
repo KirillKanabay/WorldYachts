@@ -143,7 +143,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
         protected override async Task GetCollectionMethod(object parameter)
         {
             ProgressBarVisibility = Visibility.Visible;
-            var items = await ModelItem.LoadAsync();
+            var items = await ModelItem.GetAllAsync();
             ItemsCollection = GetSelectableViewModels(items);
             //OnPropertyChanged(nameof(FilteredCollection));
             UpdateCollections();

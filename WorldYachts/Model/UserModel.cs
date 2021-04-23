@@ -31,7 +31,7 @@ namespace WorldYachts.Model
             }
         }
 
-        public async Task<IEnumerable<User>> LoadAsync()
+        public async Task<IEnumerable<User>> GetAllAsync()
         {
             return await Task.Run(() => Load());
         }
@@ -44,19 +44,19 @@ namespace WorldYachts.Model
             }
         }
 
-        public async Task RemoveAsync(IEnumerable<User> removeItems)
+        public async Task DeleteAsync(IEnumerable<User> removeItems)
         {
             await using (var context = WorldYachtsContext.GetDataContext())
             {
                 foreach (var removeItem in removeItems)
                 {
                     removeItem.IsDeleted = true;
-                    await SaveAsync(removeItem);
+                    await UpdateAsync(removeItem);
                 }
             }
         }
 
-        public async Task SaveAsync(User item)
+        public async Task UpdateAsync(User item)
         {
             await using (var context = WorldYachtsContext.GetDataContext())
             {
@@ -83,7 +83,7 @@ namespace WorldYachts.Model
             
         }
 
-        public async Task<User> GetItemByIdAsync(int id)
+        public async Task<User> GetByIdAsync(int id)
         {
             return await Task.Run((() => GetItemById(id)));
         }
