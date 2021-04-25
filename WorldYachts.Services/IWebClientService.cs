@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace WorldYachts.Services
 {
@@ -17,7 +16,7 @@ namespace WorldYachts.Services
         /// <param name="path">Путь</param>
         /// <param name="id">id - записи</param>
         /// <returns></returns>
-        Task<TResponse> GetAsync<TResponse>(string path, int? id = null)
+        Task<Response<TResponse>> GetAsync<TResponse>(string path, int? id = null)
             where TResponse : class;
 
         /// <summary>
@@ -28,7 +27,7 @@ namespace WorldYachts.Services
         /// <param name="path">Путь</param>
         /// <param name="entity">Отправляемый объект</param>
         /// <returns></returns>
-        Task<TResponse> PostAsync<TRequest, TResponse>(string path, TRequest entity)
+        Task<Response<TResponse>> PostAsync<TRequest, TResponse>(string path, TRequest entity)
             where TRequest : class
             where TResponse : class;
 
@@ -41,7 +40,7 @@ namespace WorldYachts.Services
         /// <param name="path">Путь</param>
         /// <param name="id">id - изменяемого объекта</param>
         /// <returns></returns>
-        Task<TResponse> PutAsync<TRequest, TResponse>(string path, int id, TRequest entity)
+        Task<Response<TResponse>> PutAsync<TRequest, TResponse>(string path, int id, TRequest entity)
             where TRequest : class
             where TResponse : class;
 
@@ -51,6 +50,7 @@ namespace WorldYachts.Services
         /// <param name="path">Путь</param>
         /// <param name="id">id - удаляемой записи</param>
         /// <returns></returns>
-        Task<TResponse> DeleteAsync<TResponse>(string path, int id);
+        Task<Response<TResponse>> DeleteAsync<TResponse>(string path, int id)
+            where TResponse : class;
     }
 }

@@ -105,7 +105,7 @@ namespace WorldYachts.ViewModel.BaseViewModels
         /// Редактор предмета
         /// </summary>
         public abstract BaseEditorViewModel<TItem> Editor { get; }
-        
+
         #endregion
 
         #region Команды
@@ -120,7 +120,7 @@ namespace WorldYachts.ViewModel.BaseViewModels
                 return _getItemsCollection ??= new AsyncRelayCommand(GetCollectionMethod,
                     (ex) =>
                     {
-                        ExecuteRunDialog(new MessageDialogProperty() {Title = "Ошибка", Message = ex.Message});
+                        ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message });
                     });
             }
         }
@@ -131,11 +131,11 @@ namespace WorldYachts.ViewModel.BaseViewModels
         {
             get
             {
-               return _removeItem ??= new AsyncRelayCommand(RemoveItemMethod,
-                    (ex) =>
-                    {
-                        ExecuteRunDialog(new MessageDialogProperty() {Title = "Ошибка", Message = ex.Message});
-                    });
+                return _removeItem ??= new AsyncRelayCommand(RemoveItemMethod,
+                     (ex) =>
+                     {
+                         ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message });
+                     });
             }
         }
         /// <summary>
@@ -210,8 +210,8 @@ namespace WorldYachts.ViewModel.BaseViewModels
                 await Task.Run(() => ModelItem.DeleteAsync(removeItems));
 
                 //Получаем главное окно для показа уведомления о удалении
-                var mainWindow = (MainWindow) Application.Current.MainWindow;
-                
+                var mainWindow = (MainWindow)Application.Current.MainWindow;
+
                 GetItemsCollection.Execute(null);
 
                 mainWindow.SendSnackbar($"Успешно удалено.");
@@ -253,7 +253,7 @@ namespace WorldYachts.ViewModel.BaseViewModels
         {
             var view = new SampleMessageDialog()
             {
-                DataContext = new SampleMessageDialogViewModel((MessageDialogProperty) o)
+                DataContext = new SampleMessageDialogViewModel((MessageDialogProperty)o)
             };
             var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
         }

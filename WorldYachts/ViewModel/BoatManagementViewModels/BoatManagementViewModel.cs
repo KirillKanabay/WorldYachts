@@ -11,69 +11,48 @@ using WorldYachts.Data.Entities;
 using WorldYachts.Helpers;
 using WorldYachts.Helpers.Commands;
 using WorldYachts.Model;
-using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BaseViewModels;
-using WorldYachts.ViewModel.BoatManagementViewModels;
-using WorldYachts.ViewModel.CatalogControlViewModels;
-using WorldYachts.ViewModel.MessageDialog;
 
 namespace WorldYachts.ViewModel.BoatManagementViewModels
 {
-    class BoatManagementViewModel:BaseManagementViewModel<Boat>
+    class BoatManagementViewModel:BaseViewModel
     {
-        #region Поля
+        private readonly IDataModel<Boat> _model;
+        private readonly BoatEditorViewModel _editor;
+        private readonly ObservableCollection<SelectableBoatViewModel> _boats;
 
-        private AsyncRelayCommand _openViewCommand;
-
-        #endregion
-
-        #region Конструкторы
+        private string _filterText;
 
         public BoatManagementViewModel()
         {
+            _model = new BoatModel();
+            _editor = new BoatEditorViewModel();
         }
 
-        #endregion
-
-        #region Свойства
-        public override IDataModel<Boat> ModelItem => new BoatModel();
-        public override BaseEditorViewModel<Boat> Editor => new BoatEditorViewModel();
-
-        #endregion
-
-        #region Команды
-
-      
-        #endregion
-
-        #region Методы
-        
-        protected override ObservableCollection<BaseSelectableViewModel<Boat>> GetSelectableViewModels(IEnumerable<Boat> items)
+        public string FilterText
         {
-            var collection = new ObservableCollection<BaseSelectableViewModel<Boat>>();
-            foreach (var boat in items)
+            get => _filterText;
+            set
             {
-                collection.Add(new SelectableBoatViewModel(boat));
+                _filterText = value;
+                OnPropertyChanged(nameof(FilteredCollection));
+            }
+        }
+        public ObservableCollection<SelectableBoatViewModel> FilteredCollection => Filter();
+
+        public ObservableCollection<SelectableBoatViewModel> Filter()
+        {
+            if (string.IsNullOrWhiteSpace(FilterText))
+            {
+                return _boats;
             }
 
-            return collection;
+            var filteredCollection = _boats.Where(p =>
+                p.Item.Model.ToLower().Contains(FilterText.ToLower()) ||
+                p.Item.ToString() == FilterText);
+            
+            return new ObservableCollection<SelectableBoatViewModel>(filteredCollection);
         }
-
-        protected override ObservableCollection<BaseSelectableViewModel<Boat>> Filter(string filterText)
-        {
-            var filteredCollection = ItemsCollection.Where(p =>
-                p.Item.Model.ToLower().Contains(filterText.ToLower()) ||
-                p.Item.ToString() == filterText);
-
-            var boatsCollection = new ObservableCollection<BaseSelectableViewModel<Boat>>();
-            foreach (var selectableBoatViewModel in filteredCollection)
-            {
-                boatsCollection.Add(selectableBoatViewModel);
-            }
-
-            return boatsCollection;
-        }
-        #endregion
 
     }
 }

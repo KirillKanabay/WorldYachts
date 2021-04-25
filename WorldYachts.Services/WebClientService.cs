@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -45,45 +44,54 @@ namespace WorldYachts.Services
             }
         }
 
-        public async Task<TResponse> GetAsync<TResponse>(string path, int? id = null)
+        public async Task<Response<TResponse>> GetAsync<TResponse>(string path, int? id = null)
             where TResponse : class
         {
-            TResponse entity = null;
             HttpResponseMessage response = await _client.GetAsync($"api/{path}" + (id != null ? $"/{id}" : ""));
-            if (response.IsSuccessStatusCode)
-            {
-                entity = await response.Content.ReadAsAsync<TResponse>();
-            }
 
-            return entity;
+            return new Response<TResponse>()
+            {
+                Data = await response.Content.ReadAsAsync<TResponse>(),
+                StatusCode = response.StatusCode
+            };
         }
 
-        public async Task<TResponse> PostAsync<TRequest, TResponse>(string path, TRequest entity)
+        public async Task<Response<TResponse>> PostAsync<TRequest, TResponse>(string path, TRequest entity)
             where TRequest : class
             where TResponse : class
         {
             HttpResponseMessage response = await _client.PostAsJsonAsync($"api/{path}", entity);
-            response.EnsureSuccessStatusCode();
 
-            return await response.Content.ReadAsAsync<TResponse>();
+            return new Response<TResponse>()
+            {
+                Data = await response.Content.ReadAsAsync<TResponse>(),
+                StatusCode = response.StatusCode,
+            };
         }
 
-        public async Task<TResponse> PutAsync<TRequest, TResponse>(string path, int id, TRequest entity) 
+        public async Task<Response<TResponse>> PutAsync<TRequest, TResponse>(string path, int id, TRequest entity) 
             where TRequest : class where TResponse : class
         {
             HttpResponseMessage response = await _client.PutAsJsonAsync(
                 $"api/{path}/{id}", entity);
-            response.EnsureSuccessStatusCode();
 
-            return await response.Content.ReadAsAsync<TResponse>();
+            return new Response<TResponse>()
+            {
+                Data = await response.Content.ReadAsAsync<TResponse>(),
+                StatusCode = response.StatusCode
+            };
         }
 
-        public async Task<TResponse> DeleteAsync<TResponse>(string path, int id)
+        public async Task<Response<TResponse>> DeleteAsync<TResponse>(string path, int id)
+            where TResponse : class
         {
-            HttpResponseMessage response = await _client.DeleteAsync(
-                $"api/{path}/{id}");
+            HttpResponseMessage response = await _client.DeleteAsync($"api/{path}/{id}");
 
-            return await response.Content.ReadAsAsync<TResponse>();
+            return new Response<TResponse>
+            {
+                Data = await response.Content.ReadAsAsync<TResponse>(),
+                StatusCode = response.StatusCode
+            };
         }
     }
 }

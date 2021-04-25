@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using MaterialDesignThemes.Wpf;
-using WorldYachts.Data;
 using WorldYachts.Data.Entities;
-using WorldYachts.Helpers;
 using WorldYachts.Helpers.Commands;
 using WorldYachts.View.Editors;
 using WorldYachts.View.MessageDialogs;
-using WorldYachts.ViewModel.AccessoryControlViewModels;
 using WorldYachts.ViewModel.BaseViewModels;
 using WorldYachts.ViewModel.CatalogControlViewModels;
-using WorldYachts.ViewModel.MessageDialog;
 
 namespace WorldYachts.ViewModel.BoatManagementViewModels
 {
@@ -20,15 +13,7 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
     {
         #region Поля
 
-        private int _id;
-        private string _model;
-        private string _type;
-        private int _numberOfRower;
-        private string _mast;
-        private string _color;
-        private string _wood;
-        private decimal _basePrice;
-        private double _vat;
+        private readonly Boat _boat;
 
         #endregion
 
@@ -36,15 +21,7 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
 
         public SelectableBoatViewModel(Boat boat) : base(boat)
         {
-            Id = boat.Id;
-            Model = boat.Model;
-            Type = boat.BoatType.Type;
-            NumberOfRower = boat.NumberOfRowers;
-            Mast = boat.Mast ? "Присутствует" : "Отсутствует";
-            Color = boat.Color;
-            Wood = boat.BoatWood.Wood;
-            BasePrice = boat.BasePrice;
-            Vat = boat.Vat;
+            _boat = boat;
         }
 
         #endregion
@@ -54,119 +31,47 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
         /// <summary>
         /// Идентификатор лодки
         /// </summary>
-        public int Id
-        {
-            get => _id;
-            set
-            {
-                _id = value;
-                OnPropertyChanged(nameof(Id));
-            }
-        }
+        public int Id => _boat.Id;
 
         /// <summary>
         /// Модель лодки
         /// </summary>
-        public string Model
-        {
-            get => _model;
-            set
-            {
-                _model = value;
-                OnPropertyChanged(nameof(Model));
-            }
-        }
+        public string Model => _boat.Model;
 
         /// <summary>
         /// Тип лодки
         /// </summary>
-        public string Type
-        {
-            get => _type;
-            set
-            {
-                _type = value;
-                OnPropertyChanged(nameof(Type));
-            }
-        }
+        public string Type => _boat.BoatType.Type;
 
         /// <summary>
         /// Количество гребцов
         /// </summary>
-        public int NumberOfRower
-        {
-            get => _numberOfRower;
-            set
-            {
-                _numberOfRower = value;
-                OnPropertyChanged(nameof(NumberOfRower));
-            }
-        }
+        public int NumberOfRower => _boat.NumberOfRowers;
 
         /// <summary>
         /// Наличие мачты
         /// </summary>
-        public string Mast
-        {
-            get => _mast;
-            set
-            {
-                _mast = value;
-                OnPropertyChanged(nameof(_mast));
-            }
-        }
+        public string Mast => _boat.Mast ? "Присутствует" : "Отсутствует";
 
         /// <summary>
         /// Цвет лодки
         /// </summary>
-        public string Color
-        {
-            get => _color;
-            set
-            {
-                _color = value;
-                OnPropertyChanged(nameof(Color));
-            }
-        }
+        public string Color => _boat.Color;
 
         /// <summary>
         /// Тип дерева
         /// </summary>
-        public string Wood
-        {
-            get => _wood;
-            set
-            {
-                _wood = value;
-                OnPropertyChanged(nameof(Wood));
-            }
-        }
+        public string Wood => _boat.BoatWood.Wood;
 
         /// <summary>
         /// Базовая цена без НДС
         /// </summary>
-        public decimal BasePrice
-        {
-            get => _basePrice;
-            set
-            {
-                _basePrice = value;
-                OnPropertyChanged(nameof(BasePrice));
-            }
-        }
+        public decimal BasePrice => _boat.BasePrice;
 
         /// <summary>
         /// Процентная ставка НДС
         /// </summary>
-        public double Vat
-        {
-            get => _vat;
-            set
-            {
-                _vat = value;
-                OnPropertyChanged(nameof(Vat));
-            }
-        }
+        public double Vat => _boat.Vat;
 
         /// <summary>
         /// Цена с НДС
