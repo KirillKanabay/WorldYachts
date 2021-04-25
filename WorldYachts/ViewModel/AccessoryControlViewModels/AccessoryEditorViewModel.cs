@@ -6,10 +6,11 @@ using System.Linq;
 using System.Printing.IndexedProperties;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
-using WorldYachts.Data;
+using WorldYachts.Data.Entities;
 using WorldYachts.Model;
 using WorldYachts.Validators;
 using WorldYachts.ViewModel.BaseViewModels;
+using Partner = WorldYachts.Data.Partner;
 
 namespace WorldYachts.ViewModel.AccessoryControlViewModels
 {
@@ -166,8 +167,6 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
                 Price = _price,
                 Vat = _vat,
                 Inventory = _inventory,
-                OrderLevel = _orderLevel,
-                OrderBatch = _orderBatch,
                 PartnerId = _partners.FirstOrDefault(p=>p.Name == PartnerName).Id,
             };
         }

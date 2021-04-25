@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using WorldYachts.Data;
+using WorldYachts.Data.Entities;
 using WorldYachts.Model;
 using WorldYachts.ViewModel.BaseViewModels;
 

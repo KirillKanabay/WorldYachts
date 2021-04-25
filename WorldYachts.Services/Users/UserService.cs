@@ -21,11 +21,11 @@ namespace WorldYachts.Services.Users
             var response = await _webClient
                 .PostAsync<AuthenticateRequest, AuthenticateResponse>("users/authenticate", requestData);
             
-            if (response != null)
-            {
-               await _authUser.Authenticate(response);
-               _webClient.Token = _authUser.Token;
-            }
+            //if (response != null)
+            //{
+            //   await _authUser.Authenticate(response);
+            //   _webClient.Token = _authUser.Token;
+            //}
         }
     }
 }

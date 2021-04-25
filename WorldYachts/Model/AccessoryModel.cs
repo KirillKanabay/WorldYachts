@@ -17,9 +17,9 @@ namespace WorldYachts.Model
             await IsRepeated(item);
             await using (var context = WorldYachtsContext.GetDataContext())
             {
-                await context.Accessories.AddAsync(item);
-                await context.SaveChangesAsync();
-                LastAddedItem = item;
+                //await context.Accessories.AddAsync(item);
+                //await context.SaveChangesAsync();
+                //LastAddedItem = item;
             }
         }
 
@@ -33,11 +33,11 @@ namespace WorldYachts.Model
             var accessoryCollection = new List<Accessory>();
             using (var context = WorldYachtsContext.GetDataContext())
             {
-                foreach (var accessory in context.Accessories.Where(a=>!a.IsDeleted))
-                {
-                    accessory.Partner = new PartnerModel().GetItemById(accessory.PartnerId);
-                    accessoryCollection.Add(accessory);
-                }
+                //foreach (var accessory in context.Accessories.Where(a=>!a.IsDeleted))
+                //{
+                //    accessory.Partner = new PartnerModel().GetItemById(accessory.PartnerId);
+                //    accessoryCollection.Add(accessory);
+                //}
             }
 
             return accessoryCollection;
@@ -45,14 +45,14 @@ namespace WorldYachts.Model
 
         public async Task DeleteAsync(IEnumerable<Accessory> removeItems)
         {
-            await using (var context = WorldYachtsContext.GetDataContext())
-            {
-                foreach (var item in removeItems)
-                {
-                    item.IsDeleted = true;
-                    await UpdateAsync(item);
-                }
-            }
+            //await using (var context = WorldYachtsContext.GetDataContext())
+            //{
+            //    foreach (var item in removeItems)
+            //    {
+            //        item.IsDeleted = true;
+            //        await UpdateAsync(item);
+            //    }
+            //}
         }
 
         public async Task UpdateAsync(Accessory item)
@@ -60,18 +60,18 @@ namespace WorldYachts.Model
             await using (var context = WorldYachtsContext.GetDataContext())
             {
                 await IsRepeated(item);
-                var dbAcc = context.Accessories.FirstOrDefault(a => a.Id == item.Id);
+                ////var dbAcc = context.Accessories.FirstOrDefault(a => a.Id == item.Id);
 
-                //Копируем измененный аксессуар в БД
-                dbAcc.Name = item.Name;
-                dbAcc.Description = item.Description;
-                dbAcc.Inventory = item.Inventory;
-                dbAcc.Price = item.Price;
-                dbAcc.Vat = item.Vat;
-                dbAcc.OrderLevel = item.OrderLevel;
-                dbAcc.OrderBatch = item.OrderBatch;
-                dbAcc.PartnerId = item.PartnerId;
-                dbAcc.IsDeleted = item.IsDeleted;
+                ////Копируем измененный аксессуар в БД
+                //dbAcc.Name = item.Name;
+                //dbAcc.Description = item.Description;
+                //dbAcc.Inventory = item.Inventory;
+                //dbAcc.Price = item.Price;
+                //dbAcc.Vat = item.Vat;
+                ////dbAcc.OrderLevel = item.OrderLevel;
+                ////dbAcc.OrderBatch = item.OrderBatch;
+                //dbAcc.PartnerId = item.PartnerId;
+                //dbAcc.IsDeleted = item.IsDeleted;
                 await context.SaveChangesAsync();
             }
         }
@@ -80,10 +80,10 @@ namespace WorldYachts.Model
         {
             await using (var context = WorldYachtsContext.GetDataContext())
             {
-                if (context.Accessories.ToList().Any(a => a.CompareTo(item) == 0))
-                {
-                    throw new ArgumentException("Такой аксессуар уже существует.");
-                }
+                //if (context.Accessories.ToList().Any(a => a.CompareTo(item) == 0))
+                //{
+                //    throw new ArgumentException("Такой аксессуар уже существует.");
+                //}
             }
         }
 
@@ -94,10 +94,7 @@ namespace WorldYachts.Model
 
         public Accessory GetItemById(int id)
         {
-            using (var context = WorldYachtsContext.GetDataContext())
-            {
-                return context.Accessories.FirstOrDefault(b => b.Id == id);
-            }
+            throw new NotImplementedException();
         }
     }
 }
