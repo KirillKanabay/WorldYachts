@@ -12,7 +12,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
     class OrderViewModel : BaseManagementViewModel<Order>
     {
         private readonly AuthUser _authUser;
-        public OrderViewModel(AuthUser authUser):base(null)
+        public OrderViewModel(AuthUser authUser):base(null, null)
         {
             _authUser = authUser;
             OnItemChanged?.Invoke();
@@ -30,10 +30,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
                     ItemsCollection.Where(i => i.Item.CustomerId == _authUser.User.Id));
             }
         }
-
-        //public override IDataModel<Order> ModelItem => new OrderModel();
-        public override BaseEditorViewModel<Order> Editor { get; }
-
+        
         protected override ObservableCollection<BaseSelectableViewModel<Order>> GetSelectableViewModels(
             IEnumerable<Order> items)
         {

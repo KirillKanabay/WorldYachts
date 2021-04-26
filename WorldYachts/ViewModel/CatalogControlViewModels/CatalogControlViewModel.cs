@@ -49,11 +49,11 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
 
         #region Конструктор
 
-        public CatalogControlViewModel():base(null)
+        public CatalogControlViewModel():base(null, null)
         {
             
         }
-        public CatalogControlViewModel(BoatViewModel boatViewModel):base(null)
+        public CatalogControlViewModel(BoatViewModel boatViewModel):base(null, null)
         {
             _boatViewModel = boatViewModel;
         }
@@ -134,8 +134,6 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
         public IEnumerable<string> BoatTypes => _boatTypes;
         public IEnumerable<string> WoodTypes => _woodTypes;
         public IEnumerable<string> MastTypes => _mastTypes;
-        //public override IDataModel<Boat> ModelItem => new BoatModel();
-        public override BaseEditorViewModel<Boat> Editor => new BoatEditorViewModel();
 
         #endregion
 

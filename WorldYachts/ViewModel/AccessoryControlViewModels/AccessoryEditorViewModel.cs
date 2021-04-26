@@ -24,13 +24,13 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         #endregion
 
         #region Конструкторы
-        public AccessoryEditorViewModel(Data.Entities.Accessory accessory, IDataModel<Accessory> accessoryModel) : base(true)
+        public AccessoryEditorViewModel(Data.Entities.Accessory accessory, AccessoryModel accessoryModel) : base(true)
         {
             _accessory = accessory;
             _accessoryModel = accessoryModel;
         }
 
-        public AccessoryEditorViewModel(IDataModel<Accessory> accessoryModel):base(false)
+        public AccessoryEditorViewModel(AccessoryModel accessoryModel):base(false)
         {
             _accessory = new Accessory();
             _accessoryModel = accessoryModel;

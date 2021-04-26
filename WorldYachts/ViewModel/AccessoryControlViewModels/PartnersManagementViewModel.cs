@@ -12,21 +12,12 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
     {
         #region Конструкторы
 
-        public PartnersManagementViewModel():base(null)
+        public PartnersManagementViewModel():base(null,null)
         {
         }
 
         #endregion
-
-        #region Свойства
-
-        //public override IDataModel<Partner> ModelItem => new PartnerModel();
-        public override BaseEditorViewModel<Partner> Editor => new PartnerEditorViewModel();
-
-
-        #endregion
-
-
+        
         #region Методы
 
         protected override ObservableCollection<BaseSelectableViewModel<Partner>> GetSelectableViewModels(

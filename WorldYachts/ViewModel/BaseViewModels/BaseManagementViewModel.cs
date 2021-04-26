@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using MaterialDesignThemes.Wpf;
+using WorldYachts.Data.Entities;
 using WorldYachts.Helpers;
 using WorldYachts.Helpers.Commands;
 using WorldYachts.Model;
@@ -37,14 +38,17 @@ namespace WorldYachts.ViewModel.BaseViewModels
         private Visibility _progressBarVisibility;
 
         public static Action OnItemChanged;
+
         protected readonly IDataModel<TItem> _dataModel;
+        protected readonly BaseEditorViewModel<TItem> _editorViewModel;
         #endregion
 
         #region Конструкторы
 
-        protected BaseManagementViewModel(IDataModel<TItem> dataModel)
+        protected BaseManagementViewModel(IDataModel<TItem> dataModel, BaseEditorViewModel<TItem> editorViewModel)
         {
             _dataModel = dataModel;
+            _editorViewModel = editorViewModel;
 
             OnItemChanged = () =>
             {
@@ -99,11 +103,6 @@ namespace WorldYachts.ViewModel.BaseViewModels
             }
         }
         
-        /// <summary>
-        /// Редактор предмета
-        /// </summary>
-        public abstract BaseEditorViewModel<TItem> Editor { get; }
-
         #endregion
 
         #region Команды
@@ -264,7 +263,7 @@ namespace WorldYachts.ViewModel.BaseViewModels
         {
             var view = new View.MessageDialogs.MessageDialog()
             {
-                DataContext = new MessageDialogViewModel(Editor)
+                DataContext = new MessageDialogViewModel(_editorViewModel)
             };
 
             var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);

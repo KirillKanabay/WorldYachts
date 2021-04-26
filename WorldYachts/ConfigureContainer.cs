@@ -87,6 +87,7 @@ namespace WorldYachts
         private void RegisterViews(ContainerBuilder builder)
         {
             builder.RegisterType<MainWindow>().InstancePerDependency();
+            builder.RegisterType<AccessoryManagementViewModel>();
             builder.RegisterType<DashboardView>().InstancePerDependency();
         }
     }

@@ -19,7 +19,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
         private readonly AuthUser _authUser;
         #region Конструкторы
 
-        public OrderManagementViewModel(AuthUser authUser):base(null)
+        public OrderManagementViewModel(AuthUser authUser):base(null, null)
         {
             _authUser = authUser;
             OnItemChanged += () =>
@@ -135,8 +135,6 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
                 }
             }
         }
-        //public override IDataModel<Order> ModelItem => new OrderModel();
-        public override BaseEditorViewModel<Order> Editor { get; }
 
         #endregion
 

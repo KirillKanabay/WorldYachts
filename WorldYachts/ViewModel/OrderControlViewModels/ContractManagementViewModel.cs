@@ -14,7 +14,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
     {
         private readonly AuthUser _authUser;
         #region Конструкторы
-        public ContractManagementViewModel(AuthUser authUser):base(null)
+        public ContractManagementViewModel(AuthUser authUser):base(null,null)
         {
             _authUser = authUser;
         }
@@ -22,8 +22,6 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
         #endregion
 
         #region Свойства
-        //public override IDataModel<Contract> ModelItem => new ContractModel();
-        public override BaseEditorViewModel<Contract> Editor { get; }
 
         #endregion
 

@@ -13,12 +13,10 @@ namespace WorldYachts.ViewModel.UserControlViewModels
 {
     class SalesPersonManagementViewModel:BaseManagementViewModel<SalesPerson>
     {
-        public SalesPersonManagementViewModel():base(null)
+        public SalesPersonManagementViewModel():base(null, null)
         {
-            
         }
-        //public override IDataModel<SalesPerson> ModelItem => new SalesPersonModel();
-        public override BaseEditorViewModel<SalesPerson> Editor => new SalesPersonEditorViewModel();
+
         protected override ObservableCollection<BaseSelectableViewModel<SalesPerson>> GetSelectableViewModels(IEnumerable<SalesPerson> items)
         {
             var collection = new ObservableCollection<BaseSelectableViewModel<SalesPerson>>();

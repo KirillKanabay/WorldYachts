@@ -10,8 +10,8 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
 {
     public class SelectableAccessoryViewModel:BaseSelectableViewModel<Data.Entities.Accessory>
     {
-        private readonly IDataModel<Accessory> _accessoryModel;
-        public SelectableAccessoryViewModel(Data.Entities.Accessory item, IDataModel<Accessory> accessoryModel) 
+        private readonly AccessoryModel _accessoryModel;
+        public SelectableAccessoryViewModel(Data.Entities.Accessory item, AccessoryModel accessoryModel) 
             : base(item,accessoryModel)
         {
             _accessoryModel = accessoryModel;

@@ -18,7 +18,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
         private readonly AuthUser _authUser;
         #region Конструкторы
 
-        public InvoiceManagementViewModel(AuthUser authUser):base(null)
+        public InvoiceManagementViewModel(AuthUser authUser):base(null, null)
         {
             _authUser = authUser;
             OnItemChanged += () => { GetItemsCollection?.Execute(null); };
@@ -74,10 +74,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
                 }
             }
         }
-
-        //public override IDataModel<Invoice> ModelItem => new InvoiceModel();
-        public override BaseEditorViewModel<Invoice> Editor { get; }
-
+        
         #endregion
 
         #region Методы

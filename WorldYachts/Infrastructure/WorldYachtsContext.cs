@@ -57,7 +57,7 @@ namespace WorldYachts.Infrastructure
         public DbSet<Admin> Admin { get; set; }
         public WorldYachtsContext(DbContextOptions<WorldYachtsContext> options) : base(options)
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
