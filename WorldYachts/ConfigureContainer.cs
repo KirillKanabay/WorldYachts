@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using WorldYachts.Model;
 using WorldYachts.Services;
+using WorldYachts.Services.Accessory;
 using WorldYachts.Services.Boat;
 using WorldYachts.Services.Users;
 using WorldYachts.View.DashboardControlViews;
@@ -72,6 +73,7 @@ namespace WorldYachts
         {
             builder.RegisterType<UserService>().As<IUserService>();
             builder.RegisterType<BoatService>().As<IBoatService>();
+            builder.RegisterType<AccessoryService>().As<IAccessoryService>();
         }
 
         private void RegisterModels(ContainerBuilder builder)
