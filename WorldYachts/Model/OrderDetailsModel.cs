@@ -34,7 +34,7 @@ namespace WorldYachts.Model
             {
                 foreach (var orderDetails in context.OrderDetails.Where(i=>!i.IsDeleted))
                 {
-                    orderDetails.Accessory = new AccessoryModel().GetItemById(orderDetails.AccessoryId);
+                    //orderDetails.Accessory = new AccessoryModel().GetItemById(orderDetails.AccessoryId);
                     //orderDetails.Order = new OrderModel().GetItemById(orderDetails.OrderId);
                     odCollection.Add(orderDetails);
                 }

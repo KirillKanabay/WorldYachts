@@ -36,13 +36,16 @@ namespace WorldYachts.ViewModel
 
         private readonly UserModel _userModel;
         private readonly AuthUser _authUser;
-        private readonly MainWindow _mainWindow;
+        private MainWindow _mainWindow;
+        private readonly ViewModelContainer _viewModelContainer;
+
         #endregion
 
-        public LoginViewModel(UserModel userModel, AuthUser authUser)
+        public LoginViewModel(UserModel userModel, AuthUser authUser, ViewModelContainer viewModelContainer)
         {
             _userModel = userModel;
             _authUser = authUser;
+            _viewModelContainer = viewModelContainer;
         }
 
         #region Свойства
@@ -138,7 +141,8 @@ namespace WorldYachts.ViewModel
                 await Task.Run(() => _userModel.LoginAsync(_username, _password));
                 if (_authUser.IsAuthenticated)
                 {
-                    new MainWindow(_authUser).Show();
+                    _mainWindow = new MainWindow(_viewModelContainer.GetViewModel<MainViewModel>());
+                    _mainWindow.Show();
                     ((Window)parameter).Close();
                 }
             }

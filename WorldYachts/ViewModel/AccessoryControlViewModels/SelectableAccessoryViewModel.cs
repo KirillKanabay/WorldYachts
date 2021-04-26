@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Printing.IndexedProperties;
-using System.Text;
-using WorldYachts.Data;
+using WorldYachts.Model;
 using WorldYachts.View.Editors;
 using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BaseViewModels;
@@ -13,124 +10,80 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
 {
     public class SelectableAccessoryViewModel:BaseSelectableViewModel<Data.Entities.Accessory>
     {
-        #region Поля
-
-        private int _id;
-        private string _name;
-        private string _description;
-        private decimal _price;
-        private double _vat;
-        private int _inventory;
-        private int _orderLevel;
-        private int _orderBatch;
-        private int _partnerId;
-        private Data.Entities.Partner _partner;
-        #endregion
-
-        #region Конструкторы
-
-        public SelectableAccessoryViewModel(Data.Entities.Accessory item) : base(item)
+        private readonly IDataModel<Accessory> _accessoryModel;
+        public SelectableAccessoryViewModel(Data.Entities.Accessory item, IDataModel<Accessory> accessoryModel) 
+            : base(item,accessoryModel)
         {
-            Id = item.Id;
-            Name = item.Name;
-            Description = item.Description;
-            Price = item.Price;
-            Vat = item.Vat;
-            Inventory = item.Inventory;
-            PartnerId = item.PartnerId;
-            _partner = item.Partner;
+            _accessoryModel = accessoryModel;
         }
-
-        #endregion
-
         #region Свойства
 
         public int Id
         {
-            get => _id;
+            get => Item.Id;
             set
             {
-                _id = value;
+                Item.Id = value;
                 OnPropertyChanged(nameof(Id));
             }
         }
 
         public string Name
         {
-            get => _name;
+            get => Item.Name;
             set
             {
-                _name = value;
+                Item.Name = value;
                 OnPropertyChanged(nameof(Name));
             }
         }
 
         public string Description
         {
-            get => _description;
+            get => Item.Description;
             set
             {
-                _description = value;
+                Item.Description = value;
                 OnPropertyChanged(nameof(Description));
             }
         }
 
         public decimal Price
         {
-            get => _price;
+            get => Item.Price;
             set
             {
-                _price = value;
+                Item.Price = value;
                 OnPropertyChanged(nameof(Price));
             }
         }
 
         public double Vat
         {
-            get => _vat;
+            get => Item.Vat;
             set
             {
-                _vat = value;
+                Item.Vat = value;
                 OnPropertyChanged(nameof(Vat));
             }
         }
 
         public int Inventory
         {
-            get => _inventory;
+            get => Item.Inventory;
             set
             {
-                _inventory = value;
+                Item.Inventory = value;
                 OnPropertyChanged(nameof(Inventory));
-            }
-        }
-
-        public int OrderLevel
-        {
-            get => _orderLevel;
-            set
-            {
-                _orderLevel = value;
-                OnPropertyChanged(nameof(OrderLevel));
-            }
-        }
-
-        public int OrderBatch
-        {
-            get => _orderBatch;
-            set
-            {
-                _orderBatch = value;
-                OnPropertyChanged(nameof(OrderBatch));
             }
         }
 
         public int PartnerId
         {
-            get => _partnerId;
+            get => Item.PartnerId;
             set
             {
-                _partnerId = value;
+                Item.PartnerId = value;
                 OnPropertyChanged(nameof(PartnerId));
             }
         }
@@ -163,9 +116,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
                    $"Описание: {Description}\n" +
                    $"Базовая стоимость: {Price} ₽\n" +
                    $"НДС: {Vat} %\n" +
-                   $"Инвентарный номер: {Inventory}\n" +
-                   $"Уровень доставки: {OrderLevel}\n" +
-                   $"Партия доставки: {OrderBatch}\n";
+                   $"Инвентарный номер: {Inventory}\n";
         }
 
         public override BaseEditorViewModel<Accessory> Editor { get; }
@@ -182,7 +133,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             }
         }
 
-        protected override BaseViewModel GetEditorViewModel() => new AccessoryEditorViewModel(_item);
+        protected override BaseViewModel GetEditorViewModel() => new AccessoryEditorViewModel(_item, _accessoryModel);
 
         protected override MessageDialogProperty GetConfirmDeleteDialogProperty()
         {

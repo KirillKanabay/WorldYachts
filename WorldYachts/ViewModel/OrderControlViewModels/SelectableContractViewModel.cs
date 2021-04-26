@@ -33,7 +33,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
 
         public SelectableContractViewModel(Contract item, 
             DepositEditorViewModel depositEditorViewModel, 
-            ProductProcessEditorViewModel productProcessEditorViewModel) : base(item)
+            ProductProcessEditorViewModel productProcessEditorViewModel) : base(item,null)
         {
             Id = item.Id;
             OrderId = item.OrderId;

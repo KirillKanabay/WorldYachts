@@ -11,9 +11,6 @@
     d:DesignWidth="800"
     FontFamily="Google Sans"
     mc:Ignorable="d">
-    <UserControl.DataContext>
-        <accessoryControlViewModels:AccessoryManagementViewModel />
-    </UserControl.DataContext>
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

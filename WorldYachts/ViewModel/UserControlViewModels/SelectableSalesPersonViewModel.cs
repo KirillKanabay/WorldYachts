@@ -18,7 +18,7 @@ namespace WorldYachts.ViewModel.UserControlViewModels
         private string _secondName;
 
         #endregion
-        public SelectableSalesPersonViewModel(SalesPerson item) : base(item)
+        public SelectableSalesPersonViewModel(SalesPerson item) : base(item,null)
         {
             Id = item.Id;
             Name = item.FirstName;

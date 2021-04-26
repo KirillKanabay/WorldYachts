@@ -15,7 +15,7 @@ namespace WorldYachts.ViewModel.BaseViewModels
         private Visibility _progressBarVisibility = Visibility.Collapsed;
 
         /// <summary>
-        /// Флаг редактирования партнера
+        /// Флаг редактирования
         /// </summary>
         protected bool _isEdit;
 

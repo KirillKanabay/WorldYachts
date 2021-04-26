@@ -21,11 +21,13 @@ namespace WorldYachts
         {
             builder.RegisterType<WebClientService>().As<IWebClientService>().SingleInstance();
             builder.RegisterType<AuthUser>().AsSelf().SingleInstance();
+            builder.RegisterType<ViewModelContainer>().AsSelf();
             
-            RegisterViews(builder);
             RegisterViewModels(builder);
             RegisterServices(builder);
             RegisterModels(builder);
+            RegisterViews(builder);
+            
         }
 
         private void RegisterViewModels(ContainerBuilder builder)
@@ -79,11 +81,12 @@ namespace WorldYachts
         private void RegisterModels(ContainerBuilder builder)
         {
             builder.RegisterType<UserModel>().AsSelf();
+            builder.RegisterType<AccessoryModel>().AsSelf();
         }
 
         private void RegisterViews(ContainerBuilder builder)
         {
-            builder.RegisterType<MainWindow>().AsSelf().InstancePerDependency();
+            builder.RegisterType<MainWindow>().InstancePerDependency();
             builder.RegisterType<DashboardView>().InstancePerDependency();
         }
     }

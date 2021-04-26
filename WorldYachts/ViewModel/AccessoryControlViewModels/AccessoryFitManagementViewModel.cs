@@ -12,7 +12,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
 {
     class AccessoryFitManagementViewModel:BaseManagementViewModel<AccessoryToBoat>
     {
-        public AccessoryFitManagementViewModel():base()
+        public AccessoryFitManagementViewModel():base(null)
         {
             OnItemChanged?.Invoke();
         }
@@ -44,7 +44,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             }
         }
 
-        public override IDataModel<AccessoryToBoat> ModelItem => new AccessoryToBoatModel();
+        //public override IDataModel<AccessoryToBoat> ModelItem => new AccessoryToBoatModel();
         public override BaseEditorViewModel<AccessoryToBoat> Editor => new AccessoryFitEditorViewModel();
         protected override ObservableCollection<BaseSelectableViewModel<AccessoryToBoat>> GetSelectableViewModels(IEnumerable<AccessoryToBoat> items)
         {
@@ -52,7 +52,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             OnPropertyChanged(nameof(Fits));
             foreach (var accessoryToBoat in items)
             {
-                collection.Add(new SelectableAccessoryFitViewModel(accessoryToBoat));
+                //collection.Add(new SelectableAccessoryFitViewModel(accessoryToBoat));
             }
 
             return collection;

@@ -16,10 +16,14 @@
     xmlns:vm="clr-namespace:WorldYachts.ViewModel"
     xmlns:vmaccessory="clr-namespace:WorldYachts.ViewModel.AccessoryControlViewModels"
     xmlns:vmboat="clr-namespace:WorldYachts.ViewModel.BoatManagementViewModels"
-    xmlns:vmcatalog="clr-namespace:WorldYachts.ViewModel.CatalogControlViewModels">
+    xmlns:vmcatalog="clr-namespace:WorldYachts.ViewModel.CatalogControlViewModels"
+    xmlns:worldYachts="clr-namespace:WorldYachts">
     <ResourceDictionary.MergedDictionaries>
         <!--  Основные UC  -->
         <ResourceDictionary>
+            <!--<DataTemplate DataType="{x:Type vm:MainViewModel}">
+                <worldYachts:MainWindow/>
+            </DataTemplate>-->
             <DataTemplate DataType="{x:Type userControlViewModels:UserControlViewModel}">
                 <v:UserManagementView />
             </DataTemplate>

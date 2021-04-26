@@ -11,14 +11,16 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
 {
     class AccessoryManagementViewModel : BaseManagementViewModel<Accessory>
     {
-        public override IDataModel<Accessory> ModelItem => new AccessoryModel();
-        public override BaseEditorViewModel<Accessory> Editor => new AccessoryEditorViewModel();
+        public AccessoryManagementViewModel(AccessoryModel accessoryModel):base(accessoryModel)
+        {
+        }
+        public override BaseEditorViewModel<Accessory> Editor => new AccessoryEditorViewModel(_dataModel);
         protected override ObservableCollection<BaseSelectableViewModel<Accessory>> GetSelectableViewModels(IEnumerable<Accessory> items)
         {
             var collection = new ObservableCollection<BaseSelectableViewModel<Accessory>>();
             foreach (var accessory in items)
             {
-               // collection.Add(new SelectableAccessoryViewModel(accessory));
+               collection.Add(new SelectableAccessoryViewModel(accessory,_dataModel));
             }
 
             return collection;

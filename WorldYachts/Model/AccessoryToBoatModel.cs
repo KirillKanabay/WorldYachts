@@ -35,7 +35,7 @@ namespace WorldYachts.Model
             {
                 foreach (var atb in context.AccessoryToBoat.Where(i=>!i.IsDeleted))
                 {
-                    atb.Accessory = new AccessoryModel().GetItemById(atb.AccessoryId);
+                   // atb.Accessory = new AccessoryModel().GetItemById(atb.AccessoryId);
                     //atb.Boat = new BoatModel().GetByIdAsync(atb.BoatId);
                     accessoryToBoatCollection.Add(atb);
                 }

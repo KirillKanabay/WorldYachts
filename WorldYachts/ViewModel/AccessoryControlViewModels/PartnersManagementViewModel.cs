@@ -12,7 +12,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
     {
         #region Конструкторы
 
-        public PartnersManagementViewModel()
+        public PartnersManagementViewModel():base(null)
         {
         }
 
@@ -20,7 +20,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
 
         #region Свойства
 
-        public override IDataModel<Partner> ModelItem => new PartnerModel();
+        //public override IDataModel<Partner> ModelItem => new PartnerModel();
         public override BaseEditorViewModel<Partner> Editor => new PartnerEditorViewModel();
 
 

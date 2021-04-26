@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Autofac.Core;
 using MaterialDesignThemes.Wpf;
 using Microsoft.EntityFrameworkCore;
 using WorldYachts.Infrastructure;
@@ -22,9 +23,9 @@ namespace WorldYachts
     {
         public static Action<string> SendSnackbarAction;
         public static Func<MainWindow> GetMainWindow;
-        public MainWindow(AuthUser authUser)
+        public MainWindow(MainViewModel mainViewModel)
         {
-            DataContext = new MainViewModel(authUser);
+            DataContext = mainViewModel;
             InitializeComponent();
 
             SendSnackbarAction += SendSnackbar;

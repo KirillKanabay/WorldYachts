@@ -1,4 +1,5 @@
 ﻿using WorldYachts.Data.Entities;
+using WorldYachts.Model;
 using WorldYachts.View.Editors;
 using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BaseViewModels;
@@ -15,7 +16,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         private int _boatId;
 
         #endregion
-        public SelectableAccessoryFitViewModel(AccessoryToBoat item) : base(item)
+        public SelectableAccessoryFitViewModel(AccessoryToBoat item, AccessoryToBoatModel accessoryToBoatModel) : base(item, accessoryToBoatModel)
         {
             Id = item.Id;
             AccessoryId = item.AccessoryId;

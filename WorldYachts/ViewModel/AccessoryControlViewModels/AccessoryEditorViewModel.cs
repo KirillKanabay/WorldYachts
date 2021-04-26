@@ -18,37 +18,22 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
     {
         #region Поля
 
-        private readonly int _id;
-        private string _name;
-        private string _description;
-        private decimal _price;
-        private double _vat;
-        private int _inventory;
-        private int _orderLevel;
-        private int _orderBatch;
-
-        private Data.Entities.Partner _partner;
-        private string _partnerName;
-
+        private readonly Accessory _accessory;
         private List<Partner> _partners;
+        private readonly IDataModel<Accessory> _accessoryModel;
         #endregion
 
         #region Конструкторы
-        public AccessoryEditorViewModel(Data.Entities.Accessory accessory) : base(true)
+        public AccessoryEditorViewModel(Data.Entities.Accessory accessory, IDataModel<Accessory> accessoryModel) : base(true)
         {
-            _id = accessory.Id;
-            _name = accessory.Name;
-            _description = accessory.Description;
-            _price = accessory.Price;
-            _vat = accessory.Vat;
-            _inventory = accessory.Inventory;
-            _partner = accessory.Partner;
-
-            _partnerName = _partner.Name;
+            _accessory = accessory;
+            _accessoryModel = accessoryModel;
         }
 
-        public AccessoryEditorViewModel():base(false)
+        public AccessoryEditorViewModel(IDataModel<Accessory> accessoryModel):base(false)
         {
+            _accessory = new Accessory();
+            _accessoryModel = accessoryModel;
             _partners = new PartnerModel().Load().ToList();
         }
         #endregion
@@ -57,84 +42,54 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
 
         public string Name
         {
-            get => _name;
+            get => _accessory.Name;
             set
             {
-                _name = value;
+                _accessory.Name = value;
                 OnPropertyChanged(nameof(Name));
             }
         }
 
         public string Description
         {
-            get => _description;
+            get => _accessory.Description;
             set
             {
-                _description = value;
+                _accessory.Description = value;
                 OnPropertyChanged(nameof(Description));
             }
         }
 
         public decimal Price
         {
-            get => _price;
+            get => _accessory.Price;
             set
             {
-                _price = value;
+                _accessory.Price = value;
                 OnPropertyChanged(nameof(Price));
             }
         }
 
         public double Vat
         {
-            get => _vat;
+            get => _accessory.Vat;
             set
             {
-                _vat = value;
+                _accessory.Vat = value;
                 OnPropertyChanged(nameof(Vat));
             }
         }
 
         public int Inventory
         {
-            get => _inventory;
+            get => _accessory.Inventory;
             set
             {
-                _inventory = value;
+                _accessory.Inventory = value;
                 OnPropertyChanged(nameof(Inventory));
             }
         }
-
-        public int OrderLevel
-        {
-            get => _orderLevel;
-            set
-            {
-                _orderLevel = value;
-                OnPropertyChanged(nameof(OrderLevel));
-            }
-        }
-
-        public int OrderBatch
-        {
-            get => _orderBatch;
-            set
-            {
-                _orderBatch = value;
-                OnPropertyChanged(nameof(OrderBatch));
-            }
-        }
-
-        public string PartnerName
-        {
-            get => _partnerName;
-            set
-            {
-                _partnerName = value;
-                OnPropertyChanged(nameof(PartnerName));
-            }
-        }
-
+        
         public ObservableCollection<string> Partners
         {
             get
@@ -154,22 +109,11 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         } 
 
         public override bool SaveButtonIsEnabled => ErrorDictionary.Count == 0;
-        public override IDataModel<Accessory> ModelItem => new AccessoryModel();
+        public override IDataModel<Accessory> ModelItem => _accessoryModel;
+
         #endregion
 
-        protected override Accessory GetSaveItem(bool isEdit)
-        {
-            return new Accessory()
-            {
-                Id = (isEdit) ? _id : default,
-                Name = _name,
-                Description = _description,
-                Price = _price,
-                Vat = _vat,
-                Inventory = _inventory,
-                PartnerId = _partners.FirstOrDefault(p=>p.Name == PartnerName).Id,
-            };
-        }
+        protected override Accessory GetSaveItem(bool isEdit) => _accessory;
 
         protected override string GetSaveSnackbarMessage(bool _isEdit)
         {
@@ -204,15 +148,6 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
                         break;
                     case "Inventory":
                         new Validation(new NotEmptyFieldValidationRule(Inventory)).Validate(ref error);
-                        break;
-                    case "OrderLevel":
-                        new Validation(new NotEmptyFieldValidationRule(OrderLevel)).Validate(ref error);
-                        break;
-                    case "OrderBatch":
-                        new Validation(new NotEmptyFieldValidationRule(OrderBatch)).Validate(ref error);
-                        break;
-                    case "PartnerName":
-                        new Validation(new NotEmptyFieldValidationRule(PartnerName)).Validate(ref error);
                         break;
                 }
                 ErrorDictionary.Remove(columnName);

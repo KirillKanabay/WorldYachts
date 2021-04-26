@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MaterialDesignThemes.Wpf;
 using WorldYachts.Helpers.Commands;
+using WorldYachts.Model;
 using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.MessageDialog;
 
@@ -14,7 +15,7 @@ namespace WorldYachts.ViewModel.BaseViewModels
         #region Поля
 
         protected readonly TItem _item;
-
+        protected readonly IDataModel<TItem> _dataModel;
         protected bool _isSelected;
         protected bool _isDeleted = false;
 
@@ -26,9 +27,10 @@ namespace WorldYachts.ViewModel.BaseViewModels
 
         #region Конструкторы
 
-        protected BaseSelectableViewModel(TItem item)
+        protected BaseSelectableViewModel(TItem item, IDataModel<TItem> dataModel)
         {
             _item = item;
+            _dataModel = dataModel;
         }
 
         #endregion

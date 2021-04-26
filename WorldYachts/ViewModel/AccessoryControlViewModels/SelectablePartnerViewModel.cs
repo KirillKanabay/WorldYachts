@@ -22,7 +22,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
 
         #region Конструкторы
 
-        public SelectablePartnerViewModel(Partner partner):base(partner)
+        public SelectablePartnerViewModel(Partner partner):base(partner,null)
         {
             Id = partner.Id;
             Name = partner.Name;

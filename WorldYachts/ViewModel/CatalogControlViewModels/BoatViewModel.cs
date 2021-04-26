@@ -127,14 +127,14 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
         {
             get
             {
-                if (_accessories == null)
-                {
-                    _accessories = new ObservableCollection<SelectableAccessoryViewModel>();
-                    foreach (var accessoryToBoat in _accessoryToBoats)
-                    {
-                        _accessories.Add(new SelectableAccessoryViewModel(accessoryToBoat.Accessory));
-                    }
-                }
+                //if (_accessories == null)
+                //{
+                //    _accessories = new ObservableCollection<SelectableAccessoryViewModel>();
+                //    foreach (var accessoryToBoat in _accessoryToBoats)
+                //    {
+                //        _accessories.Add(new SelectableAccessoryViewModel(accessoryToBoat.Accessory));
+                //    }
+                //}
 
                 return _accessories;
             }

@@ -27,7 +27,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
         #endregion
 
         #region Конструкторы
-        public SelectableInvoiceViewModel(Invoice item) : base(item)
+        public SelectableInvoiceViewModel(Invoice item) : base(item,null)
         {
             Id = item.Id;
             ContractId = item.ContractId;

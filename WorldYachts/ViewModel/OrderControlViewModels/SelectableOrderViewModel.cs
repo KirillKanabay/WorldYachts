@@ -32,7 +32,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
 
         #region Конструкторы
 
-        public SelectableOrderViewModel(Order item, AuthUser authUser) : base(item)
+        public SelectableOrderViewModel(Order item, AuthUser authUser) : base(item,null)
         {
             _authUser = authUser;
         }

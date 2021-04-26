@@ -18,7 +18,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
         private readonly AuthUser _authUser;
         #region Конструкторы
 
-        public InvoiceManagementViewModel(AuthUser authUser)
+        public InvoiceManagementViewModel(AuthUser authUser):base(null)
         {
             _authUser = authUser;
             OnItemChanged += () => { GetItemsCollection?.Execute(null); };
@@ -75,7 +75,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
             }
         }
 
-        public override IDataModel<Invoice> ModelItem => new InvoiceModel();
+        //public override IDataModel<Invoice> ModelItem => new InvoiceModel();
         public override BaseEditorViewModel<Invoice> Editor { get; }
 
         #endregion
@@ -85,7 +85,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
         protected override async Task GetCollectionMethod(object parameter)
         {
             ProgressBarVisibility = Visibility.Visible;
-            var items = await ModelItem.GetAllAsync();
+            var items = await _dataModel.GetAllAsync();
             ItemsCollection = GetSelectableViewModels(items);
             //OnPropertyChanged(nameof(FilteredCollection));
             UpdateCollections();

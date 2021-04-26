@@ -19,7 +19,7 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
 
         #region Конструкторы
 
-        public SelectableBoatViewModel(Boat boat, BoatViewModel boatViewModel) : base(boat)
+        public SelectableBoatViewModel(Boat boat, BoatViewModel boatViewModel) : base(boat,null)
         {
             _boat = boat;
             _boatViewModel = boatViewModel;

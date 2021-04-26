@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using WorldYachts.Data;
 using WorldYachts.Helpers;
+using WorldYachts.Model;
 using WorldYachts.Services;
 using WorldYachts.View;
 using WorldYachts.ViewModel.AccessoryControlViewModels;
@@ -28,14 +29,14 @@ namespace WorldYachts.ViewModel
         private BaseViewModel _currentViewModel;
         private readonly AuthUser _authUser;
 
-        private readonly DashboardViewModel _dashboardViewModel;
-        private readonly CatalogControlViewModel _catalogControlViewModel;
+        private readonly ViewModelContainer _viewModelContainer;
         #endregion
 
-        public MainViewModel(AuthUser authUser)
+        public MainViewModel(AuthUser authUser, ViewModelContainer viewModelContainer)
         {
             _authUser = authUser;
-            CurrentViewModel = new DashboardViewModel(_authUser);
+            _viewModelContainer = viewModelContainer;
+            CurrentViewModel = _viewModelContainer.GetViewModel<DashboardViewModel>();
         }
 
         #region Свойства
@@ -102,7 +103,7 @@ namespace WorldYachts.ViewModel
                             CurrentViewModel = new BoatManagementViewModel();
                             break;
                         case "AccessoryManagement":
-                            CurrentViewModel = new AccessoryManagementViewModel();
+                            CurrentViewModel = _viewModelContainer.GetViewModel<AccessoryManagementViewModel>();
                             break;
                         //case "UserManagement":
                         //    new NavigateCommand<UserControlViewModel>(_navigationStore,

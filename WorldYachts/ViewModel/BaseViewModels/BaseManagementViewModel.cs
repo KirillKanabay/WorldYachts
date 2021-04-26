@@ -37,12 +37,15 @@ namespace WorldYachts.ViewModel.BaseViewModels
         private Visibility _progressBarVisibility;
 
         public static Action OnItemChanged;
+        protected readonly IDataModel<TItem> _dataModel;
         #endregion
 
         #region Конструкторы
 
-        protected BaseManagementViewModel()
+        protected BaseManagementViewModel(IDataModel<TItem> dataModel)
         {
+            _dataModel = dataModel;
+
             OnItemChanged = () =>
             {
                 RemoveItem.Execute(null);
@@ -95,12 +98,7 @@ namespace WorldYachts.ViewModel.BaseViewModels
                 OnPropertyChanged(nameof(ProgressBarVisibility));
             }
         }
-
-        /// <summary>
-        /// Модель предмета
-        /// </summary>
-        public abstract IDataModel<TItem> ModelItem { get; }
-
+        
         /// <summary>
         /// Редактор предмета
         /// </summary>
@@ -184,7 +182,7 @@ namespace WorldYachts.ViewModel.BaseViewModels
 
             if (removeItems.Any())
             {
-                await Task.Run(() => ModelItem.DeleteAsync(removeItems));
+                await Task.Run(() => _dataModel.DeleteAsync(removeItems));
 
                 //Получаем главное окно для показа уведомления о удалении
                 var mainWindow = (MainWindow)Application.Current.MainWindow;
@@ -207,7 +205,7 @@ namespace WorldYachts.ViewModel.BaseViewModels
 
             if (removeItems.Any())
             {
-                await Task.Run(() => ModelItem.DeleteAsync(removeItems));
+                await _dataModel.DeleteAsync(removeItems);
 
                 //Получаем главное окно для показа уведомления о удалении
                 var mainWindow = (MainWindow)Application.Current.MainWindow;
@@ -226,7 +224,7 @@ namespace WorldYachts.ViewModel.BaseViewModels
         protected virtual async Task GetCollectionMethod(object parameter)
         {
             ProgressBarVisibility = Visibility.Visible;
-            var items = await ModelItem.GetAllAsync();
+            var items = await _dataModel.GetAllAsync();
             ItemsCollection = GetSelectableViewModels(items);
             OnPropertyChanged(nameof(FilteredCollection));
             ProgressBarVisibility = Visibility.Collapsed;

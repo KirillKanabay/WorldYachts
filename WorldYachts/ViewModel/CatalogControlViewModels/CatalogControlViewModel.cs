@@ -49,11 +49,11 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
 
         #region Конструктор
 
-        public CatalogControlViewModel()
+        public CatalogControlViewModel():base(null)
         {
             
         }
-        public CatalogControlViewModel(BoatViewModel boatViewModel)
+        public CatalogControlViewModel(BoatViewModel boatViewModel):base(null)
         {
             _boatViewModel = boatViewModel;
         }
@@ -134,7 +134,7 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
         public IEnumerable<string> BoatTypes => _boatTypes;
         public IEnumerable<string> WoodTypes => _woodTypes;
         public IEnumerable<string> MastTypes => _mastTypes;
-        public override IDataModel<Boat> ModelItem => new BoatModel();
+        //public override IDataModel<Boat> ModelItem => new BoatModel();
         public override BaseEditorViewModel<Boat> Editor => new BoatEditorViewModel();
 
         #endregion
@@ -164,7 +164,7 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
         protected override async Task GetCollectionMethod(object parameter)
         {
             ProgressBarVisibility = Visibility.Visible;
-            var items = await ModelItem.GetAllAsync();
+            var items = await _dataModel.GetAllAsync();
             
             ItemsCollection = GetSelectableViewModels(items);
 
