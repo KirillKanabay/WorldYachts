@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
+using Autofac;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using WorldYachts.Services;
 using WorldYachts.Services.Users;
 using WorldYachts.View;
@@ -16,6 +16,7 @@ namespace WorldYachts
     public partial class App : Application
     {
         public IConfiguration Configuration { get; private set; }
+        public IContainer Container { get; private set; }
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -25,12 +26,18 @@ namespace WorldYachts
 
             Configuration = builder.Build();
 
+            var containerBuilder = new ContainerBuilder();
+            containerBuilder.RegisterModule<ConfigureContainer>();
+            Container = containerBuilder.Build();
+
             WebClientService.GetInstance(Configuration);
 
-            Window startWindow = new LoginWindow();
-            startWindow.DataContext = new LoginViewModel();
-            startWindow.Show();
-            
+            using (var scope = Container.BeginLifetimeScope())
+            {
+                Window startWindow = new LoginWindow();
+                startWindow.DataContext = Container.Resolve<LoginViewModel>();
+                startWindow.Show();
+            }
             base.OnStartup(e);
         }
 

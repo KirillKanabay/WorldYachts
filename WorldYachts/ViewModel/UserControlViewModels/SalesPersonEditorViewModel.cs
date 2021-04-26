@@ -25,17 +25,18 @@ namespace WorldYachts.ViewModel.UserControlViewModels
         private string _login;
         private string _password;
         private User _user;
-
+        private readonly UserModel _userModel;
         #endregion
 
         #region Конструкторы
 
-        public SalesPersonEditorViewModel(SalesPerson item) : base(true)
+        public SalesPersonEditorViewModel(SalesPerson item, UserModel userModel) : base(true)
         {
             _id = item.Id;
             _name = item.FirstName;
             _secondName = item.SecondName;
-            _user = new UserModel().Load()
+            _userModel = userModel;
+            _user = _userModel.Load()
                 .FirstOrDefault(u => u.TypeUser == (int) TypeOfUser.SalesPerson && u.UserId == item.Id);
             
             _password = _user.Password;
@@ -101,7 +102,6 @@ namespace WorldYachts.ViewModel.UserControlViewModels
         {
             ProgressBarVisibility = Visibility.Visible;
 
-            var um = new UserModel();
             var spm = new SalesPersonModel();
 
             try
@@ -109,7 +109,7 @@ namespace WorldYachts.ViewModel.UserControlViewModels
                 if (_isEdit)
                 {
                     await spm.UpdateAsync(GetSaveItem(_isEdit));
-                    await um.UpdateAsync(new User()
+                    await _userModel.UpdateAsync(new User()
                     {
                         Id = _user.Id,
                         TypeUser = (int) TypeOfUser.SalesPerson,
@@ -120,7 +120,7 @@ namespace WorldYachts.ViewModel.UserControlViewModels
                 }
                 else
                 {
-                    await Task.Run((() => um.AddSalesPersonAsync(GetSaveItem(_isEdit), Login, Password)));
+                    await Task.Run((() => _userModel.AddSalesPersonAsync(GetSaveItem(_isEdit), Login, Password)));
                 }
             }
             finally

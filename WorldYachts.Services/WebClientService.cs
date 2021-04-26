@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -8,14 +9,28 @@ namespace WorldYachts.Services
 {
     public class WebClientService : IWebClientService
     {
-        private WebClientService(IConfiguration configuration)
+        private IConfiguration Configuration;
+        private void GetConfigurations()
+        {
+            var configurationBuilder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("WebClientSettings.json", optional: false, reloadOnChange: true);
+            Configuration = configurationBuilder.Build();
+        }
+
+        private void ConfigureWebClient()
         {
             _client = new HttpClient();
 
-            _client.BaseAddress = new Uri(configuration.GetConnectionString("Default"));
+            _client.BaseAddress = new Uri(Configuration.GetConnectionString("Default"));
             _client.DefaultRequestHeaders.Accept.Clear();
             _client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
+        }
+        public WebClientService()
+        {
+            GetConfigurations();
+            ConfigureWebClient();
         }
 
         private static WebClientService _instance;
@@ -24,7 +39,7 @@ namespace WorldYachts.Services
         {
             if (_instance == null)
             {
-                _instance = new WebClientService(configuration);
+                _instance = new WebClientService();
             }
 
             return _instance;

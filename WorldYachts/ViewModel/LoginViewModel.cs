@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
 using MaterialDesignThemes.Wpf;
 using WorldYachts.Helpers;
 using WorldYachts.Data;
@@ -37,9 +34,14 @@ namespace WorldYachts.ViewModel
         private DelegateCommand _changeToRegisterWindow;
         private DelegateCommand _openSampleMessageDialog;
 
-        
+        private readonly UserModel _userModel;
         #endregion
-        
+
+        public LoginViewModel(UserModel userModel)
+        {
+            _userModel = userModel;
+        }
+
         #region Свойства
 
         /// <summary>
@@ -128,10 +130,9 @@ namespace WorldYachts.ViewModel
         {
             ProgressBarVisibility = Visibility.Visible;
             InputIsEnabled = false;
-            var userModel = new UserModel();
             try
             {
-                await Task.Run(() => userModel.LoginAsync(_username, _password));
+                await Task.Run(() => _userModel.LoginAsync(_username, _password));
                 if (AuthUser.GetInstance().IsAuthenticated)
                 {
                     new MainWindow().Show();

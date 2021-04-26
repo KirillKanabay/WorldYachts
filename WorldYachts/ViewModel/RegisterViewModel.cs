@@ -250,34 +250,34 @@ namespace WorldYachts.ViewModel
         /// <returns></returns>
         private async Task RegisterMethod(object parameter)
         {
-            this.View = (Window) parameter;
-            ProgressBarVisibility = Visibility.Visible;
-            var um = new UserModel();
-            var customer = new Customer()
-            {
-                Name = _name,
-                SecondName = _secondName,
-                Address = _address,
-                City = _city,
-                BirthDate = _birthDate,
-                Email = _email,
-                IdDocumentName = _idDocumentName,
-                OrganizationName = _organizationName,
-                IdNumber = _idNumber,
-                Phone = _phone
-            };
-            try
-            {
-                await Task.Run(() => um.AddCustomerAsync(customer, Login, Password));
-                AuthUser.GetInstance().User = um.LastAddedUser;
-            }
-            finally
-            {
-                ProgressBarVisibility = Visibility.Collapsed;
-            }
+            //this.View = (Window) parameter;
+            //ProgressBarVisibility = Visibility.Visible;
+            ////var um = new UserModel();
+            //var customer = new Customer()
+            //{
+            //    Name = _name,
+            //    SecondName = _secondName,
+            //    Address = _address,
+            //    City = _city,
+            //    BirthDate = _birthDate,
+            //    Email = _email,
+            //    IdDocumentName = _idDocumentName,
+            //    OrganizationName = _organizationName,
+            //    IdNumber = _idNumber,
+            //    Phone = _phone
+            //};
+            //try
+            //{
+            //    await Task.Run(() => um.AddCustomerAsync(customer, Login, Password));
+            //    AuthUser.GetInstance().User = um.LastAddedUser;
+            //}
+            //finally
+            //{
+            //    ProgressBarVisibility = Visibility.Collapsed;
+            //}
             
-            ExecuteRunDialog(new MessageDialogProperty() { Title = "Регистрация", Message = "Регистрация прошла успешно." });
-            _successfulRegistration = true;
+            //ExecuteRunDialog(new MessageDialogProperty() { Title = "Регистрация", Message = "Регистрация прошла успешно." });
+            //_successfulRegistration = true;
         }
 
         /// <summary>

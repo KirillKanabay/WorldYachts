@@ -11,11 +11,13 @@ using Customer = WorldYachts.Data.Customer;
 
 namespace WorldYachts.Model
 {
-    class UserModel:IDataModel<User>
+    public class UserModel:IDataModel<User>
     {
         private readonly AuthUser _authUser;
-        public UserModel()
+        private readonly IUserService _userService;
+        public UserModel(IUserService userService)
         {
+            _userService = userService;
             _authUser = AuthUser.GetInstance();
         }
         public User LastAddedItem { get; set; }
@@ -99,8 +101,7 @@ namespace WorldYachts.Model
 
         public async Task LoginAsync(string username, string password)
         {
-            IUserService userService = new UserService();
-            await userService.AuthenticateAsync(username, password);
+            await _userService.AuthenticateAsync(username, password);
             //var us = new UserService();
             //await us.LoginAsync(login, password);
 

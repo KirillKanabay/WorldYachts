@@ -1,0 +1,5 @@
+{
+  "ConnectionStrings": {
+    "Default": "https://localhost:44311/"
+  }
+}

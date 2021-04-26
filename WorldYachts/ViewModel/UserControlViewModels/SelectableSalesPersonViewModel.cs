@@ -82,7 +82,7 @@ namespace WorldYachts.ViewModel.UserControlViewModels
             }
         }
 
-        protected override BaseViewModel GetEditorViewModel()=> new SalesPersonEditorViewModel(_item);
+        protected override BaseViewModel GetEditorViewModel()=> new SalesPersonEditorViewModel();
 
         protected override MessageDialogProperty GetConfirmDeleteDialogProperty()
         {
