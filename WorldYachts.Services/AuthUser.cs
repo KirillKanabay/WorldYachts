@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using WorldYachts.Data;
 using WorldYachts.Services.Admin;
@@ -10,21 +11,6 @@ namespace WorldYachts.Services
 {
     public class AuthUser
     {
-        private static AuthUser _instance;
-
-        private AuthUser()
-        {
-        }
-
-        public static AuthUser GetInstance()
-        {
-            if (_instance == null)
-            {
-                _instance = new AuthUser();
-            }
-
-            return _instance;
-        }
         public int Id { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
@@ -33,11 +19,7 @@ namespace WorldYachts.Services
         public string Token { get; set; }
         public IUser User { get; set; }
 
-        public TypeOfUser TypeOfUser => Role switch
-        {
-            "Admin" => TypeOfUser.Admin,
-            "Sales Person" => TypeOfUser.SalesPerson
-        };
+        public TypeOfUser TypeOfUser { get; set; }
 
         public bool IsAuthenticated => !string.IsNullOrWhiteSpace(Token);
         public async Task Authenticate(AuthenticateResponse authenticateResponse)
@@ -60,6 +42,12 @@ namespace WorldYachts.Services
                 "Sales Person" => await new SalesPersonService().GetByIdAsync(Id),
                 _ => throw new ArgumentException(
                     "Доступ отклонен. Это приложение только для менеджеров и администраторов")
+            };
+            TypeOfUser = Role switch
+            {
+                "Admin" => TypeOfUser.Admin,
+                "Sales Person" => TypeOfUser.SalesPerson,
+                _ => TypeOfUser.Unauthorized,
             };
         }
     }

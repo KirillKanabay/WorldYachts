@@ -3,6 +3,7 @@ using WorldYachts.Model;
 using WorldYachts.Services;
 using WorldYachts.Services.Boat;
 using WorldYachts.Services.Users;
+using WorldYachts.View.DashboardControlViews;
 using WorldYachts.ViewModel;
 using WorldYachts.ViewModel.AccessoryControlViewModels;
 using WorldYachts.ViewModel.BoatManagementViewModels;
@@ -18,7 +19,9 @@ namespace WorldYachts
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<WebClientService>().As<IWebClientService>().SingleInstance();
+            builder.RegisterType<AuthUser>().AsSelf().SingleInstance();
             
+            RegisterViews(builder);
             RegisterViewModels(builder);
             RegisterServices(builder);
             RegisterModels(builder);
@@ -26,43 +29,43 @@ namespace WorldYachts
 
         private void RegisterViewModels(ContainerBuilder builder)
         {
-            builder.RegisterType<LoginViewModel>().AsSelf();
-            builder.RegisterType<MainViewModel>().AsSelf();
-            builder.RegisterType<AccountSettingsViewModel>().AsSelf();
-            builder.RegisterType<AboutProgramViewModel>().AsSelf();
-            builder.RegisterType<AccessoryControlViewModel>().AsSelf();
-            builder.RegisterType<AccessoryEditorViewModel>().AsSelf();
-            builder.RegisterType<AccessoryFitEditorViewModel>().AsSelf();
-            builder.RegisterType<AccessoryManagementViewModel>().AsSelf();
-            builder.RegisterType<PartnerEditorViewModel>().AsSelf();
-            builder.RegisterType<PartnersManagementViewModel>().AsSelf();
-            builder.RegisterType<SelectableAccessoryFitViewModel>().AsSelf();
-            builder.RegisterType<SelectableAccessoryViewModel>().AsSelf();
-            builder.RegisterType<SelectablePartnerViewModel>().AsSelf();
-            builder.RegisterType<BoatEditorViewModel>().AsSelf();
-            builder.RegisterType<BoatManagementViewModel>().AsSelf();
-            builder.RegisterType<SelectableBoatViewModel>().AsSelf();
-            builder.RegisterType<BoatViewModel>().AsSelf();
-            builder.RegisterType<CatalogControlViewModel>().AsSelf();
-            builder.RegisterType<DashboardViewModel>().AsSelf();
-            builder.RegisterType<ContractEditorViewModel>().AsSelf();
-            builder.RegisterType<ContractManagementViewModel>().AsSelf();
-            builder.RegisterType<ContractViewModel>().AsSelf();
-            builder.RegisterType<DepositEditorViewModel>().AsSelf();
-            builder.RegisterType<InvoiceManagementViewModel>().AsSelf();
-            builder.RegisterType<InvoiceViewModel>().AsSelf();
-            builder.RegisterType<OrderControlViewModel>().AsSelf();
-            builder.RegisterType<OrderManagementViewModel>().AsSelf();
-            builder.RegisterType<OrderManagementControlViewModel>().AsSelf();
-            builder.RegisterType<OrderViewModel>().AsSelf();
-            builder.RegisterType<ProductProcessEditorViewModel>().AsSelf();
-            builder.RegisterType<SelectableContractViewModel>().AsSelf();
-            builder.RegisterType<SelectableInvoiceViewModel>().AsSelf();
-            builder.RegisterType<SelectableOrderViewModel>().AsSelf();
-            builder.RegisterType<SalesPersonEditorViewModel>().AsSelf();
-            builder.RegisterType<SalesPersonManagementViewModel>().AsSelf();
-            builder.RegisterType<SelectableSalesPersonViewModel>().AsSelf();
-            builder.RegisterType<UserControlViewModel>().AsSelf();
+            builder.RegisterType<LoginViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<MainViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<AccountSettingsViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<AboutProgramViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<AccessoryControlViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<AccessoryEditorViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<AccessoryFitEditorViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<AccessoryManagementViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<PartnerEditorViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<PartnersManagementViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<SelectableAccessoryFitViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<SelectableAccessoryViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<SelectablePartnerViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<BoatEditorViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<BoatManagementViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<SelectableBoatViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<BoatViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<CatalogControlViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<DashboardViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<ContractEditorViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<ContractManagementViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<ContractViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<DepositEditorViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<InvoiceManagementViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<InvoiceViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<OrderControlViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<OrderManagementViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<OrderManagementControlViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<OrderViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<ProductProcessEditorViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<SelectableContractViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<SelectableInvoiceViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<SelectableOrderViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<SalesPersonEditorViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<SalesPersonManagementViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<SelectableSalesPersonViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<UserControlViewModel>().AsSelf().InstancePerDependency();
         }
 
         private void RegisterServices(ContainerBuilder builder)
@@ -74,6 +77,12 @@ namespace WorldYachts
         private void RegisterModels(ContainerBuilder builder)
         {
             builder.RegisterType<UserModel>().AsSelf();
+        }
+
+        private void RegisterViews(ContainerBuilder builder)
+        {
+            builder.RegisterType<MainWindow>().AsSelf().InstancePerDependency();
+            builder.RegisterType<DashboardView>().InstancePerDependency();
         }
     }
 }

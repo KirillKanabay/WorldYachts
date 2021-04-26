@@ -35,11 +35,14 @@ namespace WorldYachts.ViewModel
         private DelegateCommand _openSampleMessageDialog;
 
         private readonly UserModel _userModel;
+        private readonly AuthUser _authUser;
+        private readonly MainWindow _mainWindow;
         #endregion
 
-        public LoginViewModel(UserModel userModel)
+        public LoginViewModel(UserModel userModel, AuthUser authUser)
         {
             _userModel = userModel;
+            _authUser = authUser;
         }
 
         #region Свойства
@@ -133,9 +136,9 @@ namespace WorldYachts.ViewModel
             try
             {
                 await Task.Run(() => _userModel.LoginAsync(_username, _password));
-                if (AuthUser.GetInstance().IsAuthenticated)
+                if (_authUser.IsAuthenticated)
                 {
-                    new MainWindow().Show();
+                    new MainWindow(_authUser).Show();
                     ((Window)parameter).Close();
                 }
             }

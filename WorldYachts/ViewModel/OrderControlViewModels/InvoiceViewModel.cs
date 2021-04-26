@@ -12,17 +12,22 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
 {
     class InvoiceViewModel:InvoiceManagementViewModel
     {
+        private readonly AuthUser _authUser;
+        public InvoiceViewModel(AuthUser authUser):base(authUser)
+        {
+            _authUser = authUser;
+        }
         public override ObservableCollection<BaseSelectableViewModel<Invoice>> FilteredCollection
         {
             get
             {
                 if (!string.IsNullOrWhiteSpace(_filterText))
                     return new ObservableCollection<BaseSelectableViewModel<Invoice>>(Filter(_filterText)
-                        .Where(i => i.Item.Contract.Order.CustomerId == AuthUser.GetInstance().User.Id));
+                        .Where(i => i.Item.Contract.Order.CustomerId == _authUser.User.Id));
 
                 return new ObservableCollection<BaseSelectableViewModel<Invoice>>
                 (ItemsCollection.
-                    Where(i => i.Item.Contract.Order.CustomerId == AuthUser.GetInstance().User.Id));
+                    Where(i => i.Item.Contract.Order.CustomerId == _authUser.User.Id));
             }
         }
     }

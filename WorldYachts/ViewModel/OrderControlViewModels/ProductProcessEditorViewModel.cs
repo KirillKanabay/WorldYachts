@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using WorldYachts.Data;
+using WorldYachts.Services;
 
 namespace WorldYachts.ViewModel.OrderControlViewModels
 {
@@ -9,12 +10,15 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
     {
         #region Конструкторы
 
-        public ProductProcessEditorViewModel(Contract contract) : base(contract)
+        private readonly AuthUser _authUser;
+        public ProductProcessEditorViewModel(Contract contract,AuthUser authUser) : base(contract,authUser)
         {
+            _authUser = authUser;
         }
 
-        public ProductProcessEditorViewModel()
+        public ProductProcessEditorViewModel(AuthUser authUser):base(authUser)
         {
+            _authUser = authUser;
         }
 
 

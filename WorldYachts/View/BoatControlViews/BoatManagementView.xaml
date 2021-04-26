@@ -10,9 +10,9 @@
     Background="#FAFAFA"
     FontFamily="Google Sans"
     mc:Ignorable="d">
-    <UserControl.DataContext>
+    <!--<UserControl.DataContext>
         <boatManagementViewModels:BoatManagementViewModel />
-    </UserControl.DataContext>
+    </UserControl.DataContext>-->
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

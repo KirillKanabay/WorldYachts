@@ -11,26 +11,26 @@ namespace WorldYachts.ViewModel.DashboardControlViewModels
 
         private string _typeOfUser;
 
-       
+        private readonly AuthUser _authUser;
         #endregion
 
         #region Конструкторы
-
-        public DashboardViewModel()
+        
+        public DashboardViewModel(AuthUser authUser)
         {
-            var authUser = AuthUser.GetInstance();
+            _authUser = authUser;
             _user = authUser.User;
             
-            _typeOfUser = AuthUser.GetInstance().Role;
+            _typeOfUser = _authUser.Role;
         }
 
         //#endregion
 
         //#region Свойства
 
-        public string Name => _user.FirstName;
+        public string Name => _user?.FirstName;
 
-        public string SecondName => _user.SecondName;
+        public string SecondName => _user?.SecondName;
 
         //public string TypeUser
         //{

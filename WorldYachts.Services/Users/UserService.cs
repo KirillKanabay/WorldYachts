@@ -8,10 +8,10 @@ namespace WorldYachts.Services.Users
         private readonly IWebClientService _webClient;
         private readonly AuthUser _authUser;
 
-        public UserService(IWebClientService webClient)
+        public UserService(IWebClientService webClient, AuthUser authUser)
         {
             _webClient = webClient;
-            _authUser = AuthUser.GetInstance();
+            _authUser = authUser;
         }
         
         public async Task AuthenticateAsync(string username, string password)

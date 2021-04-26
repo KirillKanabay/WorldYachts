@@ -15,7 +15,7 @@ using WorldYachts.ViewModel.BoatManagementViewModels;
 
 namespace WorldYachts.ViewModel.CatalogControlViewModels
 {
-    class CatalogControlViewModel : BaseManagementViewModel<Boat>
+    public class CatalogControlViewModel : BaseManagementViewModel<Boat>
     {
         #region Поля
 
@@ -44,12 +44,18 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
         private readonly IEnumerable<string> _mastTypes = new List<string>()
             {"Любой", "Присутствует", "Отсутствует"};
 
+        private readonly BoatViewModel _boatViewModel;
         #endregion
 
         #region Конструктор
 
         public CatalogControlViewModel()
         {
+            
+        }
+        public CatalogControlViewModel(BoatViewModel boatViewModel)
+        {
+            _boatViewModel = boatViewModel;
         }
 
         #endregion
@@ -179,7 +185,7 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
 
             foreach (var boat in items)
             {
-                collection.Add(new SelectableBoatViewModel(boat));
+                collection.Add(new SelectableBoatViewModel(boat,_boatViewModel));
             }
 
             return collection;

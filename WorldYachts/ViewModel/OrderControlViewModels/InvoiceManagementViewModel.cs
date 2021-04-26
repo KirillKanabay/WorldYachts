@@ -15,10 +15,12 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
 {
     class InvoiceManagementViewModel : BaseManagementViewModel<Invoice>
     {
+        private readonly AuthUser _authUser;
         #region Конструкторы
 
-        public InvoiceManagementViewModel()
+        public InvoiceManagementViewModel(AuthUser authUser)
         {
+            _authUser = authUser;
             OnItemChanged += () => { GetItemsCollection?.Execute(null); };
         }
 
@@ -32,7 +34,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
             {
                 var siCollection = ItemsCollection.Where(o => o.Item.Settled
                                                               && o.Item.Contract.Order.SalesPersonId ==
-                                                              AuthUser.GetInstance().User.Id);
+                                                              _authUser.User.Id);
                 //Invoices collection
                 var ic = new ObservableCollection<BaseSelectableViewModel<Invoice>>(siCollection);
                 
@@ -49,7 +51,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
             {
                 var nsiCollection = ItemsCollection.Where(o => !o.Item.Settled
                                                      && o.Item.Contract.Order.SalesPersonId ==
-                                                     AuthUser.GetInstance().User.Id);
+                                                    _authUser.User.Id);
 
                 var ic = new ObservableCollection<BaseSelectableViewModel<Invoice>>(nsiCollection);
 

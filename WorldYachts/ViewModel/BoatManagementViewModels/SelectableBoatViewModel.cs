@@ -14,14 +14,15 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
         #region Поля
 
         private readonly Boat _boat;
-
+        private readonly BoatViewModel _boatViewModel;
         #endregion
 
         #region Конструкторы
 
-        public SelectableBoatViewModel(Boat boat) : base(boat)
+        public SelectableBoatViewModel(Boat boat, BoatViewModel boatViewModel) : base(boat)
         {
             _boat = boat;
+            _boatViewModel = boatViewModel;
         }
 
         #endregion
@@ -126,7 +127,7 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
         {
             var view = new View.MessageDialogs.MessageDialog()
             {
-                DataContext = new MessageDialogViewModel(new BoatViewModel(Item))
+                DataContext = new MessageDialogViewModel(_boatViewModel)
             };
 
             var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);

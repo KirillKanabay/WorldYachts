@@ -26,15 +26,15 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
         private AsyncRelayCommand _setOrderStatus;
         private OrderStatus _os;
 
-        private AuthUser _authUser;
+        private readonly AuthUser _authUser;
 
         #endregion
 
         #region Конструкторы
 
-        public SelectableOrderViewModel(Order item) : base(item)
+        public SelectableOrderViewModel(Order item, AuthUser authUser) : base(item)
         {
-            _authUser = AuthUser.GetInstance();
+            _authUser = authUser;
         }
 
         #endregion

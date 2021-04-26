@@ -4,6 +4,7 @@
     {
         Customer = 0,
         SalesPerson = 1,
-        Admin = 10
+        Admin = 10,
+        Unauthorized = -1,
     }
 }

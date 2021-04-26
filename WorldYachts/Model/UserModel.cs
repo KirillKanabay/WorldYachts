@@ -15,10 +15,10 @@ namespace WorldYachts.Model
     {
         private readonly AuthUser _authUser;
         private readonly IUserService _userService;
-        public UserModel(IUserService userService)
+        public UserModel(IUserService userService, AuthUser authUser)
         {
             _userService = userService;
-            _authUser = AuthUser.GetInstance();
+            _authUser = authUser;
         }
         public User LastAddedItem { get; set; }
         public IUser LastAddedUser { get; set; }

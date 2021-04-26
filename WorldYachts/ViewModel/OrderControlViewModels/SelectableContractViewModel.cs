@@ -25,11 +25,15 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
 
         private AsyncRelayCommand _deposit;
         private AsyncRelayCommand _changeProductionProcess;
+        private readonly DepositEditorViewModel _depositEditorViewModel;
+        private readonly ProductProcessEditorViewModel _productProcessEditorViewModel;
         #endregion
 
         #region Конструкторы
 
-        public SelectableContractViewModel(Contract item) : base(item)
+        public SelectableContractViewModel(Contract item, 
+            DepositEditorViewModel depositEditorViewModel, 
+            ProductProcessEditorViewModel productProcessEditorViewModel) : base(item)
         {
             Id = item.Id;
             OrderId = item.OrderId;
@@ -40,6 +44,9 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
             ProductionProcess = item.ProductionProcess;
 
             _order = item.Order;
+
+            _depositEditorViewModel = depositEditorViewModel;
+            _productProcessEditorViewModel = productProcessEditorViewModel;
         }
 
         #endregion
@@ -152,7 +159,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
         {
             var view = new View.MessageDialogs.MessageDialog()
             {
-                DataContext = new MessageDialogViewModel(new DepositEditorViewModel(Item))
+                DataContext = new MessageDialogViewModel(_depositEditorViewModel)
             };
             var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
             
@@ -164,7 +171,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
         {
             var view = new View.MessageDialogs.MessageDialog()
             {
-                DataContext = new MessageDialogViewModel(new ProductProcessEditorViewModel(Item))
+                DataContext = new MessageDialogViewModel(_productProcessEditorViewModel)
             };
             var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
 

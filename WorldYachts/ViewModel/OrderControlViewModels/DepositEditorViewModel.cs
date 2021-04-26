@@ -12,13 +12,16 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
 {
     class DepositEditorViewModel:ContractEditorViewModel, IDataErrorInfo
     {
+        private readonly AuthUser _authUser;
         #region Конструкторы
-        public DepositEditorViewModel(Contract contract) : base(contract)
+        public DepositEditorViewModel(Contract contract,AuthUser authUser) : base(contract,authUser)
         {
+            _authUser = authUser;
         }
 
-        public DepositEditorViewModel()
+        public DepositEditorViewModel(AuthUser authUser):base(authUser)
         {
+            _authUser = authUser;
         }
 
         #endregion
@@ -33,7 +36,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
 
         protected override string GetSaveSnackbarMessage(bool _isEdit)
         {
-            return (AuthUser.GetInstance().TypeOfUser==TypeOfUser.SalesPerson)
+            return (_authUser.TypeOfUser==TypeOfUser.SalesPerson)
                 ? $"В контракт #{_contract.Id} внесена сумма: {Deposit:F2}₽":
                 $"Сумма: {Deposit:F2}₽ отправлена на рассмотрение. Контракт #{_contract.Id}";
         }

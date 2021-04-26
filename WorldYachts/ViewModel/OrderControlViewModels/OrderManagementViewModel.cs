@@ -16,10 +16,12 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
 {
     class OrderManagementViewModel : BaseManagementViewModel<Order>
     {
+        private readonly AuthUser _authUser;
         #region Конструкторы
 
-        public OrderManagementViewModel()
+        public OrderManagementViewModel(AuthUser authUser)
         {
+            _authUser = authUser;
             OnItemChanged += () =>
             {
                 GetItemsCollection?.Execute(null);
@@ -66,7 +68,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
             {
                 var ipCollection = ItemsCollection
                     .Where(o => o.Item.Status == (int) OrderStatus.Accepted
-                                && o.Item.SalesPersonId == AuthUser.GetInstance().User.Id);
+                                && o.Item.SalesPersonId == _authUser.User.Id);
                 var oc = new ObservableCollection<BaseSelectableViewModel<Order>>();
                 foreach (var order in ipCollection)
                 {
@@ -86,7 +88,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
             {
                 var ipCollection = ItemsCollection
                     .Where(o => o.Item.Status == (int) OrderStatus.Completed
-                                && o.Item.SalesPersonId == AuthUser.GetInstance().User.Id);
+                                && o.Item.SalesPersonId == _authUser.User.Id);
                 var oc = new ObservableCollection<BaseSelectableViewModel<Order>>();
                 foreach (var order in ipCollection)
                 {
@@ -107,7 +109,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
             {
                 var ipCollection = ItemsCollection
                     .Where(o => o.Item.Status == (int) OrderStatus.Canceled
-                                && o.Item.SalesPersonId == AuthUser.GetInstance().User.Id);
+                                && o.Item.SalesPersonId == _authUser.User.Id);
                 var oc = new ObservableCollection<BaseSelectableViewModel<Order>>();
                 foreach (var order in ipCollection)
                 {
@@ -165,7 +167,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
             OnPropertyChanged(nameof(ItemsCollection));
             foreach (var order in items)
             {
-                collection.Add(new SelectableOrderViewModel(order));
+                collection.Add(new SelectableOrderViewModel(order, _authUser));
             }
 
             return collection;

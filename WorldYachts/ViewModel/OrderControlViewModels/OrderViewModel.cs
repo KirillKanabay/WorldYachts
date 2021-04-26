@@ -11,8 +11,10 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
 {
     class OrderViewModel : BaseManagementViewModel<Order>
     {
-        public OrderViewModel()
+        private readonly AuthUser _authUser;
+        public OrderViewModel(AuthUser authUser)
         {
+            _authUser = authUser;
             OnItemChanged?.Invoke();
         }
 
@@ -22,10 +24,10 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
             {
                 if (!string.IsNullOrWhiteSpace(_filterText))
                     return new ObservableCollection<BaseSelectableViewModel<Order>>(Filter(_filterText)
-                        .Where(i => i.Item.CustomerId == AuthUser.GetInstance().User.Id));
+                        .Where(i => i.Item.CustomerId == _authUser.User.Id));
 
                 return new ObservableCollection<BaseSelectableViewModel<Order>>(
-                    ItemsCollection.Where(i => i.Item.CustomerId == AuthUser.GetInstance().User.Id));
+                    ItemsCollection.Where(i => i.Item.CustomerId == _authUser.User.Id));
             }
         }
 
@@ -39,7 +41,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
             OnPropertyChanged(nameof(ItemsCollection));
             foreach (var order in items)
             {
-                collection.Add(new SelectableOrderViewModel(order));
+                collection.Add(new SelectableOrderViewModel(order,_authUser));
             }
 
             return collection;

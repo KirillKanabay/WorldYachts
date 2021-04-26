@@ -33,20 +33,22 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
             EnumWorker.GetDescription(ProductionProcess.Finishing),
             EnumWorker.GetDescription(ProductionProcess.Finished),
         };
+
+        private readonly AuthUser _authUser;
         #endregion
 
         #region Конструкторы
-        public ContractEditorViewModel(Contract contract) : base(true)
+        public ContractEditorViewModel(Contract contract,AuthUser authUser) : base(true)
         {
             _id = contract.Id;
             _productionProcess = contract.ProductionProcess;
-
+            _authUser = authUser;
             _contract = contract;
         }
 
-        public ContractEditorViewModel():base(false)
+        public ContractEditorViewModel(AuthUser authUser):base(false)
         {
-            
+            _authUser = authUser;
         }
 
         #endregion
@@ -102,7 +104,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
                 invoice = new Invoice()
                 {
                     ContractId = item.Id,
-                    Settled = AuthUser.GetInstance().TypeOfUser == TypeOfUser.SalesPerson,
+                    Settled = _authUser.TypeOfUser == TypeOfUser.SalesPerson,
                     //Если внесено больше, чем требуется, пополняем оставшуюся сумму контракта
                     Sum = (item.DepositPayed + Deposit > item.ContractTotalPriceInclVat)
                         ? item.ContractTotalPriceInclVat - item.DepositPayed

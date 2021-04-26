@@ -14,9 +14,6 @@
     FontFamily="Google Sans"
     FontSize="16"
     mc:Ignorable="d">
-    <UserControl.DataContext>
-        <dashboardControlViewModels:DashboardViewModel/>
-    </UserControl.DataContext>
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />

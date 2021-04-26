@@ -38,18 +38,22 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
         private double _vat;
         private string _deliveryAddress;
         private string _deliveryCity;
-        private AuthUser _authUser; 
 
         private AsyncRelayCommand _addOrder;
 
         public static Action<object> OnAccessoryChanged;
 
         private OrderModel _orderModel;
+        private readonly AuthUser _authUser;
         #endregion
 
         #region Конструкторы
 
-        public BoatViewModel(Boat boat):base(false)
+        public BoatViewModel(AuthUser authUser):base(false)
+        {
+            _authUser = authUser;
+        }
+        public BoatViewModel(Boat boat, AuthUser authUser):base(false)
         {
             _id = boat.Id;
             _model = boat.Model;
@@ -64,7 +68,7 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
 
             _orderModel = new OrderModel();
 
-            _authUser = AuthUser.GetInstance();
+            _authUser = authUser;
 
             OnAccessoryChanged += (arg) =>
             {

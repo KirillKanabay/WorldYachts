@@ -9,6 +9,7 @@ using MaterialDesignThemes.Wpf;
 using Microsoft.EntityFrameworkCore;
 using WorldYachts.Infrastructure;
 using WorldYachts.Data;
+using WorldYachts.Services;
 using WorldYachts.View;
 using WorldYachts.ViewModel;
 
@@ -21,10 +22,11 @@ namespace WorldYachts
     {
         public static Action<string> SendSnackbarAction;
         public static Func<MainWindow> GetMainWindow;
-        public MainWindow()
+        public MainWindow(AuthUser authUser)
         {
+            DataContext = new MainViewModel(authUser);
             InitializeComponent();
-            
+
             SendSnackbarAction += SendSnackbar;
             GetMainWindow += () => this;
             HeaderPanel.MouseDown += (s,e)=>
@@ -49,7 +51,7 @@ namespace WorldYachts
         }
         public static void ShowWindow()
         {
-            ((Window) new MainWindow()).Show();
+            //((Window) new MainWindow()).Show();
         }
 
         private void DragWindow(object sender, MouseButtonEventArgs e)

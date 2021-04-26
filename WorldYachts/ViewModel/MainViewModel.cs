@@ -6,6 +6,7 @@ using WorldYachts.Data;
 using WorldYachts.Helpers;
 using WorldYachts.Services;
 using WorldYachts.View;
+using WorldYachts.ViewModel.AccessoryControlViewModels;
 using WorldYachts.ViewModel.BaseViewModels;
 using WorldYachts.ViewModel.BoatManagementViewModels;
 using WorldYachts.ViewModel.CatalogControlViewModels;
@@ -17,7 +18,7 @@ namespace WorldYachts.ViewModel
     /// <summary>
     /// VM главного окна
     /// </summary>
-    class MainViewModel:BaseViewModel
+    public class MainViewModel:BaseViewModel
     {
         #region Поля
 
@@ -25,11 +26,16 @@ namespace WorldYachts.ViewModel
         private DelegateCommand _logout;
 
         private BaseViewModel _currentViewModel;
+        private readonly AuthUser _authUser;
+
+        private readonly DashboardViewModel _dashboardViewModel;
+        private readonly CatalogControlViewModel _catalogControlViewModel;
         #endregion
 
-        public MainViewModel()
+        public MainViewModel(AuthUser authUser)
         {
-            _currentViewModel = new DashboardViewModel();
+            _authUser = authUser;
+            CurrentViewModel = new DashboardViewModel(_authUser);
         }
 
         #region Свойства
@@ -48,19 +54,19 @@ namespace WorldYachts.ViewModel
         }
 
         public Visibility BoatManagementVisibility =>
-            (AuthUser.GetInstance().TypeOfUser == TypeOfUser.Customer) ? Visibility.Collapsed : Visibility.Visible;
+            (_authUser.TypeOfUser == TypeOfUser.Customer) ? Visibility.Collapsed : Visibility.Visible;
         
         public Visibility AccessoryManagementVisibility =>
-            (AuthUser.GetInstance().TypeOfUser == TypeOfUser.Customer) ? Visibility.Collapsed : Visibility.Visible;
+            (_authUser.TypeOfUser == TypeOfUser.Customer) ? Visibility.Collapsed : Visibility.Visible;
         
         public Visibility UserManagementVisibility =>
-            (AuthUser.GetInstance().TypeOfUser == TypeOfUser.Admin) ? Visibility.Visible : Visibility.Collapsed;
+            (_authUser.TypeOfUser == TypeOfUser.Admin) ? Visibility.Visible : Visibility.Collapsed;
 
         public Visibility OrdersManagementVisibility =>
-            (AuthUser.GetInstance().TypeOfUser == TypeOfUser.SalesPerson) ? Visibility.Visible : Visibility.Collapsed;
+            (_authUser.TypeOfUser == TypeOfUser.SalesPerson) ? Visibility.Visible : Visibility.Collapsed;
         
         public Visibility OrdersVisibility =>
-            (AuthUser.GetInstance().TypeOfUser == TypeOfUser.Customer) ? Visibility.Visible : Visibility.Collapsed;
+            (_authUser.TypeOfUser == TypeOfUser.Customer) ? Visibility.Visible : Visibility.Collapsed;
 
         #endregion
 
@@ -81,7 +87,7 @@ namespace WorldYachts.ViewModel
                     switch (viewModelName)
                     {
                         case "Dashboard":
-                            CurrentViewModel = new DashboardViewModel();
+                            CurrentViewModel = new DashboardViewModel(_authUser);
                             break;
                         case "Catalog":
                             CurrentViewModel = new CatalogControlViewModel();
@@ -95,10 +101,9 @@ namespace WorldYachts.ViewModel
                         case "BoatManagement":
                             CurrentViewModel = new BoatManagementViewModel();
                             break;
-                        //case "AccessoryManagement":
-                        //    new NavigateCommand<AccessoryControlViewModel>(_navigationStore,
-                        //        () => new AccessoryControlViewModel()).Execute(null);
-                        //    break;
+                        case "AccessoryManagement":
+                            CurrentViewModel = new AccessoryManagementViewModel();
+                            break;
                         //case "UserManagement":
                         //    new NavigateCommand<UserControlViewModel>(_navigationStore,
                         //        () => new UserControlViewModel()).Execute(null);

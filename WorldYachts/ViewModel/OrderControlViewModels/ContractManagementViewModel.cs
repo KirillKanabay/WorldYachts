@@ -5,15 +5,18 @@ using System.Linq;
 using System.Text;
 using WorldYachts.Data;
 using WorldYachts.Model;
+using WorldYachts.Services;
 using WorldYachts.ViewModel.BaseViewModels;
 
 namespace WorldYachts.ViewModel.OrderControlViewModels
 {
     class ContractManagementViewModel:BaseManagementViewModel<Contract>
     {
+        private readonly AuthUser _authUser;
         #region Конструкторы
-        public ContractManagementViewModel()
+        public ContractManagementViewModel(AuthUser authUser)
         {
+            _authUser = authUser;
         }
 
         #endregion
@@ -29,7 +32,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
             var collection = new ObservableCollection<BaseSelectableViewModel<Contract>>();
             foreach (var contract in items)
             {
-                collection.Add(new SelectableContractViewModel(contract));
+                collection.Add(new SelectableContractViewModel(contract, new DepositEditorViewModel(_authUser),new ProductProcessEditorViewModel(_authUser) ));
             }
 
             return collection;
