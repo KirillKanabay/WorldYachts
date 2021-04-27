@@ -14,12 +14,10 @@ namespace WorldYachts.Services.Users
             _authUser = authUser;
         }
         
-        public async Task AuthenticateAsync(string username, string password)
+        public async Task AuthenticateAsync(AuthenticateRequest request)
         {
-            var requestData = new AuthenticateRequest(){Username = username, Password = password};
-           
-            var response = await _webClient
-                .PostAsync<AuthenticateRequest, AuthenticateResponse>("users/authenticate", requestData);
+           var response = await _webClient
+                .PostAsync<AuthenticateRequest, AuthenticateResponse>("users/authenticate", request);
 
             if (response != null)
             {

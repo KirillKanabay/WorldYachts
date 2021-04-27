@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using WorldYachts.Services.Authenticate;
 
 namespace WorldYachts.Services.Users
 {
     public interface IUserService
     {
-        Task AuthenticateAsync(string username, string password);
+        Task AuthenticateAsync(AuthenticateRequest request);
     }
 }

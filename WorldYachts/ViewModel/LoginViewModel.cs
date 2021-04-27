@@ -5,15 +5,14 @@ using System.Threading.Tasks;
 using System.Windows;
 using MaterialDesignThemes.Wpf;
 using WorldYachts.Helpers;
-using WorldYachts.Data;
 using WorldYachts.Helpers.Commands;
 using WorldYachts.Model;
 using WorldYachts.Services;
+using WorldYachts.Services.Authenticate;
 using WorldYachts.Validators;
 using WorldYachts.View;
 using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BaseViewModels;
-using WorldYachts.ViewModel.DashboardControlViewModels;
 using WorldYachts.ViewModel.MessageDialog;
 using Validation = WorldYachts.Validators.Validation;
 
@@ -23,8 +22,7 @@ namespace WorldYachts.ViewModel
     {
         #region Поля
 
-        private string _username;
-        private string _password;
+        private readonly AuthenticateRequest _request;
 
         private bool _signOutCheck;
         private bool _inputIsEnabled = true;
@@ -43,6 +41,7 @@ namespace WorldYachts.ViewModel
 
         public LoginViewModel(UserModel userModel, AuthUser authUser, ViewModelContainer viewModelContainer)
         {
+            _request = new AuthenticateRequest();
             _userModel = userModel;
             _authUser = authUser;
             _viewModelContainer = viewModelContainer;
@@ -55,10 +54,10 @@ namespace WorldYachts.ViewModel
         /// </summary>
         public string Username
         {
-            get => _username;
+            get => _request.Username;
             set
             {
-                _username = value;
+                _request.Username = value;
                 OnPropertyChanged();
             }
         }
@@ -67,10 +66,10 @@ namespace WorldYachts.ViewModel
         /// </summary>
         public string Password
         {
-            get => _password;
+            get => _request.Password;
             set
             {
-                _password = value;
+                _request.Password = value;
                 OnPropertyChanged();
             }
         }
@@ -138,7 +137,7 @@ namespace WorldYachts.ViewModel
             InputIsEnabled = false;
             try
             {
-                await Task.Run(() => _userModel.LoginAsync(_username, _password));
+                await Task.Run(() => _userModel.LoginAsync(_request));
                 if (_authUser.IsAuthenticated)
                 {
                     _mainWindow = new MainWindow(_viewModelContainer.GetViewModel<MainViewModel>());

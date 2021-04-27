@@ -6,6 +6,7 @@ using WorldYachts.Data;
 using WorldYachts.Data.Entities;
 using WorldYachts.Infrastructure;
 using WorldYachts.Services;
+using WorldYachts.Services.Authenticate;
 using WorldYachts.Services.Users;
 using Customer = WorldYachts.Data.Customer;
 
@@ -99,9 +100,9 @@ namespace WorldYachts.Model
             }
         }
 
-        public async Task LoginAsync(string username, string password)
+        public async Task LoginAsync(AuthenticateRequest request)
         {
-            await _userService.AuthenticateAsync(username, password);
+            await _userService.AuthenticateAsync(request);
             //var us = new UserService();
             //await us.LoginAsync(login, password);
 
