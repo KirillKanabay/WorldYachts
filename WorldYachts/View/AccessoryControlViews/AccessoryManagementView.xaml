@@ -126,15 +126,7 @@
                         IsReadOnly="True" />
                     <materialDesign:DataGridTextColumn
                         Binding="{Binding Item.Inventory}"
-                        Header="Инв. №"
-                        IsReadOnly="True" />
-                    <materialDesign:DataGridTextColumn
-                        Binding="{Binding Item.OrderLevel}"
-                        Header="Ур. доставки"
-                        IsReadOnly="True" />
-                    <materialDesign:DataGridTextColumn
-                        Binding="{Binding Item.OrderLevel}"
-                        Header="№ партии"
+                        Header="Количество на складе"
                         IsReadOnly="True" />
                     <materialDesign:DataGridTextColumn
                         Binding="{Binding Item.Partner.Name}"

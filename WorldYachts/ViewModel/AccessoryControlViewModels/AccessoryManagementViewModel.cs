@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
-using WorldYachts.Data;
 using WorldYachts.Data.Entities;
 using WorldYachts.Model;
 using WorldYachts.ViewModel.BaseViewModels;
@@ -15,6 +14,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             AccessoryEditorViewModel accessoryEditorViewModel)
             :base(accessoryModel, accessoryEditorViewModel)
         {
+            Console.WriteLine();
         }
         protected override ObservableCollection<BaseSelectableViewModel<Accessory>> GetSelectableViewModels(IEnumerable<Accessory> items)
         {

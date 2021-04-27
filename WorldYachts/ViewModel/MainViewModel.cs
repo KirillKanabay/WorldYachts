@@ -103,7 +103,7 @@ namespace WorldYachts.ViewModel
                             CurrentViewModel = new BoatManagementViewModel();
                             break;
                         case "AccessoryManagement":
-                            CurrentViewModel = _viewModelContainer.GetViewModel<AccessoryManagementViewModel>();
+                            CurrentViewModel = _viewModelContainer.GetViewModel<AccessoryControlViewModel>();
                             break;
                         //case "UserManagement":
                         //    new NavigateCommand<UserControlViewModel>(_navigationStore,
