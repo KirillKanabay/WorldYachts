@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using MaterialDesignThemes.Wpf;
 using WorldYachts.Data;
+using WorldYachts.Data.Entities;
 using WorldYachts.Helpers.Commands;
 using WorldYachts.Model;
 using WorldYachts.Validators;
@@ -84,7 +85,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         
         public override bool SaveButtonIsEnabled => ErrorDictionary.Count == 0;
 
-        public override IDataModel<Partner> ModelItem => new PartnerModel();
+        public override IDataModel<Partner> ModelItem => null;
 
         #endregion
         

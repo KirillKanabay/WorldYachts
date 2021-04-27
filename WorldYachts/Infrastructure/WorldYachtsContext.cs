@@ -44,10 +44,6 @@ namespace WorldYachts.Infrastructure
         /// </summary>
         public DbSet<OrderDetails> OrderDetails { get; set; }
         /// <summary>
-        /// Партнеры
-        /// </summary>
-        public DbSet<Data.Partner> Partners { get; set; }
-        /// <summary>
         /// Менеджеры
         /// </summary>
         public DbSet<SalesPerson> SalesPersons { get; set; }

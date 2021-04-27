@@ -10,7 +10,6 @@ using WorldYachts.Data.Entities;
 using WorldYachts.Model;
 using WorldYachts.Validators;
 using WorldYachts.ViewModel.BaseViewModels;
-using Partner = WorldYachts.Data.Partner;
 
 namespace WorldYachts.ViewModel.AccessoryControlViewModels
 {

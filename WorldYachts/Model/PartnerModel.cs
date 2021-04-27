@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using WorldYachts.Data;
-using WorldYachts.Infrastructure;
+using WorldYachts.Data.Entities;
+using WorldYachts.Services.Partner;
 
 namespace WorldYachts.Model
 {
     class PartnerModel : IDataModel<Partner>
     {
+        private readonly IPartnerService _partnerService;
+        public PartnerModel(IPartnerService partnerService)
+        {
+            _partnerService = partnerService;
+        }
         public Partner LastAddedItem { get; set; }
 
         /// <summary>
@@ -19,14 +21,7 @@ namespace WorldYachts.Model
         /// <returns></returns>
         public async Task AddAsync(Partner partner)
         {
-            await IsRepeated(partner);
-            await using (var context = WorldYachtsContext.GetDataContext())
-            {
-                await context.Partners.AddAsync(partner);
-                await context.SaveChangesAsync();
-
-                LastAddedItem = partner;
-            }
+            await _partnerService.AddAsync(partner);
         }
         /// <summary>
         /// Асинхронный метод загрузки партнеров из БД
@@ -34,19 +29,9 @@ namespace WorldYachts.Model
         /// <returns>Коллекция партнеров</returns>
         public async Task<IEnumerable<Partner>> GetAllAsync()
         {
-            return await Task.Run(() => Load());
+            return await _partnerService.GetAllAsync();
         }
-        /// <summary>
-        /// Синхронный метод загрузки партнеров из БД
-        /// </summary>
-        /// <returns>Коллекция партнеров</returns>
-        public IEnumerable<Partner> Load()
-        {
-            using (var context = WorldYachtsContext.GetDataContext())
-            {
-                return context.Partners.Where(i=>!i.IsDeleted).ToList();
-            }
-        }
+        
         /// <summary>
         /// Асинхронный метод удаления коллекции партнеров из БД
         /// </summary>
@@ -54,13 +39,9 @@ namespace WorldYachts.Model
         /// <returns></returns>
         public async Task DeleteAsync(IEnumerable<Partner> removePartners)
         {
-            await using (var context = WorldYachtsContext.GetDataContext())
+            foreach (var removePartner in removePartners)
             {
-                foreach (var removePartner in removePartners)
-                {
-                    removePartner.IsDeleted = true;
-                    await UpdateAsync(removePartner);
-                }
+                await _partnerService.DeleteAsync(removePartner.Id);
             }
         }
         /// <summary>
@@ -70,47 +51,12 @@ namespace WorldYachts.Model
         /// <returns></returns>
         public async Task UpdateAsync(Partner partner)
         {
-            await IsRepeated(partner);
-            await using (var context = WorldYachtsContext.GetDataContext())
-            {
-                var dbPartner = context.Partners.FirstOrDefault(p => p.Id == partner.Id);
-
-                //Копируем измененного партнера в БД
-                dbPartner.Name = partner.Name;
-                dbPartner.Address = partner.Address;
-                dbPartner.City = partner.City;
-                dbPartner.IsDeleted = partner.IsDeleted;
-
-                await context.SaveChangesAsync();
-            }
+            await _partnerService.UpdateAsync(partner.Id, partner);
         }
-        /// <summary>
-        /// Проверка идентичного партнера в БД
-        /// </summary>
-        /// <param name="partner"></param>
-        /// <returns></returns>
-        public async Task IsRepeated(Partner partner)
-        {
-            await using (var context = WorldYachtsContext.GetDataContext())
-            {
-                if (context.Partners.ToList().Any(c => c.CompareTo(partner) == 0))
-                {
-                    throw new ArgumentException("Такой уже существует.");
-                }
-            }
-        }
-
+        
         public async Task<Partner> GetByIdAsync(int id)
         {
-            return await Task.Run((() => GetItemById(id)));
-        }
-
-        public Partner GetItemById(int id)
-        {
-            using (var context = WorldYachtsContext.GetDataContext())
-            {
-                return context.Partners.FirstOrDefault(p => p.Id == id);
-            }
+            return await _partnerService.GetByIdAsync(id);
         }
     }
 }
