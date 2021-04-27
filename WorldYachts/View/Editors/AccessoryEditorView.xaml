@@ -71,10 +71,10 @@
                     </Binding>
                 </TextBox.Text>
             </TextBox>
-            <!--  Инвентарный номер  -->
+            <!--  Количество на складе  -->
             <TextBox Margin="0,8,0,15" Style="{StaticResource InputTextBox}">
                 <materialDesign:HintAssist.Hint>
-                    <TextBlock>Инвентарный номер</TextBlock>
+                    <TextBlock>Количество на складе</TextBlock>
                 </materialDesign:HintAssist.Hint>
                 <TextBox.Text>
                     <Binding Path="Inventory" UpdateSourceTrigger="PropertyChanged">
@@ -84,34 +84,8 @@
                     </Binding>
                 </TextBox.Text>
             </TextBox>
-            <!--  Уровень доставки  -->
-            <TextBox Margin="0,8,0,15" Style="{StaticResource InputTextBox}">
-                <materialDesign:HintAssist.Hint>
-                    <TextBlock>Уровень доставки</TextBlock>
-                </materialDesign:HintAssist.Hint>
-                <TextBox.Text>
-                    <Binding Path="OrderLevel" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <DataErrorValidationRule />
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
         </StackPanel>
         <StackPanel Grid.Row="1" Grid.Column="1">
-            <!--  Номер партии  -->
-            <TextBox Margin="0,8,0,15" Style="{StaticResource InputTextBox}">
-                <materialDesign:HintAssist.Hint>
-                    <TextBlock>Номер партии</TextBlock>
-                </materialDesign:HintAssist.Hint>
-                <TextBox.Text>
-                    <Binding Path="OrderBatch" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <DataErrorValidationRule />
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
             <!--  Партнер  -->
             <ComboBox
                 Margin="0,3,0,0"
