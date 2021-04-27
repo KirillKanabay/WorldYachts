@@ -126,7 +126,7 @@ namespace WorldYachts.ViewModel.BaseViewModels
         /// Запуск диалога сообщения
         /// </summary>
         /// <param name="o"></param>
-        private async void ExecuteRunDialog(object o)
+        protected async void ExecuteRunDialog(object o)
         {
             var view = new SampleMessageDialog()
             {

@@ -5,7 +5,7 @@ using WorldYachts.Services.Partner;
 
 namespace WorldYachts.Model
 {
-    class PartnerModel : IDataModel<Partner>
+    public class PartnerModel : IDataModel<Partner>
     {
         private readonly IPartnerService _partnerService;
         public PartnerModel(IPartnerService partnerService)

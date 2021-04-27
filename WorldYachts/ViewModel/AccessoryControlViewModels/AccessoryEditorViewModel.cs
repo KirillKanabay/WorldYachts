@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Printing.IndexedProperties;
-using System.Text;
-using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 using WorldYachts.Data.Entities;
+using WorldYachts.Helpers;
+using WorldYachts.Helpers.Commands;
 using WorldYachts.Model;
 using WorldYachts.Validators;
+using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BaseViewModels;
 
 namespace WorldYachts.ViewModel.AccessoryControlViewModels
@@ -18,23 +18,29 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         #region Поля
 
         private readonly Accessory _accessory;
-        private List<Partner> _partners;
         private readonly IDataModel<Accessory> _accessoryModel;
+        private readonly PartnerModel _partnerModel;
+        private List<Partner> _partnersCollection;
+        private Partner _selectedPartner;
+        private AsyncRelayCommand _loadedCommand;
         #endregion
 
         #region Конструкторы
-        public AccessoryEditorViewModel(Data.Entities.Accessory accessory, AccessoryModel accessoryModel) : base(true)
+        public AccessoryEditorViewModel(AccessoryModel accessoryModel, PartnerModel partnerModel, EntityContainer entityContainer) : base(false)
         {
-            _accessory = accessory;
             _accessoryModel = accessoryModel;
+            _partnerModel = partnerModel;
+
+            if (!entityContainer.IsEmpty)
+            {
+                _accessory = entityContainer.Pop<Accessory>();
+            }
+            else
+            {
+                _accessory = new Accessory();
+            }
         }
 
-        public AccessoryEditorViewModel(AccessoryModel accessoryModel):base(false)
-        {
-            _accessory = new Accessory();
-            _accessoryModel = accessoryModel;
-            //_partners = new PartnerModel().Load().ToList();
-        }
         #endregion
 
         #region Свойства
@@ -88,30 +94,39 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
                 OnPropertyChanged(nameof(Inventory));
             }
         }
-        
-        public ObservableCollection<string> Partners
-        {
-            get
-            {
-                //var partnersCollection = new ObservableCollection<string>();
-                //if (_partners != null)
-                //{
-                //    foreach (var partner in _partners?.Select(p => p.Name))
-                //    {
-                //        partnersCollection.Add(partner);
-                //    }
-                //}
-                
 
-                //return partnersCollection;
-                return null;
+        public Partner SelectedPartner
+        {
+            get => _selectedPartner;
+            set
+            {
+                _selectedPartner = value;
+                _accessory.PartnerId = _selectedPartner.Id;
+                OnPropertyChanged(nameof(SelectedPartner));
             }
-        } 
+        }
+        public List<Partner> PartnersCollection => _partnersCollection;
 
         public override bool SaveButtonIsEnabled => ErrorDictionary.Count == 0;
         public override IDataModel<Accessory> ModelItem => _accessoryModel;
 
         #endregion
+        public AsyncRelayCommand LoadedCommand
+        {
+            get
+            {
+                return _loadedCommand ??= new AsyncRelayCommand(GetPartners, (ex) =>
+                {
+                    ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message });
+                });
+            }
+        }
+
+        private async Task GetPartners(object parameter)
+        {
+            _partnersCollection = (await _partnerModel.GetAllAsync()).ToList();
+            OnPropertyChanged(nameof(PartnersCollection));
+        }
 
         protected override Accessory GetSaveItem(bool isEdit) => _accessory;
 

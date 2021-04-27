@@ -8,7 +8,7 @@ namespace WorldYachts.Services.Partner
     public class PartnerService:IPartnerService
     {
         private readonly IWebClientService _webClient;
-        private const string Path = "accessories";
+        private const string Path = "partners";
 
         public PartnerService(IWebClientService webClient)
         {

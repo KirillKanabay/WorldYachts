@@ -132,7 +132,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             }
         }
 
-        protected override BaseViewModel GetEditorViewModel() => new AccessoryEditorViewModel(_item, _accessoryModel);
+        protected override BaseViewModel GetEditorViewModel() => null;
 
         protected override MessageDialogProperty GetConfirmDeleteDialogProperty()
         {

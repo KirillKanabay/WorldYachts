@@ -15,7 +15,7 @@ using WorldYachts.ViewModel.DashboardControlViewModels;
 using WorldYachts.ViewModel.OrderControlViewModels;
 using WorldYachts.ViewModel.UserControlViewModels;
 
-namespace WorldYachts
+namespace WorldYachts.Helpers
 {
     internal class ConfigureContainer:Module
     {
@@ -24,7 +24,8 @@ namespace WorldYachts
             builder.RegisterType<WebClientService>().As<IWebClientService>().SingleInstance();
             builder.RegisterType<AuthUser>().AsSelf().SingleInstance();
             builder.RegisterType<ViewModelContainer>().AsSelf();
-            
+            builder.RegisterType<EntityContainer>().AsSelf().SingleInstance();
+
             RegisterViewModels(builder);
             RegisterServices(builder);
             RegisterModels(builder);
@@ -85,6 +86,7 @@ namespace WorldYachts
         private void RegisterModels(ContainerBuilder builder)
         {
             builder.RegisterType<UserModel>().AsSelf();
+            builder.RegisterType<PartnerModel>().AsSelf();
             builder.RegisterType<AccessoryModel>().AsSelf();
         }
 
