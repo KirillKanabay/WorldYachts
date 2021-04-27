@@ -2,7 +2,9 @@
 using WorldYachts.Model;
 using WorldYachts.Services;
 using WorldYachts.Services.Accessory;
+using WorldYachts.Services.AccessoryToBoat;
 using WorldYachts.Services.Boat;
+using WorldYachts.Services.Partner;
 using WorldYachts.Services.Users;
 using WorldYachts.View.DashboardControlViews;
 using WorldYachts.ViewModel;
@@ -76,6 +78,8 @@ namespace WorldYachts
             builder.RegisterType<UserService>().As<IUserService>();
             builder.RegisterType<BoatService>().As<IBoatService>();
             builder.RegisterType<AccessoryService>().As<IAccessoryService>();
+            builder.RegisterType<AccessoryToBoatService>().As<IAccessoryToBoatService>();
+            builder.RegisterType<PartnerService>().As<IPartnerService>();
         }
 
         private void RegisterModels(ContainerBuilder builder)
