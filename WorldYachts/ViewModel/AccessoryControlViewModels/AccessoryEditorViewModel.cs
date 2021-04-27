@@ -34,7 +34,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         {
             _accessory = new Accessory();
             _accessoryModel = accessoryModel;
-            _partners = new PartnerModel().Load().ToList();
+            //_partners = new PartnerModel().Load().ToList();
         }
         #endregion
 
@@ -94,17 +94,18 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         {
             get
             {
-                var partnersCollection = new ObservableCollection<string>();
-                if (_partners != null)
-                {
-                    foreach (var partner in _partners?.Select(p => p.Name))
-                    {
-                        partnersCollection.Add(partner);
-                    }
-                }
+                //var partnersCollection = new ObservableCollection<string>();
+                //if (_partners != null)
+                //{
+                //    foreach (var partner in _partners?.Select(p => p.Name))
+                //    {
+                //        partnersCollection.Add(partner);
+                //    }
+                //}
                 
 
-                return partnersCollection;
+                //return partnersCollection;
+                return null;
             }
         } 
 

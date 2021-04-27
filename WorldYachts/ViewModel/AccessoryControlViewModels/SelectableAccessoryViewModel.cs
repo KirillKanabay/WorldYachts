@@ -89,7 +89,6 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         }
 
         public decimal PriceInclVat => Price + (Convert.ToDecimal(Vat * 0.01) * Price);
-        //public override BaseEditorViewModel<Data.Entities.Accessory> Editor => new AccessoryEditorViewModel();
 
         public override bool IsSelected
         {
