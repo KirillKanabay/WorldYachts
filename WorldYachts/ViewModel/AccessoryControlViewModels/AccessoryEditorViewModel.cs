@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
+using System.Windows;
 using WorldYachts.Data.Entities;
 using WorldYachts.Helpers;
 using WorldYachts.Helpers.Commands;
@@ -13,27 +15,36 @@ using WorldYachts.ViewModel.BaseViewModels;
 
 namespace WorldYachts.ViewModel.AccessoryControlViewModels
 {
-    class AccessoryEditorViewModel:BaseEditorViewModel<Accessory>, IDataErrorInfo
+    class AccessoryEditorViewModel : BaseViewModel, IDataErrorInfo
     {
         #region Поля
 
-        private readonly Accessory _accessory;
-        private readonly IDataModel<Accessory> _accessoryModel;
+        private readonly AccessoryModel _accessoryModel;
         private readonly PartnerModel _partnerModel;
+
+        private readonly Accessory _accessory;
+
         private List<Partner> _partnersCollection;
         private Partner _selectedPartner;
-        private AsyncRelayCommand _loadedCommand;
+
+        private Visibility _progressBarVisibility = Visibility.Collapsed;
+
+        private readonly bool _isEdit;
+
         #endregion
 
         #region Конструкторы
-        public AccessoryEditorViewModel(AccessoryModel accessoryModel, PartnerModel partnerModel, EntityContainer entityContainer) : base(false)
+
+        public AccessoryEditorViewModel(AccessoryModel accessoryModel, PartnerModel partnerModel,
+            EntityContainer entityContainer)
         {
             _accessoryModel = accessoryModel;
             _partnerModel = partnerModel;
-
+            
             if (!entityContainer.IsEmpty)
             {
                 _accessory = entityContainer.Pop<Accessory>();
+                _isEdit = true;
             }
             else
             {
@@ -44,6 +55,16 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         #endregion
 
         #region Свойства
+
+        public Visibility ProgressBarVisibility
+        {
+            get => _progressBarVisibility;
+            set
+            {
+                _progressBarVisibility = value;
+                OnPropertyChanged(nameof(ProgressBarVisibility));
+            }
+        }
 
         public string Name
         {
@@ -105,22 +126,23 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
                 OnPropertyChanged(nameof(SelectedPartner));
             }
         }
-        public List<Partner> PartnersCollection => _partnersCollection;
 
-        public override bool SaveButtonIsEnabled => ErrorDictionary.Count == 0;
-        public override IDataModel<Accessory> ModelItem => _accessoryModel;
+        public List<Partner> PartnersCollection => _partnersCollection;
+        public bool SaveButtonIsEnabled => _errors.Count == 0;
 
         #endregion
-        public AsyncRelayCommand LoadedCommand
-        {
-            get
-            {
-                return _loadedCommand ??= new AsyncRelayCommand(GetPartners, (ex) =>
-                {
-                    ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message });
-                });
-            }
-        }
+
+        #region Команды
+
+        public AsyncRelayCommand LoadedCommand => new AsyncRelayCommand(GetPartners,
+            (ex) => { ExecuteRunDialog(new MessageDialogProperty() {Title = "Ошибка", Message = ex.Message}); });
+
+        public AsyncRelayCommand SaveItem => new AsyncRelayCommand(SaveMethod,
+            (ex) => { ExecuteRunDialog(new MessageDialogProperty() {Title = "Ошибка", Message = ex.Message}); });
+
+        #endregion
+
+        #region Методы
 
         private async Task GetPartners(object parameter)
         {
@@ -128,25 +150,41 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             OnPropertyChanged(nameof(PartnersCollection));
         }
 
-        protected override Accessory GetSaveItem(bool isEdit) => _accessory;
-
-        protected override string GetSaveSnackbarMessage(bool _isEdit)
+        private async Task SaveMethod(object parameter)
         {
-            return _isEdit
+            ProgressBarVisibility = Visibility.Visible;
+            if (_isEdit)
+            {
+                await _accessoryModel.UpdateAsync(_accessory);
+            }
+            else
+            {
+                await _accessoryModel.AddAsync(_accessory);
+            }
+
+            ProgressBarVisibility = Visibility.Collapsed;
+
+            string SnackbarMessage = _isEdit
                 ? $"Аксессуар \"{Name}\" успешно отредактирован."
                 : $"Аксессуар \"{Name}\" успешно добавлен.";
+
+            SendSnackbar(SnackbarMessage);
         }
 
+        #endregion
+
         #region Валидация полей
+        
+        private readonly Dictionary<string, string> _errors = new Dictionary<string, string>();
         public string Error { get; }
-
-        private readonly Dictionary<string, string> ErrorDictionary = new Dictionary<string, string>();
-
         public string this[string columnName]
         {
             get
             {
-                string error = String.Empty;
+                string error = columnName switch
+                {
+                    "Name" : 
+                }
                 switch (columnName)
                 {
                     case "Name":
@@ -165,15 +203,15 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
                         new Validation(new NotEmptyFieldValidationRule(Inventory)).Validate(ref error);
                         break;
                 }
-                ErrorDictionary.Remove(columnName);
-                if (error != String.Empty)
-                    ErrorDictionary.Add(columnName, error);
+
+                _errors.Remove(columnName);
+                if (error != string.Empty)
+                    _errors.Add(columnName, error);
                 OnPropertyChanged(nameof(SaveButtonIsEnabled));
                 return error;
             }
         }
 
         #endregion
-
     }
 }

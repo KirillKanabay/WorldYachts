@@ -8,7 +8,7 @@ using WorldYachts.ViewModel.MessageDialog;
 
 namespace WorldYachts.ViewModel.BaseViewModels
 {
-    public abstract class BaseEditorViewModel<TItem> : BaseViewModel
+    public abstract class BaseEditorViewModel<TEntity> : BaseViewModel
     {
         #region Поля
 
@@ -20,12 +20,12 @@ namespace WorldYachts.ViewModel.BaseViewModels
         protected bool _isEdit;
 
         private AsyncRelayCommand _saveItem;
-
+        private IDataModel<TEntity> _dataModel;
         #endregion
 
         #region Конструкторы
 
-        protected BaseEditorViewModel(bool isEdit)
+        protected BaseEditorViewModel(bool isEdit = false)
         {
             _isEdit = isEdit;
         }
@@ -55,7 +55,7 @@ namespace WorldYachts.ViewModel.BaseViewModels
         /// <summary>
         /// Модель предмета
         /// </summary>
-        public abstract IDataModel<TItem> ModelItem { get; } 
+        public abstract IDataModel<TEntity> ModelItem { get; } 
 
         #endregion
 
@@ -113,7 +113,7 @@ namespace WorldYachts.ViewModel.BaseViewModels
         /// Получение объекта сохраняемого предмета
         /// </summary>
         /// <returns></returns>
-        protected abstract TItem GetSaveItem(bool isEdit);
+        protected abstract TEntity GetSaveItem(bool isEdit);
 
         /// <summary>
         /// Получение сообщения об успешном сохранении предмета

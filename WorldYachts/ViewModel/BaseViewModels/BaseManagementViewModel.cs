@@ -40,12 +40,12 @@ namespace WorldYachts.ViewModel.BaseViewModels
         public static Action OnItemChanged;
 
         protected readonly IDataModel<TItem> _dataModel;
-        protected readonly BaseEditorViewModel<TItem> _editorViewModel;
+        protected readonly BaseViewModel _editorViewModel;
         #endregion
 
         #region Конструкторы
 
-        protected BaseManagementViewModel(IDataModel<TItem> dataModel, BaseEditorViewModel<TItem> editorViewModel)
+        protected BaseManagementViewModel(IDataModel<TItem> dataModel, BaseViewModel editorViewModel)
         {
             _dataModel = dataModel;
             _editorViewModel = editorViewModel;

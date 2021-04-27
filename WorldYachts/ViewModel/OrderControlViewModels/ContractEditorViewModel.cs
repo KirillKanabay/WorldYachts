@@ -38,7 +38,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
         #endregion
 
         #region Конструкторы
-        public ContractEditorViewModel(Contract contract,AuthUser authUser) : base(true)
+        public ContractEditorViewModel(Contract contract,AuthUser authUser)
         {
             _id = contract.Id;
             _productionProcess = contract.ProductionProcess;
@@ -46,7 +46,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
             _contract = contract;
         }
 
-        public ContractEditorViewModel(AuthUser authUser):base(false)
+        public ContractEditorViewModel(AuthUser authUser)
         {
             _authUser = authUser;
         }
