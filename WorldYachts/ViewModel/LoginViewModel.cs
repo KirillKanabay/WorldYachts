@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 using System.Windows;
 using MaterialDesignThemes.Wpf;
@@ -18,14 +20,22 @@ using Validation = WorldYachts.Validators.Validation;
 
 namespace WorldYachts.ViewModel
 {
+    [Serializable]
+    internal class SerializableAuthenticateRequest
+    {
+        internal string Username { get; set; }
+        internal string Password { get; set; }
+    }
+
     public class LoginViewModel:BaseViewModel, IDataErrorInfo
     {
         #region Поля
+        private SerializableAuthenticateRequest _request;
 
-        private readonly AuthenticateRequest _request;
-
-        private bool _signOutCheck;
+        private bool _autoSignInCheck;
         private bool _inputIsEnabled = true;
+        private bool _isEnabled = true;
+
         private Visibility _progressBarVisibility = Visibility.Collapsed;
 
         private AsyncRelayCommand _authorization;
@@ -41,13 +51,28 @@ namespace WorldYachts.ViewModel
 
         public LoginViewModel(UserModel userModel, AuthUser authUser, ViewModelContainer viewModelContainer)
         {
-            _request = new AuthenticateRequest();
+            _request = new SerializableAuthenticateRequest();
             _userModel = userModel;
             _authUser = authUser;
             _viewModelContainer = viewModelContainer;
+
+            if (IsEnabled)
+            {
+                Deserializable();
+            }
         }
 
         #region Свойства
+
+        public bool IsEnabled
+        {
+            get => _isEnabled;
+            set
+            {
+                _isEnabled = value;
+                OnPropertyChanged(nameof(IsEnabled));
+            }
+        }
 
         /// <summary>
         /// Логин пользователя
@@ -58,7 +83,7 @@ namespace WorldYachts.ViewModel
             set
             {
                 _request.Username = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(Username));
             }
         }
         /// <summary>
@@ -70,10 +95,9 @@ namespace WorldYachts.ViewModel
             set
             {
                 _request.Password = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(Password));
             }
         }
-
         /// <summary>
         /// Видимость прогресс бара
         /// </summary>
@@ -87,13 +111,13 @@ namespace WorldYachts.ViewModel
             }
         }
 
-        public bool SignOutCheck
+        public bool AutoSignInCheck
         {
-            get => _signOutCheck;
+            get => _autoSignInCheck;
             set
             {
-                _signOutCheck = value;
-                OnPropertyChanged(nameof(SignOutCheck));
+                _autoSignInCheck = value;
+                OnPropertyChanged(nameof(AutoSignInCheck));
             }
         }
 
@@ -126,7 +150,7 @@ namespace WorldYachts.ViewModel
                 });
             }
         }
-
+        
         /// <summary>
         /// Метод авторизации
         /// </summary>
@@ -137,12 +161,16 @@ namespace WorldYachts.ViewModel
             InputIsEnabled = false;
             try
             {
-                await Task.Run(() => _userModel.LoginAsync(_request));
+                var authRequest = new AuthenticateRequest() {Username = _request.Username, Password = _request.Password};
+                await _userModel.LoginAsync(authRequest);
                 if (_authUser.IsAuthenticated)
                 {
+                    await Serializable();
+
                     _mainWindow = new MainWindow(_viewModelContainer.GetViewModel<MainViewModel>());
                     _mainWindow.Show();
-                    ((Window)parameter).Close();
+
+                    ((Window)parameter)?.Close();
                 }
             }
             finally
@@ -155,60 +183,34 @@ namespace WorldYachts.ViewModel
 
             
         }
-
-        //private async Task LoginFromFileMethod(object parameter)
-        //{
-        //    ProgressBarVisibility = Visibility.Visible;
-        //    InputIsEnabled = false;
-        //    var um = new UserModel();
-        //    try
-        //    {
-        //        await Task.Run(() => um.LoginAsync(((SerializableUserInfo)parameter).Login, ((SerializableUserInfo)parameter).Password));
-        //    }
-        //    finally
-        //    {
-        //        ProgressBarVisibility = Visibility.Collapsed;
-        //        Login = "";
-        //        Password = "";
-        //        SignOutCheck = false;
-        //        InputIsEnabled = true;
-        //    }
-
-        //    if (AuthUser.User != null)
-        //    {
-        //        MainWindow.ShowWindow();
-        //        LoginWindow.CloseWindow?.Invoke();
-        //    }
-        //}
         #endregion
 
-        //private SerializableUserInfo? Deserializable()
-        //{
-        //    BinaryFormatter formatter = new BinaryFormatter();
-        //    SerializableUserInfo ui = new SerializableUserInfo(_login,_password);
-        //    if (File.Exists("bin"))
-        //    {
-        //        using (FileStream fs = new FileStream("bin", FileMode.OpenOrCreate))
-        //        {
-        //            fs.Seek(0, SeekOrigin.Begin);
-        //            ui = (SerializableUserInfo)formatter.Deserialize(fs);
-        //        }
+        private void Deserializable()
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            if (File.Exists("bin"))
+            {
+                using (FileStream fs = new FileStream("bin", FileMode.OpenOrCreate))
+                {
+                    fs.Seek(0, SeekOrigin.Begin);
+                    _request = (SerializableAuthenticateRequest)formatter.Deserialize(fs);
+                }
+            }
+            if (!string.IsNullOrWhiteSpace(_request.Username) && !string.IsNullOrWhiteSpace(_request.Password))
+            {
+                AutoSignInCheck = true;
+            }
+        }
 
-        //        return ui;
-        //    }
-
-        //    return null;
-        //}
-
-        //private void Serializable()
-        //{
-        //    BinaryFormatter formatter = new BinaryFormatter();
-        //    using (FileStream fs = new FileStream("bin",FileMode.OpenOrCreate))
-        //    {
-        //        formatter.Serialize(fs,new SerializableUserInfo(_login, _password));
-        //        fs.Seek(0, SeekOrigin.Begin);
-        //    }
-        //}
+        private async Task Serializable()
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            await using (FileStream fs = new FileStream("bin", FileMode.OpenOrCreate))
+            {
+                formatter.Serialize(fs, AutoSignInCheck ? _request : new SerializableAuthenticateRequest());
+                fs.Seek(0, SeekOrigin.Begin);
+            }
+        }
 
         #region MessageDialog
 
