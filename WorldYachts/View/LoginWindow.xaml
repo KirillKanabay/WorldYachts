@@ -227,6 +227,7 @@
                     </CheckBox>
                     <StackPanel
                         Grid.Row="4"
+                        Grid.RowSpan="2"
                         HorizontalAlignment="Center"
                         Orientation="Vertical">
                         <Button

@@ -159,8 +159,7 @@ namespace WorldYachts.ViewModel
 
                     _mainWindow = new MainWindow(_viewModelContainer.GetViewModel<MainViewModel>());
                     _mainWindow.Show();
-
-                    ((Window)parameter)?.Close();
+                    LoginWindow.CloseWindow();
                 }
             }
             finally
