@@ -1,44 +1,224 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
+using MaterialDesignThemes.Wpf;
 using WorldYachts.Data.Entities;
+using WorldYachts.Helpers;
+using WorldYachts.Helpers.Commands;
 using WorldYachts.Model;
+using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BaseViewModels;
 
 namespace WorldYachts.ViewModel.AccessoryControlViewModels
 {
-    class AccessoryManagementViewModel : BaseManagementViewModel<Accessory>
+    class AccessoryManagementViewModel : BaseViewModel
     {
-        public AccessoryManagementViewModel(AccessoryModel accessoryModel, 
-            AccessoryEditorViewModel accessoryEditorViewModel)
-            :base(accessoryModel, accessoryEditorViewModel)
+        #region Поля
+
+        private ObservableCollection<SelectableAccessoryViewModel> _accessories =
+            new ObservableCollection<SelectableAccessoryViewModel>();
+
+        protected string _filterText;
+        
+        private Visibility _progressBarVisibility;
+
+        private readonly AccessoryModel _accessoryModel;
+        private readonly ViewModelContainer _viewModelContainer;
+
+        #endregion
+
+        #region Конструкторы
+        public AccessoryManagementViewModel(AccessoryModel accessoryModel, ViewModelContainer viewModelContainer)
         {
+            _accessoryModel = accessoryModel;
+            _viewModelContainer = viewModelContainer;
         }
-        protected override ObservableCollection<BaseSelectableViewModel<Accessory>> GetSelectableViewModels(IEnumerable<Accessory> items)
+
+        #endregion
+        
+        #region Свойства
+
+        /// <summary>
+        /// Фильтрованная коллекция
+        /// </summary>
+        public virtual ObservableCollection<SelectableAccessoryViewModel> FilteredCollection
         {
-            var collection = new ObservableCollection<BaseSelectableViewModel<Accessory>>();
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(_filterText))
+                    return Filter(_filterText);
+
+                return _accessories;
+            }
+        }
+
+        public virtual string FilterText
+        {
+            get => _filterText;
+            set
+            {
+                _filterText = value;
+                if (_filterText != null)
+                {
+                    OnPropertyChanged(nameof(FilteredCollection));
+                }
+            }
+        }
+
+        public Visibility ProgressBarVisibility
+        {
+            get => _progressBarVisibility;
+            set
+            {
+                _progressBarVisibility = value;
+                OnPropertyChanged(nameof(ProgressBarVisibility));
+            }
+        }
+
+        #endregion
+
+        #region Команды
+
+        /// <summary>
+        /// Команда получения коллекции предметов
+        /// </summary>
+        public AsyncRelayCommand GetItemsCollection => new AsyncRelayCommand(GetCollectionMethod,
+            (ex) => { ExecuteRunDialog(new MessageDialogProperty() {Title = "Ошибка", Message = ex.Message}); });
+
+        /// <summary>
+        /// Удаляет предмет помеченный IsDeleted
+        /// </summary>
+        public AsyncRelayCommand RemoveItem => new AsyncRelayCommand(RemoveItemMethod,
+            (ex) => { ExecuteRunDialog(new MessageDialogProperty() {Title = "Ошибка", Message = ex.Message}); });
+
+        /// <summary>
+        /// Удаляет коллекцию предметов
+        /// </summary>
+        public AsyncRelayCommand RemoveItemsCollection => new AsyncRelayCommand(RemoveItemsCollectionMethod,
+            (ex) => { ExecuteRunDialog(new MessageDialogProperty() {Title = "Ошибка", Message = ex.Message}); });
+
+
+        /// <summary>
+        /// Команда открытия редактора
+        /// </summary>
+        public DelegateCommand OpenEditorDialog => new DelegateCommand(ExecuteRunEditorDialog);
+
+        #endregion
+
+        #region Методы
+
+        private void CheckDeletedItems(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            RemoveItem.Execute(null);
+        }
+
+        private async Task RemoveItemsCollectionMethod(object parameter)
+        {
+            var removeItems = _accessories.Where(i => i.IsSelected)
+                .Select(i => i.Item);
+
+            if (removeItems.Any())
+            {
+                await Task.Run(() => _accessoryModel.DeleteAsync(removeItems));
+
+                //Получаем главное окно для показа уведомления о удалении
+                var mainWindow = (MainWindow) Application.Current.MainWindow;
+
+                GetItemsCollection.Execute(null);
+
+                mainWindow.SendSnackbar($"Успешно удалено.");
+            }
+        }
+
+        private async Task RemoveItemMethod(object parameter)
+        {
+            var removeItems = _accessories.Where(i => i.IsDeleted)
+                .Select(i => i.Item);
+
+            if (removeItems.Any())
+            {
+                await _accessoryModel.DeleteAsync(removeItems);
+
+                //Получаем главное окно для показа уведомления о удалении
+                var mainWindow = (MainWindow) Application.Current.MainWindow;
+
+                GetItemsCollection.Execute(null);
+
+                SendSnackbar($"Успешно удалено.");
+            }
+        }
+
+        /// <summary>
+        /// Получение коллекции предметов из БД
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
+        private async Task GetCollectionMethod(object parameter)
+        {
+            ProgressBarVisibility = Visibility.Visible;
+            _accessories = GetSelectableViewModels(await _accessoryModel.GetAllAsync());
+            OnPropertyChanged(nameof(FilteredCollection));
+            ProgressBarVisibility = Visibility.Collapsed;
+        }
+        
+        private ObservableCollection<SelectableAccessoryViewModel> GetSelectableViewModels(IEnumerable<Accessory> items)
+        {
+            var collection = new ObservableCollection<SelectableAccessoryViewModel>();
             foreach (var accessory in items)
             {
-               collection.Add(new SelectableAccessoryViewModel(accessory,(AccessoryModel)_dataModel));
+                collection.Add(new SelectableAccessoryViewModel(accessory, _accessoryModel));
             }
 
             return collection;
         }
 
-        protected override ObservableCollection<BaseSelectableViewModel<Accessory>> Filter(string filterText)
+        private ObservableCollection<SelectableAccessoryViewModel> Filter(string filterText)
         {
-            var filteredCollection = ItemsCollection.Where(a =>
+            if (string.IsNullOrWhiteSpace(FilterText))
+            {
+                return _accessories;
+            }
+
+            var filteredCollection = _accessories.Where(a =>
                 a.Item.Name.ToLower().Contains(filterText.ToLower()) ||
                 a.Item.Id.ToString() == filterText);
 
-            var accessoryCollection = new ObservableCollection<BaseSelectableViewModel<Accessory>>();
-            foreach (var selectableAccessoryViewModel in filteredCollection)
-            {
-                accessoryCollection.Add(selectableAccessoryViewModel);
-            }
-
-            return accessoryCollection;
+            return new ObservableCollection<SelectableAccessoryViewModel>(filteredCollection);
         }
+
+        #endregion
+
+        #region Editor
+
+        /// <summary>
+        /// Запуск редактора
+        /// </summary>
+        /// <param name="o"></param>
+        private async void ExecuteRunEditorDialog(object o)
+        {
+            var view = new View.MessageDialogs.MessageDialog()
+            {
+                DataContext = new MessageDialogViewModel(_viewModelContainer.GetViewModel<AccessoryEditorViewModel>())
+            };
+
+            var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
+        }
+
+        /// <summary>
+        /// Обработчик события закрытия диалога
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="eventArgs"></param>
+        private async void ClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        {
+            await GetCollectionMethod(null);
+            OnPropertyChanged(nameof(FilteredCollection));
+        }
+
+        #endregion
     }
 }
