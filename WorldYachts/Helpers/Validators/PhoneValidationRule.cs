@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Windows.Controls;
+﻿using System.Text.RegularExpressions;
 
-namespace WorldYachts.Validators
+namespace WorldYachts.Helpers.Validators
 {
     class PhoneValidationRule:IValidationRule
     {

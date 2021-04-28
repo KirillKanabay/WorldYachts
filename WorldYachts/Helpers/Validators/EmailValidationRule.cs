@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Net.Mail;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Windows.Controls;
-using WorldYachts.Annotations;
 
-namespace WorldYachts.Validators
+namespace WorldYachts.Helpers.Validators
 {
     class EmailValidationRule:IValidationRule
     { 

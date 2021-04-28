@@ -12,16 +12,16 @@ using WorldYachts.Annotations;
 using WorldYachts.Helpers;
 using WorldYachts.Data;
 using WorldYachts.Helpers.Commands;
+using WorldYachts.Helpers.Validators;
 using WorldYachts.Infrastructure;
 using WorldYachts.Model;
 using WorldYachts.Services;
-using WorldYachts.Validators;
 using WorldYachts.View;
 using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BaseViewModels;
 using WorldYachts.ViewModel.MessageDialog;
 using IDataErrorInfo = System.ComponentModel.IDataErrorInfo;
-using Validation = WorldYachts.Validators.Validation;
+using Validation = WorldYachts.Helpers.Validators.Validation;
 
 namespace WorldYachts.ViewModel
 {

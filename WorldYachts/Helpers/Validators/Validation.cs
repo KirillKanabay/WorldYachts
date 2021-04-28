@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using WorldYachts.Annotations;
-
-namespace WorldYachts.Validators
+﻿namespace WorldYachts.Helpers.Validators
 {
     class Validation
     {

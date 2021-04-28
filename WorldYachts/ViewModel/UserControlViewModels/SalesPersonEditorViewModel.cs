@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using WorldYachts.Data;
 using WorldYachts.Data.Entities;
+using WorldYachts.Helpers.Validators;
 using WorldYachts.Infrastructure;
 using WorldYachts.Model;
-using WorldYachts.Validators;
 using WorldYachts.ViewModel.BaseViewModels;
 
 namespace WorldYachts.ViewModel.UserControlViewModels

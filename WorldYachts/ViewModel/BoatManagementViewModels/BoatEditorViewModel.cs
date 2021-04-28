@@ -10,12 +10,12 @@ using WorldYachts.Data;
 using WorldYachts.Data.Entities;
 using WorldYachts.Helpers;
 using WorldYachts.Helpers.Commands;
+using WorldYachts.Helpers.Validators;
 using WorldYachts.Model;
-using WorldYachts.Validators;
 using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BaseViewModels;
 using WorldYachts.ViewModel.MessageDialog;
-using Validation = WorldYachts.Validators.Validation;
+using Validation = WorldYachts.Helpers.Validators.Validation;
 
 namespace WorldYachts.ViewModel.BoatManagementViewModels
 {

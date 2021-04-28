@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
-using System.Windows.Controls;
-
-namespace WorldYachts.Validators
+﻿namespace WorldYachts.Helpers.Validators
 {
     class NotEmptyFieldValidationRule:IValidationRule
     {

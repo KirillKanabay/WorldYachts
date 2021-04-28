@@ -4,9 +4,9 @@ using System.ComponentModel;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using WorldYachts.Data;
+using WorldYachts.Helpers.Validators;
 using WorldYachts.Infrastructure;
 using WorldYachts.Services;
-using WorldYachts.Validators;
 
 namespace WorldYachts.ViewModel.OrderControlViewModels
 {

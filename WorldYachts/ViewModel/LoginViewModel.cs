@@ -9,15 +9,15 @@ using MaterialDesignThemes.Wpf;
 using WorldYachts.DependencyInjections.Helpers;
 using WorldYachts.Helpers;
 using WorldYachts.Helpers.Commands;
+using WorldYachts.Helpers.Validators;
 using WorldYachts.Model;
 using WorldYachts.Services;
 using WorldYachts.Services.Authenticate;
-using WorldYachts.Validators;
 using WorldYachts.View;
 using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BaseViewModels;
 using WorldYachts.ViewModel.MessageDialog;
-using Validation = WorldYachts.Validators.Validation;
+using Validation = WorldYachts.Helpers.Validators.Validation;
 
 namespace WorldYachts.ViewModel
 {

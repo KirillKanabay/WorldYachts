@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace WorldYachts.Validators
+﻿namespace WorldYachts.Helpers.Validators
 {
     class PositiveNumberValidationRule:IValidationRule
     {

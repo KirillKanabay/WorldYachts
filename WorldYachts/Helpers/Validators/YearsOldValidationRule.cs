@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WorldYachts.Validators
+namespace WorldYachts.Helpers.Validators
 {
     class YearsOldValidationRule:IValidationRule
     {
