@@ -32,43 +32,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Fonts\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\WorldYachts.DependencyInjections\WorldYachts.DependencyInjections.csproj" />
     <ProjectReference Include="..\WorldYachts.Services\WorldYachts.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Fonts\SFProDisplay-Black.ttf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Fonts\SFProDisplay-Bold.ttf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Fonts\SFProDisplay-Heavy.ttf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Fonts\SFProDisplay-Light.ttf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Fonts\SFProDisplay-Medium.ttf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Fonts\SFProDisplay-Regular.ttf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Fonts\SFProDisplay-Semibold.ttf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Fonts\SFProDisplay-Thin.ttf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Fonts\SFProDisplay-UltralightItalic.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
