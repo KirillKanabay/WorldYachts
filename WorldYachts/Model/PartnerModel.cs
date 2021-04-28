@@ -1,19 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WorldYachts.Data.Entities;
+using WorldYachts.DependencyInjections.Models;
 using WorldYachts.Services.Partner;
 
 namespace WorldYachts.Model
 {
-    public class PartnerModel : IDataModel<Partner>
+    public class PartnerModel : IPartnerModel
     {
         private readonly IPartnerService _partnerService;
+        
+        public event Func<object, Task> PartnerModelChanged;
+        
         public PartnerModel(IPartnerService partnerService)
         {
             _partnerService = partnerService;
         }
-        public Partner LastAddedItem { get; set; }
-
+       
         /// <summary>
         /// Асинхронный метод добавления партнера в БД
         /// </summary>
@@ -22,7 +26,9 @@ namespace WorldYachts.Model
         public async Task AddAsync(Partner partner)
         {
             await _partnerService.AddAsync(partner);
+            PartnerModelChanged?.Invoke(partner);
         }
+        
         /// <summary>
         /// Асинхронный метод загрузки партнеров из БД
         /// </summary>
@@ -37,13 +43,12 @@ namespace WorldYachts.Model
         /// </summary>
         /// <param name="removePartners">Коллекция партнеров</param>
         /// <returns></returns>
-        public async Task DeleteAsync(IEnumerable<Partner> removePartners)
+        public async Task DeleteAsync(Partner partner)
         {
-            foreach (var removePartner in removePartners)
-            {
-                await _partnerService.DeleteAsync(removePartner.Id);
-            }
+            await _partnerService.DeleteAsync(partner.Id);
+            PartnerModelChanged?.Invoke(partner);
         }
+        
         /// <summary>
         /// Асинхронный метод изменения партнера 
         /// </summary>
@@ -52,6 +57,7 @@ namespace WorldYachts.Model
         public async Task UpdateAsync(Partner partner)
         {
             await _partnerService.UpdateAsync(partner.Id, partner);
+            PartnerModelChanged?.Invoke(partner);
         }
         
         public async Task<Partner> GetByIdAsync(int id)

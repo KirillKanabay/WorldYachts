@@ -20,15 +20,13 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
     {
         #region Поля
 
-        private ObservableCollection<SelectableAccessoryViewModel> _accessories =
-            new ObservableCollection<SelectableAccessoryViewModel>();
-
-        protected string _filterText;
-        
-        private Visibility _progressBarVisibility;
-
         private readonly IAccessoryModel _accessoryModel;
         private readonly IViewModelContainer _viewModelContainer;
+
+        private ObservableCollection<SelectableAccessoryViewModel> _accessories;
+
+        private Visibility _progressBarVisibility;
+        private string _filterText;
 
         #endregion
 

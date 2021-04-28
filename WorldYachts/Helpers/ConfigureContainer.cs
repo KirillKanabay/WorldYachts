@@ -16,6 +16,7 @@ using WorldYachts.ViewModel.CatalogControlViewModels;
 using WorldYachts.ViewModel.DashboardControlViewModels;
 using WorldYachts.ViewModel.OrderControlViewModels;
 using WorldYachts.ViewModel.UserControlViewModels;
+using IPartnerModel = WorldYachts.DependencyInjections.Models.IPartnerModel;
 
 namespace WorldYachts.Helpers
 {
@@ -87,7 +88,7 @@ namespace WorldYachts.Helpers
         private void RegisterModels(ContainerBuilder builder)
         {
             builder.RegisterType<UserModel>().AsSelf();
-            builder.RegisterType<PartnerModel>().AsSelf();
+            builder.RegisterType<PartnerModel>().As<IPartnerModel>().InstancePerLifetimeScope();
             builder.RegisterType<AccessoryModel>().As<IAccessoryModel>().InstancePerLifetimeScope();
         }
 
