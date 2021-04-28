@@ -14,6 +14,7 @@ using WorldYachts.ViewModel.BoatManagementViewModels;
 using WorldYachts.ViewModel.CatalogControlViewModels;
 using WorldYachts.ViewModel.DashboardControlViewModels;
 using WorldYachts.ViewModel.OrderControlViewModels;
+using WorldYachts.ViewModel.UserControlViewModels;
 
 namespace WorldYachts.ViewModel
 {
@@ -106,10 +107,9 @@ namespace WorldYachts.ViewModel
                         case "AccessoryManagement":
                             CurrentViewModel = _viewModelContainer.GetViewModel<AccessoryControlViewModel>();
                             break;
-                        //case "UserManagement":
-                        //    new NavigateCommand<UserControlViewModel>(_navigationStore,
-                        //        () => new UserControlViewModel()).Execute(null);
-                        //    break;
+                        case "UserManagement":
+                            CurrentViewModel = _viewModelContainer.GetViewModel<UserControlViewModel>();
+                            break;
                         //case "AccountSettings":
                         //    new NavigateCommand<AccountSettingsViewModel>(_navigationStore,
                         //        () => new AccountSettingsViewModel()).Execute(null);

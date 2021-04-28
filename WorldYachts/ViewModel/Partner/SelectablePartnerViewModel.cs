@@ -1,96 +1,55 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using MaterialDesignThemes.Wpf;
 using WorldYachts.DependencyInjections.Helpers;
 using WorldYachts.DependencyInjections.Models;
 using WorldYachts.Helpers;
 using WorldYachts.Helpers.Commands;
-using WorldYachts.Model;
-using WorldYachts.View.Editors;
 using WorldYachts.View.MessageDialogs;
+using WorldYachts.ViewModel.Accessory;
 using WorldYachts.ViewModel.BaseViewModels;
-using WorldYachts.ViewModel.CatalogControlViewModels;
 using WorldYachts.ViewModel.MessageDialog;
-using Accessory = WorldYachts.Data.Entities.Accessory;
 
-namespace WorldYachts.ViewModel.AccessoryControlViewModels
+namespace WorldYachts.ViewModel.Partner
 {
-    public class SelectableAccessoryViewModel:BaseViewModel
+    class SelectablePartnerViewModel : BaseViewModel
     {
-        #region Поля
 
-        protected bool _isSelected;
-        protected bool _isDeleted = false;
+        #region Поля
 
         protected AsyncRelayCommand _removeCommand;
         protected AsyncRelayCommand _editCommand;
 
-        public Action OnItemChanged;
-
-        private readonly IAccessoryModel _accessoryModel;
+        private readonly IPartnerModel _partnerModel;
         private readonly IViewModelContainer _viewModelContainer;
+
         #endregion
-        
+
         #region Конструкторы
-        public SelectableAccessoryViewModel(Accessory accessory, 
-            IAccessoryModel accessoryModel, 
+
+        public SelectablePartnerViewModel(Data.Entities.Partner partner,
+            IPartnerModel partnerModel,
             IViewModelContainer viewModelContainer)
         {
-            Accessory = accessory;
-            _accessoryModel = accessoryModel;
+            Partner = partner;
+            _partnerModel = partnerModel;
             _viewModelContainer = viewModelContainer;
         }
 
         #endregion
 
         #region Свойства
-        public Accessory Accessory { get; }
-        public bool IsSelected
-        {
-            get => _isSelected;
-
-            set
-            {
-                _isSelected = value;
-                BoatViewModel.OnAccessoryChanged.Invoke(this);
-                OnPropertyChanged(nameof(IsSelected));
-            }
-        }
-        public bool IsDeleted
-        {
-            get => _isDeleted;
-            set
-            {
-                _isDeleted = value;
-                if (_isDeleted)
-                    BaseManagementViewModel<Accessory>.OnItemChanged?.Invoke();
-                OnPropertyChanged(nameof(IsDeleted));
-            }
-        }
-        public string Info => Accessory.ToString();
-
+        public Data.Entities.Partner Partner { get; }
+        public string Info => Partner.ToString();
         #endregion
-
+        
         #region Методы
-
-        protected void ToggleViewEditorAfterLoaded()
-        {
-            if (AccessoryEditorView.EditorAfterLoad != null)
-            {
-                AccessoryEditorView.EditorAfterLoad = null;
-            }
-            else
-            {
-                AccessoryEditorView.EditorAfterLoad = () => _viewModelContainer.GetViewModel<AccessoryEditorViewModel>();
-            }
-        }
-
-        protected MessageDialogProperty GetConfirmDeleteDialogProperty()
+        
+        private MessageDialogProperty GetConfirmDeleteDialogProperty()
         {
             return new MessageDialogProperty()
             {
                 Title = "Подтверждение удаления",
-                Message = "Будет удален следующий аксессуар:\n\n" + Info,
+                Message = "Будет удален следующий партнер:\n\n" + Info
             };
         }
 
@@ -125,12 +84,13 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         #endregion
 
         #region Диалоги
+
         private async Task ExecuteRunEditorDialog(object o)
         {
-            EntityContainer.Push(Accessory);
+            EntityContainer.Push(Partner);
             var view = new View.MessageDialogs.MessageDialog()
             {
-                DataContext = new MessageDialogViewModel(_viewModelContainer.GetViewModel<AccessoryEditorViewModel>())
+                DataContext = new MessageDialogViewModel(_viewModelContainer.GetViewModel<PartnerEditorViewModel>())
             };
 
             var result = await DialogHost.Show(view, "RootDialog");
@@ -140,13 +100,13 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         /// Показывает простой диалог сообщения
         /// </summary>
         /// <param name="o"></param>
-        protected void ExecuteRunDialog(object o)
+        private async void ExecuteRunDialog(object o)
         {
             var view = new SampleMessageDialog()
             {
                 DataContext = new SampleMessageDialogViewModel((MessageDialogProperty)o)
             };
-            //var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
+            var result = await DialogHost.Show(view, "RootDialog");
         }
 
         /// <summary>
@@ -161,7 +121,6 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
                 DataContext = new SampleMessageDialogViewModel(GetConfirmDeleteDialogProperty())
             };
             var result = await DialogHost.Show(view, "RootDialog", ClosingDeleteDialogEventHandler);
-            OnItemChanged?.Invoke();
         }
 
         /// <summary>
@@ -172,9 +131,9 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         private void ClosingDeleteDialogEventHandler(object sender, DialogClosingEventArgs eventargs)
         {
             if (Equals((eventargs.Parameter), true))
-                _accessoryModel.DeleteAsync(Accessory);
+                _partnerModel.DeleteAsync(Partner);
         }
-        #endregion
 
+        #endregion
     }
 }

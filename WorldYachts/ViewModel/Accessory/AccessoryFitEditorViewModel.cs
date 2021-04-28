@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using WorldYachts.Data.Entities;
 using WorldYachts.Model;
 using WorldYachts.ViewModel.BaseViewModels;
 using AccessoryToBoat = WorldYachts.Data.AccessoryToBoat;
 
-namespace WorldYachts.ViewModel.AccessoryControlViewModels
+namespace WorldYachts.ViewModel.Accessory
 {
     class AccessoryFitEditorViewModel:BaseEditorViewModel<AccessoryToBoat>,IDataErrorInfo
     {
@@ -20,10 +18,10 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         private int _accessoryId;
         private int _boatId;
 
-        private Accessory _accessory;
+        private Data.Entities.Accessory _accessory;
         private Boat _boat;
 
-        private IEnumerable<Accessory> _accessoryCollection;
+        private IEnumerable<Data.Entities.Accessory> _accessoryCollection;
         private IEnumerable<Boat> _boatCollection;
 
         #endregion
@@ -64,7 +62,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             }
         }
 
-        public Accessory Accessory
+        public Data.Entities.Accessory Accessory
         {
             get => _accessory;
             set

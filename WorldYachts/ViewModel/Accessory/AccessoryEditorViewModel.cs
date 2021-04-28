@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Windows;
 using MaterialDesignThemes.Wpf;
-using WorldYachts.Data.Entities;
 using WorldYachts.DependencyInjections.Models;
 using WorldYachts.Helpers;
 using WorldYachts.Helpers.Commands;
@@ -16,41 +13,40 @@ using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BaseViewModels;
 using WorldYachts.ViewModel.MessageDialog;
 
-namespace WorldYachts.ViewModel.AccessoryControlViewModels
+namespace WorldYachts.ViewModel.Accessory
 {
     class AccessoryEditorViewModel : BaseViewModel, IDataErrorInfo
     {
         #region Поля
 
         private readonly IAccessoryModel _accessoryModel;
-        private readonly PartnerModel _partnerModel;
-
-        public readonly Accessory Accessory;
-
-        private List<Partner> _partnersCollection;
-
+        private readonly IPartnerModel _partnerModel;
+        
+        public readonly Data.Entities.Accessory _accessory;
+        private List<Data.Entities.Partner> _partnersCollection;
+        
         private Visibility _progressBarVisibility = Visibility.Collapsed;
-
+        
         private readonly bool _isEdit;
 
         #endregion
 
         #region Конструкторы
 
-        public AccessoryEditorViewModel(IAccessoryModel accessoryModel, PartnerModel partnerModel)
+        public AccessoryEditorViewModel(IAccessoryModel accessoryModel, IPartnerModel partnerModel)
         {
             _accessoryModel = accessoryModel;
             _partnerModel = partnerModel;
 
             if (!EntityContainer.IsEmpty)
             {
-                Accessory = EntityContainer.Pop<Accessory>();
-                SelectedPartner = Accessory.Partner;
+                _accessory = EntityContainer.Pop<Data.Entities.Accessory>();
+                SelectedPartner = _accessory.Partner;
                 _isEdit = true;
             }
             else
             {
-                Accessory = new Accessory();
+                _accessory = new Data.Entities.Accessory();
             }
         }
 
@@ -70,50 +66,50 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
 
         public string Name
         {
-            get => Accessory.Name;
+            get => _accessory.Name;
             set
             {
-                Accessory.Name = value;
+                _accessory.Name = value;
                 OnPropertyChanged(nameof(Name));
             }
         }
 
         public string Description
         {
-            get => Accessory.Description;
+            get => _accessory.Description;
             set
             {
-                Accessory.Description = value;
+                _accessory.Description = value;
                 OnPropertyChanged(nameof(Description));
             }
         }
 
         public decimal Price
         {
-            get => Accessory.Price;
+            get => _accessory.Price;
             set
             {
-                Accessory.Price = value;
+                _accessory.Price = value;
                 OnPropertyChanged(nameof(Price));
             }
         }
 
         public double Vat
         {
-            get => Accessory.Vat;
+            get => _accessory.Vat;
             set
             {
-                Accessory.Vat = value;
+                _accessory.Vat = value;
                 OnPropertyChanged(nameof(Vat));
             }
         }
 
         public int Inventory
         {
-            get => Accessory.Inventory;
+            get => _accessory.Inventory;
             set
             {
-                Accessory.Inventory = value;
+                _accessory.Inventory = value;
                 OnPropertyChanged(nameof(Inventory));
             }
         }
@@ -128,17 +124,17 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
                 OnPropertyChanged(nameof(SelectedPartnerIndex));
             }
         } 
-        public Partner SelectedPartner
+        public Data.Entities.Partner SelectedPartner
         {
-            get => Accessory.Partner;
+            get => _accessory.Partner;
             set
             {
-                Accessory.Partner = value;
-                Accessory.PartnerId = value.Id;
+                _accessory.Partner = value;
+                _accessory.PartnerId = value.Id;
                 OnPropertyChanged(nameof(SelectedPartner));
             }
         }
-        public List<Partner> PartnersCollection => _partnersCollection;
+        public List<Data.Entities.Partner> PartnersCollection => _partnersCollection;
         public bool SaveButtonIsEnabled => _errors.Count == 0;
 
         #endregion
@@ -159,7 +155,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         {
             _partnersCollection = (await _partnerModel.GetAllAsync()).ToList();
             
-            int partnerIndex = _partnersCollection.FindIndex(a => a.Id == Accessory.PartnerId);
+            int partnerIndex = _partnersCollection.FindIndex(a => a.Id == _accessory.PartnerId);
             if (partnerIndex != -1)
                 SelectedPartnerIndex = partnerIndex;
 
@@ -171,11 +167,11 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             ProgressBarVisibility = Visibility.Visible;
             if (_isEdit)
             {
-                await _accessoryModel.UpdateAsync(Accessory);
+                await _accessoryModel.UpdateAsync(_accessory);
             }
             else
             {
-                await _accessoryModel.AddAsync(Accessory);
+                await _accessoryModel.AddAsync(_accessory);
             }
 
             ProgressBarVisibility = Visibility.Collapsed;

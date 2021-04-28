@@ -11,6 +11,7 @@ using WorldYachts.DependencyInjections.Models;
 using WorldYachts.Helpers;
 using WorldYachts.Helpers.Commands;
 using WorldYachts.View.MessageDialogs;
+using WorldYachts.ViewModel.Accessory;
 using WorldYachts.ViewModel.BaseViewModels;
 using WorldYachts.ViewModel.MessageDialog;
 
@@ -112,7 +113,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             ProgressBarVisibility = Visibility.Collapsed;
         }
         
-        private ObservableCollection<SelectableAccessoryViewModel> GetSelectableViewModels(IEnumerable<Accessory> items)
+        private ObservableCollection<SelectableAccessoryViewModel> GetSelectableViewModels(IEnumerable<Data.Entities.Accessory> items)
         {
             var collection = new ObservableCollection<SelectableAccessoryViewModel>();
             foreach (var accessory in items)

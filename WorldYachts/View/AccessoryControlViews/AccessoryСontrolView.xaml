@@ -38,7 +38,9 @@
             <TabItem DataContext="{Binding AccessoryManagementViewModel}" Header="Управление аксессуарами">
                 <uc:AccessoryManagementView />
             </TabItem>
-            <TabItem DataContext="{Binding PartnerManagementViewModel}" Header="Управление партнерами" />
+            <TabItem DataContext="{Binding PartnerManagementViewModel}" Header="Управление партнерами">
+                <uc:PartnersManagementView />
+            </TabItem>
             <TabItem Header="Управление совместимостью">
                 <uc:AccessoryFitManagementView />
             </TabItem>

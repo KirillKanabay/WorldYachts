@@ -1,5 +1,6 @@
 ﻿using WorldYachts.DependencyInjections.Helpers;
 using WorldYachts.ViewModel.BaseViewModels;
+using WorldYachts.ViewModel.Partner;
 
 namespace WorldYachts.ViewModel.AccessoryControlViewModels
 {
@@ -11,8 +12,8 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             _viewModelContainer = viewModelContainer;
         }
 
-        //public BaseViewModel PartnerManagementViewModel =>
-        //    _viewModelContainer.GetViewModel<PartnersManagementViewModel>();
+        public BaseViewModel PartnerManagementViewModel =>
+            _viewModelContainer.GetViewModel<PartnersManagementViewModel>();
 
         public BaseViewModel AccessoryManagementViewModel =>
             _viewModelContainer.GetViewModel<AccessoryManagementViewModel>();

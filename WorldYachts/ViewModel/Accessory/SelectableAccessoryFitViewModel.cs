@@ -2,6 +2,7 @@
 using WorldYachts.Model;
 using WorldYachts.View.Editors;
 using WorldYachts.View.MessageDialogs;
+using WorldYachts.ViewModel.Accessory;
 using WorldYachts.ViewModel.BaseViewModels;
 using AccessoryToBoat = WorldYachts.Data.AccessoryToBoat;
 
@@ -56,7 +57,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         }
 
         public Boat Boat => _item.Boat;
-        public Accessory Accessory => _item.Accessory;
+        public Data.Entities.Accessory Accessory => _item.Accessory;
         public override BaseEditorViewModel<AccessoryToBoat> Editor => new AccessoryFitEditorViewModel();
         #endregion
 

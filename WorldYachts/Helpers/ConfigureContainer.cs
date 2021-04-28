@@ -10,11 +10,13 @@ using WorldYachts.Services.Partner;
 using WorldYachts.Services.Users;
 using WorldYachts.View.DashboardControlViews;
 using WorldYachts.ViewModel;
+using WorldYachts.ViewModel.Accessory;
 using WorldYachts.ViewModel.AccessoryControlViewModels;
 using WorldYachts.ViewModel.BoatManagementViewModels;
 using WorldYachts.ViewModel.CatalogControlViewModels;
 using WorldYachts.ViewModel.DashboardControlViewModels;
 using WorldYachts.ViewModel.OrderControlViewModels;
+using WorldYachts.ViewModel.Partner;
 using WorldYachts.ViewModel.UserControlViewModels;
 using IPartnerModel = WorldYachts.DependencyInjections.Models.IPartnerModel;
 

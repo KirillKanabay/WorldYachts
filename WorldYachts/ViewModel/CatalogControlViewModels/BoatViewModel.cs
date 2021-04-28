@@ -14,6 +14,7 @@ using WorldYachts.Helpers.Validators;
 using WorldYachts.Infrastructure;
 using WorldYachts.Model;
 using WorldYachts.Services;
+using WorldYachts.ViewModel.Accessory;
 using WorldYachts.ViewModel.AccessoryControlViewModels;
 using WorldYachts.ViewModel.BaseViewModels;
 using AccessoryToBoat = WorldYachts.Data.AccessoryToBoat;
@@ -72,12 +73,12 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
 
             OnAccessoryChanged += (arg) =>
             {
-                var acc = (SelectableAccessoryViewModel) arg;
-                if (_accessories != null)
-                {
-                    if(_accessories.FirstOrDefault(a => a.Accessory.Id == acc.Accessory.Id).IsSelected != acc.IsSelected)
-                        _accessories.FirstOrDefault(a => a.Accessory.Id == acc.Accessory.Id).IsSelected = acc.IsSelected;
-                }
+                //var acc = (SelectableAccessoryViewModel) arg;
+                //if (_accessories != null)
+                //{
+                //    if(_accessories.FirstOrDefault(a => a.Accessory.Id == acc.Accessory.Id).IsSelected != acc.IsSelected)
+                //        _accessories.FirstOrDefault(a => a.Accessory.Id == acc.Accessory.Id).IsSelected = acc.IsSelected;
+                //}
                     
                 OnPropertyChanged(nameof(AccessoriesPrice));
                 OnPropertyChanged(nameof(FinishPrice));

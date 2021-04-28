@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:accessory="clr-namespace:WorldYachts.ViewModel.Accessory"
     xmlns:boatControlViews="clr-namespace:WorldYachts.View.BoatControlViews"
     xmlns:dashboardControlViewModels="clr-namespace:WorldYachts.ViewModel.DashboardControlViewModels"
     xmlns:dashboardControlViews="clr-namespace:WorldYachts.View.DashboardControlViews"
@@ -8,16 +9,18 @@
     xmlns:orderControlViews="clr-namespace:WorldYachts.View.OrderControlViews"
     xmlns:orderManagementControlViews="clr-namespace:WorldYachts.View.OrderManagementControlViews"
     xmlns:orderManagementViewModels="clr-namespace:WorldYachts.ViewModel.OrderControlViewModels"
+    xmlns:partner="clr-namespace:WorldYachts.ViewModel.Partner"
     xmlns:userControlViewModels="clr-namespace:WorldYachts.ViewModel.UserControlViewModels"
     xmlns:v="clr-namespace:WorldYachts.View"
     xmlns:vaccessory="clr-namespace:WorldYachts.View.AccessoryControlViews"
     xmlns:vcatalog="clr-namespace:WorldYachts.View.CatalogControlViews"
     xmlns:veditors="clr-namespace:WorldYachts.View.Editors"
     xmlns:vm="clr-namespace:WorldYachts.ViewModel"
-    xmlns:vmaccessory="clr-namespace:WorldYachts.ViewModel.AccessoryControlViewModels"
+    xmlns:vmaccessory="clr-namespace:WorldYachts.ViewModel.Accessory"
     xmlns:vmboat="clr-namespace:WorldYachts.ViewModel.BoatManagementViewModels"
     xmlns:vmcatalog="clr-namespace:WorldYachts.ViewModel.CatalogControlViewModels"
-    xmlns:worldYachts="clr-namespace:WorldYachts">
+    xmlns:worldYachts="clr-namespace:WorldYachts"
+    xmlns:accessoryControlViewModels="clr-namespace:WorldYachts.ViewModel.AccessoryControlViewModels">
     <ResourceDictionary.MergedDictionaries>
         <!--  Основные UC  -->
         <ResourceDictionary>
@@ -92,22 +95,22 @@
         </ResourceDictionary>
         <!--  AccessoryManagement  -->
         <ResourceDictionary>
-            <DataTemplate DataType="{x:Type vmaccessory:AccessoryControlViewModel}">
+            <DataTemplate DataType="{x:Type accessoryControlViewModels:AccessoryControlViewModel}">
                 <vaccessory:AccessoryControlView />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type vmaccessory:PartnersManagementViewModel}">
+            <DataTemplate DataType="{x:Type partner:PartnersManagementViewModel}">
                 <vaccessory:PartnersManagementView />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type vmaccessory:PartnerEditorViewModel}">
+            <DataTemplate DataType="{x:Type partner:PartnerEditorViewModel}">
                 <veditors:PartnerEditorView />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type vmaccessory:AccessoryManagementViewModel}">
+            <DataTemplate DataType="{x:Type accessoryControlViewModels:AccessoryManagementViewModel}">
                 <vaccessory:AccessoryManagementView />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type vmaccessory:AccessoryEditorViewModel}">
+            <DataTemplate DataType="{x:Type accessory:AccessoryEditorViewModel}">
                 <veditors:AccessoryEditorView />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type vmaccessory:AccessoryFitEditorViewModel}">
+            <DataTemplate DataType="{x:Type accessory:AccessoryFitEditorViewModel}">
                 <veditors:AccessoryFitEditorView />
             </DataTemplate>
         </ResourceDictionary>
