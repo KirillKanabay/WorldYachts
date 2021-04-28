@@ -12,16 +12,19 @@ namespace WorldYachts.Validators
         {
             Value = value;
         }
-        public void Validate(ref string validationError)
+        public string Validate()
         {
-            if (Value is decimal && (decimal)Value < 0)
+            string validationError = null;
+            if (Value is decimal decimalValue && decimalValue < 0)
             {
                 validationError = "Число не может быть отрицательным";
             }
-            if(Value is double && (double)Value < 0)
+            if(Value is double doubleValue && doubleValue < 0)
             {
                 validationError = "Число не может быть отрицательным";
             }
+
+            return validationError;
         }
     }
 }

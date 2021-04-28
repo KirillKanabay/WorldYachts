@@ -25,7 +25,7 @@ using Validation = WorldYachts.Validators.Validation;
 
 namespace WorldYachts.ViewModel
 {
-    class RegisterViewModel:BaseViewModel, IDataErrorInfo
+    class RegisterViewModel : BaseViewModel, IDataErrorInfo
     {
         #region Поля
 
@@ -49,6 +49,7 @@ namespace WorldYachts.ViewModel
         private DelegateCommand _changeToLoginWindow;
         private DelegateCommand _changeToMainWindow;
         private DelegateCommand _openSampleMessageDialog;
+
         #endregion
 
         #region Свойства
@@ -67,6 +68,7 @@ namespace WorldYachts.ViewModel
                 OnPropertyChanged("ButtonIsEnabled");
             }
         }
+
         /// <summary>
         /// Фамилия пользователя
         /// </summary>
@@ -79,6 +81,7 @@ namespace WorldYachts.ViewModel
                 OnPropertyChanged("ButtonIsEnabled");
             }
         }
+
         /// <summary>
         /// Дата рождения
         /// </summary>
@@ -91,6 +94,7 @@ namespace WorldYachts.ViewModel
                 OnPropertyChanged("ButtonIsEnabled");
             }
         }
+
         /// <summary>
         /// Название организации
         /// </summary>
@@ -103,6 +107,7 @@ namespace WorldYachts.ViewModel
                 OnPropertyChanged("ButtonIsEnabled");
             }
         }
+
         /// <summary>
         /// Город проживания
         /// </summary>
@@ -115,6 +120,7 @@ namespace WorldYachts.ViewModel
                 OnPropertyChanged("ButtonIsEnabled");
             }
         }
+
         /// <summary>
         /// Адрес проживания
         /// </summary>
@@ -127,6 +133,7 @@ namespace WorldYachts.ViewModel
                 OnPropertyChanged("ButtonIsEnabled");
             }
         }
+
         /// <summary>
         /// Почта пользователя
         /// </summary>
@@ -139,6 +146,7 @@ namespace WorldYachts.ViewModel
                 OnPropertyChanged("ButtonIsEnabled");
             }
         }
+
         /// <summary>
         /// Телефон пользователя
         /// </summary>
@@ -151,6 +159,7 @@ namespace WorldYachts.ViewModel
                 OnPropertyChanged("ButtonIsEnabled");
             }
         }
+
         /// <summary>
         /// Документ подтверждающий личность
         /// </summary>
@@ -163,6 +172,7 @@ namespace WorldYachts.ViewModel
                 OnPropertyChanged("ButtonIsEnabled");
             }
         }
+
         /// <summary>
         /// Серия документа
         /// </summary>
@@ -175,6 +185,7 @@ namespace WorldYachts.ViewModel
                 OnPropertyChanged("ButtonIsEnabled");
             }
         }
+
         /// <summary>
         /// Логин пользователя
         /// </summary>
@@ -187,6 +198,7 @@ namespace WorldYachts.ViewModel
                 OnPropertyChanged("ButtonIsEnabled");
             }
         }
+
         /// <summary>
         /// Пароль пользователя
         /// </summary>
@@ -199,6 +211,7 @@ namespace WorldYachts.ViewModel
                 OnPropertyChanged("ButtonIsEnabled");
             }
         }
+
         /// <summary>
         /// Повторно введенный пароль пользователя
         /// </summary>
@@ -213,6 +226,7 @@ namespace WorldYachts.ViewModel
         }
 
         public bool ButtonIsEnabled => ErrorDictionary.Count == 0;
+
         /// <summary>
         /// Видимость прогресс бара
         /// </summary>
@@ -229,7 +243,7 @@ namespace WorldYachts.ViewModel
         #endregion
 
         #region Команды
-        
+
         /// <summary>
         /// Команда регистрации
         /// </summary>
@@ -237,12 +251,14 @@ namespace WorldYachts.ViewModel
         {
             get
             {
-                return _register ??= new AsyncRelayCommand(RegisterMethod, (ex) =>
-                {
-                    ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message });
-                });
+                return _register ??= new AsyncRelayCommand(RegisterMethod,
+                    (ex) =>
+                    {
+                        ExecuteRunDialog(new MessageDialogProperty() {Title = "Ошибка", Message = ex.Message});
+                    });
             }
         }
+
         /// <summary>
         /// Метод регистрации
         /// </summary>
@@ -275,7 +291,7 @@ namespace WorldYachts.ViewModel
             //{
             //    ProgressBarVisibility = Visibility.Collapsed;
             //}
-            
+
             //ExecuteRunDialog(new MessageDialogProperty() { Title = "Регистрация", Message = "Регистрация прошла успешно." });
             //_successfulRegistration = true;
         }
@@ -285,14 +301,17 @@ namespace WorldYachts.ViewModel
         /// </summary>
         public DelegateCommand ChangeToLoginWindow
         {
-            get { return _changeToLoginWindow ??= new DelegateCommand((arg) =>
+            get
             {
-                var window = (Window) arg;
-                LoginWindow.ShowWindow();
-                window.Close();
-            }); }
-
+                return _changeToLoginWindow ??= new DelegateCommand((arg) =>
+                {
+                    var window = (Window) arg;
+                    LoginWindow.ShowWindow();
+                    window.Close();
+                });
+            }
         }
+
         /// <summary>
         /// Переключение на главное окно
         /// </summary>
@@ -308,17 +327,17 @@ namespace WorldYachts.ViewModel
                 });
             }
         }
+
         #region MessageDialog
+
         /// <summary>
         /// Открытие messageDialog
         /// </summary>
         public DelegateCommand OpenSampleMessageDialog
         {
-            get
-            {
-                return _openSampleMessageDialog ??= new DelegateCommand(ExecuteRunDialog);
-            }
+            get { return _openSampleMessageDialog ??= new DelegateCommand(ExecuteRunDialog); }
         }
+
         /// <summary>
         /// Запуск диалога сообщения
         /// </summary>
@@ -327,10 +346,11 @@ namespace WorldYachts.ViewModel
         {
             var view = new SampleMessageDialog()
             {
-                DataContext = new SampleMessageDialogViewModel((MessageDialogProperty)o)
+                DataContext = new SampleMessageDialogViewModel((MessageDialogProperty) o)
             };
             var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
         }
+
         /// <summary>
         /// При закрытии сообщения открываем главное окно при успешной регистрации
         /// </summary>
@@ -338,17 +358,20 @@ namespace WorldYachts.ViewModel
         /// <param name="eventArgs"></param>
         private void ClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
         {
-            if(_successfulRegistration)
+            if (_successfulRegistration)
                 ChangeToMainWindow?.Execute(View);
         }
 
         #endregion
+
         #endregion
 
         #region Валидация полей
+
         private Dictionary<string, string> ErrorDictionary = new Dictionary<string, string>();
-        
+
         public string Error { get; }
+
         /// <summary>
         /// Валидация полей окна
         /// </summary>
@@ -358,61 +381,36 @@ namespace WorldYachts.ViewModel
         {
             get
             {
-                string error = String.Empty;
-                switch (columnName)
+                string error = columnName switch
                 {
-                    case "Name":
-                        new Validation(new NotEmptyFieldValidationRule(Name))
-                            .Validate(ref error);
-                        break;
-                    case "SecondName":
-                        new Validation(new NotEmptyFieldValidationRule(SecondName))
-                            .Validate(ref error);
-                        break;
-                    case "BirthDate":
-                        new Validation(new YearsOldValidationRule(BirthDate), new NotEmptyFieldValidationRule(BirthDate))
-                            .Validate(ref error);
-                        break;
-                    case "City":
-                        new Validation(new NotEmptyFieldValidationRule(City))
-                            .Validate(ref error);
-                        break;
-                    case "Address":
-                        new Validation(new NotEmptyFieldValidationRule(Address))
-                            .Validate(ref error);
-                        break;
-                    case "Email":
-                        new Validation(new EmailValidationRule(Email), new NotEmptyFieldValidationRule(Email))
-                            .Validate(ref error);
-                        break;
-                    case "Phone":
-                        new Validation(new PhoneValidationRule(Phone), new NotEmptyFieldValidationRule(Phone)).Validate(ref error);
-                        break;
-                    case "IdDocumentName":
-                        new Validation(new NotEmptyFieldValidationRule(IdDocumentName)).Validate(ref error);
-                        break;
-                    case "IdNumber":
-                        new Validation(new NotEmptyFieldValidationRule(IdNumber)).Validate(ref error);
-                        break;
-                    case "Login":
-                        new Validation(new LoginValidationRule(Login),new NotEmptyFieldValidationRule(Login)).Validate(ref error);
-                        break;
-                    case "Password":
-                        new Validation(new SafePasswordValidationRule(Password), new NotEmptyFieldValidationRule(Password)).Validate(ref error);
-                        break;
-                    case "PasswordRepeated":
-                        error = (Password == PasswordRepeated) ? error : "Пароль не совпадает.";
-                        new Validation(new NotEmptyFieldValidationRule(PasswordRepeated)).Validate(ref error);
-                        break;
-                }
+                    "Name" => new Validation(new NotEmptyFieldValidationRule(Name)).Validate(),
+                    "SecondName" => new Validation(new NotEmptyFieldValidationRule(SecondName)).Validate(),
+                    "BirthDate" => new Validation(new YearsOldValidationRule(BirthDate),
+                        new NotEmptyFieldValidationRule(BirthDate)).Validate(),
+                    "City" => new Validation(new NotEmptyFieldValidationRule(City)).Validate(),
+                    "Address" => new Validation(new NotEmptyFieldValidationRule(Address)).Validate(),
+                    "Email" => new Validation(new EmailValidationRule(Email), new NotEmptyFieldValidationRule(Email))
+                        .Validate(),
+                    "Phone" => new Validation(new PhoneValidationRule(Phone), new NotEmptyFieldValidationRule(Phone))
+                        .Validate(),
+                    "IdDocumentName" => new Validation(new NotEmptyFieldValidationRule(IdDocumentName)).Validate(
+                    ),
+                    "IdNumber" => new Validation(new NotEmptyFieldValidationRule(IdNumber)).Validate(),
+                    "Login" => new Validation(new LoginValidationRule(Login), new NotEmptyFieldValidationRule(Login))
+                        .Validate(),
+                    "Password" => new Validation(new SafePasswordValidationRule(Password),
+                        new NotEmptyFieldValidationRule(Password)).Validate(),
+                    "PasswordRepeated" => (Password == PasswordRepeated) ? null : "Пароль не совпадает.",
+                    _ => null
+                };
                 ErrorDictionary.Remove(columnName);
-                if(error != String.Empty)
-                    ErrorDictionary.Add(columnName,error);
-                OnPropertyChanged("ButtonIsEnabled");
+                if (!string.IsNullOrWhiteSpace(error))
+                    ErrorDictionary.Add(columnName, error);
+                OnPropertyChanged(nameof(ButtonIsEnabled));
                 return error;
             }
         }
+
         #endregion
-        
     }
 }

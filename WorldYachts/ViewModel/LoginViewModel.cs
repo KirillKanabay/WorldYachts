@@ -34,7 +34,6 @@ namespace WorldYachts.ViewModel
 
         private bool _autoSignInCheck;
         private bool _inputIsEnabled = true;
-        private bool _isEnabled = true;
 
         private Visibility _progressBarVisibility = Visibility.Collapsed;
 
@@ -55,24 +54,9 @@ namespace WorldYachts.ViewModel
             _userModel = userModel;
             _authUser = authUser;
             _viewModelContainer = viewModelContainer;
-
-            if (IsEnabled)
-            {
-                Deserializable();
-            }
         }
 
         #region Свойства
-
-        public bool IsEnabled
-        {
-            get => _isEnabled;
-            set
-            {
-                _isEnabled = value;
-                OnPropertyChanged(nameof(IsEnabled));
-            }
-        }
 
         /// <summary>
         /// Логин пользователя
@@ -131,7 +115,7 @@ namespace WorldYachts.ViewModel
             }
         }
 
-        public bool ButtonIsEnabled => ErrorDictionary.Count == 0;
+        public bool ButtonIsEnabled => _errors.Count == 0;
         #endregion
 
         #region Команды
@@ -151,6 +135,11 @@ namespace WorldYachts.ViewModel
             }
         }
         
+        public AsyncRelayCommand LoadedCommand => new AsyncRelayCommand(Deserializable, (ex) =>
+        {
+            ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message });
+        });
+
         /// <summary>
         /// Метод авторизации
         /// </summary>
@@ -185,12 +174,12 @@ namespace WorldYachts.ViewModel
         }
         #endregion
 
-        private void Deserializable()
+        private async Task Deserializable(object parameter)
         {
             BinaryFormatter formatter = new BinaryFormatter();
             if (File.Exists("bin"))
             {
-                using (FileStream fs = new FileStream("bin", FileMode.OpenOrCreate))
+                await using (FileStream fs = new FileStream("bin", FileMode.OpenOrCreate))
                 {
                     fs.Seek(0, SeekOrigin.Begin);
                     _request = (SerializableAuthenticateRequest)formatter.Deserialize(fs);
@@ -199,9 +188,11 @@ namespace WorldYachts.ViewModel
             if (!string.IsNullOrWhiteSpace(_request.Username) && !string.IsNullOrWhiteSpace(_request.Password))
             {
                 AutoSignInCheck = true;
+                await LoginMethod(parameter);
+                OnPropertyChanged(nameof(Username));
+                OnPropertyChanged(nameof(Password));
             }
         }
-
         private async Task Serializable()
         {
             BinaryFormatter formatter = new BinaryFormatter();
@@ -224,18 +215,7 @@ namespace WorldYachts.ViewModel
                 return _openSampleMessageDialog ??= new DelegateCommand(ExecuteRunDialog);
             }
         }
-        private async void ExecuteRunDialog(object o)
-        {
-            var view = new SampleMessageDialog()
-            {
-                DataContext = new SampleMessageDialogViewModel((MessageDialogProperty) o)
-            };
-            var result = await DialogHost.Show(view, "RootDialogLogin", ClosingEventHandler);
-        }
-        private void ClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
-        {
-            Console.WriteLine("You can intercept the closing event, and cancel here."); //TODO: отловить ошибку
-        }
+        
 
         #endregion
 
@@ -258,25 +238,21 @@ namespace WorldYachts.ViewModel
 
         #region Валидация полей
         public string Error { get; }
-        public Dictionary<string, string> ErrorDictionary = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> _errors = new Dictionary<string, string>();
         public string this[string columnName]
         {
             get
             {
-                string error = String.Empty;
-                switch (columnName)
+                string error = columnName switch
                 {
-                    case "Login":
-                        new Validation(new NotEmptyFieldValidationRule(Username)).Validate(ref error);
-                        break;
-                    case "Password":
-                        new Validation(new NotEmptyFieldValidationRule(Password)).Validate(ref error);
-                        break;
-                }
-                ErrorDictionary.Remove(columnName);
-                if(error != String.Empty)
-                    ErrorDictionary.Add(columnName, error);
-                OnPropertyChanged("ButtonIsEnabled");
+                    nameof(Username) => new Validation(new NotEmptyFieldValidationRule(Username)).Validate(),
+                    nameof(Password) => new Validation(new NotEmptyFieldValidationRule(Password)).Validate(),
+                    _ => null
+                };
+                _errors.Remove(columnName);
+                if(!string.IsNullOrWhiteSpace(error))
+                    _errors.Add(columnName, error);
+                OnPropertyChanged(nameof(ButtonIsEnabled));
                 return error;
             }
         }

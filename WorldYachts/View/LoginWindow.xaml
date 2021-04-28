@@ -9,6 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModel="clr-namespace:WorldYachts.ViewModel"
     xmlns:vm="[vm ]clr-namespace:WorldYachts.ViewModel"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     x:Name="Window"
     Title="Авторизация пользователя"
     Width="400px"
@@ -81,6 +82,11 @@
         </ResourceDictionary>
 
     </Window.Resources>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition MaxHeight="25" />

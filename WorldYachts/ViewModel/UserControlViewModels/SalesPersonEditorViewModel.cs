@@ -163,30 +163,18 @@ namespace WorldYachts.ViewModel.UserControlViewModels
         {
             get
             {
-                string error = String.Empty;
-                switch (columnName)
+                var error = columnName switch
                 {
-                    case "Name":
-                        new Validation(
-                            new NotEmptyFieldValidationRule(Name)).Validate(ref error);
-                        break;
-                    case "SecondName":
-                        new Validation(
-                            new NotEmptyFieldValidationRule(SecondName)).Validate(ref error);
-                        break;
-                    case "Password":
-                        new Validation(new SafePasswordValidationRule(Password),
-                            new NotEmptyFieldValidationRule(Password)).Validate(ref error);
-                        break;
-                    case "Login":
-                        new Validation(
-                            new LoginValidationRule(Login),
-                            new NotEmptyFieldValidationRule(Login)).Validate(ref error);
-                        break;
-                }
+                    "Name" => new Validation(new NotEmptyFieldValidationRule(Name)).Validate(),
+                    "SecondName" => new Validation(new NotEmptyFieldValidationRule(SecondName)).Validate(),
+                    "Password" => new Validation(new SafePasswordValidationRule(Password),
+                        new NotEmptyFieldValidationRule(Password)).Validate(),
+                    "Login" => new Validation(new LoginValidationRule(Login), new NotEmptyFieldValidationRule(Login)).Validate(),
+                    _ => null
+                };
 
                 ErrorDictionary.Remove(columnName);
-                if (error != String.Empty)
+                if (!string.IsNullOrWhiteSpace(error))
                     ErrorDictionary.Add(columnName, error);
                 OnPropertyChanged(nameof(SaveButtonIsEnabled));
                 return error;

@@ -15,8 +15,9 @@ namespace WorldYachts.Validators
         {
             Value = value;
         }
-        public void Validate(ref string validationError)
+        public string Validate()
         {
+            string validationError = null;
             string password = (Value ?? "").ToString();
             //Безопасный пароль
             //1 строчная
@@ -29,6 +30,8 @@ namespace WorldYachts.Validators
                 validationError = "Слабый пароль. Пароль должен содержать как минимум " +
                                   "1 строчную и 1 заглавную букву, 1 цифру. Длина пароля минимум 8 символов";
             }
+
+            return validationError;
         }
     }
 }

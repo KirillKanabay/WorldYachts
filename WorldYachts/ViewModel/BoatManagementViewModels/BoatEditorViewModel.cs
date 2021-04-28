@@ -36,20 +36,21 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
 
         private IEnumerable<string> _boatTypes = new List<string>()
             {"Шлюпка", "Парусная лодка", "Галера"};
+
         private IEnumerable<string> _woodTypes = new List<string>()
             {"Дуб", "Береза", "Eль", "Cосна", "Лиственница"};
+
         #endregion
 
         private DelegateCommand _selectColor;
 
         #region Конструкторы
 
-        public BoatEditorViewModel():base(false)
+        public BoatEditorViewModel() : base(false)
         {
-           
         }
 
-        public BoatEditorViewModel(Boat boat):base(true)
+        public BoatEditorViewModel(Boat boat) : base(true)
         {
             _id = boat.Id;
             _model = boat.Model;
@@ -62,10 +63,10 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
             _vat = boat.Vat.ToString();
         }
 
-
         #endregion
 
         #region Свойства
+
         /// <summary>
         /// Модель яхты
         /// </summary>
@@ -78,6 +79,7 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
                 OnPropertyChanged(nameof(Model));
             }
         }
+
         /// <summary>
         /// Тип яхты
         /// </summary>
@@ -90,6 +92,7 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
                 OnPropertyChanged(nameof(Type));
             }
         }
+
         /// <summary>
         /// Количество гребцов
         /// </summary>
@@ -102,6 +105,7 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
                 OnPropertyChanged(nameof(NumberOfRower));
             }
         }
+
         /// <summary>
         /// Наличие мачты
         /// </summary>
@@ -114,6 +118,7 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
                 OnPropertyChanged(nameof(Mast));
             }
         }
+
         /// <summary>
         /// Цвет
         /// </summary>
@@ -126,6 +131,7 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
                 OnPropertyChanged(nameof(Color));
             }
         }
+
         /// <summary>
         /// Тип дерева
         /// </summary>
@@ -138,6 +144,7 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
                 OnPropertyChanged(nameof(Wood));
             }
         }
+
         /// <summary>
         /// Цена без НДС
         /// </summary>
@@ -150,6 +157,7 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
                 OnPropertyChanged(nameof(BasePrice));
             }
         }
+
         /// <summary>
         /// Процентная ставка НДС
         /// </summary>
@@ -162,7 +170,7 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
                 OnPropertyChanged(nameof(Vat));
             }
         }
-        
+
         /// <summary>
         /// Типы лодок
         /// </summary>
@@ -185,6 +193,7 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
                 OnPropertyChanged(nameof(SelectedColor));
             }
         }
+
         /// <summary>
         /// Типы дерева
         /// </summary>
@@ -197,36 +206,31 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
                 OnPropertyChanged(nameof(WoodTypes));
             }
         }
+
         /// <summary>
         /// Доступность кнопки сохранения лодки
         /// </summary>
-        public override bool SaveButtonIsEnabled => ErrorDictionary.Count == 0;
+        public override bool SaveButtonIsEnabled => _errors.Count == 0;
 
         /// <summary>
         /// Получения цветов
         /// </summary>
         public ObservableCollection<ColorStruct> ColorsCollection => ColorWorker.GetColorsCollection();
-        
+
         public override IDataModel<Boat> ModelItem => new BoatModel();
 
         #endregion
 
         #region Команды
-        
+
         /// <summary>
         /// Сохранение выбранного цвета лодки
         /// </summary>
         public DelegateCommand SelectColor
         {
-            get
-            {
-                return _selectColor ??= new DelegateCommand(arg =>
-                {
-                    Color = (string)arg;
-                });
-            }
+            get { return _selectColor ??= new DelegateCommand(arg => { Color = (string) arg; }); }
         }
-        
+
         protected override Boat GetSaveItem(bool isEdit)
         {
             return new Boat()
@@ -251,47 +255,36 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
         }
 
         #endregion
-        
+
         #region Валидация полей
 
         public string Error { get; }
 
-        private Dictionary<string, string> ErrorDictionary = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> _errors = new Dictionary<string, string>();
+
         public string this[string columnName]
         {
             get
             {
-                string error = String.Empty;
-                switch (columnName)
+                string error = columnName switch
                 {
-                    case "Model":
-                        new Validation(new NotEmptyFieldValidationRule(Model)).Validate(ref error);
-                        break;
-                    case "Type":
-                        new Validation(new NotEmptyFieldValidationRule(Type)).Validate(ref error);
-                        break;
-                    case "NumberOfRower":
-                        new Validation(
-                            new PositiveNumberValidationRule(NumberOfRower),
-                            new NotEmptyFieldValidationRule(NumberOfRower)).Validate(ref error);
-                        break;
-                    case "Wood":
-                        new Validation(new NotEmptyFieldValidationRule(Wood)).Validate(ref error);
-                        break;
-                    case "BasePrice":
-                        new Validation(
-                            new PositiveNumberValidationRule(_basePrice),
-                            new NumberValidationRule(BasePrice)).Validate(ref error);
-                        break;
-                    case "Vat":
-                        new Validation(
-                            new PositiveNumberValidationRule(_vat),
-                            new NotEmptyFieldValidationRule(Vat)).Validate(ref error);
-                        break;
-                }
-                ErrorDictionary.Remove(columnName);
-                if (error != String.Empty)
-                    ErrorDictionary.Add(columnName, error);
+                    "Model" => new Validation(new NotEmptyFieldValidationRule(Model)).Validate(),
+                    "Type" => new Validation(new NotEmptyFieldValidationRule(Type)).Validate(),
+                    "NumberOfRower" => new Validation(
+                        new PositiveNumberValidationRule(NumberOfRower),
+                        new NotEmptyFieldValidationRule(NumberOfRower)).Validate(),
+                    "Wood" => new Validation(new NotEmptyFieldValidationRule(Wood)).Validate(),
+                    "BasePrice" => new Validation(
+                        new PositiveNumberValidationRule(_basePrice),
+                        new NumberValidationRule(BasePrice)).Validate(),
+                    "Vat" => new Validation(
+                        new PositiveNumberValidationRule(_vat),
+                        new NotEmptyFieldValidationRule(Vat)).Validate(),
+                    _ => null
+                };
+                _errors.Remove(columnName);
+                if (!string.IsNullOrWhiteSpace(error))
+                    _errors.Add(columnName, error);
                 OnPropertyChanged(nameof(SaveButtonIsEnabled));
                 return error;
             }

@@ -14,7 +14,6 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             AccessoryEditorViewModel accessoryEditorViewModel)
             :base(accessoryModel, accessoryEditorViewModel)
         {
-            Console.WriteLine();
         }
         protected override ObservableCollection<BaseSelectableViewModel<Accessory>> GetSelectableViewModels(IEnumerable<Accessory> items)
         {

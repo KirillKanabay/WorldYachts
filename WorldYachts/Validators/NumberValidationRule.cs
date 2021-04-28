@@ -13,13 +13,17 @@ namespace WorldYachts.Validators
         {
             Value = value;
         }
-        public void Validate(ref string validationError)
+        public string Validate()
         {
+            string validationError = null;
+
             Regex doubleRegex = new Regex(@"^[0-9]*[,]?[0-9]+$");
             if (!doubleRegex.IsMatch((Value ?? "").ToString()))
             {
                 validationError = "Поле должно содержать число";
             }
+
+            return validationError;
         }
     }
 }

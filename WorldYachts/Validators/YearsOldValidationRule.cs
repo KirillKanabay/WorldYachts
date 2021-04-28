@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
-using System.Windows.Controls;
 
 namespace WorldYachts.Validators
 {
@@ -14,7 +10,7 @@ namespace WorldYachts.Validators
         {
             Value = value;
         }
-        public void Validate(ref string validationError)
+        public string Validate()
         {
             DateTime dt;
             if (Value == null)
@@ -25,7 +21,7 @@ namespace WorldYachts.Validators
             {
                 dt = (DateTime) Value;
             }
-            validationError = DateTime.Compare(DateTime.Now.AddYears(-18),dt) >= 0 ? validationError : "Вам должно быть не менее 18 лет.";
+            return DateTime.Compare(DateTime.Now.AddYears(-18),dt) >= 0 ? null : "Вам должно быть не менее 18 лет.";
         }
     }
 }

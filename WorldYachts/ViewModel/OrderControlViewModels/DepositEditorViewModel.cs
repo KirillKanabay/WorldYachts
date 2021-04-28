@@ -50,12 +50,10 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
         {
             get
             {
-                string error = String.Empty;
-
-                new Validation(new PositiveNumberValidationRule(Deposit)).Validate(ref error);
+                string error = new Validation(new PositiveNumberValidationRule(Deposit)).Validate();
 
                 ErrorDictionary.Remove(columnName);
-                if (error != String.Empty)
+                if (!string.IsNullOrWhiteSpace(error))
                     ErrorDictionary.Add(columnName, error);
                 OnPropertyChanged(nameof(SaveButtonIsEnabled));
                 return error;

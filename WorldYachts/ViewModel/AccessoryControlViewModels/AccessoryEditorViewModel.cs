@@ -40,7 +40,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         {
             _accessoryModel = accessoryModel;
             _partnerModel = partnerModel;
-            
+
             if (!entityContainer.IsEmpty)
             {
                 _accessory = entityContainer.Pop<Accessory>();
@@ -174,38 +174,27 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         #endregion
 
         #region Валидация полей
-        
+
         private readonly Dictionary<string, string> _errors = new Dictionary<string, string>();
         public string Error { get; }
+
         public string this[string columnName]
         {
             get
             {
                 string error = columnName switch
                 {
-                    "Name" : 
-                }
-                switch (columnName)
-                {
-                    case "Name":
-                        new Validation(new NotEmptyFieldValidationRule(Name)).Validate(ref error);
-                        break;
-                    case "Description":
-                        new Validation(new NotEmptyFieldValidationRule(Description)).Validate(ref error);
-                        break;
-                    case "Price":
-                        new Validation(new NotEmptyFieldValidationRule(Price)).Validate(ref error);
-                        break;
-                    case "Vat":
-                        new Validation(new NotEmptyFieldValidationRule(Vat)).Validate(ref error);
-                        break;
-                    case "Inventory":
-                        new Validation(new NotEmptyFieldValidationRule(Inventory)).Validate(ref error);
-                        break;
-                }
-
+                    "Name" => new Validation(new NotEmptyFieldValidationRule(Name)).Validate(),
+                    "Description" => new Validation(new NotEmptyFieldValidationRule(Description)).Validate(),
+                    "Price" => new Validation(new NotEmptyFieldValidationRule(Price),
+                        new PositiveNumberValidationRule(Price)).Validate(),
+                    "Vat" => new Validation(new NotEmptyFieldValidationRule(Vat),
+                        new PositiveNumberValidationRule(Price)).Validate(),
+                    "Inventory" => new Validation(new NotEmptyFieldValidationRule(Inventory)).Validate(),
+                    _ => null
+                };
                 _errors.Remove(columnName);
-                if (error != string.Empty)
+                if (!string.IsNullOrWhiteSpace(error))
                     _errors.Add(columnName, error);
                 OnPropertyChanged(nameof(SaveButtonIsEnabled));
                 return error;

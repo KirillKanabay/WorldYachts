@@ -14,7 +14,7 @@
     FontFamily="Google Sans"
     mc:Ignorable="d">
     <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
+        <i:EventTrigger EventName="IsVisibleChanged">
             <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>

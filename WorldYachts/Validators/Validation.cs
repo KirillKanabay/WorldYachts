@@ -13,13 +13,19 @@ namespace WorldYachts.Validators
             _validationRules = validationRules;
         }
 
-        public void Validate(ref string validationError)
+        public string Validate()
         {
-            validationError = String.Empty;
+            string validationError = null;
             foreach (var validationRule in _validationRules)
             {
-                validationRule.Validate(ref validationError);
+                validationError = validationRule.Validate();
+                if (!string.IsNullOrWhiteSpace(validationError))
+                {
+                    break;
+                }
             }
+
+            return validationError;
         }
     }
 }

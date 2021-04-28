@@ -202,7 +202,7 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
             }
         }
         public bool IsCustomer => _authUser.Role == "Customer";
-        public override bool SaveButtonIsEnabled => !ErrorDictionary.Any() && IsCustomer;
+        public override bool SaveButtonIsEnabled => !_errors.Any() && IsCustomer;
         public override IDataModel<Order> ModelItem => _orderModel;
         
         protected override Order GetSaveItem(bool isEdit)
@@ -258,24 +258,20 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
 
         public string Error { get; }
 
-        private Dictionary<string, string> ErrorDictionary = new Dictionary<string, string>();
+        private Dictionary<string, string> _errors = new Dictionary<string, string>();
         public string this[string columnName]
         {
             get
             {
-                string error = String.Empty;
-                switch (columnName)
+                string error = columnName switch
                 {
-                    case "DeliveryCity":
-                        new Validation(new NotEmptyFieldValidationRule(DeliveryCity)).Validate(ref error);
-                        break;
-                    case "DeliveryAddress":
-                        new Validation(new NotEmptyFieldValidationRule(DeliveryAddress)).Validate(ref error);
-                        break;
-                }
-                ErrorDictionary.Remove(columnName);
-                if (error != String.Empty)
-                    ErrorDictionary.Add(columnName, error);
+                    "DeliveryCity" => new Validation(new NotEmptyFieldValidationRule(DeliveryCity)).Validate(),
+                    "DeliveryAddress" => new Validation(new NotEmptyFieldValidationRule(DeliveryAddress)).Validate(),
+                    _ => null
+                };
+                _errors.Remove(columnName);
+                if (!string.IsNullOrWhiteSpace(error))
+                    _errors.Add(columnName, error);
                 OnPropertyChanged(nameof(SaveButtonIsEnabled));
                 return error;
             }

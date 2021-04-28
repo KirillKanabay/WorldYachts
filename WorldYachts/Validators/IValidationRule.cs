@@ -7,6 +7,6 @@ namespace WorldYachts.Validators
     interface IValidationRule
     {
         object Value { get; }
-        public void Validate(ref string validationError);
+        public string Validate();
     }
 }

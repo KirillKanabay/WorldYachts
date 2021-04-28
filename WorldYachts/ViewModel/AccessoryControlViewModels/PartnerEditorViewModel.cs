@@ -83,7 +83,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         }
 
         
-        public override bool SaveButtonIsEnabled => ErrorDictionary.Count == 0;
+        public override bool SaveButtonIsEnabled => _errors.Count == 0;
 
         public override IDataModel<Partner> ModelItem => null;
 
@@ -113,7 +113,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
 
         #region Валидация полей
 
-        private readonly Dictionary<string, string> ErrorDictionary = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> _errors = new Dictionary<string, string>();
 
         public string Error { get; }
 
@@ -121,26 +121,17 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         {
             get
             {
-                string error = String.Empty;
-                switch (columnName)
+                string error = columnName switch
                 {
-                    case "Name":
-                        new Validation(
-                            new NotEmptyFieldValidationRule(Name)).Validate(ref error);
-                        break;
-                    case "Address":
-                        new Validation(
-                            new NotEmptyFieldValidationRule(Address)).Validate(ref error);
-                        break;
-                    case "City":
-                        new Validation(
-                            new NotEmptyFieldValidationRule(City)).Validate(ref error);
-                        break;
-                }
+                    "Name" => new Validation(new NotEmptyFieldValidationRule(Name)).Validate(),
+                    "Address" => new Validation(new NotEmptyFieldValidationRule(Address)).Validate(),
+                    "City" => new Validation(new NotEmptyFieldValidationRule(City)).Validate(),
+                    _ => null
+                };
 
-                ErrorDictionary.Remove(columnName);
-                if (error != String.Empty)
-                    ErrorDictionary.Add(columnName, error);
+                _errors.Remove(columnName);
+                if (!string.IsNullOrWhiteSpace(error))
+                    _errors.Add(columnName, error);
                 OnPropertyChanged(nameof(SaveButtonIsEnabled));
                 return error;
             }

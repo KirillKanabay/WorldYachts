@@ -14,11 +14,11 @@ namespace WorldYachts.Validators
         {
             Value = value;
         }
-        public void Validate(ref string validationError)
+        public string Validate()
         {
-            validationError = (Value ?? "").ToString().Trim().Length > 0
-                ? validationError
-                : "Поле не должно быть пустым";
+            return string.IsNullOrWhiteSpace((Value ?? "").ToString())
+                ? "Поле не должно быть пустым"
+                : null;
         }
     }
 }

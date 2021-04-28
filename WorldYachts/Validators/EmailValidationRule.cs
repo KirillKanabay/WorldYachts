@@ -16,8 +16,10 @@ namespace WorldYachts.Validators
         {
             Value = value;
         }
-        public void Validate(ref string validationError)
+        public string Validate()
         {
+            string validationError = null;
+            
             string email = (Value ?? "").ToString();
             try
             {
@@ -27,6 +29,8 @@ namespace WorldYachts.Validators
             {
                 validationError = "Неправильный формат Email";
             }
+
+            return validationError;
         }
     }
 }
