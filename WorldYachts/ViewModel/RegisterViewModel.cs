@@ -356,12 +356,12 @@ namespace WorldYachts.ViewModel
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="eventArgs"></param>
-        private void ClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        public void ClosingEventHandler(object sender, DialogOpenedEventArgs eventargs)
         {
             if (_successfulRegistration)
                 ChangeToMainWindow?.Execute(View);
         }
-
+        
         #endregion
 
         #endregion

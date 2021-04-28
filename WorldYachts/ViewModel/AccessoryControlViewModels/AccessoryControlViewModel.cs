@@ -1,11 +1,12 @@
-﻿using WorldYachts.ViewModel.BaseViewModels;
+﻿using WorldYachts.DependencyInjections.Helpers;
+using WorldYachts.ViewModel.BaseViewModels;
 
 namespace WorldYachts.ViewModel.AccessoryControlViewModels
 {
     public class AccessoryControlViewModel:BaseViewModel
     {
-        private readonly ViewModelContainer _viewModelContainer;
-        public AccessoryControlViewModel(ViewModelContainer viewModelContainer)
+        private readonly IViewModelContainer _viewModelContainer;
+        public AccessoryControlViewModel(IViewModelContainer viewModelContainer)
         {
             _viewModelContainer = viewModelContainer;
         }

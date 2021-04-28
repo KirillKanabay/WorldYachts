@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using WorldYachts.Data;
+using WorldYachts.DependencyInjections.Helpers;
 using WorldYachts.Helpers;
 using WorldYachts.Model;
 using WorldYachts.Services;
@@ -29,10 +30,10 @@ namespace WorldYachts.ViewModel
         private BaseViewModel _currentViewModel;
         private readonly AuthUser _authUser;
 
-        private readonly ViewModelContainer _viewModelContainer;
+        private readonly IViewModelContainer _viewModelContainer;
         #endregion
 
-        public MainViewModel(AuthUser authUser, ViewModelContainer viewModelContainer)
+        public MainViewModel(AuthUser authUser, IViewModelContainer viewModelContainer)
         {
             _authUser = authUser;
             _viewModelContainer = viewModelContainer;

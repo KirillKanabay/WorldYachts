@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
@@ -7,11 +6,13 @@ using System.Threading.Tasks;
 using System.Windows;
 using MaterialDesignThemes.Wpf;
 using WorldYachts.Data.Entities;
+using WorldYachts.DependencyInjections.Helpers;
+using WorldYachts.DependencyInjections.Models;
 using WorldYachts.Helpers;
 using WorldYachts.Helpers.Commands;
-using WorldYachts.Model;
 using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BaseViewModels;
+using WorldYachts.ViewModel.MessageDialog;
 
 namespace WorldYachts.ViewModel.AccessoryControlViewModels
 {
@@ -26,13 +27,13 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         
         private Visibility _progressBarVisibility;
 
-        private readonly AccessoryModel _accessoryModel;
-        private readonly ViewModelContainer _viewModelContainer;
+        private readonly IAccessoryModel _accessoryModel;
+        private readonly IViewModelContainer _viewModelContainer;
 
         #endregion
 
         #region Конструкторы
-        public AccessoryManagementViewModel(AccessoryModel accessoryModel, ViewModelContainer viewModelContainer)
+        public AccessoryManagementViewModel(IAccessoryModel accessoryModel, IViewModelContainer viewModelContainer)
         {
             _accessoryModel = accessoryModel;
             _viewModelContainer = viewModelContainer;
@@ -110,12 +111,6 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         #endregion
 
         #region Методы
-
-        private void CheckDeletedItems(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            RemoveItem.Execute(null);
-        }
-
         private async Task RemoveItemsCollectionMethod(object parameter)
         {
             var removeItems = _accessories.Where(i => i.IsSelected)
@@ -206,6 +201,15 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             };
 
             var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
+        }
+
+        public async void ExecuteRunDialog(object o)
+        {
+            var view = new SampleMessageDialog()
+            {
+                DataContext = new SampleMessageDialogViewModel((MessageDialogProperty)o)
+            };
+            var result = await DialogHost.Show(view, "DialogRoot", ClosingEventHandler);
         }
 
         /// <summary>

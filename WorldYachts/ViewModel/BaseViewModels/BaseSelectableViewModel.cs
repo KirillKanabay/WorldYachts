@@ -126,7 +126,7 @@ namespace WorldYachts.ViewModel.BaseViewModels
             //Добавляем метод обновления редактора после загрузки при редактировании
             ToggleViewEditorAfterLoaded();
 
-            var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
+            //var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
 
             //Убираем метод обновления редактора после загрузки при редактировании
             ToggleViewEditorAfterLoaded();
@@ -146,13 +146,13 @@ namespace WorldYachts.ViewModel.BaseViewModels
         /// Показывает простой диалог сообщения
         /// </summary>
         /// <param name="o"></param>
-        protected async void ExecuteRunDialog(object o)
+        protected void ExecuteRunDialog(object o)
         {
             var view = new SampleMessageDialog()
             {
                 DataContext = new SampleMessageDialogViewModel((MessageDialogProperty) o)
             };
-            var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
+           //var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
         }
 
         /// <summary>
@@ -175,15 +175,7 @@ namespace WorldYachts.ViewModel.BaseViewModels
         /// </summary>
         /// <returns>Параметры диалога</returns>
         protected abstract MessageDialogProperty GetConfirmDeleteDialogProperty();
-
-        /// <summary>
-        /// Обработчик события закрытия диалога
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="eventArgs"></param>
-        protected void ClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
-        {
-        }
+        
 
         /// <summary>
         /// Обработчик события закрытия диалога подтверждения удаления

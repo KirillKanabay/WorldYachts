@@ -1,4 +1,5 @@
 ﻿using System;
+using WorldYachts.DependencyInjections.Models;
 using WorldYachts.Model;
 using WorldYachts.View.Editors;
 using WorldYachts.View.MessageDialogs;
@@ -10,9 +11,9 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
 {
     public class SelectableAccessoryViewModel:BaseSelectableViewModel<Data.Entities.Accessory>
     {
-        private readonly AccessoryModel _accessoryModel;
-        public SelectableAccessoryViewModel(Data.Entities.Accessory item, AccessoryModel accessoryModel) 
-            : base(item,accessoryModel)
+        private readonly IAccessoryModel _accessoryModel;
+        public SelectableAccessoryViewModel(Data.Entities.Accessory item, IAccessoryModel accessoryModel) 
+            : base(item, null)
         {
             _accessoryModel = accessoryModel;
         }

@@ -1,4 +1,6 @@
 ﻿using Autofac;
+using WorldYachts.DependencyInjections.Helpers;
+using WorldYachts.DependencyInjections.Models;
 using WorldYachts.Model;
 using WorldYachts.Services;
 using WorldYachts.Services.Accessory;
@@ -23,7 +25,7 @@ namespace WorldYachts.Helpers
         {
             builder.RegisterType<WebClientService>().As<IWebClientService>().SingleInstance();
             builder.RegisterType<AuthUser>().AsSelf().SingleInstance();
-            builder.RegisterType<ViewModelContainer>().AsSelf();
+            builder.RegisterType<ViewModelContainer>().As<IViewModelContainer>().SingleInstance();
             builder.RegisterType<EntityContainer>().AsSelf().SingleInstance();
 
             RegisterViewModels(builder);
@@ -87,7 +89,7 @@ namespace WorldYachts.Helpers
         {
             builder.RegisterType<UserModel>().AsSelf();
             builder.RegisterType<PartnerModel>().AsSelf();
-            builder.RegisterType<AccessoryModel>().AsSelf();
+            builder.RegisterType<AccessoryModel>().As<IAccessoryModel>().InstancePerLifetimeScope();
         }
 
         private void RegisterViews(ContainerBuilder builder)

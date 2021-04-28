@@ -5,13 +5,16 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Windows;
+using MaterialDesignThemes.Wpf;
 using WorldYachts.Data.Entities;
+using WorldYachts.DependencyInjections.Models;
 using WorldYachts.Helpers;
 using WorldYachts.Helpers.Commands;
 using WorldYachts.Model;
 using WorldYachts.Validators;
 using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BaseViewModels;
+using WorldYachts.ViewModel.MessageDialog;
 
 namespace WorldYachts.ViewModel.AccessoryControlViewModels
 {
@@ -19,7 +22,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
     {
         #region Поля
 
-        private readonly AccessoryModel _accessoryModel;
+        private readonly IAccessoryModel _accessoryModel;
         private readonly PartnerModel _partnerModel;
 
         private readonly Accessory _accessory;
@@ -35,7 +38,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
 
         #region Конструкторы
 
-        public AccessoryEditorViewModel(AccessoryModel accessoryModel, PartnerModel partnerModel,
+        public AccessoryEditorViewModel(IAccessoryModel accessoryModel, PartnerModel partnerModel,
             EntityContainer entityContainer)
         {
             _accessoryModel = accessoryModel;
@@ -171,13 +174,22 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             SendSnackbar(SnackbarMessage);
         }
 
+        public async void ExecuteRunDialog(object o)
+        {
+            var view = new SampleMessageDialog()
+            {
+                DataContext = new SampleMessageDialogViewModel((MessageDialogProperty)o)
+            };
+            var result = await DialogHost.Show(view, "DialogRoot");
+        }
+
         #endregion
 
         #region Валидация полей
 
         private readonly Dictionary<string, string> _errors = new Dictionary<string, string>();
         public string Error { get; }
-
+        
         public string this[string columnName]
         {
             get

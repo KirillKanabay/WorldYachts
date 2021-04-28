@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using WorldYachts.Data.Entities;
+using WorldYachts.DependencyInjections.Models;
 using WorldYachts.Services.Accessory;
 
 namespace WorldYachts.Model
 {
-    public class AccessoryModel : IDataModel<Accessory>
+    public class AccessoryModel : IAccessoryModel
     {
         private readonly IAccessoryService _accessoryService;
 
@@ -37,10 +38,6 @@ namespace WorldYachts.Model
         public async Task UpdateAsync(Accessory item)
         {
             await _accessoryService.UpdateAsync(item.Id, item);
-        }
-
-        public async Task IsRepeated(Accessory item)
-        {
         }
 
         public async Task<Accessory> GetByIdAsync(int id)

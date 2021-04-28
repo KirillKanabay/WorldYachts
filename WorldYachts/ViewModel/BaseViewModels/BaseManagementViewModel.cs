@@ -274,12 +274,12 @@ namespace WorldYachts.ViewModel.BaseViewModels
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="eventArgs"></param>
-        protected void ClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        public void ClosingEventHandler(object sender, DialogOpenedEventArgs eventargs)
         {
             GetItemsCollection.Execute(null);
             OnPropertyChanged(nameof(FilteredCollection));
         }
-
+        
         #endregion
     }
 }

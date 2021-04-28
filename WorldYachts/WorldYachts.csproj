@@ -36,6 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WorldYachts.DependencyInjections\WorldYachts.DependencyInjections.csproj" />
     <ProjectReference Include="..\WorldYachts.Services\WorldYachts.Services.csproj" />
   </ItemGroup>
 

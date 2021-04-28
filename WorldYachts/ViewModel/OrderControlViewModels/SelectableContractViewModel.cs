@@ -129,27 +129,27 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
 
         #region Команды
 
-        public AsyncRelayCommand Deposit
-        {
-            get
-            {
-                return _deposit ??= new AsyncRelayCommand(DepositMethod, (ex) =>
-                {
-                    ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message });
-                });
-            }
-        }
+        //public AsyncRelayCommand Deposit
+        //{
+        //    get
+        //    {
+        //        return _deposit ??= new AsyncRelayCommand(DepositMethod, (ex) =>
+        //        {
+        //            ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message });
+        //        });
+        //    }
+        //}
 
-        public AsyncRelayCommand ChangeProductionProcess
-        {
-            get
-            {
-                return _changeProductionProcess ??= new AsyncRelayCommand(ChangeProductionProcessMethod, (ex) =>
-                {
-                    ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message });
-                });
-            }
-        }
+        //public AsyncRelayCommand ChangeProductionProcess
+        //{
+        //    get
+        //    {
+        //        return _changeProductionProcess ??= new AsyncRelayCommand(ChangeProductionProcessMethod, (ex) =>
+        //        {
+        //            ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message });
+        //        });
+        //    }
+        //}
 
         #endregion
 
@@ -165,6 +165,11 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
             
             //Извещаем об изменении предмета
             BaseManagementViewModel<Contract>.OnItemChanged?.Invoke();
+        }
+
+        private void ClosingEventHandler(object sender, DialogOpenedEventArgs eventargs)
+        {
+            //throw new NotImplementedException();
         }
 
         private async Task ChangeProductionProcessMethod(object parameter)

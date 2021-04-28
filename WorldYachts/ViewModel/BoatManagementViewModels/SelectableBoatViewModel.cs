@@ -133,6 +133,11 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
             var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
         }
 
+        private void ClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        {
+            //throw new System.NotImplementedException();
+        }
+
         #endregion
     }
 }

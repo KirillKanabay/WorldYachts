@@ -1,10 +1,11 @@
 ﻿using Autofac;
-using Autofac.Core;
+using WorldYachts.DependencyInjections;
+using WorldYachts.DependencyInjections.Helpers;
 using WorldYachts.ViewModel.BaseViewModels;
 
 namespace WorldYachts.ViewModel
 {
-    public class ViewModelContainer
+    public class ViewModelContainer : IViewModelContainer
     {
         private readonly ILifetimeScope _scope;
         public ViewModelContainer(ILifetimeScope scope)
@@ -12,7 +13,7 @@ namespace WorldYachts.ViewModel
             _scope = scope;
         }
 
-        public TViewModel GetViewModel<TViewModel>() where TViewModel : BaseViewModel
+        public TViewModel GetViewModel<TViewModel>() where TViewModel : IBaseViewModel
         {
             return _scope.Resolve<TViewModel>();
         }

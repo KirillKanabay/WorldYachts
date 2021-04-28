@@ -6,6 +6,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 using System.Windows;
 using MaterialDesignThemes.Wpf;
+using WorldYachts.DependencyInjections.Helpers;
 using WorldYachts.Helpers;
 using WorldYachts.Helpers.Commands;
 using WorldYachts.Model;
@@ -44,11 +45,11 @@ namespace WorldYachts.ViewModel
         private readonly UserModel _userModel;
         private readonly AuthUser _authUser;
         private MainWindow _mainWindow;
-        private readonly ViewModelContainer _viewModelContainer;
+        private readonly IViewModelContainer _viewModelContainer;
 
         #endregion
 
-        public LoginViewModel(UserModel userModel, AuthUser authUser, ViewModelContainer viewModelContainer)
+        public LoginViewModel(UserModel userModel, AuthUser authUser, IViewModelContainer viewModelContainer)
         {
             _request = new SerializableAuthenticateRequest();
             _userModel = userModel;
@@ -203,6 +204,15 @@ namespace WorldYachts.ViewModel
             }
         }
 
+
+        public async void ExecuteRunDialog(object o)
+        {
+            var view = new SampleMessageDialog()
+            {
+                DataContext = new SampleMessageDialogViewModel((MessageDialogProperty)o)
+            };
+            var result = await DialogHost.Show(view, "DialogRoot");
+        }
         #region MessageDialog
 
         /// <summary>
