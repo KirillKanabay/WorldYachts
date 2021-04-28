@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using MaterialDesignThemes.Wpf;
 using WorldYachts.DependencyInjections.Helpers;
 using WorldYachts.DependencyInjections.Models;
+using WorldYachts.Helpers;
 using WorldYachts.Helpers.Commands;
 using WorldYachts.Model;
 using WorldYachts.View.Editors;
@@ -28,11 +29,12 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
 
         private readonly IAccessoryModel _accessoryModel;
         private readonly IViewModelContainer _viewModelContainer;
-        
         #endregion
         
         #region Конструкторы
-        public SelectableAccessoryViewModel(Accessory accessory, IAccessoryModel accessoryModel, IViewModelContainer viewModelContainer)
+        public SelectableAccessoryViewModel(Accessory accessory, 
+            IAccessoryModel accessoryModel, 
+            IViewModelContainer viewModelContainer)
         {
             Accessory = accessory;
             _accessoryModel = accessoryModel;
@@ -88,7 +90,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             return new MessageDialogProperty()
             {
                 Title = "Подтверждение удаления",
-                Message = "Будет удален следующий аксессуар:\n\n" + this
+                Message = "Будет удален следующий аксессуар:\n\n" + Info,
             };
         }
 
@@ -125,21 +127,15 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         #region Диалоги
         private async Task ExecuteRunEditorDialog(object o)
         {
+            EntityContainer.Push(Accessory);
             var view = new View.MessageDialogs.MessageDialog()
             {
-                DataContext = new MessageDialogViewModel()
+                DataContext = new MessageDialogViewModel(_viewModelContainer.GetViewModel<AccessoryEditorViewModel>())
             };
-            //Добавляем метод обновления редактора после загрузки при редактировании
-            ToggleViewEditorAfterLoaded();
 
-            //var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
-
-            //Убираем метод обновления редактора после загрузки при редактировании
-            ToggleViewEditorAfterLoaded();
-
-            //Извещаем об изменении предмета
-            BaseManagementViewModel<Accessory>.OnItemChanged?.Invoke();
+            var result = await DialogHost.Show(view, "RootDialog");
         }
+
         /// <summary>
         /// Показывает простой диалог сообщения
         /// </summary>
@@ -176,7 +172,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         private void ClosingDeleteDialogEventHandler(object sender, DialogClosingEventArgs eventargs)
         {
             if (Equals((eventargs.Parameter), true))
-                IsDeleted = true;
+                _accessoryModel.DeleteAsync(Accessory);
         }
         #endregion
 

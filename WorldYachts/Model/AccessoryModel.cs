@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WorldYachts.Data.Entities;
 using WorldYachts.DependencyInjections.Models;
@@ -8,18 +9,19 @@ namespace WorldYachts.Model
 {
     public class AccessoryModel : IAccessoryModel
     {
+        public event Func<object, Task> AccessoryModelChanged; 
+            
         private readonly IAccessoryService _accessoryService;
 
         public AccessoryModel(IAccessoryService accessoryService)
         {
             _accessoryService = accessoryService;
         }
-
-        public Accessory LastAddedItem { get; set; }
-
+        
         public async Task AddAsync(Accessory item)
         {
             await _accessoryService.AddAsync(item);
+            AccessoryModelChanged?.Invoke(item);
         }
 
         public async Task<IEnumerable<Accessory>> GetAllAsync()
@@ -27,17 +29,16 @@ namespace WorldYachts.Model
             return await _accessoryService.GetAllAsync();
         }
 
-        public async Task DeleteAsync(IEnumerable<Accessory> removeItems)
+        public async Task DeleteAsync(Accessory accessory)
         {
-            foreach (var removeItem in removeItems)
-            {
-                await _accessoryService.DeleteAsync(removeItem.Id);
-            }
+            await _accessoryService.DeleteAsync(accessory.Id);
+            AccessoryModelChanged?.Invoke(accessory);
         }
 
         public async Task UpdateAsync(Accessory item)
         {
             await _accessoryService.UpdateAsync(item.Id, item);
+            AccessoryModelChanged?.Invoke(item);
         }
 
         public async Task<Accessory> GetByIdAsync(int id)

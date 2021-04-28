@@ -27,7 +27,7 @@ namespace WorldYachts.Data.Entities
                    $"Описание: {Description}\n" +
                    $"Базовая стоимость: {Price} ₽\n" +
                    $"НДС: {Vat} %\n" +
-                   $"Инвентарный номер: {Inventory}\n";
+                   $"Количество на складе: {Inventory}\n";
         }
     }
 }

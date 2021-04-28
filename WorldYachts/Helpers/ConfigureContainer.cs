@@ -26,7 +26,6 @@ namespace WorldYachts.Helpers
             builder.RegisterType<WebClientService>().As<IWebClientService>().SingleInstance();
             builder.RegisterType<AuthUser>().AsSelf().SingleInstance();
             builder.RegisterType<ViewModelContainer>().As<IViewModelContainer>().SingleInstance();
-            builder.RegisterType<EntityContainer>().AsSelf().SingleInstance();
 
             RegisterViewModels(builder);
             RegisterServices(builder);

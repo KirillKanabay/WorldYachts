@@ -25,10 +25,9 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         private readonly IAccessoryModel _accessoryModel;
         private readonly PartnerModel _partnerModel;
 
-        private readonly Accessory _accessory;
+        public readonly Accessory Accessory;
 
         private List<Partner> _partnersCollection;
-        private Partner _selectedPartner;
 
         private Visibility _progressBarVisibility = Visibility.Collapsed;
 
@@ -38,20 +37,20 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
 
         #region Конструкторы
 
-        public AccessoryEditorViewModel(IAccessoryModel accessoryModel, PartnerModel partnerModel,
-            EntityContainer entityContainer)
+        public AccessoryEditorViewModel(IAccessoryModel accessoryModel, PartnerModel partnerModel)
         {
             _accessoryModel = accessoryModel;
             _partnerModel = partnerModel;
 
-            if (!entityContainer.IsEmpty)
+            if (!EntityContainer.IsEmpty)
             {
-                _accessory = entityContainer.Pop<Accessory>();
+                Accessory = EntityContainer.Pop<Accessory>();
+                SelectedPartner = Accessory.Partner;
                 _isEdit = true;
             }
             else
             {
-                _accessory = new Accessory();
+                Accessory = new Accessory();
             }
         }
 
@@ -71,65 +70,74 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
 
         public string Name
         {
-            get => _accessory.Name;
+            get => Accessory.Name;
             set
             {
-                _accessory.Name = value;
+                Accessory.Name = value;
                 OnPropertyChanged(nameof(Name));
             }
         }
 
         public string Description
         {
-            get => _accessory.Description;
+            get => Accessory.Description;
             set
             {
-                _accessory.Description = value;
+                Accessory.Description = value;
                 OnPropertyChanged(nameof(Description));
             }
         }
 
         public decimal Price
         {
-            get => _accessory.Price;
+            get => Accessory.Price;
             set
             {
-                _accessory.Price = value;
+                Accessory.Price = value;
                 OnPropertyChanged(nameof(Price));
             }
         }
 
         public double Vat
         {
-            get => _accessory.Vat;
+            get => Accessory.Vat;
             set
             {
-                _accessory.Vat = value;
+                Accessory.Vat = value;
                 OnPropertyChanged(nameof(Vat));
             }
         }
 
         public int Inventory
         {
-            get => _accessory.Inventory;
+            get => Accessory.Inventory;
             set
             {
-                _accessory.Inventory = value;
+                Accessory.Inventory = value;
                 OnPropertyChanged(nameof(Inventory));
             }
         }
 
-        public Partner SelectedPartner
+        public int _selectedPartnerIndex;
+        public int SelectedPartnerIndex
         {
-            get => _selectedPartner;
+            get => _selectedPartnerIndex;
             set
             {
-                _selectedPartner = value;
-                _accessory.PartnerId = _selectedPartner.Id;
+                _selectedPartnerIndex = value;
+                OnPropertyChanged(nameof(SelectedPartnerIndex));
+            }
+        } 
+        public Partner SelectedPartner
+        {
+            get => Accessory.Partner;
+            set
+            {
+                Accessory.Partner = value;
+                Accessory.PartnerId = value.Id;
                 OnPropertyChanged(nameof(SelectedPartner));
             }
         }
-
         public List<Partner> PartnersCollection => _partnersCollection;
         public bool SaveButtonIsEnabled => _errors.Count == 0;
 
@@ -150,6 +158,11 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         private async Task GetPartners(object parameter)
         {
             _partnersCollection = (await _partnerModel.GetAllAsync()).ToList();
+            
+            int partnerIndex = _partnersCollection.FindIndex(a => a.Id == Accessory.PartnerId);
+            if (partnerIndex != -1)
+                SelectedPartnerIndex = partnerIndex;
+
             OnPropertyChanged(nameof(PartnersCollection));
         }
 
@@ -158,20 +171,21 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             ProgressBarVisibility = Visibility.Visible;
             if (_isEdit)
             {
-                await _accessoryModel.UpdateAsync(_accessory);
+                await _accessoryModel.UpdateAsync(Accessory);
             }
             else
             {
-                await _accessoryModel.AddAsync(_accessory);
+                await _accessoryModel.AddAsync(Accessory);
             }
 
             ProgressBarVisibility = Visibility.Collapsed;
 
-            string SnackbarMessage = _isEdit
+            string snackbarMessage = _isEdit
                 ? $"Аксессуар \"{Name}\" успешно отредактирован."
                 : $"Аксессуар \"{Name}\" успешно добавлен.";
 
-            SendSnackbar(SnackbarMessage);
+            SendSnackbar(snackbarMessage);
+            CloseCurrentDialog();
         }
 
         public async void ExecuteRunDialog(object o)

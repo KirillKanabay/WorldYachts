@@ -37,6 +37,8 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         {
             _accessoryModel = accessoryModel;
             _viewModelContainer = viewModelContainer;
+
+            _accessoryModel.AccessoryModelChanged += GetCollectionMethod;
         }
 
         #endregion
@@ -91,19 +93,6 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             (ex) => { ExecuteRunDialog(new MessageDialogProperty() {Title = "Ошибка", Message = ex.Message}); });
 
         /// <summary>
-        /// Удаляет предмет помеченный IsDeleted
-        /// </summary>
-        public AsyncRelayCommand RemoveItem => new AsyncRelayCommand(RemoveItemMethod,
-            (ex) => { ExecuteRunDialog(new MessageDialogProperty() {Title = "Ошибка", Message = ex.Message}); });
-
-        /// <summary>
-        /// Удаляет коллекцию предметов
-        /// </summary>
-        public AsyncRelayCommand RemoveItemsCollection => new AsyncRelayCommand(RemoveItemsCollectionMethod,
-            (ex) => { ExecuteRunDialog(new MessageDialogProperty() {Title = "Ошибка", Message = ex.Message}); });
-
-
-        /// <summary>
         /// Команда открытия редактора
         /// </summary>
         public DelegateCommand OpenEditorDialog => new DelegateCommand(ExecuteRunEditorDialog);
@@ -111,41 +100,6 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         #endregion
 
         #region Методы
-        private async Task RemoveItemsCollectionMethod(object parameter)
-        {
-            var removeItems = _accessories.Where(i => i.IsSelected)
-                .Select(i => i.Accessory);
-
-            if (removeItems.Any())
-            {
-                await Task.Run(() => _accessoryModel.DeleteAsync(removeItems));
-
-                //Получаем главное окно для показа уведомления о удалении
-                var mainWindow = (MainWindow) Application.Current.MainWindow;
-
-                GetItemsCollection.Execute(null);
-
-                mainWindow.SendSnackbar($"Успешно удалено.");
-            }
-        }
-
-        private async Task RemoveItemMethod(object parameter)
-        {
-            var removeItems = _accessories.Where(i => i.IsDeleted)
-                .Select(i => i.Accessory);
-
-            if (removeItems.Any())
-            {
-                await _accessoryModel.DeleteAsync(removeItems);
-
-                //Получаем главное окно для показа уведомления о удалении
-                var mainWindow = (MainWindow) Application.Current.MainWindow;
-
-                GetItemsCollection.Execute(null);
-
-                SendSnackbar($"Успешно удалено.");
-            }
-        }
 
         /// <summary>
         /// Получение коллекции предметов из БД
@@ -200,7 +154,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
                 DataContext = new MessageDialogViewModel(_viewModelContainer.GetViewModel<AccessoryEditorViewModel>())
             };
 
-            var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
+            var result = await DialogHost.Show(view, "RootDialog");
         }
 
         public async void ExecuteRunDialog(object o)
@@ -209,20 +163,9 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             {
                 DataContext = new SampleMessageDialogViewModel((MessageDialogProperty)o)
             };
-            var result = await DialogHost.Show(view, "DialogRoot", ClosingEventHandler);
+            var result = await DialogHost.Show(view, "DialogRoot");
         }
-
-        /// <summary>
-        /// Обработчик события закрытия диалога
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="eventArgs"></param>
-        private async void ClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
-        {
-            await GetCollectionMethod(null);
-            OnPropertyChanged(nameof(FilteredCollection));
-        }
-
+        
         #endregion
     }
 }

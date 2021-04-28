@@ -8,7 +8,7 @@ using WorldYachts.ViewModel.MessageDialog;
 
 namespace WorldYachts.ViewModel.BaseViewModels
 {
-    public class BaseViewModel: IBaseViewModel
+    public abstract class BaseViewModel: IBaseViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -18,19 +18,13 @@ namespace WorldYachts.ViewModel.BaseViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        #region Диалоговые окна
-        //public async void ExecuteRunDialog(object o)
-        //{
-        //    var view = new SampleMessageDialog()
-        //    {
-        //        DataContext = new SampleMessageDialogViewModel((MessageDialogProperty)o)
-        //    };
-        //    var result = await DialogHost.Show(view, "DialogRoot", ClosingEventHandler);
-        //}
+        #region DialogHost
 
-        //public virtual async void ClosingEventHandler(object sender, DialogOpenedEventArgs eventargs)
-        //{
-        //}
+        public virtual void CloseCurrentDialog()
+        {
+            MainWindow.GetMainWindow?.Invoke().DialogHost.CurrentSession.Close();
+        }
+
         #endregion
 
         #region Snackbar

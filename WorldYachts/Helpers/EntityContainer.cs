@@ -2,12 +2,12 @@
 
 namespace WorldYachts.Helpers
 {
-    public class EntityContainer
+    public static class EntityContainer
     {
-        private object Entity { get; set; }
-        public bool IsEmpty => Entity == null;
+        private static object Entity { get; set; }
+        public static bool IsEmpty => Entity == null;
 
-        public void Push<TEntity>(TEntity entity) where TEntity : class
+        public static void Push<TEntity>(TEntity entity) where TEntity : class
         {
             if (!IsEmpty)
             {
@@ -16,7 +16,7 @@ namespace WorldYachts.Helpers
             Entity = entity;
         }
 
-        public TEntity Pop<TEntity>() where TEntity : class
+        public static TEntity Pop<TEntity>() where TEntity : class
         {
             if (IsEmpty)
             {
