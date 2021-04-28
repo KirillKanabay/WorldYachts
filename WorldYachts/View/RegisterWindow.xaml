@@ -373,13 +373,13 @@
                             <materialDesign:HintAssist.Hint>
                                 <TextBlock FontSize="16">Пароль</TextBlock>
                             </materialDesign:HintAssist.Hint>
-                            <helpers:PasswordBoxAssistant.BoundPassword>
+                            <!--<helpers:PasswordBoxAssistant.BoundPassword>
                                 <Binding Mode="OneWayToSource" Path="Password">
                                     <Binding.ValidationRules>
                                         <DataErrorValidationRule />
                                     </Binding.ValidationRules>
                                 </Binding>
-                            </helpers:PasswordBoxAssistant.BoundPassword>
+                            </helpers:PasswordBoxAssistant.BoundPassword>-->
                         </PasswordBox>
                         <PasswordBox
                             x:Name="PasswordBoxRepeated"

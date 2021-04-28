@@ -75,8 +75,8 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
                 var acc = (SelectableAccessoryViewModel) arg;
                 if (_accessories != null)
                 {
-                    if(_accessories.FirstOrDefault(a => a.Item.Id == acc.Item.Id).IsSelected != acc.IsSelected)
-                        _accessories.FirstOrDefault(a => a.Item.Id == acc.Item.Id).IsSelected = acc.IsSelected;
+                    if(_accessories.FirstOrDefault(a => a.Accessory.Id == acc.Accessory.Id).IsSelected != acc.IsSelected)
+                        _accessories.FirstOrDefault(a => a.Accessory.Id == acc.Accessory.Id).IsSelected = acc.IsSelected;
                 }
                     
                 OnPropertyChanged(nameof(AccessoriesPrice));
@@ -178,7 +178,7 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
 
         public decimal PriceInclVat => Price + (Price * Convert.ToDecimal(Vat * 0.01));
 
-        public decimal AccessoriesPrice => Accessories.Sum(a => a.IsSelected ? a.PriceInclVat : 0);
+        public decimal AccessoriesPrice => Accessories.Sum(a => a.IsSelected ? a.Accessory.PriceInclVat : 0);
 
         public decimal FinishPrice => PriceInclVat + AccessoriesPrice;
 
@@ -235,11 +235,11 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
                 await Task.Run((() => ((OrderModel)ModelItem).AddAsync(item)));
                 int orderId = ((OrderModel)ModelItem).LastAddedItem.Id;
                 var selectedAccessories = Accessories.Where(a => a.IsSelected);
-                foreach (var accessory in selectedAccessories)
-                {
-                    await Task.Run((() => new OrderDetailsModel().AddAsync(new OrderDetails()
-                        {AccessoryId = accessory.Id, OrderId = orderId})));
-                }
+                //foreach (var accessory in selectedAccessories)
+                //{
+                //    await Task.Run((() => new OrderDetailsModel().AddAsync(new OrderDetails()
+                //        {AccessoryId = accessory.Id, OrderId = orderId})));
+                //}
             }
             finally
             {

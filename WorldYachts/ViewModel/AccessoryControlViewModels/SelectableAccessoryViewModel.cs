@@ -1,97 +1,49 @@
 ﻿using System;
+using System.Threading.Tasks;
+using MaterialDesignThemes.Wpf;
+using WorldYachts.DependencyInjections.Helpers;
 using WorldYachts.DependencyInjections.Models;
+using WorldYachts.Helpers.Commands;
 using WorldYachts.Model;
 using WorldYachts.View.Editors;
 using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BaseViewModels;
 using WorldYachts.ViewModel.CatalogControlViewModels;
+using WorldYachts.ViewModel.MessageDialog;
 using Accessory = WorldYachts.Data.Entities.Accessory;
 
 namespace WorldYachts.ViewModel.AccessoryControlViewModels
 {
-    public class SelectableAccessoryViewModel:BaseSelectableViewModel<Data.Entities.Accessory>
+    public class SelectableAccessoryViewModel:BaseViewModel
     {
+        #region Поля
+
+        protected bool _isSelected;
+        protected bool _isDeleted = false;
+
+        protected AsyncRelayCommand _removeCommand;
+        protected AsyncRelayCommand _editCommand;
+
+        public Action OnItemChanged;
+
         private readonly IAccessoryModel _accessoryModel;
-        public SelectableAccessoryViewModel(Data.Entities.Accessory item, IAccessoryModel accessoryModel) 
-            : base(item, null)
+        private readonly IViewModelContainer _viewModelContainer;
+        
+        #endregion
+        
+        #region Конструкторы
+        public SelectableAccessoryViewModel(Accessory accessory, IAccessoryModel accessoryModel, IViewModelContainer viewModelContainer)
         {
+            Accessory = accessory;
             _accessoryModel = accessoryModel;
+            _viewModelContainer = viewModelContainer;
         }
+
+        #endregion
+
         #region Свойства
-
-        public int Id
-        {
-            get => Item.Id;
-            set
-            {
-                Item.Id = value;
-                OnPropertyChanged(nameof(Id));
-            }
-        }
-
-        public string Name
-        {
-            get => Item.Name;
-            set
-            {
-                Item.Name = value;
-                OnPropertyChanged(nameof(Name));
-            }
-        }
-
-        public string Description
-        {
-            get => Item.Description;
-            set
-            {
-                Item.Description = value;
-                OnPropertyChanged(nameof(Description));
-            }
-        }
-
-        public decimal Price
-        {
-            get => Item.Price;
-            set
-            {
-                Item.Price = value;
-                OnPropertyChanged(nameof(Price));
-            }
-        }
-
-        public double Vat
-        {
-            get => Item.Vat;
-            set
-            {
-                Item.Vat = value;
-                OnPropertyChanged(nameof(Vat));
-            }
-        }
-
-        public int Inventory
-        {
-            get => Item.Inventory;
-            set
-            {
-                Item.Inventory = value;
-                OnPropertyChanged(nameof(Inventory));
-            }
-        }
-
-        public int PartnerId
-        {
-            get => Item.PartnerId;
-            set
-            {
-                Item.PartnerId = value;
-                OnPropertyChanged(nameof(PartnerId));
-            }
-        }
-
-        public decimal PriceInclVat => Price + (Convert.ToDecimal(Vat * 0.01) * Price);
-
-        public override bool IsSelected
+        public Accessory Accessory { get; }
+        public bool IsSelected
         {
             get => _isSelected;
 
@@ -102,26 +54,24 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
                 OnPropertyChanged(nameof(IsSelected));
             }
         }
-
-        public string Info => ToString();
+        public bool IsDeleted
+        {
+            get => _isDeleted;
+            set
+            {
+                _isDeleted = value;
+                if (_isDeleted)
+                    BaseManagementViewModel<Accessory>.OnItemChanged?.Invoke();
+                OnPropertyChanged(nameof(IsDeleted));
+            }
+        }
+        public string Info => Accessory.ToString();
 
         #endregion
 
         #region Методы
 
-        public override string ToString()
-        {
-            return $"Id: {Id}\n" +
-                   $"Название: {Name}\n" +
-                   $"Описание: {Description}\n" +
-                   $"Базовая стоимость: {Price} ₽\n" +
-                   $"НДС: {Vat} %\n" +
-                   $"Инвентарный номер: {Inventory}\n";
-        }
-
-        public override BaseEditorViewModel<Accessory> Editor { get; }
-
-        protected override void ToggleViewEditorAfterLoaded()
+        protected void ToggleViewEditorAfterLoaded()
         {
             if (AccessoryEditorView.EditorAfterLoad != null)
             {
@@ -129,13 +79,11 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             }
             else
             {
-                AccessoryEditorView.EditorAfterLoad = GetEditorViewModel;
+                AccessoryEditorView.EditorAfterLoad = () => _viewModelContainer.GetViewModel<AccessoryEditorViewModel>();
             }
         }
 
-        protected override BaseViewModel GetEditorViewModel() => null;
-
-        protected override MessageDialogProperty GetConfirmDeleteDialogProperty()
+        protected MessageDialogProperty GetConfirmDeleteDialogProperty()
         {
             return new MessageDialogProperty()
             {
@@ -144,6 +92,92 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             };
         }
 
+        #endregion
+
+        #region Команды
+
+        public AsyncRelayCommand RemoveCommand
+        {
+            get
+            {
+                return _removeCommand ??= new AsyncRelayCommand(ShowConfirmDeleteDialog,
+                    (ex) =>
+                    {
+                        ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message });
+                    });
+            }
+        }
+
+        public AsyncRelayCommand EditCommand
+        {
+            get
+            {
+                return _editCommand ??= new AsyncRelayCommand(ExecuteRunEditorDialog,
+                    (ex) =>
+                    {
+                        ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message });
+                    });
+            }
+        }
+
+        #endregion
+
+        #region Диалоги
+        private async Task ExecuteRunEditorDialog(object o)
+        {
+            var view = new View.MessageDialogs.MessageDialog()
+            {
+                DataContext = new MessageDialogViewModel()
+            };
+            //Добавляем метод обновления редактора после загрузки при редактировании
+            ToggleViewEditorAfterLoaded();
+
+            //var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
+
+            //Убираем метод обновления редактора после загрузки при редактировании
+            ToggleViewEditorAfterLoaded();
+
+            //Извещаем об изменении предмета
+            BaseManagementViewModel<Accessory>.OnItemChanged?.Invoke();
+        }
+        /// <summary>
+        /// Показывает простой диалог сообщения
+        /// </summary>
+        /// <param name="o"></param>
+        protected void ExecuteRunDialog(object o)
+        {
+            var view = new SampleMessageDialog()
+            {
+                DataContext = new SampleMessageDialogViewModel((MessageDialogProperty)o)
+            };
+            //var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
+        }
+
+        /// <summary>
+        /// Показывает диалог подтверждения удаления предмета
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
+        private async Task ShowConfirmDeleteDialog(object parameter)
+        {
+            var view = new MessageDialogOkCancel()
+            {
+                DataContext = new SampleMessageDialogViewModel(GetConfirmDeleteDialogProperty())
+            };
+            var result = await DialogHost.Show(view, "RootDialog", ClosingDeleteDialogEventHandler);
+            OnItemChanged?.Invoke();
+        }
+
+        /// <summary>
+        /// Обработчик события закрытия диалога подтверждения удаления
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="eventargs"></param>
+        private void ClosingDeleteDialogEventHandler(object sender, DialogClosingEventArgs eventargs)
+        {
+            if (Equals((eventargs.Parameter), true))
+                IsDeleted = true;
+        }
         #endregion
 
     }

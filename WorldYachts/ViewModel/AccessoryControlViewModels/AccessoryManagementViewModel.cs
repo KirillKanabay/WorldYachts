@@ -114,7 +114,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         private async Task RemoveItemsCollectionMethod(object parameter)
         {
             var removeItems = _accessories.Where(i => i.IsSelected)
-                .Select(i => i.Item);
+                .Select(i => i.Accessory);
 
             if (removeItems.Any())
             {
@@ -132,7 +132,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
         private async Task RemoveItemMethod(object parameter)
         {
             var removeItems = _accessories.Where(i => i.IsDeleted)
-                .Select(i => i.Item);
+                .Select(i => i.Accessory);
 
             if (removeItems.Any())
             {
@@ -165,7 +165,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             var collection = new ObservableCollection<SelectableAccessoryViewModel>();
             foreach (var accessory in items)
             {
-                collection.Add(new SelectableAccessoryViewModel(accessory, _accessoryModel));
+                collection.Add(new SelectableAccessoryViewModel(accessory, _accessoryModel, _viewModelContainer));
             }
 
             return collection;
@@ -179,8 +179,8 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             }
 
             var filteredCollection = _accessories.Where(a =>
-                a.Item.Name.ToLower().Contains(filterText.ToLower()) ||
-                a.Item.Id.ToString() == filterText);
+                a.Accessory.Name.ToLower().Contains(filterText.ToLower()) ||
+                a.Accessory.Id.ToString() == filterText);
 
             return new ObservableCollection<SelectableAccessoryViewModel>(filteredCollection);
         }

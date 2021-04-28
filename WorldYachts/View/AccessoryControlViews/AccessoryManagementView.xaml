@@ -115,27 +115,27 @@
                 VerticalScrollBarVisibility="Visible">
                 <DataGrid.Columns>
                     <materialDesign:DataGridTextColumn
-                        Binding="{Binding Item.Id}"
+                        Binding="{Binding Accessory.Id}"
                         Header="Id"
                         IsReadOnly="True" />
                     <materialDesign:DataGridTextColumn
-                        Binding="{Binding Item.Name}"
+                        Binding="{Binding Accessory.Name}"
                         Header="Название"
                         IsReadOnly="True" />
                     <materialDesign:DataGridTextColumn
-                        Binding="{Binding Item.Price}"
+                        Binding="{Binding Accessory.Price}"
                         Header="Цена без НДС"
                         IsReadOnly="True" />
                     <materialDesign:DataGridTextColumn
-                        Binding="{Binding Item.Vat}"
+                        Binding="{Binding Accessory.Vat}"
                         Header="НДС %"
                         IsReadOnly="True" />
                     <materialDesign:DataGridTextColumn
-                        Binding="{Binding Item.Inventory}"
+                        Binding="{Binding Accessory.Inventory}"
                         Header="Количество на складе"
                         IsReadOnly="True" />
                     <materialDesign:DataGridTextColumn
-                        Binding="{Binding Item.Partner.Name}"
+                        Binding="{Binding Accessory.Partner.Name}"
                         Header="Поставщик"
                         IsReadOnly="True" />
                     <DataGridTemplateColumn Header="Редактировать">
