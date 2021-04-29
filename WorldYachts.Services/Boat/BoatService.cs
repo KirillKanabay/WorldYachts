@@ -10,9 +10,9 @@ namespace WorldYachts.Services.Boat
     {
         private readonly IWebClientService _webClient;
         private const string Path = "boats"; 
-        public BoatService()
+        public BoatService(IWebClientService webClient)
         {
-            _webClient = WebClientService.GetInstance();
+            _webClient = webClient;
         }
 
         public async Task<Data.Entities.Boat> GetByIdAsync(int id)
