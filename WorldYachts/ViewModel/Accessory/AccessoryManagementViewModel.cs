@@ -1,21 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using MaterialDesignThemes.Wpf;
-using WorldYachts.Data.Entities;
 using WorldYachts.DependencyInjections.Helpers;
 using WorldYachts.DependencyInjections.Models;
 using WorldYachts.Helpers;
 using WorldYachts.Helpers.Commands;
 using WorldYachts.View.MessageDialogs;
-using WorldYachts.ViewModel.Accessory;
 using WorldYachts.ViewModel.BaseViewModels;
 using WorldYachts.ViewModel.MessageDialog;
 
-namespace WorldYachts.ViewModel.AccessoryControlViewModels
+namespace WorldYachts.ViewModel.Accessory
 {
     class AccessoryManagementViewModel : BaseViewModel
     {

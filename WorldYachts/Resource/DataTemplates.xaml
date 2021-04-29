@@ -95,7 +95,7 @@
         </ResourceDictionary>
         <!--  AccessoryManagement  -->
         <ResourceDictionary>
-            <DataTemplate DataType="{x:Type accessoryControlViewModels:AccessoryControlViewModel}">
+            <DataTemplate DataType="{x:Type accessory:AccessoryControlViewModel}">
                 <vaccessory:AccessoryControlView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type partner:PartnersManagementViewModel}">
@@ -104,7 +104,7 @@
             <DataTemplate DataType="{x:Type partner:PartnerEditorViewModel}">
                 <veditors:PartnerEditorView />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type accessoryControlViewModels:AccessoryManagementViewModel}">
+            <DataTemplate DataType="{x:Type accessory:AccessoryManagementViewModel}">
                 <vaccessory:AccessoryManagementView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type accessory:AccessoryEditorViewModel}">

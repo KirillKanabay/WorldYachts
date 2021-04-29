@@ -2,7 +2,7 @@
 using WorldYachts.ViewModel.BaseViewModels;
 using WorldYachts.ViewModel.Partner;
 
-namespace WorldYachts.ViewModel.AccessoryControlViewModels
+namespace WorldYachts.ViewModel.Accessory
 {
     public class AccessoryControlViewModel:BaseViewModel
     {
