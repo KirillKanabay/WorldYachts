@@ -274,7 +274,7 @@ namespace WorldYachts.ViewModel.Boat
             OnPropertyChanged(nameof(BoatTypesCollection));
 
             _boatWoodsCollection = (await _boatWoodModel.GetAllAsync()).ToList();
-            int boatWoodIndex = _boatTypesCollection.FindIndex(bt => bt.Id == _boat.TypeId);
+            int boatWoodIndex = _boatWoodsCollection.FindIndex(bw => bw.Id == _boat.WoodId);
             if (boatWoodIndex != -1)
             {
                 SelectedBoatWoodIndex = boatWoodIndex;
