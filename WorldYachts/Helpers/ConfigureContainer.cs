@@ -78,8 +78,8 @@ namespace WorldYachts.Helpers
             builder.RegisterType<SalesPersonManagementViewModel>().AsSelf().InstancePerDependency();
             builder.RegisterType<SelectableSalesPersonViewModel>().AsSelf().InstancePerDependency();
             builder.RegisterType<UserControlViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<BoatControlViewModel>().AsSelf().InstancePerDependency();
         }
-
         private void RegisterServices(ContainerBuilder builder)
         {
             builder.RegisterType<UserService>().As<IUserService>();

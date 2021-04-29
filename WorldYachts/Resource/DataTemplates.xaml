@@ -86,6 +86,9 @@
 
         <!--  BoatManagement  -->
         <ResourceDictionary>
+            <DataTemplate DataType="{x:Type boat:BoatControlViewModel}">
+                <boatControlViews:BoatControlView />
+            </DataTemplate>
             <DataTemplate DataType="{x:Type boat:BoatEditorViewModel}">
                 <veditors:BoatEditorView />
             </DataTemplate>

@@ -48,23 +48,8 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid Margin="20,20,20,30">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="40" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <Label
-            Grid.Row="0"
-            Margin="0,0,0,0"
-            VerticalAlignment="Top"
-            FontSize="18"
-            FontWeight="Bold">
-            Управление лодками
-        </Label>
-        <materialDesign:Card
-            Grid.Row="1"
-            Padding="20"
-            Background="#FAFAFA">
+    <Grid>
+        <materialDesign:Card Padding="20" Background="#FAFAFA">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50" />
