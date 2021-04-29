@@ -1,23 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using MaterialDesignThemes.Wpf;
-using WorldYachts.Data;
-using WorldYachts.Data.Entities;
-using WorldYachts.Helpers;
-using WorldYachts.Helpers.Commands;
 using WorldYachts.Model;
 using WorldYachts.ViewModel.BaseViewModels;
 
-namespace WorldYachts.ViewModel.BoatManagementViewModels
+namespace WorldYachts.ViewModel.Boat
 {
     class BoatManagementViewModel:BaseViewModel
     {
-        private readonly IDataModel<Boat> _model;
+        private readonly IDataModel<Data.Entities.Boat> _model;
         private readonly BoatEditorViewModel _editor;
         private readonly ObservableCollection<SelectableBoatViewModel> _boats;
 

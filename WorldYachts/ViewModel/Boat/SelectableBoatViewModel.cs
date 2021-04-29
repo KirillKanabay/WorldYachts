@@ -1,25 +1,24 @@
 ﻿using System.Threading.Tasks;
 using MaterialDesignThemes.Wpf;
-using WorldYachts.Data.Entities;
 using WorldYachts.Helpers.Commands;
 using WorldYachts.View.Editors;
 using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BaseViewModels;
 using WorldYachts.ViewModel.CatalogControlViewModels;
 
-namespace WorldYachts.ViewModel.BoatManagementViewModels
+namespace WorldYachts.ViewModel.Boat
 {
-    public class SelectableBoatViewModel : BaseSelectableViewModel<Boat>
+    public class SelectableBoatViewModel : BaseSelectableViewModel<Data.Entities.Boat>
     {
         #region Поля
 
-        private readonly Boat _boat;
+        private readonly Data.Entities.Boat _boat;
         private readonly BoatViewModel _boatViewModel;
         #endregion
 
         #region Конструкторы
 
-        public SelectableBoatViewModel(Boat boat, BoatViewModel boatViewModel) : base(boat,null)
+        public SelectableBoatViewModel(Data.Entities.Boat boat, BoatViewModel boatViewModel) : base(boat,null)
         {
             _boat = boat;
             _boatViewModel = boatViewModel;

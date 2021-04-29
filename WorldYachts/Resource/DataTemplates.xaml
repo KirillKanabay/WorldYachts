@@ -17,10 +17,10 @@
     xmlns:veditors="clr-namespace:WorldYachts.View.Editors"
     xmlns:vm="clr-namespace:WorldYachts.ViewModel"
     xmlns:vmaccessory="clr-namespace:WorldYachts.ViewModel.Accessory"
-    xmlns:vmboat="clr-namespace:WorldYachts.ViewModel.BoatManagementViewModels"
     xmlns:vmcatalog="clr-namespace:WorldYachts.ViewModel.CatalogControlViewModels"
     xmlns:worldYachts="clr-namespace:WorldYachts"
-    xmlns:accessoryControlViewModels="clr-namespace:WorldYachts.ViewModel.AccessoryControlViewModels">
+    xmlns:accessoryControlViewModels="clr-namespace:WorldYachts.ViewModel.AccessoryControlViewModels"
+    xmlns:boat="clr-namespace:WorldYachts.ViewModel.Boat">
     <ResourceDictionary.MergedDictionaries>
         <!--  Основные UC  -->
         <ResourceDictionary>
@@ -86,10 +86,10 @@
 
         <!--  BoatManagement  -->
         <ResourceDictionary>
-            <DataTemplate DataType="{x:Type vmboat:BoatEditorViewModel}">
+            <DataTemplate DataType="{x:Type boat:BoatEditorViewModel}">
                 <veditors:BoatEditorView />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type vmboat:BoatManagementViewModel}">
+            <DataTemplate DataType="{x:Type boat:BoatManagementViewModel}">
                 <boatControlViews:BoatManagementView />
             </DataTemplate>
         </ResourceDictionary>

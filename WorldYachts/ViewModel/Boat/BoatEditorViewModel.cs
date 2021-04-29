@@ -2,24 +2,15 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using MaterialDesignThemes.Wpf;
-using WorldYachts.Data;
-using WorldYachts.Data.Entities;
 using WorldYachts.Helpers;
-using WorldYachts.Helpers.Commands;
 using WorldYachts.Helpers.Validators;
 using WorldYachts.Model;
-using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BaseViewModels;
-using WorldYachts.ViewModel.MessageDialog;
 using Validation = WorldYachts.Helpers.Validators.Validation;
 
-namespace WorldYachts.ViewModel.BoatManagementViewModels
+namespace WorldYachts.ViewModel.Boat
 {
-    class BoatEditorViewModel : BaseEditorViewModel<Boat>, IDataErrorInfo
+    class BoatEditorViewModel : BaseEditorViewModel<Data.Entities.Boat>, IDataErrorInfo
     {
         #region Поля
 
@@ -50,7 +41,7 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
         {
         }
 
-        public BoatEditorViewModel(Boat boat) : base(true)
+        public BoatEditorViewModel(Data.Entities.Boat boat) : base(true)
         {
             _id = boat.Id;
             _model = boat.Model;
@@ -217,7 +208,7 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
         /// </summary>
         public ObservableCollection<ColorStruct> ColorsCollection => ColorWorker.GetColorsCollection();
 
-        public override IDataModel<Boat> ModelItem => new BoatModel();
+        public override IDataModel<Data.Entities.Boat> ModelItem => new BoatModel();
 
         #endregion
 
@@ -231,9 +222,9 @@ namespace WorldYachts.ViewModel.BoatManagementViewModels
             get { return _selectColor ??= new DelegateCommand(arg => { Color = (string) arg; }); }
         }
 
-        protected override Boat GetSaveItem(bool isEdit)
+        protected override Data.Entities.Boat GetSaveItem(bool isEdit)
         {
-            return new Boat()
+            return new Data.Entities.Boat()
             {
                 Id = (isEdit) ? _id : default,
                 Model = _model,

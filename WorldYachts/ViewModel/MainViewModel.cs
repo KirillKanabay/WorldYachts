@@ -11,7 +11,7 @@ using WorldYachts.View;
 using WorldYachts.ViewModel.Accessory;
 using WorldYachts.ViewModel.AccessoryControlViewModels;
 using WorldYachts.ViewModel.BaseViewModels;
-using WorldYachts.ViewModel.BoatManagementViewModels;
+using WorldYachts.ViewModel.Boat;
 using WorldYachts.ViewModel.CatalogControlViewModels;
 using WorldYachts.ViewModel.DashboardControlViewModels;
 using WorldYachts.ViewModel.OrderControlViewModels;

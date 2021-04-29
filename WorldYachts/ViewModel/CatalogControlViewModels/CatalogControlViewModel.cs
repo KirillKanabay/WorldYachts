@@ -11,7 +11,7 @@ using WorldYachts.Data.Entities;
 using WorldYachts.Helpers;
 using WorldYachts.Model;
 using WorldYachts.ViewModel.BaseViewModels;
-using WorldYachts.ViewModel.BoatManagementViewModels;
+using WorldYachts.ViewModel.Boat;
 
 namespace WorldYachts.ViewModel.CatalogControlViewModels
 {
