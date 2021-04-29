@@ -56,7 +56,7 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             }
         }
 
-        public Boat Boat => _item.Boat;
+        public Data.Entities.Boat Boat => _item.Boat;
         public Data.Entities.Accessory Accessory => _item.Accessory;
         public override BaseEditorViewModel<AccessoryToBoat> Editor => new AccessoryFitEditorViewModel();
         #endregion

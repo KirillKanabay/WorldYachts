@@ -19,10 +19,10 @@ namespace WorldYachts.ViewModel.Accessory
         private int _boatId;
 
         private Data.Entities.Accessory _accessory;
-        private Boat _boat;
+        private Data.Entities.Boat _boat;
 
         private IEnumerable<Data.Entities.Accessory> _accessoryCollection;
-        private IEnumerable<Boat> _boatCollection;
+        private IEnumerable<Data.Entities.Boat> _boatCollection;
 
         #endregion
 
@@ -73,7 +73,7 @@ namespace WorldYachts.ViewModel.Accessory
             }
         }
 
-        public Boat Boat
+        public Data.Entities.Boat Boat
         {
             get => _boat;
             set
@@ -84,7 +84,7 @@ namespace WorldYachts.ViewModel.Accessory
             }
         }
         //public IEnumerable<Accessory> AccessoryCollection => new AccessoryModel().Load();
-        public IEnumerable<Boat> BoatCollection => Task.Run(async () => await new BoatModel().GetAllAsync()).Result;
+        //public IEnumerable<Data.Entities.Boat> BoatCollection => Task.Run(async () => await new BoatModel().GetAllAsync()).Result;
         public override bool SaveButtonIsEnabled => !ErrorDictionary.Any();
         #endregion
 

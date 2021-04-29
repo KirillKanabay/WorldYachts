@@ -49,6 +49,13 @@ namespace WorldYachts.Helpers
             return GetColorFromHex(color);
         }
 
+        public static ColorStruct GetColorStructFromString(string color)
+        {
+            var colorDictionary = ColorsDictionary[color];
+            return new ColorStruct() { Name = color, Color = new SolidColorBrush(colorDictionary)}
+            ;
+        }
+
         public static Color GetColorFromHex(string hex)
         {
             if(!IsHexColor(hex))
@@ -66,9 +73,9 @@ namespace WorldYachts.Helpers
             return regex.IsMatch(color);
         }
 
-        public static ObservableCollection<ColorStruct> GetColorsCollection()
+        public static List<ColorStruct> GetColorsCollection()
         {
-            var collection = new ObservableCollection<ColorStruct>();
+            var collection = new List<ColorStruct>();
             foreach (var color in ColorsDictionary)
             {
                 collection.Add(new ColorStruct(){Name = color.Key, Color = new SolidColorBrush(color.Value)});

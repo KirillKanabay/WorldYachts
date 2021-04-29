@@ -1,99 +1,105 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
+using MaterialDesignThemes.Wpf;
+using WorldYachts.Data.Entities;
+using WorldYachts.DependencyInjections.Models;
 using WorldYachts.Helpers;
+using WorldYachts.Helpers.Commands;
 using WorldYachts.Helpers.Validators;
-using WorldYachts.Model;
+using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BaseViewModels;
+using WorldYachts.ViewModel.MessageDialog;
 using Validation = WorldYachts.Helpers.Validators.Validation;
 
 namespace WorldYachts.ViewModel.Boat
 {
-    class BoatEditorViewModel : BaseEditorViewModel<Data.Entities.Boat>, IDataErrorInfo
+    class BoatEditorViewModel : BaseViewModel, IDataErrorInfo
     {
         #region Поля
+        private readonly IBoatModel _boatModel;
+        private readonly IBoatTypeModel _boatTypeModel;
+        private readonly IBoatWoodModel _boatWoodModel;
 
-        private readonly int _id;
-        private string _model;
-        private string _type;
-        private int _numberOfRower;
-        private bool _mast;
-        private string _color = "Коричневый";
-        private string _wood;
-        private string _basePrice;
-        private string _vat;
+        private readonly Data.Entities.Boat _boat;
+        private List<BoatType> _boatTypesCollection;
+        private List<BoatWood> _boatWoodsCollection;
+        private List<ColorStruct> _colors;
+
+        private Visibility _progressBarVisibility = Visibility.Collapsed;
+
+        private readonly bool _isEdit;
+
         private ColorStruct _selectedColor;
-
-        private IEnumerable<string> _boatTypes = new List<string>()
-            {"Шлюпка", "Парусная лодка", "Галера"};
-
-        private IEnumerable<string> _woodTypes = new List<string>()
-            {"Дуб", "Береза", "Eль", "Cосна", "Лиственница"};
-
-        #endregion
-
         private DelegateCommand _selectColor;
-
+        #endregion
+        
         #region Конструкторы
 
-        public BoatEditorViewModel() : base(false)
+        public BoatEditorViewModel(IBoatModel boatModel, 
+            IBoatTypeModel boatTypeModel,
+            IBoatWoodModel boatWoodModel)
         {
-        }
+            _boatModel = boatModel;
+            _boatTypeModel = boatTypeModel;
+            _boatWoodModel = boatWoodModel;
 
-        public BoatEditorViewModel(Data.Entities.Boat boat) : base(true)
-        {
-            _id = boat.Id;
-            _model = boat.Model;
-            _type = boat.BoatType.Type;
-            _numberOfRower = boat.NumberOfRowers;
-            _mast = boat.Mast;
-            _color = boat.Color;
-            _wood = boat.BoatWood.Wood;
-            _basePrice = boat.BasePrice.ToString();
-            _vat = boat.Vat.ToString();
+            if (!EntityContainer.IsEmpty)
+            {
+                _boat = EntityContainer.Pop<Data.Entities.Boat>();
+                SelectedBoatType = _boat.BoatType;
+                SelectedBoatWood = _boat.BoatWood;
+                SelectedColor = ColorWorker.GetColorStructFromString(_boat.Color);
+                _isEdit = true;
+            }
+            else
+            {
+                _boat = new Data.Entities.Boat();
+            }
         }
 
         #endregion
 
         #region Свойства
 
+        public Visibility ProgressBarVisibility
+        {
+            get => _progressBarVisibility;
+            set
+            {
+                _progressBarVisibility = value;
+                OnPropertyChanged(nameof(ProgressBarVisibility));
+            }
+        }
+
         /// <summary>
         /// Модель яхты
         /// </summary>
         public string Model
         {
-            get => _model;
+            get => _boat.Model;
             set
             {
-                _model = value;
+                _boat.Model = value;
                 OnPropertyChanged(nameof(Model));
-            }
-        }
-
-        /// <summary>
-        /// Тип яхты
-        /// </summary>
-        public string Type
-        {
-            get => _type;
-            set
-            {
-                _type = value;
-                OnPropertyChanged(nameof(Type));
             }
         }
 
         /// <summary>
         /// Количество гребцов
         /// </summary>
-        public string NumberOfRower
+        public string NumberOfRowers
         {
-            get => _numberOfRower.ToString();
+            get => _boat.NumberOfRowers.ToString();
             set
             {
-                int.TryParse(value, out _numberOfRower);
-                OnPropertyChanged(nameof(NumberOfRower));
+                int.TryParse(value, out int numberOfRower);
+                _boat.NumberOfRowers = numberOfRower;
+                OnPropertyChanged(nameof(NumberOfRowers));
             }
         }
 
@@ -102,10 +108,10 @@ namespace WorldYachts.ViewModel.Boat
         /// </summary>
         public bool Mast
         {
-            get => _mast;
+            get => _boat.Mast;
             set
             {
-                _mast = value;
+                _boat.Mast = value;
                 OnPropertyChanged(nameof(Mast));
             }
         }
@@ -115,36 +121,24 @@ namespace WorldYachts.ViewModel.Boat
         /// </summary>
         public string Color
         {
-            get => _color;
+            get => _boat.Color;
             set
             {
-                _color = value;
+                _boat.Color = value;
                 OnPropertyChanged(nameof(Color));
             }
         }
-
-        /// <summary>
-        /// Тип дерева
-        /// </summary>
-        public string Wood
-        {
-            get => _wood;
-            set
-            {
-                _wood = value;
-                OnPropertyChanged(nameof(Wood));
-            }
-        }
-
+        
         /// <summary>
         /// Цена без НДС
         /// </summary>
         public string BasePrice
         {
-            get => _basePrice;
+            get => _boat.BasePrice.ToString(CultureInfo.InvariantCulture);
             set
             {
-                _basePrice = value;
+                decimal.TryParse(value, out decimal basePrice);
+                _boat.BasePrice = basePrice;
                 OnPropertyChanged(nameof(BasePrice));
             }
         }
@@ -154,24 +148,24 @@ namespace WorldYachts.ViewModel.Boat
         /// </summary>
         public string Vat
         {
-            get => _vat;
+            get => _boat.Vat.ToString(CultureInfo.InvariantCulture);
             set
             {
-                _vat = value;
+                double.TryParse(value, out double vat);
+                _boat.Vat = vat;
                 OnPropertyChanged(nameof(Vat));
             }
         }
 
-        /// <summary>
-        /// Типы лодок
-        /// </summary>
-        public IEnumerable<string> BoatTypes
+        private int _selectedColorIndex;
+
+        public int SelectedColorIndex
         {
-            get => _boatTypes;
+            get => _selectedColorIndex;
             set
             {
-                _boatTypes = value;
-                OnPropertyChanged(nameof(BoatTypes));
+                _selectedColorIndex = value;
+                OnPropertyChanged(nameof(SelectedColorIndex));
             }
         }
 
@@ -181,35 +175,80 @@ namespace WorldYachts.ViewModel.Boat
             set
             {
                 _selectedColor = value;
+                _boat.Color = _selectedColor.Name;
                 OnPropertyChanged(nameof(SelectedColor));
             }
         }
 
-        /// <summary>
-        /// Типы дерева
-        /// </summary>
-        public IEnumerable<string> WoodTypes
-        {
-            get => _woodTypes;
-            set
-            {
-                _woodTypes = value;
-                OnPropertyChanged(nameof(WoodTypes));
-            }
-        }
 
         /// <summary>
         /// Доступность кнопки сохранения лодки
         /// </summary>
-        public override bool SaveButtonIsEnabled => _errors.Count == 0;
+        public bool SaveButtonIsEnabled => _errors.Count == 0;
 
         /// <summary>
         /// Получения цветов
         /// </summary>
-        public ObservableCollection<ColorStruct> ColorsCollection => ColorWorker.GetColorsCollection();
+        public List<ColorStruct> ColorsCollection => _colors;
+        
+        #region Тип лодок
 
-        public override IDataModel<Data.Entities.Boat> ModelItem => new BoatModel();
+        private int _selectedBoatTypeIndex;
 
+        public int SelectedBoatTypeIndex
+        {
+            get => _selectedBoatTypeIndex;
+            set
+            {
+                _selectedBoatTypeIndex = value;
+                OnPropertyChanged(nameof(SelectedBoatTypeIndex));
+            }
+        }
+
+        public BoatType SelectedBoatType
+        {
+            get => _boat.BoatType;
+            set
+            {
+                _boat.BoatType = value;
+                _boat.TypeId = value.Id;
+                OnPropertyChanged(nameof(SelectedBoatType));
+            }
+        }
+
+        public List<BoatType> BoatTypesCollection => _boatTypesCollection;
+
+        #endregion
+
+        #region Тип дерева
+
+        private int _selectedBoatWoodIndex;
+
+        public int SelectedBoatWoodIndex
+        {
+            get => _selectedBoatWoodIndex;
+            set
+            {
+                _selectedBoatWoodIndex = value;
+                OnPropertyChanged(nameof(SelectedBoatWoodIndex));
+            }
+        }
+
+        public BoatWood SelectedBoatWood
+        {
+            get => _boat.BoatWood;
+            set
+            {
+                _boat.BoatWood = value;
+                _boat.WoodId = value.Id;
+                OnPropertyChanged(nameof(SelectedBoatWood));
+            }
+        }
+
+        public List<BoatWood> BoatWoodsCollection => _boatWoodsCollection;
+
+        #endregion
+        
         #endregion
 
         #region Команды
@@ -221,30 +260,72 @@ namespace WorldYachts.ViewModel.Boat
         {
             get { return _selectColor ??= new DelegateCommand(arg => { Color = (string) arg; }); }
         }
+        public AsyncRelayCommand LoadedCommand => new AsyncRelayCommand(LoadCollections,
+            (ex) => { ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message }); });
 
-        protected override Data.Entities.Boat GetSaveItem(bool isEdit)
+        private async Task LoadCollections(object parameter)
         {
-            return new Data.Entities.Boat()
+            _boatTypesCollection = (await _boatTypeModel.GetAllAsync()).ToList();
+            int boatTypeIndex = _boatTypesCollection.FindIndex(bt => bt.Id == _boat.TypeId);
+            if (boatTypeIndex != -1)
             {
-                Id = (isEdit) ? _id : default,
-                Model = _model,
-                //BoatType = _type,
-                NumberOfRowers = _numberOfRower,
-                Mast = _mast,
-                Color = _selectedColor.Name,
-                //Wood = _wood,
-                BasePrice = Decimal.Parse(_basePrice),
-                Vat = double.Parse(_vat),
-            };
+                SelectedBoatTypeIndex = boatTypeIndex;
+            }
+            OnPropertyChanged(nameof(BoatTypesCollection));
+
+            _boatWoodsCollection = (await _boatWoodModel.GetAllAsync()).ToList();
+            int boatWoodIndex = _boatTypesCollection.FindIndex(bt => bt.Id == _boat.TypeId);
+            if (boatWoodIndex != -1)
+            {
+                SelectedBoatWoodIndex = boatWoodIndex;
+            }
+            OnPropertyChanged(nameof(BoatWoodsCollection));
+
+            _colors = ColorWorker.GetColorsCollection();
+            int colorIndex = _colors.FindIndex(c => c.Name == _boat.Color);
+            if (colorIndex != -1)
+            {
+                SelectedColorIndex = colorIndex;
+            }
+            OnPropertyChanged(nameof(ColorsCollection));
         }
 
-        protected override string GetSaveSnackbarMessage(bool _isEdit)
+        public AsyncRelayCommand SaveItem => new AsyncRelayCommand(SaveMethod,
+            (ex) => { ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message }); });
+        #endregion
+
+        #region Методы
+        
+        private async Task SaveMethod(object parameter)
         {
-            return _isEdit
+            ProgressBarVisibility = Visibility.Visible;
+            if (_isEdit)
+            {
+                await _boatModel.UpdateAsync(_boat);
+            }
+            else
+            {
+                await _boatModel.AddAsync(_boat);
+            }
+
+            ProgressBarVisibility = Visibility.Collapsed;
+
+            string snackbarMessage = _isEdit
                 ? $"Лодка \"{Model}\" успешно отредактирована."
                 : $"Лодка \"{Model}\" успешно добавлена.";
+
+            SendSnackbar(snackbarMessage);
+            CloseCurrentDialog();
         }
 
+        public async void ExecuteRunDialog(object o)
+        {
+            var view = new SampleMessageDialog()
+            {
+                DataContext = new SampleMessageDialogViewModel((MessageDialogProperty)o)
+            };
+            var result = await DialogHost.Show(view, "EditorDialog");
+        }
         #endregion
 
         #region Валидация полей
@@ -259,17 +340,17 @@ namespace WorldYachts.ViewModel.Boat
             {
                 string error = columnName switch
                 {
-                    "Model" => new Validation(new NotEmptyFieldValidationRule(Model)).Validate(),
-                    "Type" => new Validation(new NotEmptyFieldValidationRule(Type)).Validate(),
-                    "NumberOfRower" => new Validation(
-                        new PositiveNumberValidationRule(NumberOfRower),
-                        new NotEmptyFieldValidationRule(NumberOfRower)).Validate(),
-                    "Wood" => new Validation(new NotEmptyFieldValidationRule(Wood)).Validate(),
-                    "BasePrice" => new Validation(
-                        new PositiveNumberValidationRule(_basePrice),
+                    nameof(Model) => new Validation(new NotEmptyFieldValidationRule(Model)).Validate(),
+                    nameof(SelectedBoatType) => new Validation(new NotEmptyFieldValidationRule(SelectedBoatType.Type)).Validate(),
+                    nameof(NumberOfRowers) => new Validation(
+                        new PositiveNumberValidationRule(NumberOfRowers),
+                        new NotEmptyFieldValidationRule(NumberOfRowers)).Validate(),
+                    nameof(SelectedBoatWood) => new Validation(new NotEmptyFieldValidationRule(SelectedBoatWood.Wood)).Validate(),
+                    nameof(BasePrice) => new Validation(
+                        new PositiveNumberValidationRule(_boat.BasePrice),
                         new NumberValidationRule(BasePrice)).Validate(),
-                    "Vat" => new Validation(
-                        new PositiveNumberValidationRule(_vat),
+                    nameof(Vat) => new Validation(
+                        new PositiveNumberValidationRule(_boat.Vat),
                         new NotEmptyFieldValidationRule(Vat)).Validate(),
                     _ => null
                 };

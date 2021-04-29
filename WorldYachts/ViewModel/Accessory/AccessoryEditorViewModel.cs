@@ -22,7 +22,7 @@ namespace WorldYachts.ViewModel.Accessory
         private readonly IAccessoryModel _accessoryModel;
         private readonly IPartnerModel _partnerModel;
         
-        public readonly Data.Entities.Accessory _accessory;
+        private readonly Data.Entities.Accessory _accessory;
         private List<Data.Entities.Partner> _partnersCollection;
         
         private Visibility _progressBarVisibility = Visibility.Collapsed;
@@ -114,7 +114,7 @@ namespace WorldYachts.ViewModel.Accessory
             }
         }
 
-        public int _selectedPartnerIndex;
+        private int _selectedPartnerIndex;
         public int SelectedPartnerIndex
         {
             get => _selectedPartnerIndex;

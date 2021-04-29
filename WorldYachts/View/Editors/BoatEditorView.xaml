@@ -2,16 +2,22 @@
     x:Class="WorldYachts.View.Editors.BoatEditorView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:boat="clr-namespace:WorldYachts.ViewModel.Boat"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:local="clr-namespace:WorldYachts.View"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:boat="clr-namespace:WorldYachts.ViewModel.Boat"
     d:DesignHeight="450"
     d:DesignWidth="800"
     Background="#FFFAFAFA"
     FontFamily="Google Sans"
     mc:Ignorable="d">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -20,220 +26,224 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <UserControl.DataContext>
-        <boat:BoatEditorViewModel />
-    </UserControl.DataContext>
-    <Grid Margin="20,20,20,10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="30" />
-            <RowDefinition />
-            <RowDefinition Height="50" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <Label
-            Grid.Row="0"
-            Margin="0,0,0,0"
-            VerticalAlignment="Top"
-            FontSize="18"
-            FontWeight="Bold">
-            Редактор лодок
-        </Label>
-        <StackPanel
-            Grid.Row="1"
-            Grid.Column="0"
-            Margin="0,0,40,0">
-            <!--  Model  -->
-            <TextBox Margin="0,8,0,15" Style="{StaticResource InputTextBox}">
-                <materialDesign:HintAssist.Hint>
-                    <TextBlock>Название модели</TextBlock>
-                </materialDesign:HintAssist.Hint>
-                <TextBox.Text>
-                    <Binding
-                        Mode="TwoWay"
-                        Path="Model"
-                        UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <DataErrorValidationRule />
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
-            <!--  Type  -->
-            <ComboBox
-                Margin="0,0,0,10"
-                materialDesign:HintAssist.Hint="Тип яхты"
-                ItemsSource="{Binding BoatTypes}"
-                Style="{StaticResource InputComboBox}">
-                <ComboBox.Text>
-                    <Binding Path="Type" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <DataErrorValidationRule />
-                        </Binding.ValidationRules>
-                    </Binding>
-                </ComboBox.Text>
-            </ComboBox>
-            <!--  NumberOfRower  -->
-            <TextBox Margin="0,8,0,20" Style="{StaticResource InputTextBox}">
-                <materialDesign:HintAssist.Hint>
-                    <TextBlock>Количество гребцов</TextBlock>
-                </materialDesign:HintAssist.Hint>
-                <TextBox.Text>
-                    <Binding Path="NumberOfRower" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <DataErrorValidationRule />
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
-            <!--  Wood  -->
-            <ComboBox
-                Margin="0,3,0,0"
-                materialDesign:HintAssist.Hint="Тип дерева"
-                ItemsSource="{Binding WoodTypes}"
-                Style="{StaticResource InputComboBox}">
-                <ComboBox.Text>
-                    <Binding Path="Wood" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <DataErrorValidationRule />
-                        </Binding.ValidationRules>
-                    </Binding>
-                </ComboBox.Text>
-            </ComboBox>
-        </StackPanel>
-        <StackPanel
-            Grid.Row="1"
-            Grid.Column="1"
-            Margin="0,0,0,30">
-            <!--  ColorPicker  -->
-            <Border
-                Width="300"
-                Height="65"
-                Margin="0,20,0,0"
-                Padding="5,3"
-                HorizontalAlignment="Center"
+    <materialDesign:DialogHost
+        Grid.Row="1"
+        CloseOnClickAway="True"
+        Identifier="EditorDialog">
+        <Grid Margin="20,20,20,10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Label
+                Grid.Row="0"
+                Margin="0,0,0,0"
                 VerticalAlignment="Top"
-                BorderBrush="#BABABA"
-                BorderThickness="1,1,1,1"
-                CornerRadius="3">
-                <StackPanel>
-                    <TextBlock
-                        VerticalAlignment="Center"
-                        FontSize="14"
-                        Text="Цвет лодки:" />
-                    <ListBox
-                        x:Name="ColorBox"
-                        ItemsSource="{Binding ColorsCollection}"
-                        SelectedIndex="0"
-                        SelectedItem="{Binding Path=SelectedColor}"
-                        SelectedValuePath="Tag"
-                        Style="{StaticResource ToggleButtonList}">
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <VirtualizingStackPanel Orientation="Horizontal" />
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                        <ListBox.ItemContainerStyle>
-                            <Style BasedOn="{StaticResource ItemContainerStyle}" TargetType="{x:Type ListBoxItem}">
-                                <Setter Property="Foreground" Value="{Binding Color}" />
-                            </Style>
-                        </ListBox.ItemContainerStyle>
-                    </ListBox>
-                </StackPanel>
+                FontSize="18"
+                FontWeight="Bold">
+                Редактор лодок
+            </Label>
+            <StackPanel
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="0,0,40,0">
+                <!--  Model  -->
+                <TextBox Margin="0,8,0,15" Style="{StaticResource InputTextBox}">
+                    <materialDesign:HintAssist.Hint>
+                        <TextBlock>Название модели</TextBlock>
+                    </materialDesign:HintAssist.Hint>
+                    <TextBox.Text>
+                        <Binding
+                            Mode="TwoWay"
+                            Path="Model"
+                            UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <DataErrorValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <!--  Type  -->
+                <ComboBox
+                    Margin="0,3,0,0"
+                    materialDesign:HintAssist.Hint="Тип лодки"
+                    IsSynchronizedWithCurrentItem="True"
+                    ItemsSource="{Binding BoatTypesCollection}"
+                    SelectedIndex="{Binding SelectedBoatTypeIndex}"
+                    SelectedItem="{Binding SelectedBoatType, Mode=TwoWay}"
+                    Style="{StaticResource InputComboBox}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Type, Mode=TwoWay}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <!--  NumberOfRowers  -->
+                <TextBox Margin="0,8,0,20" Style="{StaticResource InputTextBox}">
+                    <materialDesign:HintAssist.Hint>
+                        <TextBlock>Количество гребцов</TextBlock>
+                    </materialDesign:HintAssist.Hint>
+                    <TextBox.Text>
+                        <Binding Path="NumberOfRowers" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <DataErrorValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <!--  Wood  -->
+                <ComboBox
+                    Margin="0,3,0,0"
+                    materialDesign:HintAssist.Hint="Тип дерева"
+                    IsSynchronizedWithCurrentItem="True"
+                    ItemsSource="{Binding BoatWoodsCollection}"
+                    SelectedIndex="{Binding SelectedBoatWoodIndex}"
+                    SelectedItem="{Binding SelectedBoatWood, Mode=TwoWay}"
+                    Style="{StaticResource InputComboBox}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Wood, Mode=TwoWay}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="0,0,0,30">
+                <!--  ColorPicker  -->
+                <Border
+                    Width="300"
+                    Height="65"
+                    Margin="0,20,0,0"
+                    Padding="5,3"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    BorderBrush="#BABABA"
+                    BorderThickness="1,1,1,1"
+                    CornerRadius="3">
+                    <StackPanel>
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            FontSize="14"
+                            Text="Цвет лодки:" />
+                        <ListBox
+                            x:Name="ColorBox"
+                            ItemsSource="{Binding ColorsCollection}"
+                            SelectedIndex="{Binding SelectedColorIndex}"
+                            SelectedItem="{Binding SelectedColor}"
+                            SelectedValuePath="Tag"
+                            Style="{StaticResource ToggleButtonList}">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemContainerStyle>
+                                <Style BasedOn="{StaticResource ItemContainerStyle}" TargetType="{x:Type ListBoxItem}">
+                                    <Setter Property="Foreground" Value="{Binding Color}" />
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                        </ListBox>
+                    </StackPanel>
 
-            </Border>
-            <!--  Mast  -->
-            <Border
-                Width="300"
-                Height="40"
-                Margin="0,19,0,0"
-                Padding="5,3"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Top"
-                BorderBrush="#BABABA"
-                BorderThickness="1,1,1,1"
-                CornerRadius="3">
-                <Grid Width="300">
-                    <TextBlock
-                        VerticalAlignment="Center"
-                        FontSize="14"
-                        Text="Наличие мачты:" />
-                    <CheckBox
-                        Margin="265,0,0,0"
-                        Padding="1000"
-                        VerticalAlignment="Center"
-                        IsChecked="{Binding Mast}" />
-                </Grid>
-            </Border>
-            <!--  BasePrice  -->
-            <TextBox Margin="0,8,0,20" Style="{StaticResource InputTextBox}">
-                <materialDesign:HintAssist.Hint>
-                    <TextBlock>Базовая стоимость без НДС ₽</TextBlock>
-                </materialDesign:HintAssist.Hint>
-                <TextBox.Text>
-                    <Binding
-                        Mode="TwoWay"
-                        Path="BasePrice"
-                        UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <DataErrorValidationRule />
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
-            <!--  Vat  -->
-            <TextBox Margin="0,0,0,0" Style="{StaticResource InputTextBox}">
-                <materialDesign:HintAssist.Hint>
-                    <TextBlock>Процентная ставка НДС %</TextBlock>
-                </materialDesign:HintAssist.Hint>
-                <TextBox.Text>
-                    <Binding
-                        Mode="TwoWay"
-                        Path="Vat"
-                        UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <DataErrorValidationRule />
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
-        </StackPanel>
-        <StackPanel
-            Grid.Row="2"
-            Grid.Column="1"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Bottom"
-            Orientation="Horizontal">
-            <ProgressBar
-                Margin="12,0,0,12"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                IsIndeterminate="True"
-                Style="{StaticResource MaterialDesignCircularProgressBar}"
-                Visibility="{Binding ProgressBarVisibility}"
-                Value="0" />
-            <Button
-                Margin="0,0,5,10"
+                </Border>
+                <!--  Mast  -->
+                <Border
+                    Width="300"
+                    Height="40"
+                    Margin="0,19,0,0"
+                    Padding="5,3"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    BorderBrush="#BABABA"
+                    BorderThickness="1,1,1,1"
+                    CornerRadius="3">
+                    <Grid Width="300">
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            FontSize="14"
+                            Text="Наличие мачты:" />
+                        <CheckBox
+                            Margin="265,0,0,0"
+                            Padding="1000"
+                            VerticalAlignment="Center"
+                            IsChecked="{Binding Mast}" />
+                    </Grid>
+                </Border>
+                <!--  BasePrice  -->
+                <TextBox Margin="0,8,0,20" Style="{StaticResource InputTextBox}">
+                    <materialDesign:HintAssist.Hint>
+                        <TextBlock>Базовая стоимость без НДС ₽</TextBlock>
+                    </materialDesign:HintAssist.Hint>
+                    <TextBox.Text>
+                        <Binding
+                            Mode="TwoWay"
+                            Path="BasePrice"
+                            UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <DataErrorValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <!--  Vat  -->
+                <TextBox Margin="0,0,0,0" Style="{StaticResource InputTextBox}">
+                    <materialDesign:HintAssist.Hint>
+                        <TextBlock>Процентная ставка НДС %</TextBlock>
+                    </materialDesign:HintAssist.Hint>
+                    <TextBox.Text>
+                        <Binding
+                            Mode="TwoWay"
+                            Path="Vat"
+                            UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <DataErrorValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </StackPanel>
+            <StackPanel
+                Grid.Row="2"
+                Grid.Column="1"
                 HorizontalAlignment="Right"
-                Command="{Binding SaveItem}"
-                Cursor="Hand"
-                FontSize="14"
-                IsEnabled="{Binding SaveButtonIsEnabled}"
-                Style="{DynamicResource MaterialDesignFlatButton}">
-                Сохранить
-            </Button>
-            <Button
-                Margin="0,0,5,10"
-                HorizontalAlignment="Right"
-                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-                Cursor="Hand"
-                FontSize="14"
-                IsDefault="True"
-                Style="{DynamicResource MaterialDesignFlatButton}">
-                Назад
-            </Button>
-        </StackPanel>
-    </Grid>
+                VerticalAlignment="Bottom"
+                Orientation="Horizontal">
+                <ProgressBar
+                    Margin="12,0,0,12"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    IsIndeterminate="True"
+                    Style="{StaticResource MaterialDesignCircularProgressBar}"
+                    Visibility="{Binding ProgressBarVisibility}"
+                    Value="0" />
+                <Button
+                    Margin="0,0,5,10"
+                    HorizontalAlignment="Right"
+                    Command="{Binding SaveItem}"
+                    Cursor="Hand"
+                    FontSize="14"
+                    IsEnabled="{Binding SaveButtonIsEnabled}"
+                    Style="{DynamicResource MaterialDesignFlatButton}">
+                    Сохранить
+                </Button>
+                <Button
+                    Margin="0,0,5,10"
+                    HorizontalAlignment="Right"
+                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                    Cursor="Hand"
+                    FontSize="14"
+                    IsDefault="True"
+                    Style="{DynamicResource MaterialDesignFlatButton}">
+                    Назад
+                </Button>
+            </StackPanel>
+        </Grid>
+    </materialDesign:DialogHost>
 </UserControl>

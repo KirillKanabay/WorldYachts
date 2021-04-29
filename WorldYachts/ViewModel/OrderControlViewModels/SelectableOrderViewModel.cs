@@ -41,7 +41,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
 
         #region Свойства
 
-        public Boat Boat => _item.Boat;
+        public Data.Entities.Boat Boat => _item.Boat;
         public List<OrderDetails> OrderDetails => _item.OrderDetails;
         public override BaseEditorViewModel<Order> Editor { get; }
 

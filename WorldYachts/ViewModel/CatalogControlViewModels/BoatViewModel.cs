@@ -54,7 +54,7 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
         {
             _authUser = authUser;
         }
-        public BoatViewModel(Boat boat, AuthUser authUser):base(false)
+        public BoatViewModel(Data.Entities.Boat boat, AuthUser authUser):base(false)
         {
             _id = boat.Id;
             _model = boat.Model;

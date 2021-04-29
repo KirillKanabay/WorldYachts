@@ -2,6 +2,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:accessory="clr-namespace:WorldYachts.ViewModel.Accessory"
+    xmlns:accessoryControlViewModels="clr-namespace:WorldYachts.ViewModel.AccessoryControlViewModels"
+    xmlns:boat="clr-namespace:WorldYachts.ViewModel.Boat"
     xmlns:boatControlViews="clr-namespace:WorldYachts.View.BoatControlViews"
     xmlns:dashboardControlViewModels="clr-namespace:WorldYachts.ViewModel.DashboardControlViewModels"
     xmlns:dashboardControlViews="clr-namespace:WorldYachts.View.DashboardControlViews"
@@ -18,9 +20,7 @@
     xmlns:vm="clr-namespace:WorldYachts.ViewModel"
     xmlns:vmaccessory="clr-namespace:WorldYachts.ViewModel.Accessory"
     xmlns:vmcatalog="clr-namespace:WorldYachts.ViewModel.CatalogControlViewModels"
-    xmlns:worldYachts="clr-namespace:WorldYachts"
-    xmlns:accessoryControlViewModels="clr-namespace:WorldYachts.ViewModel.AccessoryControlViewModels"
-    xmlns:boat="clr-namespace:WorldYachts.ViewModel.Boat">
+    xmlns:worldYachts="clr-namespace:WorldYachts">
     <ResourceDictionary.MergedDictionaries>
         <!--  Основные UC  -->
         <ResourceDictionary>

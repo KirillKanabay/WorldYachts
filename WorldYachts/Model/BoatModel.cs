@@ -10,10 +10,10 @@ namespace WorldYachts.Model
     class BoatModel : IBoatModel
     {
         public event Func<object, Task> BoatModelChanged;
-        private readonly IBoatService _service;
-        public BoatModel()
+        private readonly IBoatService _boatService;
+        public BoatModel(IBoatService boatService)
         {
-            _service = new BoatService();
+            _boatService = boatService;
         }
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace WorldYachts.Model
         /// <returns></returns>
         public async Task AddAsync(Boat boat)
         {
-            await _service.AddAsync(boat);
+            await _boatService.AddAsync(boat);
             BoatModelChanged?.Invoke(boat);
         }
         /// <summary>
@@ -31,17 +31,17 @@ namespace WorldYachts.Model
         /// <returns></returns>
         public async Task<IEnumerable<Boat>> GetAllAsync()
         {
-            return await _service.GetAllAsync();
+            return await _boatService.GetAllAsync();
         }
         
         /// <summary>
         /// Асинхронный метод удаления коллекции лодок из БД
         /// </summary>
-        /// <param name="removeBoats">Коллекция лодок</param>
+        /// <param name="boat">Удаляемая лодка</param>
         /// <returns></returns>
         public async Task DeleteAsync(Boat boat)
         {
-            await _service.DeleteAsync(boat.Id);
+            await _boatService.DeleteAsync(boat.Id);
             BoatModelChanged?.Invoke(boat);
         }
 
@@ -51,13 +51,13 @@ namespace WorldYachts.Model
         /// <returns></returns>
         public async Task UpdateAsync(Boat boat)
         {
-            await _service.UpdateAsync(boat.Id, boat);
+            await _boatService.UpdateAsync(boat.Id, boat);
             BoatModelChanged?.Invoke(boat);
         }
     
         public async Task<Boat> GetByIdAsync(int id)
         {
-            return await _service.GetByIdAsync(id);
+            return await _boatService.GetByIdAsync(id);
         }
     }
 }

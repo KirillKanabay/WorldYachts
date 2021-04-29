@@ -1,140 +1,145 @@
 ﻿using System.Threading.Tasks;
 using MaterialDesignThemes.Wpf;
+using WorldYachts.DependencyInjections.Helpers;
+using WorldYachts.DependencyInjections.Models;
+using WorldYachts.Helpers;
 using WorldYachts.Helpers.Commands;
-using WorldYachts.View.Editors;
 using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BaseViewModels;
-using WorldYachts.ViewModel.CatalogControlViewModels;
+using WorldYachts.ViewModel.MessageDialog;
 
 namespace WorldYachts.ViewModel.Boat
 {
-    public class SelectableBoatViewModel : BaseSelectableViewModel<Data.Entities.Boat>
+    public class SelectableBoatViewModel : BaseViewModel
     {
         #region Поля
+        private AsyncRelayCommand _removeCommand;
+        private AsyncRelayCommand _editCommand;
 
-        private readonly Data.Entities.Boat _boat;
-        private readonly BoatViewModel _boatViewModel;
+        private readonly IBoatModel _boatModel;
+        private readonly IViewModelContainer _viewModelContainer;
+
+        private bool _isSelected;
         #endregion
 
         #region Конструкторы
 
-        public SelectableBoatViewModel(Data.Entities.Boat boat, BoatViewModel boatViewModel) : base(boat,null)
+        public SelectableBoatViewModel(Data.Entities.Boat boat, 
+            IBoatModel boatModel,
+            IViewModelContainer viewModelContainer)
         {
-            _boat = boat;
-            _boatViewModel = boatViewModel;
+            Boat = boat;
+            _boatModel = boatModel;
+            _viewModelContainer = viewModelContainer;
         }
 
         #endregion
 
         #region Свойства
 
-        /// <summary>
-        /// Идентификатор лодки
-        /// </summary>
-        public int Id => _boat.Id;
+        public Data.Entities.Boat Boat { get; }
+        public string Info => Boat.ToString();
 
-        /// <summary>
-        /// Модель лодки
-        /// </summary>
-        public string Model => _boat.Model;
-
-        /// <summary>
-        /// Тип лодки
-        /// </summary>
-        public string Type => _boat.BoatType.Type;
-
-        /// <summary>
-        /// Количество гребцов
-        /// </summary>
-        public int NumberOfRower => _boat.NumberOfRowers;
-
-        /// <summary>
-        /// Наличие мачты
-        /// </summary>
-        public string Mast => _boat.Mast ? "Присутствует" : "Отсутствует";
-
-        /// <summary>
-        /// Цвет лодки
-        /// </summary>
-        public string Color => _boat.Color;
-
-        /// <summary>
-        /// Тип дерева
-        /// </summary>
-        public string Wood => _boat.BoatWood.Wood;
-
-        /// <summary>
-        /// Базовая цена без НДС
-        /// </summary>
-        public decimal BasePrice => _boat.BasePrice;
-
-        /// <summary>
-        /// Процентная ставка НДС
-        /// </summary>
-        public double Vat => _boat.Vat;
-
-        /// <summary>
-        /// Цена с НДС
-        /// </summary>
-        public decimal PriceInclVat => BasePrice + (BasePrice * (decimal) Vat);
-
-        
-        public override BaseEditorViewModel<Boat> Editor => new BoatEditorViewModel();
-
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set
+            {
+                _isSelected = value;
+                OnPropertyChanged(nameof(IsSelected));
+            }
+        }
         #endregion
-
-        public AsyncRelayCommand OpenViewCommand => new AsyncRelayCommand(OpenViewBoat, null);
 
         #region Методы
 
-        public override string ToString()
-        {
-            return $"Id: {Id}\n" +
-                   $"Модель: {Model}\n" +
-                   $"Тип: {Type}\n" +
-                   $"Количество гребцов: {NumberOfRower}\n" +
-                   $"Наличие мачты: {Mast}\n" +
-                   $"Цвет: {Color}\n" +
-                   $"Тип дерева: {Wood}\n" +
-                   $"Цена без НДС: {BasePrice}";
-        }
-
-        protected override void ToggleViewEditorAfterLoaded()
-        {
-            if (BoatEditorView.EditorAfterLoad != null)
-            {
-                BoatEditorView.EditorAfterLoad = null;
-            }
-            else
-            {
-                BoatEditorView.EditorAfterLoad = GetEditorViewModel;
-            }
-        }
-
-        protected override BaseViewModel GetEditorViewModel() => new BoatEditorViewModel(_item);
-        
-        protected override MessageDialogProperty GetConfirmDeleteDialogProperty()
+        private MessageDialogProperty GetConfirmDeleteDialogProperty()
         {
             return new MessageDialogProperty()
             {
                 Title = "Подтверждение удаления",
-                Message = "Будет удалена следующая лодка:\n\n" + this
+                Message = "Будет удалена следующая лодка:\n\n" + Info
             };
         }
+        #endregion
 
-        private async Task OpenViewBoat(object parameter)
+        #region Команды
+
+        public AsyncRelayCommand RemoveCommand
         {
+            get
+            {
+                return _removeCommand ??= new AsyncRelayCommand(ShowConfirmDeleteDialog,
+                    (ex) =>
+                    {
+                        ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message });
+                    });
+            }
+        }
+
+        public AsyncRelayCommand EditCommand
+        {
+            get
+            {
+                return _editCommand ??= new AsyncRelayCommand(ExecuteRunEditorDialog,
+                    (ex) =>
+                    {
+                        ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message });
+                    });
+            }
+        }
+
+        #endregion
+
+        #region Диалоги
+
+        private async Task ExecuteRunEditorDialog(object o)
+        {
+            EntityContainer.Push(Boat);
             var view = new View.MessageDialogs.MessageDialog()
             {
-                DataContext = new MessageDialogViewModel(_boatViewModel)
+                DataContext = new MessageDialogViewModel(_viewModelContainer.GetViewModel<BoatEditorViewModel>())
             };
 
-            var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
+            var result = await DialogHost.Show(view, "RootDialog");
         }
 
-        private void ClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        /// <summary>
+        /// Показывает простой диалог сообщения
+        /// </summary>
+        /// <param name="o"></param>
+        private async void ExecuteRunDialog(object o)
         {
-            //throw new System.NotImplementedException();
+            var view = new SampleMessageDialog()
+            {
+                DataContext = new SampleMessageDialogViewModel((MessageDialogProperty)o)
+            };
+            var result = await DialogHost.Show(view, "RootDialog");
+        }
+
+        /// <summary>
+        /// Показывает диалог подтверждения удаления предмета
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
+        private async Task ShowConfirmDeleteDialog(object parameter)
+        {
+            var view = new MessageDialogOkCancel()
+            {
+                DataContext = new SampleMessageDialogViewModel(GetConfirmDeleteDialogProperty())
+            };
+            var result = await DialogHost.Show(view, "RootDialog", ClosingDeleteDialogEventHandler);
+        }
+
+        /// <summary>
+        /// Обработчик события закрытия диалога подтверждения удаления
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="eventargs"></param>
+        private void ClosingDeleteDialogEventHandler(object sender, DialogClosingEventArgs eventargs)
+        {
+            if (Equals((eventargs.Parameter), true))
+                _boatModel.DeleteAsync(Boat);
         }
 
         #endregion

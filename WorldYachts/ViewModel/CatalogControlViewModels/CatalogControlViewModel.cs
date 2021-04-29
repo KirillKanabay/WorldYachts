@@ -15,11 +15,11 @@ using WorldYachts.ViewModel.Boat;
 
 namespace WorldYachts.ViewModel.CatalogControlViewModels
 {
-    public class CatalogControlViewModel : BaseManagementViewModel<Boat>
+    public class CatalogControlViewModel : BaseManagementViewModel<Data.Entities.Boat>
     {
         #region Поля
 
-        private ObservableCollection<BaseSelectableViewModel<Boat>> _boats;
+        private ObservableCollection<BaseSelectableViewModel<Data.Entities.Boat>> _boats;
 
         private decimal? _defaultPriceFromFilter = 0;
         private decimal? _defaultPriceToFilter = 0;
@@ -62,7 +62,7 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
 
         #region Свойства
 
-        public override ObservableCollection<BaseSelectableViewModel<Boat>> FilteredCollection => Filter(_filterText);
+        public override ObservableCollection<BaseSelectableViewModel<Data.Entities.Boat>> FilteredCollection => Filter(_filterText);
 
         /// <summary>
         /// Фильтр: цена с
@@ -176,20 +176,20 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
             ProgressBarVisibility = Visibility.Collapsed;
         }
 
-        protected override ObservableCollection<BaseSelectableViewModel<Boat>> GetSelectableViewModels(
-            IEnumerable<Boat> items)
+        protected override ObservableCollection<BaseSelectableViewModel<Data.Entities.Boat>> GetSelectableViewModels(
+            IEnumerable<Data.Entities.Boat> items)
         {
-            var collection = new ObservableCollection<BaseSelectableViewModel<Boat>>();
+            var collection = new ObservableCollection<BaseSelectableViewModel<Data.Entities.Boat>>();
 
             foreach (var boat in items)
             {
-                collection.Add(new SelectableBoatViewModel(boat,_boatViewModel));
+                //collection.Add(new SelectableBoatViewModel(boat,_boatViewModel));
             }
 
             return collection;
         }
 
-        protected override ObservableCollection<BaseSelectableViewModel<Boat>> Filter(string filterText)
+        protected override ObservableCollection<BaseSelectableViewModel<Data.Entities.Boat>> Filter(string filterText)
         {
             var fc = ItemsCollection.Where(b => true);
 
@@ -222,7 +222,7 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
                 fc = fc.Where(b => b.Item.Mast == mast);
             }
 
-            return new ObservableCollection<BaseSelectableViewModel<Boat>>(fc);
+            return new ObservableCollection<BaseSelectableViewModel<Data.Entities.Boat>>(fc);
         }
 
         #endregion

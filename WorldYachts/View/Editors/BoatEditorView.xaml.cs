@@ -20,12 +20,9 @@ namespace WorldYachts.View.Editors
     /// </summary>
     public partial class BoatEditorView : UserControl
     {
-        public static Func<BaseViewModel> EditorAfterLoad;
         public BoatEditorView()
         {
             InitializeComponent();
-            if (EditorAfterLoad != null)
-                DataContext = EditorAfterLoad.Invoke();
         }
     }
 }

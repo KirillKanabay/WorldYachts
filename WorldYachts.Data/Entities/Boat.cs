@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
 
 namespace WorldYachts.Data.Entities
 {
@@ -20,6 +18,17 @@ namespace WorldYachts.Data.Entities
         public BoatWood BoatWood { get; set; }
         public IEnumerable<Order> Orders { get; set; }
 
-        public const string Path = "boats";
+        public override string ToString()
+        {
+            return $"Id: {Id}\n" +
+                   $"Модель: {Model}\n" +
+                   $"Тип: {BoatType.Type}\n" +
+                   $"Количество гребцов: {NumberOfRowers}\n" +
+                   $"Наличие мачты: {Mast}\n" +
+                   $"Цвет: {Color}\n" +
+                   $"Тип дерева: {BoatWood.Wood}\n" +
+                   $"Цена без НДС: {BasePrice}";
+        }
+
     }
 }

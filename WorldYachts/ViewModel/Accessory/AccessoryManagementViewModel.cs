@@ -49,7 +49,7 @@ namespace WorldYachts.ViewModel.Accessory
             get
             {
                 if (!string.IsNullOrWhiteSpace(_filterText))
-                    return Filter(_filterText);
+                    return Filter();
 
                 return _accessories;
             }
@@ -121,7 +121,7 @@ namespace WorldYachts.ViewModel.Accessory
             return collection;
         }
 
-        private ObservableCollection<SelectableAccessoryViewModel> Filter(string filterText)
+        private ObservableCollection<SelectableAccessoryViewModel> Filter()
         {
             if (string.IsNullOrWhiteSpace(FilterText))
             {
@@ -129,8 +129,8 @@ namespace WorldYachts.ViewModel.Accessory
             }
 
             var filteredCollection = _accessories.Where(a =>
-                a.Accessory.Name.ToLower().Contains(filterText.ToLower()) ||
-                a.Accessory.Id.ToString() == filterText);
+                a.Accessory.Name.ToLower().Contains(FilterText.ToLower()) ||
+                a.Accessory.Id.ToString() == FilterText);
 
             return new ObservableCollection<SelectableAccessoryViewModel>(filteredCollection);
         }

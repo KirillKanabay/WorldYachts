@@ -14,8 +14,8 @@ namespace WorldYachts.ViewModel.Accessory
     public class SelectableAccessoryViewModel:BaseViewModel
     {
         #region Поля
-        protected AsyncRelayCommand _removeCommand;
-        protected AsyncRelayCommand _editCommand;
+        private AsyncRelayCommand _removeCommand;
+        private AsyncRelayCommand _editCommand;
         
         private readonly IAccessoryModel _accessoryModel;
         private readonly IViewModelContainer _viewModelContainer;
