@@ -92,6 +92,7 @@ namespace WorldYachts.Helpers
             builder.RegisterType<UserModel>().AsSelf();
             builder.RegisterType<PartnerModel>().As<IPartnerModel>().InstancePerLifetimeScope();
             builder.RegisterType<AccessoryModel>().As<IAccessoryModel>().InstancePerLifetimeScope();
+            builder.RegisterType<BoatModel>().As<IBoatModel>().InstancePerLifetimeScope();
         }
 
         private void RegisterViews(ContainerBuilder builder)

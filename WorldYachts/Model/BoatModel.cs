@@ -1,19 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WorldYachts.Data.Entities;
+using WorldYachts.DependencyInjections.Models;
 using WorldYachts.Services.Boat;
 
 namespace WorldYachts.Model
 {
-    class BoatModel:IDataModel<Boat>
+    class BoatModel : IBoatModel
     {
+        public event Func<object, Task> BoatModelChanged;
         private readonly IBoatService _service;
-
         public BoatModel()
         {
             _service = new BoatService();
         }
-        public Boat LastAddedItem { get; set; }
 
         /// <summary>
         /// Асинхронный метод добавления лодки в БД
@@ -22,6 +23,7 @@ namespace WorldYachts.Model
         public async Task AddAsync(Boat boat)
         {
             await _service.AddAsync(boat);
+            BoatModelChanged?.Invoke(boat);
         }
         /// <summary>
         /// Асинхронный метод загрузки лодок из БД
@@ -37,15 +39,12 @@ namespace WorldYachts.Model
         /// </summary>
         /// <param name="removeBoats">Коллекция лодок</param>
         /// <returns></returns>
-        public async Task DeleteAsync(IEnumerable<Boat> removeBoats)
+        public async Task DeleteAsync(Boat boat)
         {
-            foreach (var removeBoat in removeBoats)
-            {
-                await _service.DeleteAsync(removeBoat.Id);
-            }
+            await _service.DeleteAsync(boat.Id);
+            BoatModelChanged?.Invoke(boat);
         }
 
-        
         /// <summary>
         /// Сохранение измененной лодки в БД
         /// </summary>
@@ -53,6 +52,7 @@ namespace WorldYachts.Model
         public async Task UpdateAsync(Boat boat)
         {
             await _service.UpdateAsync(boat.Id, boat);
+            BoatModelChanged?.Invoke(boat);
         }
     
         public async Task<Boat> GetByIdAsync(int id)
