@@ -8,7 +8,6 @@ namespace WorldYachts.DependencyInjections.Models
     public interface IBoatModel
     {
         event Func<object, Task> BoatModelChanged;
-
         Task AddAsync(Boat boat);
         Task<IEnumerable<Boat>> GetAllAsync();
         Task DeleteAsync(Boat boat);

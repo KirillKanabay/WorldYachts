@@ -6,6 +6,8 @@ using WorldYachts.Services;
 using WorldYachts.Services.Accessory;
 using WorldYachts.Services.AccessoryToBoat;
 using WorldYachts.Services.Boat;
+using WorldYachts.Services.BoatType;
+using WorldYachts.Services.BoatWood;
 using WorldYachts.Services.Partner;
 using WorldYachts.Services.Users;
 using WorldYachts.View.DashboardControlViews;
@@ -85,6 +87,8 @@ namespace WorldYachts.Helpers
             builder.RegisterType<AccessoryService>().As<IAccessoryService>();
             builder.RegisterType<AccessoryToBoatService>().As<IAccessoryToBoatService>();
             builder.RegisterType<PartnerService>().As<IPartnerService>();
+            builder.RegisterType<BoatWoodService>().As<IBoatWoodService>();
+            builder.RegisterType<BoatTypeService>().As<IBoatTypeService>();
         }
 
         private void RegisterModels(ContainerBuilder builder)
@@ -93,6 +97,8 @@ namespace WorldYachts.Helpers
             builder.RegisterType<PartnerModel>().As<IPartnerModel>().InstancePerLifetimeScope();
             builder.RegisterType<AccessoryModel>().As<IAccessoryModel>().InstancePerLifetimeScope();
             builder.RegisterType<BoatModel>().As<IBoatModel>().InstancePerLifetimeScope();
+            builder.RegisterType<BoatWoodModel>().As<IBoatWoodModel>().InstancePerLifetimeScope();
+            builder.RegisterType<BoatTypeModel>().As<IBoatTypeModel>().InstancePerLifetimeScope();
         }
 
         private void RegisterViews(ContainerBuilder builder)
