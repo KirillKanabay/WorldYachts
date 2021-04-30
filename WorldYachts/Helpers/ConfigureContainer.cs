@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using AutoMapper.Contrib.Autofac.DependencyInjection;
 using WorldYachts.DependencyInjections.Helpers;
 using WorldYachts.DependencyInjections.Models;
 using WorldYachts.Model;
@@ -9,12 +10,14 @@ using WorldYachts.Services.Boat;
 using WorldYachts.Services.BoatType;
 using WorldYachts.Services.BoatWood;
 using WorldYachts.Services.Partner;
+using WorldYachts.Services.Serialization;
 using WorldYachts.Services.Users;
 using WorldYachts.View.DashboardControlViews;
 using WorldYachts.ViewModel;
 using WorldYachts.ViewModel.Accessory;
 using WorldYachts.ViewModel.AccessoryControlViewModels;
 using WorldYachts.ViewModel.Boat;
+using WorldYachts.ViewModel.Boat.BoatType;
 using WorldYachts.ViewModel.CatalogControlViewModels;
 using WorldYachts.ViewModel.DashboardControlViewModels;
 using WorldYachts.ViewModel.OrderControlViewModels;
@@ -26,11 +29,14 @@ namespace WorldYachts.Helpers
 {
     internal class ConfigureContainer:Module
     {
+        [System.Obsolete]
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<WebClientService>().As<IWebClientService>().SingleInstance();
             builder.RegisterType<AuthUser>().AsSelf().SingleInstance();
             builder.RegisterType<ViewModelContainer>().As<IViewModelContainer>().SingleInstance();
+
+            builder.AddAutoMapper(typeof(BoatMapper).Assembly);
 
             RegisterViewModels(builder);
             RegisterServices(builder);
@@ -45,18 +51,34 @@ namespace WorldYachts.Helpers
             builder.RegisterType<MainViewModel>().AsSelf().InstancePerDependency();
             builder.RegisterType<AccountSettingsViewModel>().AsSelf().InstancePerDependency();
             builder.RegisterType<AboutProgramViewModel>().AsSelf().InstancePerDependency();
+
+            #region Accessory
             builder.RegisterType<AccessoryControlViewModel>().AsSelf().InstancePerDependency();
             builder.RegisterType<AccessoryEditorViewModel>().AsSelf().InstancePerDependency();
-            builder.RegisterType<AccessoryFitEditorViewModel>().AsSelf().InstancePerDependency();
             builder.RegisterType<AccessoryManagementViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<SelectableAccessoryViewModel>().AsSelf().InstancePerDependency();
+            #endregion
+
+            #region Partners
             builder.RegisterType<PartnerEditorViewModel>().AsSelf().InstancePerDependency();
             builder.RegisterType<PartnersManagementViewModel>().AsSelf().InstancePerDependency();
-            builder.RegisterType<SelectableAccessoryFitViewModel>().AsSelf().InstancePerDependency();
-            builder.RegisterType<SelectableAccessoryViewModel>().AsSelf().InstancePerDependency();
             builder.RegisterType<SelectablePartnerViewModel>().AsSelf().InstancePerDependency();
+            #endregion
+
+            #region Boat
             builder.RegisterType<BoatEditorViewModel>().AsSelf().InstancePerDependency();
             builder.RegisterType<BoatManagementViewModel>().AsSelf().InstancePerDependency();
             builder.RegisterType<SelectableBoatViewModel>().AsSelf().InstancePerDependency();
+            #endregion
+
+            #region Boat type
+            builder.RegisterType<BoatTypeManagementViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<BoatTypeEditorViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<SelectableBoatTypeViewModel>().AsSelf().InstancePerDependency();
+            #endregion
+
+            builder.RegisterType<AccessoryFitEditorViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<SelectableAccessoryFitViewModel>().AsSelf().InstancePerDependency();
             builder.RegisterType<BoatViewModel>().AsSelf().InstancePerDependency();
             builder.RegisterType<CatalogControlViewModel>().AsSelf().InstancePerDependency();
             builder.RegisterType<DashboardViewModel>().AsSelf().InstancePerDependency();
@@ -79,6 +101,10 @@ namespace WorldYachts.Helpers
             builder.RegisterType<SelectableSalesPersonViewModel>().AsSelf().InstancePerDependency();
             builder.RegisterType<UserControlViewModel>().AsSelf().InstancePerDependency();
             builder.RegisterType<BoatControlViewModel>().AsSelf().InstancePerDependency();
+
+           
+
+
         }
         private void RegisterServices(ContainerBuilder builder)
         {

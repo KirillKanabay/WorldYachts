@@ -1,5 +1,7 @@
 ﻿using WorldYachts.DependencyInjections.Helpers;
+using WorldYachts.View.BoatControlViews.BoatType;
 using WorldYachts.ViewModel.BaseViewModels;
+using WorldYachts.ViewModel.Boat.BoatType;
 
 namespace WorldYachts.ViewModel.Boat
 {
@@ -13,5 +15,6 @@ namespace WorldYachts.ViewModel.Boat
         }
 
         public BaseViewModel BoatManagementViewModel => _viewModelContainer.GetViewModel<BoatManagementViewModel>();
+        public BaseViewModel BoatTypeManagementViewModel => _viewModelContainer.GetViewModel<BoatTypeManagementViewModel>();
     }
 }

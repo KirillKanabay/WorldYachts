@@ -5,6 +5,8 @@
     xmlns:accessoryControlViewModels="clr-namespace:WorldYachts.ViewModel.AccessoryControlViewModels"
     xmlns:boat="clr-namespace:WorldYachts.ViewModel.Boat"
     xmlns:boatControlViews="clr-namespace:WorldYachts.View.BoatControlViews"
+    xmlns:boatType="clr-namespace:WorldYachts.ViewModel.Boat.BoatType"
+    xmlns:boatType1="clr-namespace:WorldYachts.View.BoatControlViews.BoatType"
     xmlns:dashboardControlViewModels="clr-namespace:WorldYachts.ViewModel.DashboardControlViewModels"
     xmlns:dashboardControlViews="clr-namespace:WorldYachts.View.DashboardControlViews"
     xmlns:orderControlViewModels="clr-namespace:WorldYachts.ViewModel.OrderControlViewModels"
@@ -94,6 +96,14 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type boat:BoatManagementViewModel}">
                 <boatControlViews:BoatManagementView />
+            </DataTemplate>
+        </ResourceDictionary>
+        <ResourceDictionary>
+            <DataTemplate DataType="{x:Type boatType:BoatTypeManagementViewModel}">
+                <boatType1:BoatTypeManagementView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type boatType:BoatTypeEditorViewModel}">
+                <veditors:BoatTypeEditorView />
             </DataTemplate>
         </ResourceDictionary>
         <!--  AccessoryManagement  -->

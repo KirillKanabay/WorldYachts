@@ -26,7 +26,7 @@ namespace WorldYachts.ViewModel.Boat
         private readonly IBoatWoodModel _boatWoodModel;
 
         private readonly Data.Entities.Boat _boat;
-        private List<BoatType> _boatTypesCollection;
+        private List<Data.Entities.BoatType> _boatTypesCollection;
         private List<BoatWood> _boatWoodsCollection;
         private List<ColorStruct> _colors;
 
@@ -157,6 +157,12 @@ namespace WorldYachts.ViewModel.Boat
             }
         }
 
+        /// <summary>
+        /// Доступность кнопки сохранения лодки
+        /// </summary>
+        public bool SaveButtonIsEnabled => _errors.Count == 0;
+
+        #region Цвет
         private int _selectedColorIndex;
 
         public int SelectedColorIndex
@@ -180,17 +186,9 @@ namespace WorldYachts.ViewModel.Boat
             }
         }
 
-
-        /// <summary>
-        /// Доступность кнопки сохранения лодки
-        /// </summary>
-        public bool SaveButtonIsEnabled => _errors.Count == 0;
-
-        /// <summary>
-        /// Получения цветов
-        /// </summary>
         public List<ColorStruct> ColorsCollection => _colors;
-        
+        #endregion
+
         #region Тип лодок
 
         private int _selectedBoatTypeIndex;
@@ -205,7 +203,7 @@ namespace WorldYachts.ViewModel.Boat
             }
         }
 
-        public BoatType SelectedBoatType
+        public Data.Entities.BoatType SelectedBoatType
         {
             get => _boat.BoatType;
             set
@@ -216,7 +214,7 @@ namespace WorldYachts.ViewModel.Boat
             }
         }
 
-        public List<BoatType> BoatTypesCollection => _boatTypesCollection;
+        public List<Data.Entities.BoatType> BoatTypesCollection => _boatTypesCollection;
 
         #endregion
 
@@ -262,7 +260,12 @@ namespace WorldYachts.ViewModel.Boat
         }
         public AsyncRelayCommand LoadedCommand => new AsyncRelayCommand(LoadCollections,
             (ex) => { ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message }); });
+        
+        public AsyncRelayCommand SaveItem => new AsyncRelayCommand(SaveMethod,
+            (ex) => { ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message }); });
+        #endregion
 
+        #region Методы
         private async Task LoadCollections(object parameter)
         {
             _boatTypesCollection = (await _boatTypeModel.GetAllAsync()).ToList();
@@ -289,13 +292,6 @@ namespace WorldYachts.ViewModel.Boat
             }
             OnPropertyChanged(nameof(ColorsCollection));
         }
-
-        public AsyncRelayCommand SaveItem => new AsyncRelayCommand(SaveMethod,
-            (ex) => { ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message }); });
-        #endregion
-
-        #region Методы
-        
         private async Task SaveMethod(object parameter)
         {
             ProgressBarVisibility = Visibility.Visible;
