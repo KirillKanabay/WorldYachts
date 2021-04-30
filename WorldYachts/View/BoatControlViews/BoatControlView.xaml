@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:WorldYachts.View.BoatControlViews"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:boatWood="clr-namespace:WorldYachts.View.BoatControlViews.BoatWood"
     Background="#FAFAFA"
     mc:Ignorable="d">
     <UserControl.Resources>
@@ -40,8 +41,8 @@
                 <TabItem DataContext="{Binding BoatTypeManagementViewModel}" Header="Управление типами лодок">
                     <boatType:BoatTypeManagementView />
                 </TabItem>
-                <TabItem Header="Управление типами деревьев лодок">
-                    <!--<accessoryControlViews:AccessoryFitManagementView />-->
+                <TabItem DataContext="{Binding BoatWoodManagementViewModel}" Header="Управление типами деревьев лодок">
+                    <boatWood:BoatWoodManagementView/>
                 </TabItem>
             </TabControl>
 

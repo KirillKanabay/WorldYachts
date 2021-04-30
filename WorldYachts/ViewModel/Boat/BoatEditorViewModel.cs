@@ -27,7 +27,7 @@ namespace WorldYachts.ViewModel.Boat
 
         private readonly Data.Entities.Boat _boat;
         private List<Data.Entities.BoatType> _boatTypesCollection;
-        private List<BoatWood> _boatWoodsCollection;
+        private List<Data.Entities.BoatWood> _boatWoodsCollection;
         private List<ColorStruct> _colors;
 
         private Visibility _progressBarVisibility = Visibility.Collapsed;
@@ -232,7 +232,7 @@ namespace WorldYachts.ViewModel.Boat
             }
         }
 
-        public BoatWood SelectedBoatWood
+        public Data.Entities.BoatWood SelectedBoatWood
         {
             get => _boat.BoatWood;
             set
@@ -243,7 +243,7 @@ namespace WorldYachts.ViewModel.Boat
             }
         }
 
-        public List<BoatWood> BoatWoodsCollection => _boatWoodsCollection;
+        public List<Data.Entities.BoatWood> BoatWoodsCollection => _boatWoodsCollection;
 
         #endregion
         

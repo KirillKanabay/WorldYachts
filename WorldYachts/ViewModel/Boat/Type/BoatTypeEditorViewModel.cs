@@ -10,7 +10,7 @@ using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BaseViewModels;
 using WorldYachts.ViewModel.MessageDialog;
 
-namespace WorldYachts.ViewModel.Boat.BoatType
+namespace WorldYachts.ViewModel.Boat.Type
 {
     public class BoatTypeEditorViewModel:BaseViewModel
     {

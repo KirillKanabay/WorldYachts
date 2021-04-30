@@ -2,11 +2,11 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:accessory="clr-namespace:WorldYachts.ViewModel.Accessory"
-    xmlns:accessoryControlViewModels="clr-namespace:WorldYachts.ViewModel.AccessoryControlViewModels"
     xmlns:boat="clr-namespace:WorldYachts.ViewModel.Boat"
     xmlns:boatControlViews="clr-namespace:WorldYachts.View.BoatControlViews"
     xmlns:boatType="clr-namespace:WorldYachts.ViewModel.Boat.BoatType"
     xmlns:boatType1="clr-namespace:WorldYachts.View.BoatControlViews.BoatType"
+    xmlns:boatWood="clr-namespace:WorldYachts.View.BoatControlViews.BoatWood"
     xmlns:dashboardControlViewModels="clr-namespace:WorldYachts.ViewModel.DashboardControlViewModels"
     xmlns:dashboardControlViews="clr-namespace:WorldYachts.View.DashboardControlViews"
     xmlns:orderControlViewModels="clr-namespace:WorldYachts.ViewModel.OrderControlViewModels"
@@ -14,15 +14,15 @@
     xmlns:orderManagementControlViews="clr-namespace:WorldYachts.View.OrderManagementControlViews"
     xmlns:orderManagementViewModels="clr-namespace:WorldYachts.ViewModel.OrderControlViewModels"
     xmlns:partner="clr-namespace:WorldYachts.ViewModel.Partner"
+    xmlns:type="clr-namespace:WorldYachts.ViewModel.Boat.Type"
     xmlns:userControlViewModels="clr-namespace:WorldYachts.ViewModel.UserControlViewModels"
     xmlns:v="clr-namespace:WorldYachts.View"
     xmlns:vaccessory="clr-namespace:WorldYachts.View.AccessoryControlViews"
     xmlns:vcatalog="clr-namespace:WorldYachts.View.CatalogControlViews"
     xmlns:veditors="clr-namespace:WorldYachts.View.Editors"
     xmlns:vm="clr-namespace:WorldYachts.ViewModel"
-    xmlns:vmaccessory="clr-namespace:WorldYachts.ViewModel.Accessory"
     xmlns:vmcatalog="clr-namespace:WorldYachts.ViewModel.CatalogControlViewModels"
-    xmlns:worldYachts="clr-namespace:WorldYachts">
+    xmlns:wood="clr-namespace:WorldYachts.ViewModel.Boat.Wood">
     <ResourceDictionary.MergedDictionaries>
         <!--  Основные UC  -->
         <ResourceDictionary>
@@ -98,12 +98,22 @@
                 <boatControlViews:BoatManagementView />
             </DataTemplate>
         </ResourceDictionary>
+
         <ResourceDictionary>
             <DataTemplate DataType="{x:Type boatType:BoatTypeManagementViewModel}">
                 <boatType1:BoatTypeManagementView />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type boatType:BoatTypeEditorViewModel}">
+            <DataTemplate DataType="{x:Type type:BoatTypeEditorViewModel}">
                 <veditors:BoatTypeEditorView />
+            </DataTemplate>
+        </ResourceDictionary>
+
+        <ResourceDictionary>
+            <DataTemplate DataType="{x:Type wood:BoatWoodManagementViewModel}">
+                <boatWood:BoatWoodManagementView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type wood:BoatWoodEditorViewModel}">
+                <veditors:BoatWoodEditorView />
             </DataTemplate>
         </ResourceDictionary>
         <!--  AccessoryManagement  -->

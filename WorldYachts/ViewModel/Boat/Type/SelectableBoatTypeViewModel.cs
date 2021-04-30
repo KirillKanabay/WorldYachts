@@ -6,6 +6,7 @@ using WorldYachts.Helpers;
 using WorldYachts.Helpers.Commands;
 using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BaseViewModels;
+using WorldYachts.ViewModel.Boat.Type;
 using WorldYachts.ViewModel.MessageDialog;
 
 namespace WorldYachts.ViewModel.Boat.BoatType

@@ -12,16 +12,16 @@ using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BaseViewModels;
 using WorldYachts.ViewModel.MessageDialog;
 
-namespace WorldYachts.ViewModel.Boat.BoatType
+namespace WorldYachts.ViewModel.Boat.Wood
 {
-    public class BoatTypeManagementViewModel:BaseViewModel
+    public class BoatWoodManagementViewModel:BaseViewModel
     {
         #region Поля
 
-        private readonly IBoatTypeModel _boatTypeModel;
+        private readonly IBoatWoodModel _boatWoodModel;
         private readonly IViewModelContainer _viewModelContainer;
 
-        private ObservableCollection<SelectableBoatTypeViewModel> _boatTypes;
+        private ObservableCollection<SelectableBoatWoodViewModel> _boatWoods;
 
         private Visibility _progressBarVisibility;
         private string _filterText;
@@ -29,26 +29,26 @@ namespace WorldYachts.ViewModel.Boat.BoatType
         #endregion
 
         #region Конструкторы
-        public BoatTypeManagementViewModel(IBoatTypeModel boatTypeModel, IViewModelContainer viewModelContainer)
+        public BoatWoodManagementViewModel(IBoatWoodModel boatWoodModel, IViewModelContainer viewModelContainer)
         {
-            _boatTypeModel = boatTypeModel;
+            _boatWoodModel = boatWoodModel;
             _viewModelContainer = viewModelContainer;
 
-            _boatTypeModel.BoatTypeModelChanged += GetCollectionMethod;
+            _boatWoodModel.BoatWoodModelChanged += GetCollectionMethod;
         }
 
         #endregion
 
         #region Свойства
 
-        public ObservableCollection<SelectableBoatTypeViewModel> FilteredCollection
+        public ObservableCollection<SelectableBoatWoodViewModel> FilteredCollection
         {
             get
             {
                 if (!string.IsNullOrWhiteSpace(_filterText))
                     return Filter();
 
-                return _boatTypes;
+                return _boatWoods;
             }
         }
         public string FilterText
@@ -97,32 +97,32 @@ namespace WorldYachts.ViewModel.Boat.BoatType
         private async Task GetCollectionMethod(object parameter)
         {
             ProgressBarVisibility = Visibility.Visible;
-            _boatTypes = GetSelectableViewModels(await _boatTypeModel.GetAllAsync());
+            _boatWoods = GetSelectableViewModels(await _boatWoodModel.GetAllAsync());
             OnPropertyChanged(nameof(FilteredCollection));
             ProgressBarVisibility = Visibility.Collapsed;
         }
-        private ObservableCollection<SelectableBoatTypeViewModel> GetSelectableViewModels(IEnumerable<Data.Entities.BoatType> items)
+        private ObservableCollection<SelectableBoatWoodViewModel> GetSelectableViewModels(IEnumerable<Data.Entities.BoatWood> items)
         {
-            var collection = new ObservableCollection<SelectableBoatTypeViewModel>();
-            foreach (var boatType in items)
+            var collection = new ObservableCollection<SelectableBoatWoodViewModel>();
+            foreach (var boatWood in items)
             {
-                collection.Add(new SelectableBoatTypeViewModel(boatType, _boatTypeModel, _viewModelContainer));
+                collection.Add(new SelectableBoatWoodViewModel(boatWood, _boatWoodModel, _viewModelContainer));
             }
 
             return collection;
         }
-        public ObservableCollection<SelectableBoatTypeViewModel> Filter()
+        public ObservableCollection<SelectableBoatWoodViewModel> Filter()
         {
             if (string.IsNullOrWhiteSpace(FilterText))
             {
-                return _boatTypes;
+                return _boatWoods;
             }
 
-            var filteredCollection = _boatTypes.Where(pt =>
-                pt.BoatType.Type.ToLower().Contains(FilterText.ToLower()) ||
-                pt.BoatType.Id.ToString() == FilterText);
+            var filteredCollection = _boatWoods.Where(pt =>
+                pt.BoatWood.Wood.ToLower().Contains(FilterText.ToLower()) ||
+                pt.BoatWood.Id.ToString() == FilterText);
 
-            return new ObservableCollection<SelectableBoatTypeViewModel>(filteredCollection);
+            return new ObservableCollection<SelectableBoatWoodViewModel>(filteredCollection);
         }
 
         #endregion
@@ -133,7 +133,7 @@ namespace WorldYachts.ViewModel.Boat.BoatType
         {
             var view = new View.MessageDialogs.MessageDialog()
             {
-                DataContext = new MessageDialogViewModel(_viewModelContainer.GetViewModel<BoatTypeEditorViewModel>())
+                DataContext = new MessageDialogViewModel(_viewModelContainer.GetViewModel<BoatWoodEditorViewModel>())
             };
 
             var result = await DialogHost.Show(view, "RootDialog");
