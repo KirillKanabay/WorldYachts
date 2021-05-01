@@ -53,7 +53,7 @@ namespace WorldYachts.ViewModel.Accessory
 
         #region Методы
         
-        protected MessageDialogProperty GetConfirmDeleteDialogProperty()
+        private MessageDialogProperty GetConfirmDeleteDialogProperty()
         {
             return new MessageDialogProperty()
             {

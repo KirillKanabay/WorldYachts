@@ -14,7 +14,7 @@ using System.Windows.Shapes;
 using MaterialDesignThemes.Wpf;
 using WorldYachts.Data;
 using WorldYachts.Model;
-using WorldYachts.ViewModel.AccessoryControlViewModels;
+using WorldYachts.ViewModel.Accessory;
 
 namespace WorldYachts.View.AccessoryControlViews
 {

@@ -1,94 +1,149 @@
-﻿using WorldYachts.Data.Entities;
-using WorldYachts.Model;
-using WorldYachts.View.Editors;
+﻿using System.Threading.Tasks;
+using MaterialDesignThemes.Wpf;
+using WorldYachts.Data.Entities;
+using WorldYachts.DependencyInjections.Helpers;
+using WorldYachts.DependencyInjections.Models;
+using WorldYachts.Helpers;
+using WorldYachts.Helpers.Commands;
 using WorldYachts.View.MessageDialogs;
-using WorldYachts.ViewModel.Accessory;
 using WorldYachts.ViewModel.BaseViewModels;
-using AccessoryToBoat = WorldYachts.Data.AccessoryToBoat;
+using WorldYachts.ViewModel.MessageDialog;
 
-namespace WorldYachts.ViewModel.AccessoryControlViewModels
+namespace WorldYachts.ViewModel.Accessory
 {
-    class SelectableAccessoryFitViewModel:BaseSelectableViewModel<AccessoryToBoat>
+    public class SelectableAccessoryFitViewModel:BaseViewModel
     {
         #region Поля
 
-        private int _id;
-        private int _accessoryId;
-        private int _boatId;
+        private AsyncRelayCommand _removeCommand;
+        private AsyncRelayCommand _editCommand;
+
+        private readonly IAccessoryToBoatModel _accessoryToBoatModel;
+        private readonly IViewModelContainer _viewModelContainer;
+
+        private bool _isSelected;
 
         #endregion
-        public SelectableAccessoryFitViewModel(AccessoryToBoat item, AccessoryToBoatModel accessoryToBoatModel) : base(item, accessoryToBoatModel)
+
+        #region Конструкторы
+        public SelectableAccessoryFitViewModel(AccessoryToBoat accessoryToBoat,
+            IAccessoryToBoatModel accessoryToBoatModel,
+            IViewModelContainer viewModelContainer)
         {
-            Id = item.Id;
-            AccessoryId = item.AccessoryId;
-            BoatId = item.BoatId;
+            AccessoryToBoat = accessoryToBoat;
+            _accessoryToBoatModel = accessoryToBoatModel;
+            _viewModelContainer = viewModelContainer;
         }
+        #endregion
 
         #region Свойства
+        public Data.Entities.AccessoryToBoat AccessoryToBoat { get; }
+        public string Info => AccessoryToBoat.ToString();
 
-        public int Id
+        public bool IsSelected
         {
-            get => _id;
+            get => _isSelected;
             set
             {
-                _id = value;
-                OnPropertyChanged(nameof(Id));
+                _isSelected = value;
+                OnPropertyChanged(nameof(IsSelected));
             }
         }
 
-        public int AccessoryId
-        {
-            get => _accessoryId;
-            set
-            {
-                _accessoryId = value;
-                OnPropertyChanged(nameof(AccessoryId));
-            }
-        }
-
-        public int BoatId
-        {
-            get => _boatId;
-            set
-            {
-                _boatId = value;
-                OnPropertyChanged(nameof(BoatId));
-            }
-        }
-
-        public Data.Entities.Boat Boat => _item.Boat;
-        public Data.Entities.Accessory Accessory => _item.Accessory;
-        public override BaseEditorViewModel<AccessoryToBoat> Editor => new AccessoryFitEditorViewModel();
         #endregion
 
-        public override string ToString()
-        {
-            return $"Id: {Id}\n" +
-                   $"AccessoryId: {AccessoryId}\n" +
-                   $"BoatId: {BoatId}";
-        }
-
-        protected override void ToggleViewEditorAfterLoaded()
-        {
-            if (AccessoryFitEditorView.EditorAfterLoad != null)
-            {
-                AccessoryFitEditorView.EditorAfterLoad = null;
-            }
-            else
-            {
-                AccessoryFitEditorView.EditorAfterLoad = GetEditorViewModel;
-            }
-        }
-
-        protected override BaseViewModel GetEditorViewModel()=> new AccessoryFitEditorViewModel(_item);
-
-        protected override MessageDialogProperty GetConfirmDeleteDialogProperty()
+        #region Методы
+        
+        private MessageDialogProperty GetConfirmDeleteDialogProperty()
         {
             return new MessageDialogProperty()
             {
                 Title = "Подтверждение удаления",
-                Message = "Будет удалена следующая связь:\n\n" + this
+                Message = "Будет удалена следующая связь:\n\n" + Info
             };
         }
+
+        #endregion
+
+        #region Команды
+
+        public AsyncRelayCommand RemoveCommand
+        {
+            get
+            {
+                return _removeCommand ??= new AsyncRelayCommand(ShowConfirmDeleteDialog,
+                    (ex) =>
+                    {
+                        ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message });
+                    });
+            }
+        }
+
+        public AsyncRelayCommand EditCommand
+        {
+            get
+            {
+                return _editCommand ??= new AsyncRelayCommand(ExecuteRunEditorDialog,
+                    (ex) =>
+                    {
+                        ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message });
+                    });
+            }
+        }
+
+        #endregion
+
+        #region Диалоги
+
+        private async Task ExecuteRunEditorDialog(object o)
+        {
+            EntityContainer.Push(AccessoryToBoat);
+            var view = new View.MessageDialogs.MessageDialog()
+            {
+                DataContext = new MessageDialogViewModel(_viewModelContainer.GetViewModel<AccessoryFitEditorViewModel>())
+            };
+
+            var result = await DialogHost.Show(view, "RootDialog");
+        }
+
+        /// <summary>
+        /// Показывает простой диалог сообщения
+        /// </summary>
+        /// <param name="o"></param>
+        private async void ExecuteRunDialog(object o)
+        {
+            var view = new SampleMessageDialog()
+            {
+                DataContext = new SampleMessageDialogViewModel((MessageDialogProperty)o)
+            };
+            var result = await DialogHost.Show(view, "RootDialog");
+        }
+
+        /// <summary>
+        /// Показывает диалог подтверждения удаления предмета
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
+        private async Task ShowConfirmDeleteDialog(object parameter)
+        {
+            var view = new MessageDialogOkCancel()
+            {
+                DataContext = new SampleMessageDialogViewModel(GetConfirmDeleteDialogProperty())
+            };
+            var result = await DialogHost.Show(view, "RootDialog", ClosingDeleteDialogEventHandler);
+        }
+
+        /// <summary>
+        /// Обработчик события закрытия диалога подтверждения удаления
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="eventargs"></param>
+        private void ClosingDeleteDialogEventHandler(object sender, DialogClosingEventArgs eventargs)
+        {
+            if (Equals((eventargs.Parameter), true))
+                _accessoryToBoatModel.DeleteAsync(AccessoryToBoat);
+        }
+
+        #endregion
     }
 }

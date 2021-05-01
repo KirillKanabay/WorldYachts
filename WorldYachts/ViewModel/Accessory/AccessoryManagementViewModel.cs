@@ -55,7 +55,7 @@ namespace WorldYachts.ViewModel.Accessory
             }
         }
 
-        public virtual string FilterText
+        public string FilterText
         {
             get => _filterText;
             set

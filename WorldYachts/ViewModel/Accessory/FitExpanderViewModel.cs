@@ -1,28 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using WorldYachts.Data;
-using WorldYachts.Data.Entities;
-using WorldYachts.ViewModel;
+﻿using System.Collections.Generic;
 using WorldYachts.ViewModel.BaseViewModels;
 
-namespace WorldYachts.View.AccessoryControlViews
+namespace WorldYachts.ViewModel.Accessory
 {
     public class FitExpanderViewModel:BaseViewModel
     {
         #region Поля
 
         private string _name;
-        private IEnumerable<Boat> _boats;
+        private IEnumerable<SelectableAccessoryFitViewModel> _accessoryFits;
 
         #endregion
 
         #region Конструктор
 
-        public FitExpanderViewModel(string name, IEnumerable<Boat> boats)
+        public FitExpanderViewModel(string name, IEnumerable<SelectableAccessoryFitViewModel> accessoryFits)
         {
             Name = name;
-            Boats = boats;
+            AccessoryFits = accessoryFits;
         }
 
         public FitExpanderViewModel()
@@ -41,13 +36,13 @@ namespace WorldYachts.View.AccessoryControlViews
             }
         }
 
-        public IEnumerable<Boat> Boats
+        public IEnumerable<SelectableAccessoryFitViewModel> AccessoryFits
         {
-            get => _boats;
+            get => _accessoryFits;
             set
             {
-                _boats = value;
-                OnPropertyChanged(nameof(Boats));
+                _accessoryFits = value;
+                OnPropertyChanged(nameof(AccessoryFits));
             }
         }
     }

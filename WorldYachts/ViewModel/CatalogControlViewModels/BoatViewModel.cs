@@ -6,18 +6,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
-using WorldYachts.Data;
-using WorldYachts.Data.Entities;
 using WorldYachts.Helpers;
 using WorldYachts.Helpers.Commands;
 using WorldYachts.Helpers.Validators;
-using WorldYachts.Infrastructure;
 using WorldYachts.Model;
 using WorldYachts.Services;
 using WorldYachts.ViewModel.Accessory;
-using WorldYachts.ViewModel.AccessoryControlViewModels;
 using WorldYachts.ViewModel.BaseViewModels;
-using AccessoryToBoat = WorldYachts.Data.AccessoryToBoat;
 using Order = WorldYachts.Data.Order;
 
 namespace WorldYachts.ViewModel.CatalogControlViewModels

@@ -1,132 +1,185 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
+using MaterialDesignThemes.Wpf;
 using WorldYachts.Data.Entities;
-using WorldYachts.Model;
+using WorldYachts.DependencyInjections.Models;
+using WorldYachts.Helpers.Commands;
+using WorldYachts.Helpers.Validators;
+using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BaseViewModels;
-using AccessoryToBoat = WorldYachts.Data.AccessoryToBoat;
+using WorldYachts.ViewModel.MessageDialog;
 
 namespace WorldYachts.ViewModel.Accessory
 {
-    class AccessoryFitEditorViewModel:BaseEditorViewModel<AccessoryToBoat>,IDataErrorInfo
+    class AccessoryFitEditorViewModel:BaseViewModel
     {
         #region Поля
 
-        private readonly int _id;
-        private int _accessoryId;
-        private int _boatId;
+        private readonly IAccessoryModel _accessoryModel;
+        private readonly IBoatModel _boatModel;
+        private readonly IAccessoryToBoatModel _accessoryToBoatModel;
 
-        private Data.Entities.Accessory _accessory;
-        private Data.Entities.Boat _boat;
+        private readonly AccessoryToBoat _accessoryToBoat;
 
-        private IEnumerable<Data.Entities.Accessory> _accessoryCollection;
-        private IEnumerable<Data.Entities.Boat> _boatCollection;
+        private List<Data.Entities.Boat> _boatsCollection;
+        private List<Data.Entities.Accessory> _accessoriesCollection;
+
+        private Visibility _progressBarVisibility = Visibility.Collapsed;
+
+        private readonly bool _isEdit;
 
         #endregion
 
         #region Конструкторы
-        public AccessoryFitEditorViewModel(AccessoryToBoat accessoryToBoat) : base(true)
-        {
-            _id = accessoryToBoat.Id;
-            _accessoryId = accessoryToBoat.AccessoryId;
-            _boatId = accessoryToBoat.BoatId;
-        }
 
-        public AccessoryFitEditorViewModel() : base(false)
+        public AccessoryFitEditorViewModel(IAccessoryToBoatModel accessoryToBoatModel,
+            IBoatModel boatModel,
+            IAccessoryModel accessoryModel)
         {
+            _accessoryToBoatModel = accessoryToBoatModel;
+            _boatModel = boatModel;
+            _accessoryModel = accessoryModel;
 
+            _accessoryToBoat = new AccessoryToBoat();
         }
         #endregion
 
         #region Свойства
-
-        public int BoatId
+        public Visibility ProgressBarVisibility
         {
-            get => _boatId;
+            get => _progressBarVisibility;
             set
             {
-                _boatId = value;
-                OnPropertyChanged(nameof(BoatId));
+                _progressBarVisibility = value;
+                OnPropertyChanged(nameof(ProgressBarVisibility));
             }
         }
 
-        public int AccessoryId
+        private int _selectedBoatIndex;
+        public int SelectedBoatIndex
         {
-            get => _accessoryId;
+            get => _selectedBoatIndex;
             set
             {
-                _accessoryId = value;
-                OnPropertyChanged(nameof(AccessoryId));
+                _selectedBoatIndex = value;
+                OnPropertyChanged(nameof(SelectedBoatIndex));
             }
         }
+        public Data.Entities.Boat SelectedBoat
+        {
+            get => _accessoryToBoat.Boat;
+            set
+            {
+                _accessoryToBoat.Boat = value;
+                _accessoryToBoat.BoatId = value.Id;
+                OnPropertyChanged(nameof(SelectedBoat));
+            }
+        }
+        public List<Data.Entities.Boat> BoatsCollection => _boatsCollection;
 
-        public Data.Entities.Accessory Accessory
+        private int _selectedAccessoryIndex;
+        public int SelectedAccessoryIndex
         {
-            get => _accessory;
+            get => _selectedAccessoryIndex;
             set
             {
-                _accessory = value;
-                AccessoryId = value.Id;
-                OnPropertyChanged(nameof(Accessory));
+                _selectedAccessoryIndex = value;
+                OnPropertyChanged(nameof(SelectedAccessoryIndex));
             }
         }
+        public Data.Entities.Accessory SelectedAccessory
+        {
+            get => _accessoryToBoat.Accessory;
+            set
+            {
+                _accessoryToBoat.Accessory = value;
+                _accessoryToBoat.AccessoryId = value.Id;
+                OnPropertyChanged(nameof(SelectedAccessory));
+            }
+        }
+        public List<Data.Entities.Accessory> AccessoriesCollection => _accessoriesCollection;
 
-        public Data.Entities.Boat Boat
-        {
-            get => _boat;
-            set
-            {
-                _boat = value;
-                BoatId = value.Id;
-                OnPropertyChanged(nameof(Boat));
-            }
-        }
-        //public IEnumerable<Accessory> AccessoryCollection => new AccessoryModel().Load();
-        //public IEnumerable<Data.Entities.Boat> BoatCollection => Task.Run(async () => await new BoatModel().GetAllAsync()).Result;
-        public override bool SaveButtonIsEnabled => !ErrorDictionary.Any();
+        public bool SaveButtonIsEnabled => _errors.Count == 0;
+
         #endregion
 
-        public override IDataModel<AccessoryToBoat> ModelItem => new AccessoryToBoatModel();
-        protected override AccessoryToBoat GetSaveItem(bool isEdit)
+        #region Команды
+
+        public AsyncRelayCommand LoadedCommand => new AsyncRelayCommand(GetCollections,
+            (ex) => { ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message }); });
+
+        public AsyncRelayCommand SaveItem => new AsyncRelayCommand(SaveMethod,
+            (ex) => { ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message }); });
+
+        #endregion
+
+        #region Методы
+
+        private async Task GetCollections(object parameter)
         {
-            return new AccessoryToBoat()
-            {
-                Id = (isEdit) ? _id : default,
-                AccessoryId = _accessoryId,
-                BoatId = _boatId,
-            };
+            _accessoriesCollection = (await _accessoryModel.GetAllAsync()).ToList();
+            _boatsCollection = (await _boatModel.GetAllAsync()).ToList();
+
+            OnPropertyChanged(nameof(AccessoriesCollection));
+            OnPropertyChanged(nameof(BoatsCollection));
         }
 
-        protected override string GetSaveSnackbarMessage(bool _isEdit)
+        private async Task SaveMethod(object parameter)
         {
-            return _isEdit
+            ProgressBarVisibility = Visibility.Visible;
+            if (_isEdit)
+            {
+                await _accessoryToBoatModel.UpdateAsync(_accessoryToBoat);
+            }
+            else
+            {
+                await _accessoryToBoatModel.AddAsync(_accessoryToBoat);
+            }
+
+            ProgressBarVisibility = Visibility.Collapsed;
+
+            string snackbarMessage = _isEdit
                 ? $"Совместимость успешно отредактирована."
                 : $"Совместимость успешно добавлена.";
+
+            SendSnackbar(snackbarMessage);
+            CloseCurrentDialog();
         }
 
+        public async void ExecuteRunDialog(object o)
+        {
+            var view = new SampleMessageDialog()
+            {
+                DataContext = new SampleMessageDialogViewModel((MessageDialogProperty)o)
+            };
+            var result = await DialogHost.Show(view, "DialogRoot");
+        }
 
+        #endregion
+
+        #region Валидация
         public string Error { get; }
-        private Dictionary<string, string> ErrorDictionary = new Dictionary<string, string>();
+        private Dictionary<string, string> _errors = new Dictionary<string, string>();
         public string this[string columnName]
         {
             get
             {
-                string error = String.Empty;
-                switch (columnName)
+                string error = columnName switch
                 {
-                    case "Accessory":
-                        break;
-                    case "Boat":
-                        break;
-                }
-                ErrorDictionary.Remove(columnName);
-                if (error != String.Empty)
-                    ErrorDictionary.Add(columnName, error);
+                    nameof(SelectedAccessory) => new Validation(new NotEmptyFieldValidationRule(SelectedAccessory)).Validate(),
+                    nameof(SelectedBoat) => new Validation(new NotEmptyFieldValidationRule(SelectedBoat)).Validate()
+                };
+
+                _errors.Remove(columnName);
+                if (!string.IsNullOrWhiteSpace(error))
+                    _errors.Add(columnName, error);
                 OnPropertyChanged(nameof(SaveButtonIsEnabled));
                 return error;
             }
         }
+        #endregion
+
     }
 }

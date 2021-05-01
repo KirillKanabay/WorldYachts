@@ -2,17 +2,22 @@
     x:Class="WorldYachts.View.Editors.AccessoryFitEditorView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:accessoryControlViewModels="clr-namespace:WorldYachts.ViewModel.AccessoryControlViewModels"
+    xmlns:accessory="clr-namespace:WorldYachts.ViewModel.Accessory"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:local="clr-namespace:WorldYachts.View.Editors"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:accessory="clr-namespace:WorldYachts.ViewModel.Accessory"
     d:DesignHeight="300"
     d:DesignWidth="800"
     Background="#FFFAFAFA"
     FontFamily="Google Sans"
     mc:Ignorable="d">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -20,9 +25,6 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <UserControl.DataContext>
-        <accessory:AccessoryFitEditorViewModel />
-    </UserControl.DataContext>
     <Grid Margin="20,20,20,10">
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
@@ -45,15 +47,17 @@
         <ComboBox
             Grid.Row="1"
             Grid.Column="0"
-            Width="300"
             Margin="0,15,40,0"
             VerticalAlignment="Top"
             materialDesign:HintAssist.Hint="Название аксессуара"
-            ItemsSource="{Binding AccessoryCollection}"
-            SelectedItem="{Binding Accessory}">
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding AccessoriesCollection}"
+            SelectedIndex="{Binding SelectedAccessoryIndex}"
+            SelectedItem="{Binding SelectedAccessory, Mode=TwoWay}"
+            Style="{StaticResource InputComboBox}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Name}" />
+                    <TextBlock Text="{Binding Path=Name, Mode=TwoWay}" />
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
@@ -64,11 +68,14 @@
             Margin="0,15,0,15"
             VerticalAlignment="Top"
             materialDesign:HintAssist.Hint="Название лодки"
-            ItemsSource="{Binding BoatCollection}"
-            SelectedItem="{Binding Boat}">
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding BoatsCollection}"
+            SelectedIndex="{Binding SelectedBoatIndex}"
+            SelectedItem="{Binding SelectedBoat, Mode=TwoWay}"
+            Style="{StaticResource InputComboBox}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Model}" />
+                    <TextBlock Text="{Binding Path=Model, Mode=TwoWay}" />
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>

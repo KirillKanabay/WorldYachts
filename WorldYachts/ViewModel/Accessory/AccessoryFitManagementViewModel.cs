@@ -1,20 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using WorldYachts.Data;
-using WorldYachts.Model;
+using System.Threading.Tasks;
+using System.Windows;
+using MaterialDesignThemes.Wpf;
+using WorldYachts.Data.Entities;
+using WorldYachts.DependencyInjections.Helpers;
+using WorldYachts.DependencyInjections.Models;
+using WorldYachts.Helpers;
+using WorldYachts.Helpers.Commands;
 using WorldYachts.View.AccessoryControlViews;
+using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BaseViewModels;
+using WorldYachts.ViewModel.MessageDialog;
 
-namespace WorldYachts.ViewModel.AccessoryControlViewModels
+namespace WorldYachts.ViewModel.Accessory
 {
-    class AccessoryFitManagementViewModel:BaseManagementViewModel<AccessoryToBoat>
+    class AccessoryFitManagementViewModel:BaseViewModel
     {
-        public AccessoryFitManagementViewModel():base(null, null)
+        #region Поля
+
+        private readonly IAccessoryToBoatModel _accessoryToBoatModel;
+        private readonly IViewModelContainer _viewModelContainer;
+
+        private ObservableCollection<SelectableAccessoryFitViewModel> _accessoryToBoatCollection;
+
+        private Visibility _progressBarVisibility;
+        private string _filterText;
+
+        #endregion
+        public AccessoryFitManagementViewModel(IAccessoryToBoatModel accessoryToBoatModel, IViewModelContainer viewModelContainer)
         {
-            OnItemChanged?.Invoke();
+            _accessoryToBoatModel = accessoryToBoatModel;
+            _viewModelContainer = viewModelContainer;
+
+            _accessoryToBoatModel.AccessoryToBoatModelChanged += GetCollectionMethod;
         }
         
         /// <summary>
@@ -25,49 +45,126 @@ namespace WorldYachts.ViewModel.AccessoryControlViewModels
             get
             {
                 var fits = new List<FitExpanderViewModel>();
+                var filteredCollection = Filter();
                 //Убираем повторяющиеся аксессуары
-                var uniqueAccessories = ItemsCollection
-                    .Select(i => i.Item.AccessoryId)
+                var uniqueAccessories = filteredCollection?
+                    .Select(i => i.AccessoryToBoat.AccessoryId)
                     .Distinct();
-                foreach (var accessoryId in uniqueAccessories)
+                if (uniqueAccessories != null)
                 {
-                    fits.Add(new FitExpanderViewModel
-                        (ItemsCollection
-                            .FirstOrDefault(i=>i.Item.AccessoryId == accessoryId)
-                            ?.Item.Accessory.Name,
-                        ItemsCollection
-                            .Where(i=> i.Item.AccessoryId == accessoryId)
-                            .Select(i=>i.Item.Boat)));
+                    fits.AddRange(
+                        uniqueAccessories.Select(accessoryId => 
+                            new FitExpanderViewModel(
+                                filteredCollection?.FirstOrDefault(i => i.AccessoryToBoat.AccessoryId == accessoryId)
+                        ?.AccessoryToBoat.Accessory.Name,
+                                filteredCollection?.Where(i => i.AccessoryToBoat.AccessoryId == accessoryId))));
                 }
-
                 return fits.Distinct();
             }
         }
 
-        protected override ObservableCollection<BaseSelectableViewModel<AccessoryToBoat>> GetSelectableViewModels(IEnumerable<AccessoryToBoat> items)
+        public virtual string FilterText
         {
-            var collection = new ObservableCollection<BaseSelectableViewModel<AccessoryToBoat>>();
+            get => _filterText;
+            set
+            {
+                _filterText = value;
+                if (_filterText != null)
+                {
+                    OnPropertyChanged(nameof(Fits));
+                }
+            }
+        }
+
+
+        public Visibility ProgressBarVisibility
+        {
+            get => _progressBarVisibility;
+            set
+            {
+                _progressBarVisibility = value;
+                OnPropertyChanged(nameof(ProgressBarVisibility));
+            }
+        }
+
+        #region Команды
+
+        /// <summary>
+        /// Команда получения коллекции предметов
+        /// </summary>
+        public AsyncRelayCommand GetItemsCollection => new AsyncRelayCommand(GetCollectionMethod,
+            (ex) => { ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message }); });
+
+        /// <summary>
+        /// Команда открытия редактора
+        /// </summary>
+        public DelegateCommand OpenEditorDialog => new DelegateCommand(ExecuteRunEditorDialog);
+
+        #endregion
+
+        /// <summary>
+        /// Получение коллекции предметов из БД
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
+        private async Task GetCollectionMethod(object parameter)
+        {
+            ProgressBarVisibility = Visibility.Visible;
+            _accessoryToBoatCollection = GetSelectableViewModels(await _accessoryToBoatModel.GetAllAsync());
             OnPropertyChanged(nameof(Fits));
+            ProgressBarVisibility = Visibility.Collapsed;
+        }
+
+        private ObservableCollection<SelectableAccessoryFitViewModel> GetSelectableViewModels(IEnumerable<AccessoryToBoat> items)
+        {
+            var collection = new ObservableCollection<SelectableAccessoryFitViewModel>();
+            
             foreach (var accessoryToBoat in items)
             {
-                //collection.Add(new SelectableAccessoryFitViewModel(accessoryToBoat));
+                collection.Add(new SelectableAccessoryFitViewModel(accessoryToBoat, _accessoryToBoatModel, _viewModelContainer));
             }
-
+            
             return collection;
         }
 
-        protected override ObservableCollection<BaseSelectableViewModel<AccessoryToBoat>> Filter(string filterText)
+        private ObservableCollection<SelectableAccessoryFitViewModel> Filter()
         {
-            var filteredCollection = ItemsCollection.Where(atb =>
-                atb.Item.Accessory.Name.ToLower().Contains(filterText.ToLower()));
-
-            var accessoryCollection = new ObservableCollection<BaseSelectableViewModel<AccessoryToBoat>>();
-            foreach (var atb in filteredCollection)
+            if (string.IsNullOrWhiteSpace(FilterText))
             {
-                accessoryCollection.Add(atb);
+                return _accessoryToBoatCollection;
             }
 
-            return accessoryCollection;
+            var filteredCollection = _accessoryToBoatCollection.Where(atb =>
+                atb.AccessoryToBoat.Accessory.Name.ToLower().Contains(FilterText.ToLower()));
+            
+            return new ObservableCollection<SelectableAccessoryFitViewModel>(filteredCollection);
         }
+
+        #region Editor
+
+        /// <summary>
+        /// Запуск редактора
+        /// </summary>
+        /// <param name="o"></param>
+        private async void ExecuteRunEditorDialog(object o)
+        {
+            var view = new View.MessageDialogs.MessageDialog()
+            {
+                DataContext = new MessageDialogViewModel(_viewModelContainer.GetViewModel<AccessoryFitEditorViewModel>())
+            };
+
+            var result = await DialogHost.Show(view, "RootDialog");
+        }
+
+        public async void ExecuteRunDialog(object o)
+        {
+            var view = new SampleMessageDialog()
+            {
+                DataContext = new SampleMessageDialogViewModel((MessageDialogProperty)o)
+            };
+            var result = await DialogHost.Show(view, "DialogRoot");
+        }
+
+        #endregion
     }
 }

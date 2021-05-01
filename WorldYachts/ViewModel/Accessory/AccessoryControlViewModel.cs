@@ -17,5 +17,8 @@ namespace WorldYachts.ViewModel.Accessory
 
         public BaseViewModel AccessoryManagementViewModel =>
             _viewModelContainer.GetViewModel<AccessoryManagementViewModel>();
+
+        public BaseViewModel AccessoryFitManagementViewModel =>
+            _viewModelContainer.GetViewModel<AccessoryFitManagementViewModel>();
     }
 }

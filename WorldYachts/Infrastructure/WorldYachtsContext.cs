@@ -18,7 +18,7 @@ namespace WorldYachts.Infrastructure
         /// <summary>
         /// Ссылка на доступные аксессуары для определенных лодок
         /// </summary>
-        public DbSet<Data.AccessoryToBoat> AccessoryToBoat { get; set; }
+        //public DbSet<Data.AccessoryToBoat> AccessoryToBoat { get; set; }
         /// <summary>
         /// Лодки
         /// </summary>

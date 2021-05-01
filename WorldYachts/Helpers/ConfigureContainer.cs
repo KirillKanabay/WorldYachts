@@ -15,7 +15,6 @@ using WorldYachts.Services.Users;
 using WorldYachts.View.DashboardControlViews;
 using WorldYachts.ViewModel;
 using WorldYachts.ViewModel.Accessory;
-using WorldYachts.ViewModel.AccessoryControlViewModels;
 using WorldYachts.ViewModel.Boat;
 using WorldYachts.ViewModel.Boat.BoatType;
 using WorldYachts.ViewModel.Boat.Type;
@@ -95,8 +94,13 @@ namespace WorldYachts.Helpers
 
             #endregion
 
+            #region Accessory To Boat
+            builder.RegisterType<AccessoryFitManagementViewModel>().AsSelf().InstancePerDependency();
             builder.RegisterType<AccessoryFitEditorViewModel>().AsSelf().InstancePerDependency();
             builder.RegisterType<SelectableAccessoryFitViewModel>().AsSelf().InstancePerDependency();
+
+            #endregion
+
             builder.RegisterType<BoatViewModel>().AsSelf().InstancePerDependency();
             builder.RegisterType<CatalogControlViewModel>().AsSelf().InstancePerDependency();
             builder.RegisterType<DashboardViewModel>().AsSelf().InstancePerDependency();
@@ -144,6 +148,7 @@ namespace WorldYachts.Helpers
             builder.RegisterType<BoatModel>().As<IBoatModel>().InstancePerLifetimeScope();
             builder.RegisterType<BoatWoodModel>().As<IBoatWoodModel>().InstancePerLifetimeScope();
             builder.RegisterType<BoatTypeModel>().As<IBoatTypeModel>().InstancePerLifetimeScope();
+            builder.RegisterType<AccessoryToBoatModel>().As<IAccessoryToBoatModel>().InstancePerLifetimeScope();
         }
 
         private void RegisterViews(ContainerBuilder builder)
