@@ -6,10 +6,12 @@ using WorldYachts.Model;
 using WorldYachts.Services;
 using WorldYachts.Services.Accessory;
 using WorldYachts.Services.AccessoryToBoat;
+using WorldYachts.Services.Admin;
 using WorldYachts.Services.Boat;
 using WorldYachts.Services.BoatType;
 using WorldYachts.Services.BoatWood;
 using WorldYachts.Services.Partner;
+using WorldYachts.Services.SalesPerson;
 using WorldYachts.Services.Serialization;
 using WorldYachts.Services.Users;
 using WorldYachts.View.DashboardControlViews;
@@ -24,6 +26,7 @@ using WorldYachts.ViewModel.DashboardControlViewModels;
 using WorldYachts.ViewModel.OrderControlViewModels;
 using WorldYachts.ViewModel.Partner;
 using WorldYachts.ViewModel.UserControlViewModels;
+using WorldYachts.ViewModel.Users.SalesPersons;
 using IPartnerModel = WorldYachts.DependencyInjections.Models.IPartnerModel;
 
 namespace WorldYachts.Helpers
@@ -138,6 +141,8 @@ namespace WorldYachts.Helpers
             builder.RegisterType<PartnerService>().As<IPartnerService>();
             builder.RegisterType<BoatWoodService>().As<IBoatWoodService>();
             builder.RegisterType<BoatTypeService>().As<IBoatTypeService>();
+            builder.RegisterType<AdminService>().As<IAdminService>();
+            builder.RegisterType<SalesPersonService>().As<ISalesPersonService>();
         }
 
         private void RegisterModels(ContainerBuilder builder)

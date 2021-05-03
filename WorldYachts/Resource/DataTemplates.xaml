@@ -22,7 +22,8 @@
     xmlns:veditors="clr-namespace:WorldYachts.View.Editors"
     xmlns:vm="clr-namespace:WorldYachts.ViewModel"
     xmlns:vmcatalog="clr-namespace:WorldYachts.ViewModel.CatalogControlViewModels"
-    xmlns:wood="clr-namespace:WorldYachts.ViewModel.Boat.Wood">
+    xmlns:wood="clr-namespace:WorldYachts.ViewModel.Boat.Wood"
+    xmlns:salesPersons="clr-namespace:WorldYachts.ViewModel.Users.SalesPersons">
     <ResourceDictionary.MergedDictionaries>
         <!--  Основные UC  -->
         <ResourceDictionary>
@@ -41,7 +42,7 @@
         </ResourceDictionary>
         <!--  UsersManagement  -->
         <ResourceDictionary>
-            <DataTemplate DataType="{x:Type userControlViewModels:SalesPersonEditorViewModel}">
+            <DataTemplate DataType="{x:Type salesPersons:SalesPersonEditorViewModel}">
                 <veditors:SalesPersonEditorView />
             </DataTemplate>
         </ResourceDictionary>

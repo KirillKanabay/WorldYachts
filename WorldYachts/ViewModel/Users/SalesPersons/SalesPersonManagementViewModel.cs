@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using WorldYachts.Data;
 using WorldYachts.Data.Entities;
-using WorldYachts.Model;
 using WorldYachts.ViewModel.BaseViewModels;
 using WorldYachts.ViewModel.UserControlViewModels;
 
-namespace WorldYachts.ViewModel.UserControlViewModels
+namespace WorldYachts.ViewModel.Users.SalesPersons
 {
     class SalesPersonManagementViewModel:BaseManagementViewModel<SalesPerson>
     {

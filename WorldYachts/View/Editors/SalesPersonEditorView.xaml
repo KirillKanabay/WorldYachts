@@ -7,6 +7,7 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:userControlViewModels="clr-namespace:WorldYachts.ViewModel.UserControlViewModels"
+    xmlns:salesPersons="clr-namespace:WorldYachts.ViewModel.Users.SalesPersons"
     d:DesignHeight="350"
     Background="#FFFAFAFA"
     FontFamily="Google Sans"
@@ -19,7 +20,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <UserControl.DataContext>
-        <userControlViewModels:SalesPersonEditorViewModel />
+        <salesPersons:SalesPersonEditorViewModel />
     </UserControl.DataContext>
     <Grid Margin="20,20,20,10">
         <Grid.RowDefinitions>

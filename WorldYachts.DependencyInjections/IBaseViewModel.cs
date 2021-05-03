@@ -5,7 +5,7 @@ namespace WorldYachts.DependencyInjections
 {
     public interface IBaseViewModel : INotifyPropertyChanged
     {
-        void OnPropertyChanged([CallerMemberName] string propertyName = null);
-        void SendSnackbar(string message);
+        public void OnPropertyChanged([CallerMemberName] string propertyName = null);
+        public void SendSnackbar(string message);
     }
 }

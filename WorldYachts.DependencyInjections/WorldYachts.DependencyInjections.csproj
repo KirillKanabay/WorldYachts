@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WorldYachts.Data\WorldYachts.Data.csproj" />
+    <ProjectReference Include="..\WorldYachts.Services\WorldYachts.Services.csproj" />
   </ItemGroup>
 
 </Project>

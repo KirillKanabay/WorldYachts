@@ -1,8 +1,7 @@
-﻿namespace WorldYachtsApi.Models
+﻿namespace WorldYachts.Services.ViewModels
 {
-    public class SalesPersonModel:UserModel
+    public class SalesPersonUserViewModel:UserViewModel
     {
-        public string Role => "Sales Person";
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string SecondName { get; set; }

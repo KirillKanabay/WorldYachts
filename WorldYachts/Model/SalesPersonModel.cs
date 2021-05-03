@@ -5,88 +5,38 @@ using System.Text;
 using System.Threading.Tasks;
 using WorldYachts.Data;
 using WorldYachts.Data.Entities;
+using WorldYachts.DependencyInjections.Models;
 using WorldYachts.Infrastructure;
 
 namespace WorldYachts.Model
 {
-    class SalesPersonModel:IDataModel<SalesPerson>
+    class SalesPersonModel:ISalesPersonModel
     {
-        public SalesPerson LastAddedItem { get; set; }
-        public async Task AddAsync(SalesPerson item)
+        public event Func<object, Task> SalesPersonModelChanged;
+
+        public Task AddAsync(BoatWood boatWood)
         {
-            await IsRepeated(item);
-            await using (var context = WorldYachtsContext.GetDataContext())
-            {
-                await context.SalesPersons.AddAsync(item);
-                await context.SaveChangesAsync();
-                LastAddedItem = item;
-            }
+            throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<SalesPerson>> GetAllAsync()
+        public Task<IEnumerable<BoatWood>> GetAllAsync()
         {
-            return await Task.Run(() => Load());
+            throw new NotImplementedException();
         }
 
-        public IEnumerable<SalesPerson> Load()
+        public Task DeleteAsync(BoatWood boatWood)
         {
-            //var spCollection = new List<SalesPerson>();
-            //using (var context = WorldYachtsContext.GetDataContext())
-            //{
-            //    foreach (var sp in context.SalesPersons.Where(i=>!i.IsDeleted))
-            //    {
-            //        sp.Orders = new OrderModel().Load().Where(o => o.SalesPersonId == sp.Id).ToList();
-            //        spCollection.Add(sp);
-            //    }
-            //}
-
-            return new List<SalesPerson>();
+            throw new NotImplementedException();
         }
 
-        public async Task DeleteAsync(IEnumerable<SalesPerson> removeItems)
+        public Task UpdateAsync(BoatWood boatWood)
         {
-            await using (var context = WorldYachtsContext.GetDataContext())
-            {
-                foreach (var salesPerson in removeItems)
-                {
-                    //salesPerson.IsDeleted = true;
-                    await UpdateAsync(salesPerson);
-                }
-            }
+            throw new NotImplementedException();
         }
 
-        public async Task UpdateAsync(SalesPerson item)
+        public Task<BoatWood> GetByIdAsync(int id)
         {
-            await using (var context = WorldYachtsContext.GetDataContext())
-            {
-                await IsRepeated(item);
-                var dbSP = context.SalesPersons.FirstOrDefault(sp => sp.Id == item.Id);
-
-                dbSP.FirstName = item.FirstName;
-                dbSP.SecondName = item.SecondName;
-               // dbSP.IsDeleted = item.IsDeleted;
-
-                await context.SaveChangesAsync();
-                LastAddedItem = item;
-            }
-        }
-
-        public async Task IsRepeated(SalesPerson item)
-        {
-            
-        }
-
-        public async Task<SalesPerson> GetByIdAsync(int id)
-        {
-            return await Task.Run((() => GetItemById(id)));
-        }
-
-        public SalesPerson GetItemById(int id)
-        {
-            using (var context = WorldYachtsContext.GetDataContext())
-            {
-                return context.SalesPersons.FirstOrDefault(sp => sp.Id == id);
-            }
+            throw new NotImplementedException();
         }
     }
 }

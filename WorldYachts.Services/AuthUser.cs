@@ -11,6 +11,14 @@ namespace WorldYachts.Services
 {
     public class AuthUser
     {
+        private readonly IAdminService _adminService;
+        private readonly ISalesPersonService _salesPersonService;
+
+        public AuthUser(IAdminService adminService, ISalesPersonService salesPersonService)
+        {
+            _adminService = adminService;
+            _salesPersonService = salesPersonService;
+        }
         public int Id { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
@@ -38,8 +46,8 @@ namespace WorldYachts.Services
         {
             User = Role switch
             {
-                "Admin" => await new AdminService().GetByIdAsync(Id),
-                "Sales Person" => await new SalesPersonService().GetByIdAsync(Id),
+                "Admin" => await _adminService.GetByIdAsync(Id),
+                "Sales Person" => await _salesPersonService.GetByIdAsync(Id),
                 _ => throw new ArgumentException(
                     "Доступ отклонен. Это приложение только для менеджеров и администраторов")
             };
