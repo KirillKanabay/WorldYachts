@@ -17,7 +17,7 @@ namespace WorldYachts.Services.SalesPerson
         }
         public async Task<Data.Entities.SalesPerson> GetByIdAsync(int id)
         {
-            var response = await _webClient.GetAsync<Data.Entities.SalesPerson>("users", id);
+            var response = await _webClient.GetAsync<Data.Entities.SalesPerson>(Path, id);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 throw new ArgumentException("Пользователь не найден");
