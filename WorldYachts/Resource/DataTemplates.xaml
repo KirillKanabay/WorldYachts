@@ -42,9 +42,9 @@
         </ResourceDictionary>
         <!--  UsersManagement  -->
         <ResourceDictionary>
-            <DataTemplate DataType="{x:Type salesPersons:SalesPersonEditorViewModel}">
+            <!--<DataTemplate DataType="{x:Type salesPersons:SalesPersonEditorViewModel}">
                 <veditors:SalesPersonEditorView />
-            </DataTemplate>
+            </DataTemplate>-->
         </ResourceDictionary>
         <!--  Dashboard  -->
         <ResourceDictionary>

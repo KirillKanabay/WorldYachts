@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WorldYachts.Data.Entities;
-using WorldYachts.Services.ViewModels;
+using WorldYachts.Data.ViewModels;
 
 namespace WorldYachts.DependencyInjections.Models
 {
@@ -11,8 +11,8 @@ namespace WorldYachts.DependencyInjections.Models
         event Func<object, Task> SalesPersonModelChanged;
         Task AddAsync(SalesPersonUserViewModel salesPersonUserViewModel);
         Task<IEnumerable<SalesPerson>> GetAllAsync();
-        Task DeleteAsync(SalesPersonUserViewModel salesPersonUserViewModel);
-        Task UpdateAsync(SalesPersonUserViewModel salesPersonUserViewModel);
-        Task<BoatWood> GetByIdAsync(int id);
+        Task DeleteAsync(SalesPerson salesPerson);
+        Task UpdateAsync(SalesPerson salesPerson);
+        Task<SalesPerson> GetByIdAsync(int id);
     }
 }

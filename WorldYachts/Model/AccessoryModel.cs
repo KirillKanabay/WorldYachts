@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WorldYachts.Data.Entities;
 using WorldYachts.DependencyInjections.Models;
-using WorldYachts.Services.Accessory;
+using WorldYachts.DependencyInjections.Services;
 
 namespace WorldYachts.Model
 {

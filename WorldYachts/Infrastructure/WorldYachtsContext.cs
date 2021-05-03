@@ -14,7 +14,7 @@ namespace WorldYachts.Infrastructure
         /// <summary>
         /// Пользователи
         /// </summary>
-        public DbSet<User> Users { get; set; }
+        //public DbSet<User> Users { get; set; }
         /// <summary>
         /// Ссылка на доступные аксессуары для определенных лодок
         /// </summary>

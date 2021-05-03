@@ -18,7 +18,7 @@ namespace WorldYachts.ViewModel.Users.SalesPersons
             var collection = new ObservableCollection<BaseSelectableViewModel<SalesPerson>>();
             foreach (var sp in items)
             {
-                collection.Add(new SelectableSalesPersonViewModel(sp));
+                //collection.Add(new SelectableSalesPersonViewModel(sp));
             }
 
             return collection;

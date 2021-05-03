@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using WorldYachts.Data;
 using WorldYachts.Data.Entities;
+using WorldYachts.Data.ViewModels;
 using WorldYachts.DependencyInjections.Models;
-using WorldYachts.Infrastructure;
+using WorldYachts.DependencyInjections.Services;
 
 namespace WorldYachts.Model
 {
@@ -14,29 +12,38 @@ namespace WorldYachts.Model
     {
         public event Func<object, Task> SalesPersonModelChanged;
 
-        public Task AddAsync(BoatWood boatWood)
+        private readonly ISalesPersonService _salesPersonService;
+        public SalesPersonModel(ISalesPersonService salesPersonService)
         {
-            throw new NotImplementedException();
+            _salesPersonService = salesPersonService;
         }
 
-        public Task<IEnumerable<BoatWood>> GetAllAsync()
+        public async Task AddAsync(SalesPersonUserViewModel salesPersonUserViewModel)
         {
-            throw new NotImplementedException();
+            await _salesPersonService.AddAsync(salesPersonUserViewModel);
+            SalesPersonModelChanged?.Invoke(salesPersonUserViewModel);
         }
 
-        public Task DeleteAsync(BoatWood boatWood)
+        public async Task<IEnumerable<SalesPerson>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _salesPersonService.GetAllAsync();
         }
 
-        public Task UpdateAsync(BoatWood boatWood)
+        public async Task DeleteAsync(SalesPerson salesPerson)
         {
-            throw new NotImplementedException();
+            await _salesPersonService.DeleteAsync(salesPerson.Id);
+            SalesPersonModelChanged?.Invoke(salesPerson);
         }
 
-        public Task<BoatWood> GetByIdAsync(int id)
+        public async Task UpdateAsync(SalesPerson salesPerson)
         {
-            throw new NotImplementedException();
+            await _salesPersonService.UpdateAsync(salesPerson.Id, salesPerson);
+            SalesPersonModelChanged?.Invoke(salesPerson);
+        }
+
+        public async Task<SalesPerson> GetByIdAsync(int id)
+        {
+            return await _salesPersonService.GetByIdAsync(id);
         }
     }
 }

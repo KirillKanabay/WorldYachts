@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using WorldYachts.Data;
-using WorldYachts.Services.Admin;
-using WorldYachts.Services.Authenticate;
-using WorldYachts.Services.SalesPerson;
+using WorldYachts.Data.Authenticate;
+using WorldYachts.DependencyInjections.Services;
 
 namespace WorldYachts.Services
 {

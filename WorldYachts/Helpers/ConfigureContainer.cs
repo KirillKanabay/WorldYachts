@@ -2,18 +2,12 @@
 using AutoMapper.Contrib.Autofac.DependencyInjection;
 using WorldYachts.DependencyInjections.Helpers;
 using WorldYachts.DependencyInjections.Models;
+using WorldYachts.DependencyInjections.Services;
 using WorldYachts.Model;
 using WorldYachts.Services;
-using WorldYachts.Services.Accessory;
-using WorldYachts.Services.AccessoryToBoat;
-using WorldYachts.Services.Admin;
-using WorldYachts.Services.Boat;
-using WorldYachts.Services.BoatType;
-using WorldYachts.Services.BoatWood;
-using WorldYachts.Services.Partner;
-using WorldYachts.Services.SalesPerson;
 using WorldYachts.Services.Serialization;
 using WorldYachts.Services.Users;
+using WorldYachts.Services.WebApiServices;
 using WorldYachts.View.DashboardControlViews;
 using WorldYachts.ViewModel;
 using WorldYachts.ViewModel.Accessory;
@@ -121,9 +115,9 @@ namespace WorldYachts.Helpers
             builder.RegisterType<SelectableContractViewModel>().AsSelf().InstancePerDependency();
             builder.RegisterType<SelectableInvoiceViewModel>().AsSelf().InstancePerDependency();
             builder.RegisterType<SelectableOrderViewModel>().AsSelf().InstancePerDependency();
-            builder.RegisterType<SalesPersonEditorViewModel>().AsSelf().InstancePerDependency();
+            //builder.RegisterType<SalesPersonEditorViewModel>().AsSelf().InstancePerDependency();
             builder.RegisterType<SalesPersonManagementViewModel>().AsSelf().InstancePerDependency();
-            builder.RegisterType<SelectableSalesPersonViewModel>().AsSelf().InstancePerDependency();
+           // builder.RegisterType<SelectableSalesPersonViewModel>().AsSelf().InstancePerDependency();
             builder.RegisterType<UserControlViewModel>().AsSelf().InstancePerDependency();
             builder.RegisterType<BoatControlViewModel>().AsSelf().InstancePerDependency();
 
@@ -135,14 +129,14 @@ namespace WorldYachts.Helpers
         private void RegisterServices(ContainerBuilder builder)
         {
             builder.RegisterType<UserService>().As<IUserService>();
-            builder.RegisterType<BoatService>().As<IBoatService>();
-            builder.RegisterType<AccessoryService>().As<IAccessoryService>();
-            builder.RegisterType<AccessoryToBoatService>().As<IAccessoryToBoatService>();
-            builder.RegisterType<PartnerService>().As<IPartnerService>();
-            builder.RegisterType<BoatWoodService>().As<IBoatWoodService>();
-            builder.RegisterType<BoatTypeService>().As<IBoatTypeService>();
-            builder.RegisterType<AdminService>().As<IAdminService>();
-            builder.RegisterType<SalesPersonService>().As<ISalesPersonService>();
+            builder.RegisterType<BoatWebService>().As<IBoatService>();
+            builder.RegisterType<AccessoryWebService>().As<IAccessoryService>();
+            builder.RegisterType<AccessoryToBoatWebService>().As<IAccessoryToBoatService>();
+            builder.RegisterType<PartnerWebService>().As<IPartnerService>();
+            builder.RegisterType<BoatWoodWebService>().As<IBoatWoodService>();
+            builder.RegisterType<BoatTypeWebService>().As<IBoatTypeService>();
+            builder.RegisterType<AdminWebService>().As<IAdminService>();
+            builder.RegisterType<SalesPersonWebService>().As<ISalesPersonService>();
         }
 
         private void RegisterModels(ContainerBuilder builder)

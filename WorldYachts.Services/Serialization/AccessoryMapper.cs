@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using WorldYachts.Services.Models;
+using WorldYachts.Data.ViewModels;
 
 namespace WorldYachts.Services.Serialization
 {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WorldYachts.DependencyInjections.Models;
-using WorldYachts.Services.AccessoryToBoat;
+using WorldYachts.DependencyInjections.Services;
 using AccessoryToBoat = WorldYachts.Data.Entities.AccessoryToBoat;
 
 namespace WorldYachts.Model
