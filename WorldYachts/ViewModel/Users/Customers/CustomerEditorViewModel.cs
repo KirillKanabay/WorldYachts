@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,17 +17,17 @@ using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BaseViewModels;
 using WorldYachts.ViewModel.MessageDialog;
 
-namespace WorldYachts.ViewModel.Users.SalesPersons
+namespace WorldYachts.ViewModel.Users.Customers
 {
-    class SalesPersonEditorViewModel : BaseViewModel, IDataErrorInfo
+    public class CustomerEditorViewModel : BaseViewModel, IDataErrorInfo
     {
         #region Поля
 
-        private readonly ISalesPersonModel _salesPersonModel;
+        private readonly ICustomerModel _customerModel;
         private readonly IPasswordGenerator _passwordGenerator;
         private readonly ITranslitGenerator _translitGenerator;
 
-        private readonly SalesPerson _salesPerson;
+        private readonly Customer _customer;
 
         private readonly bool _isEdit;
 
@@ -35,21 +37,21 @@ namespace WorldYachts.ViewModel.Users.SalesPersons
 
         #region Конструкторы
 
-        public SalesPersonEditorViewModel(ISalesPersonModel salesPersonModel, IPasswordGenerator passwordGenerator,
+        public CustomerEditorViewModel(ICustomerModel customerModel, IPasswordGenerator passwordGenerator,
             ITranslitGenerator translitGenerator)
         {
-            _salesPersonModel = salesPersonModel;
+            _customerModel = customerModel;
             _passwordGenerator = passwordGenerator;
             _translitGenerator = translitGenerator;
 
             if (!EntityContainer.IsEmpty)
             {
-                _salesPerson = EntityContainer.Pop<SalesPerson>();
+                _customer = EntityContainer.Pop<Customer>();
                 _isEdit = true;
             }
             else
             {
-                _salesPerson = new SalesPerson();
+                _customer = new Customer();
             }
         }
 
@@ -57,23 +59,103 @@ namespace WorldYachts.ViewModel.Users.SalesPersons
 
         #region Свойства
 
-        public string Name
+        public string FirstName
         {
-            get => _salesPerson.FirstName;
+            get => _customer.FirstName;
             set
             {
-                _salesPerson.FirstName = value;
-                OnPropertyChanged(nameof(Name));
+                _customer.FirstName = value;
+                OnPropertyChanged(nameof(FirstName));
             }
         }
 
         public string SecondName
         {
-            get => _salesPerson.SecondName;
+            get => _customer.SecondName;
             set
             {
-                _salesPerson.SecondName = value;
+                _customer.SecondName = value;
                 OnPropertyChanged(nameof(SecondName));
+            }
+        }
+
+        public DateTime BirthDate
+        {
+            get => _customer.BirthDate;
+            set
+            {
+                _customer.BirthDate = value;
+                OnPropertyChanged(nameof(BirthDate));
+            }
+        }
+
+        public string Address
+        {
+            get => _customer.Address;
+            set
+            {
+                _customer.Address = value;
+                OnPropertyChanged(nameof(Address));
+            }
+        }
+
+        public string City
+        {
+            get => _customer.City;
+            set
+            {
+                _customer.City = value;
+                OnPropertyChanged(nameof(City));
+            }
+        }
+
+        public string Phone
+        {
+            get => _customer.Phone;
+            set
+            {
+                _customer.Phone = value;
+                OnPropertyChanged(nameof(Phone));
+            }
+        }
+
+        public string OrganizationName
+        {
+            get => _customer.OrganizationName;
+            set
+            {
+                _customer.OrganizationName = value;
+                OnPropertyChanged(nameof(OrganizationName));
+            }
+        }
+
+        public string IdNumber
+        {
+            get => _customer.IdNumber;
+            set
+            {
+                _customer.IdNumber = value;
+                OnPropertyChanged(nameof(IdNumber));
+            }
+        }
+
+        public string IdDocumentName
+        {
+            get => _customer.IdDocumentName;
+            set
+            {
+                _customer.IdDocumentName = value;
+                OnPropertyChanged(nameof(IdDocumentName));
+            }
+        }
+
+        public Visibility ProgressBarVisibility
+        {
+            get => _progressBarVisibility;
+            set
+            {
+                _progressBarVisibility = value;
+                OnPropertyChanged(nameof(ProgressBarVisibility));
             }
         }
 
@@ -113,16 +195,6 @@ namespace WorldYachts.ViewModel.Users.SalesPersons
             }
         }
 
-        public Visibility ProgressBarVisibility
-        {
-            get => _progressBarVisibility;
-            set
-            {
-                _progressBarVisibility = value;
-                OnPropertyChanged(nameof(ProgressBarVisibility));
-            }
-        }
-
         public bool SaveButtonIsEnabled => !_errors.Any();
         public Visibility UserPropsVisibility => _isEdit ? Visibility.Collapsed : Visibility.Visible;
 
@@ -144,33 +216,33 @@ namespace WorldYachts.ViewModel.Users.SalesPersons
         private void GeneratePasswordMethod(object parameter)
         {
             Password = _passwordGenerator.Generate();
-        } 
+        }
 
         private void TranslitLoginMethod(object parameter)
         {
-            string name = _translitGenerator.Transform(Name ?? "");
+            string name = _translitGenerator.Transform(FirstName ?? "");
             string secondName = _translitGenerator.Transform(SecondName ?? "");
 
             Login = $"{name}.{secondName}";
-        } 
+        }
 
         private async Task SaveMethod(object parameter)
         {
             ProgressBarVisibility = Visibility.Visible;
             if (_isEdit)
             {
-                await _salesPersonModel.UpdateAsync(_salesPerson);
+                await _customerModel.UpdateAsync(_customer);
             }
             else
             {
-                await _salesPersonModel.AddAsync(new SalesPersonUserViewModel(_salesPerson, _login, _email, _password));
+                await _customerModel.AddAsync(new CustomerUserViewModel(_customer, _login, _email, _password));
             }
 
             ProgressBarVisibility = Visibility.Collapsed;
 
             string snackbarMessage = _isEdit
-                ? $"Менеджер \"{Name}\" успешно отредактирован."
-                : $"Менеджер \"{Name}\" успешно добавлен.";
+                ? $"Клиент \"{FirstName} {SecondName}\" успешно отредактирован."
+                : $"Менеджер \"{FirstName} {SecondName}\" успешно добавлен.";
 
             SendSnackbar(snackbarMessage);
             CloseCurrentDialog();
@@ -187,7 +259,7 @@ namespace WorldYachts.ViewModel.Users.SalesPersons
 
         #endregion
 
-        #region Валидация полей
+        #region Валидация
 
         private readonly Dictionary<string, string> _errors = new Dictionary<string, string>();
 
@@ -199,8 +271,19 @@ namespace WorldYachts.ViewModel.Users.SalesPersons
             {
                 var error = columnName switch
                 {
-                    nameof(Name) => new Validation(new NotEmptyFieldValidationRule(Name)).Validate(),
+                    nameof(FirstName) => new Validation(new NotEmptyFieldValidationRule(FirstName)).Validate(),
                     nameof(SecondName) => new Validation(new NotEmptyFieldValidationRule(SecondName)).Validate(),
+                    nameof(Address) => new Validation(new NotEmptyFieldValidationRule(Address)).Validate(),
+                    nameof(City) => new Validation(new NotEmptyFieldValidationRule(City)).Validate(),
+                    nameof(Phone) => new Validation(new PhoneValidationRule(Phone),
+                        new NotEmptyFieldValidationRule(City)).Validate(),
+                    nameof(OrganizationName) => new Validation(new NotEmptyFieldValidationRule(OrganizationName))
+                        .Validate(),
+                    nameof(IdNumber) => new Validation(new NotEmptyFieldValidationRule(IdNumber)).Validate(),
+                    nameof(IdDocumentName) => new Validation(new NotEmptyFieldValidationRule(IdDocumentName))
+                        .Validate(),
+                    nameof(BirthDate) => new Validation(new YearsOldValidationRule(BirthDate),
+                        new NotEmptyFieldValidationRule(BirthDate)).Validate(),
                     nameof(Password) => _isEdit
                         ? null
                         : new Validation(new SafePasswordValidationRule(Password),

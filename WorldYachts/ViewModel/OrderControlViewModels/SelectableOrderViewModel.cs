@@ -104,13 +104,13 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
             MainWindow.SendSnackbarAction?.Invoke(GetStatusOrderSnackbarMessage());
         }
 
-        public override string ToString()
-        {
-            return $"id:{Item.Id}\n" +
-                   $"Лодка:{Item.Boat.Model}\n" +
-                   $"Покупатель: {Item.Customer.Name} {Item.Customer.SecondName}\n" +
-                   $"Дата оформления: {Item.Date:d}";
-        }
+        //public override string ToString()
+        //{
+        //    return $"id:{Item.Id}\n" +
+        //           $"Лодка:{Item.Boat.Model}\n" +
+        //           $"Покупатель: {Item.Customer.Name} {Item.Customer.SecondName}\n" +
+        //           $"Дата оформления: {Item.Date:d}";
+        //}
 
         private string GetStatusOrderSnackbarMessage()
         {

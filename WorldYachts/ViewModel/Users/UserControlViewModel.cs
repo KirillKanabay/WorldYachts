@@ -1,5 +1,6 @@
 ﻿using WorldYachts.DependencyInjections.Helpers;
 using WorldYachts.ViewModel.BaseViewModels;
+using WorldYachts.ViewModel.Users.Customers;
 using WorldYachts.ViewModel.Users.SalesPersons;
 
 namespace WorldYachts.ViewModel.Users
@@ -15,5 +16,8 @@ namespace WorldYachts.ViewModel.Users
 
         public BaseViewModel SalesPersonManagementViewModel =>
             _viewModelContainer.GetViewModel<SalesPersonManagementViewModel>();
+
+        public BaseViewModel CustomerManagementViewModel =>
+            _viewModelContainer.GetViewModel<CustomerManagementViewModel>();
     }
 }

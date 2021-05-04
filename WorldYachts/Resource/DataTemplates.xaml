@@ -7,6 +7,7 @@
     xmlns:boatType="clr-namespace:WorldYachts.ViewModel.Boat.BoatType"
     xmlns:boatType1="clr-namespace:WorldYachts.View.BoatControlViews.BoatType"
     xmlns:boatWood="clr-namespace:WorldYachts.View.BoatControlViews.BoatWood"
+    xmlns:customers="clr-namespace:WorldYachts.ViewModel.Users.Customers"
     xmlns:dashboardControlViewModels="clr-namespace:WorldYachts.ViewModel.DashboardControlViewModels"
     xmlns:dashboardControlViews="clr-namespace:WorldYachts.View.DashboardControlViews"
     xmlns:orderControlViewModels="clr-namespace:WorldYachts.ViewModel.OrderControlViewModels"
@@ -45,6 +46,9 @@
         <ResourceDictionary>
             <DataTemplate DataType="{x:Type salesPersons:SalesPersonEditorViewModel}">
                 <veditors:SalesPersonEditorView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type customers:CustomerManagementViewModel}">
+                <users:CustomerManagementView />
             </DataTemplate>
         </ResourceDictionary>
         <!--  Dashboard  -->

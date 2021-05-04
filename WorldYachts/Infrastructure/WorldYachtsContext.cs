@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using WorldYachts.Data;
 using WorldYachts.Data.Entities;
-using Admin = WorldYachts.Data.Admin;
-using Customer = WorldYachts.Data.Customer;
 
 namespace WorldYachts.Infrastructure
 {

@@ -37,8 +37,11 @@
             Grid.Row="1"
             DataContext="{Binding SalesPersonManagementViewModel}"
             Style="{StaticResource MaterialDesignTabControl}">
-            <TabItem Header="Управление менеджерами">
+            <TabItem DataContext="{Binding SalesPersonManagementViewModel}" Header="Управление менеджерами">
                 <users:SalesPersonManagementView />
+            </TabItem>
+            <TabItem DataContext="{Binding CustomerManagementViewModel}" Header="Управление клиентами">
+                <users:CustomerManagementView />
             </TabItem>
         </TabControl>
 

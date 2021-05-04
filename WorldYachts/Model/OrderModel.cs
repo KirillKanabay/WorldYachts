@@ -34,7 +34,7 @@ namespace WorldYachts.Model
                 {
                     //order.Boat = new BoatModel().GetByIdAsync(order.BoatId);
                     //order.SalesPerson = new SalesPersonModel().GetItemById(order.SalesPersonId);
-                    order.Customer = new CustomerModel().GetItemById(order.CustomerId);
+                    //order.Customer = new CustomerModel().GetItemById(order.CustomerId);
                     order.OrderDetails = new OrderDetailsModel().Load().Where(od => od.OrderId == order.Id).ToList();
                     orders.Add(order);
                 }
@@ -88,7 +88,7 @@ namespace WorldYachts.Model
                 var item = context.Orders.FirstOrDefault(o => o.Id == id);
                 //item.Boat = new BoatModel().GetByIdAsync(item.BoatId);
                 //item.SalesPerson = new SalesPersonModel().GetItemById(item.SalesPersonId);
-                item.Customer = new CustomerModel().GetItemById(item.CustomerId);
+                //item.Customer = new CustomerModel().GetItemById(item.CustomerId);
                 item.OrderDetails = new OrderDetailsModel().Load().Where(od => od.OrderId == item.Id).ToList();
                 return item;
             }

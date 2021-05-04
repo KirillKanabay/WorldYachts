@@ -5,39 +5,42 @@ using WorldYachts.DependencyInjections.Helpers;
 using WorldYachts.DependencyInjections.Models;
 using WorldYachts.Helpers;
 using WorldYachts.Helpers.Commands;
-using WorldYachts.View.Editors;
 using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BaseViewModels;
 using WorldYachts.ViewModel.MessageDialog;
-using WorldYachts.ViewModel.Partner;
+using WorldYachts.ViewModel.Users.SalesPersons;
 
-namespace WorldYachts.ViewModel.Users.SalesPersons
+namespace WorldYachts.ViewModel.Users.Customers
 {
-    class SelectableSalesPersonViewModel : BaseViewModel
+    class SelectableCustomerViewModel:BaseViewModel
     {
         #region Поля
 
         private AsyncRelayCommand _removeCommand;
         private AsyncRelayCommand _editCommand;
 
-        private readonly ISalesPersonModel _salesPersonModel;
+        private readonly ICustomerModel _customerModel;
         private readonly IViewModelContainer _viewModelContainer;
 
         #endregion
 
         #region Конструкторы
-        public SelectableSalesPersonViewModel(SalesPerson salesPerson, ISalesPersonModel salesPersonModel,
+
+        public SelectableCustomerViewModel(Customer customer, ICustomerModel customerModel,
             IViewModelContainer viewModelContainer)
         {
-            SalesPerson = salesPerson;
-            _salesPersonModel = salesPersonModel;
+            Customer = customer;
+            _customerModel = customerModel;
             _viewModelContainer = viewModelContainer;
         }
+
         #endregion
 
         #region Свойства
-        public SalesPerson SalesPerson { get; }
-        public string Info => SalesPerson.ToString();
+
+        public Customer Customer{ get; }
+        public string Info => Customer.ToString();
+
         #endregion
 
         #region Команды
@@ -66,6 +69,7 @@ namespace WorldYachts.ViewModel.Users.SalesPersons
             }
         }
 
+
         #endregion
 
         #region Методы
@@ -75,7 +79,7 @@ namespace WorldYachts.ViewModel.Users.SalesPersons
             return new MessageDialogProperty()
             {
                 Title = "Подтверждение удаления",
-                Message = "Будет удален следующий менеджер:\n\n" + Info
+                Message = "Будет удален следующий клиент:\n\n" + Info
             };
         }
 
@@ -85,10 +89,10 @@ namespace WorldYachts.ViewModel.Users.SalesPersons
 
         private async Task ExecuteRunEditorDialog(object o)
         {
-            EntityContainer.Push(SalesPerson);
+            EntityContainer.Push(Customer);
             var view = new View.MessageDialogs.MessageDialog()
             {
-                DataContext = new MessageDialogViewModel(_viewModelContainer.GetViewModel<SalesPersonEditorViewModel>())
+                DataContext = new MessageDialogViewModel(_viewModelContainer.GetViewModel<CustomerEditorViewModel>())
             };
 
             var result = await DialogHost.Show(view, "RootDialog");
@@ -129,7 +133,7 @@ namespace WorldYachts.ViewModel.Users.SalesPersons
         private void ClosingDeleteDialogEventHandler(object sender, DialogClosingEventArgs eventargs)
         {
             if (Equals((eventargs.Parameter), true))
-                _salesPersonModel.DeleteAsync(SalesPerson);
+                _customerModel.DeleteAsync(Customer);
         }
 
         #endregion
