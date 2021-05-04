@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Libs\**" />
+    <EmbeddedResource Remove="Libs\**" />
+    <None Remove="Libs\**" />
+    <Page Remove="Libs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="View\RegisterWindow.xaml~RF1780b4db.TMP" />
   </ItemGroup>
 
@@ -35,6 +42,12 @@
   <ItemGroup>
     <ProjectReference Include="..\WorldYachts.DependencyInjections\WorldYachts.DependencyInjections.csproj" />
     <ProjectReference Include="..\WorldYachts.Services\WorldYachts.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="SPG.lib">
+      <HintPath>Libs\SPG.lib.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

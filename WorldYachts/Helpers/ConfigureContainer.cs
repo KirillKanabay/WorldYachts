@@ -3,6 +3,8 @@ using AutoMapper.Contrib.Autofac.DependencyInjection;
 using WorldYachts.DependencyInjections.Helpers;
 using WorldYachts.DependencyInjections.Models;
 using WorldYachts.DependencyInjections.Services;
+using WorldYachts.Helpers.Cryptography;
+using WorldYachts.Helpers.Generators;
 using WorldYachts.Model;
 using WorldYachts.Services;
 using WorldYachts.Services.Serialization;
@@ -33,7 +35,10 @@ namespace WorldYachts.Helpers
             builder.RegisterType<WebClientService>().As<IWebClientService>().SingleInstance();
             builder.RegisterType<AuthUser>().AsSelf().SingleInstance();
             builder.RegisterType<ViewModelContainer>().As<IViewModelContainer>().SingleInstance();
-
+            
+            builder.RegisterType<PasswordGenerator>().As<IPasswordGenerator>().SingleInstance();
+            builder.RegisterType<Md5HashCalculator>().As<IHashCalculator>().SingleInstance();
+            
             builder.AddAutoMapper(typeof(BoatMapper).Assembly);
 
             RegisterViewModels(builder);
