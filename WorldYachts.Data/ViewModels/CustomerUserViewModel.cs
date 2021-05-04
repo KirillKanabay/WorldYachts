@@ -2,9 +2,8 @@
 
 namespace WorldYachts.Data.ViewModels
 {
-    public class CustomerModel:UserViewModel
+    public class CustomerUserViewModel:UserViewModel
     {
-        public string Role => "Customer";
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string SecondName { get; set; }
