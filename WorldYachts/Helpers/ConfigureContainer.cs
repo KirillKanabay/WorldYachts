@@ -19,7 +19,7 @@ using WorldYachts.ViewModel.CatalogControlViewModels;
 using WorldYachts.ViewModel.DashboardControlViewModels;
 using WorldYachts.ViewModel.OrderControlViewModels;
 using WorldYachts.ViewModel.Partner;
-using WorldYachts.ViewModel.UserControlViewModels;
+using WorldYachts.ViewModel.Users;
 using WorldYachts.ViewModel.Users.SalesPersons;
 using IPartnerModel = WorldYachts.DependencyInjections.Models.IPartnerModel;
 
@@ -98,6 +98,14 @@ namespace WorldYachts.Helpers
 
             #endregion
 
+            #region Sales Person
+
+            builder.RegisterType<SalesPersonEditorViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<SalesPersonManagementViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<SelectableSalesPersonViewModel>().AsSelf().InstancePerDependency();
+
+            #endregion
+
             builder.RegisterType<BoatViewModel>().AsSelf().InstancePerDependency();
             builder.RegisterType<CatalogControlViewModel>().AsSelf().InstancePerDependency();
             builder.RegisterType<DashboardViewModel>().AsSelf().InstancePerDependency();
@@ -115,15 +123,9 @@ namespace WorldYachts.Helpers
             builder.RegisterType<SelectableContractViewModel>().AsSelf().InstancePerDependency();
             builder.RegisterType<SelectableInvoiceViewModel>().AsSelf().InstancePerDependency();
             builder.RegisterType<SelectableOrderViewModel>().AsSelf().InstancePerDependency();
-            //builder.RegisterType<SalesPersonEditorViewModel>().AsSelf().InstancePerDependency();
-            builder.RegisterType<SalesPersonManagementViewModel>().AsSelf().InstancePerDependency();
-           // builder.RegisterType<SelectableSalesPersonViewModel>().AsSelf().InstancePerDependency();
+            
             builder.RegisterType<UserControlViewModel>().AsSelf().InstancePerDependency();
             builder.RegisterType<BoatControlViewModel>().AsSelf().InstancePerDependency();
-
-
-
-
         }
 
         private void RegisterServices(ContainerBuilder builder)
@@ -148,6 +150,7 @@ namespace WorldYachts.Helpers
             builder.RegisterType<BoatWoodModel>().As<IBoatWoodModel>().InstancePerLifetimeScope();
             builder.RegisterType<BoatTypeModel>().As<IBoatTypeModel>().InstancePerLifetimeScope();
             builder.RegisterType<AccessoryToBoatModel>().As<IAccessoryToBoatModel>().InstancePerLifetimeScope();
+            builder.RegisterType<SalesPersonModel>().As<ISalesPersonModel>().InstancePerLifetimeScope();
         }
 
         private void RegisterViews(ContainerBuilder builder)

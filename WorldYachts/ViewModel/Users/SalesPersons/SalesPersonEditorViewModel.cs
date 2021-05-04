@@ -1,181 +1,193 @@
-﻿//using System.Collections.Generic;
-//using System.ComponentModel;
-//using System.Linq;
-//using System.Threading.Tasks;
-//using System.Windows;
-//using WorldYachts.Data;
-//using WorldYachts.Data.Entities;
-//using WorldYachts.Helpers.Validators;
-//using WorldYachts.Model;
-//using WorldYachts.ViewModel.BaseViewModels;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
+using MaterialDesignThemes.Wpf;
+using WorldYachts.Data;
+using WorldYachts.Data.Entities;
+using WorldYachts.Data.ViewModels;
+using WorldYachts.DependencyInjections.Models;
+using WorldYachts.Helpers;
+using WorldYachts.Helpers.Commands;
+using WorldYachts.Helpers.Validators;
+using WorldYachts.Model;
+using WorldYachts.View.MessageDialogs;
+using WorldYachts.ViewModel.BaseViewModels;
+using WorldYachts.ViewModel.MessageDialog;
 
-//namespace WorldYachts.ViewModel.Users.SalesPersons
-//{
-//    class SalesPersonEditorViewModel
-//    {
-//        #region Поля
+namespace WorldYachts.ViewModel.Users.SalesPersons
+{
+    class SalesPersonEditorViewModel : BaseViewModel
+    {
+        #region Поля
 
-//        private readonly int _id;
-//        private string _name;
-//        private string _secondName;
-//        private string _login;
-//        private string _password;
-//        private readonly UserModel _userModel;
-//        #endregion
+        private readonly ISalesPersonModel _salesPersonModel;
 
-//        #region Конструкторы
+        private readonly SalesPerson _salesPerson;
 
-//        public SalesPersonEditorViewModel(SalesPerson item, UserModel userModel)
-//        {
-//            //_id = item.Id;
-//            //_name = item.FirstName;
-//            //_secondName = item.SecondName;
-//            //_userModel = userModel;
-//            //_user = _userModel.Load()
-//            //    .FirstOrDefault(u => u.TypeUser == (int) TypeOfUser.SalesPerson && u.UserId == item.Id);
-            
-//            //_password = _user.Password;
-//            //_login = _user.Login;
-//        }
+        private readonly bool _isEdit;
 
-//        public SalesPersonEditorViewModel()
-//        {
-//        }
+        private Visibility _progressBarVisibility = Visibility.Collapsed;
 
-//        #endregion
+        #endregion
 
-//        #region Свойства
+        #region Конструкторы
 
-//        public string Name
-//        {
-//            get => _name;
-//            set
-//            {
-//                _name = value;
-//                OnPropertyChanged(nameof(Name));
-//            }
-//        }
+        public SalesPersonEditorViewModel(ISalesPersonModel partnerModel)
+        {
+            _salesPersonModel = partnerModel;
 
-//        public string SecondName
-//        {
-//            get => _secondName;
-//            set
-//            {
-//                _secondName = value;
-//                OnPropertyChanged(nameof(SecondName));
-//            }
-//        }
+            if (!EntityContainer.IsEmpty)
+            {
+                _salesPerson = EntityContainer.Pop<SalesPerson>();
+                _isEdit = true;
+            }
+            else
+            {
+                _salesPerson = new SalesPerson();
+            }
+        }
 
-//        public string Login
-//        {
-//            get => _login;
-//            set
-//            {
-//                _login = value;
-//                OnPropertyChanged(nameof(Login));
-//            }
-//        }
+        #endregion
 
-//        public string Password
-//        {
-//            get => _password;
-//            set
-//            {
-//                _password = value;
-//                OnPropertyChanged(nameof(Password));
-//            }
-//        }
+        #region Свойства
 
-//        #endregion
+        public string Name
+        {
+            get => _salesPerson.FirstName;
+            set
+            {
+                _salesPerson.FirstName = value;
+                OnPropertyChanged(nameof(Name));
+            }
+        }
 
-//        //public override bool SaveButtonIsEnabled => !ErrorDictionary.Any();
-//        //public override IDataModel<SalesPerson> ModelItem => new SalesPersonModel();
+        public string SecondName
+        {
+            get => _salesPerson.SecondName;
+            set
+            {
+                _salesPerson.SecondName = value;
+                OnPropertyChanged(nameof(SecondName));
+            }
+        }
 
-//        #region Методы
+        private string _login;
+        public string Login
+        {
+            get => _login;
+            set
+            {
+                _login = value;
+                OnPropertyChanged(nameof(Login));
+            }
+        }
 
-//        protected override async Task SaveMethod(object parameter)
-//        {
-//            //ProgressBarVisibility = Visibility.Visible;
+        private string _password;
+        public string Password
+        {
+            get => _password;
+            set
+            {
+                _password = value;
+                OnPropertyChanged(nameof(Password));
+            }
+        }
 
-//            //var spm = new SalesPersonModel();
+        private string _email;
+        public string Email
+        {
+            get => _email;
+            set
+            {
+                _email = value;
+                OnPropertyChanged(nameof(Email));
+            }
+        }
 
-//            //try
-//            //{
-//            //    if (_isEdit)
-//            //    {
-//            //        await spm.UpdateAsync(GetSaveItem(_isEdit));
-//            //        await _userModel.UpdateAsync(new User()
-//            //        {
-//            //            Id = _user.Id,
-//            //            TypeUser = (int) TypeOfUser.SalesPerson,
-//            //            Login = Login,
-//            //            Password = Password,
-//            //            UserId = _user.UserId
-//            //        });
-//            //    }
-//            //    else
-//            //    {
-//            //        await Task.Run((() => _userModel.AddSalesPersonAsync(GetSaveItem(_isEdit), Login, Password)));
-//            //    }
-//            //}
-//            //finally
-//            //{
-//            //    ProgressBarVisibility = Visibility.Collapsed;
-//            //}
+        public Visibility ProgressBarVisibility
+        {
+            get => _progressBarVisibility;
+            set
+            {
+                _progressBarVisibility = value;
+                OnPropertyChanged(nameof(ProgressBarVisibility));
+            }
+        }
+        public bool SaveButtonIsEnabled => !_errors.Any();
+        public Visibility UserPropsVisibility => _isEdit ? Visibility.Collapsed : Visibility.Visible;
+        #endregion
 
-//            //MainWindow.SendSnackbarAction?.Invoke(GetSaveSnackbarMessage(_isEdit));
+        #region Команды
 
-//            ////Закрываем диалог редактирования партнера
-//            //MainWindow.GetMainWindow?.Invoke().DialogHost.CurrentSession.Close();
-//        }
+        public AsyncRelayCommand SaveItem => new AsyncRelayCommand(SaveMethod,
+            (ex) => { ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message }); });
 
-//        //protected override SalesPerson GetSaveItem(bool isEdit)
-//        //{
-//        //    return new SalesPerson()
-//        //    {
-//        //        Id = (isEdit) ? _id : default,
-//        //        FirstName = _name,
-//        //        SecondName = _secondName
-//        //    };
-//        //}
+        #endregion
 
-//        //protected override string GetSaveSnackbarMessage(bool _isEdit)
-//        //{
-//        //    return _isEdit
-//        //        ? $"Менеджер \"{Name}\" успешно отредактирован."
-//        //        : $"Менеджер \"{Name}\" успешно добавлен.";
-//        //}
+        #region Методы
 
-//        #endregion
+        private async Task SaveMethod(object parameter)
+        {
+            ProgressBarVisibility = Visibility.Visible;
+            if (_isEdit)
+            {
+                await _salesPersonModel.UpdateAsync(_salesPerson);
+            }
+            else
+            {
+                await _salesPersonModel.AddAsync(new SalesPersonUserViewModel(_salesPerson, _login, _email, _password));
+            }
 
-//        #region Валидация полей
+            ProgressBarVisibility = Visibility.Collapsed;
 
-//        private readonly Dictionary<string, string> ErrorDictionary = new Dictionary<string, string>();
+            string snackbarMessage = _isEdit
+                ? $"Менеджер \"{Name}\" успешно отредактирован."
+                : $"Менеджер \"{Name}\" успешно добавлен.";
 
-//        public string Error { get; }
+            SendSnackbar(snackbarMessage);
+            CloseCurrentDialog();
+        }
 
-//        public string this[string columnName]
-//        {
-//            get
-//            {
-//                var error = columnName switch
-//                {
-//                    "Name" => new Validation(new NotEmptyFieldValidationRule(Name)).Validate(),
-//                    "SecondName" => new Validation(new NotEmptyFieldValidationRule(SecondName)).Validate(),
-//                    "Password" => new Validation(new SafePasswordValidationRule(Password),
-//                        new NotEmptyFieldValidationRule(Password)).Validate(),
-//                    "Login" => new Validation(new LoginValidationRule(Login), new NotEmptyFieldValidationRule(Login)).Validate(),
-//                    _ => null
-//                };
+        public async void ExecuteRunDialog(object o)
+        {
+            var view = new SampleMessageDialog()
+            {
+                DataContext = new SampleMessageDialogViewModel((MessageDialogProperty)o)
+            };
+            var result = await DialogHost.Show(view, "EditorDialog");
+        }
+        #endregion
 
-//                ErrorDictionary.Remove(columnName);
-//                if (!string.IsNullOrWhiteSpace(error))
-//                    ErrorDictionary.Add(columnName, error);
-//                OnPropertyChanged(nameof(SaveButtonIsEnabled));
-//                return error;
-//            }
-//        }
+        #region Валидация полей
 
-//        #endregion
-//    }
-//}
+        private readonly Dictionary<string, string> _errors = new Dictionary<string, string>();
+
+        public string Error { get; }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                var error = columnName switch
+                {
+                    nameof(Name) => new Validation(new NotEmptyFieldValidationRule(Name)).Validate(),
+                    nameof(SecondName) => new Validation(new NotEmptyFieldValidationRule(SecondName)).Validate(),
+                    nameof(Password) => _isEdit ? null : new Validation(new SafePasswordValidationRule(Password),
+                        new NotEmptyFieldValidationRule(Password)).Validate(),
+                    nameof(Login) => _isEdit ? null : new Validation(new LoginValidationRule(Login), new NotEmptyFieldValidationRule(Login)).Validate(),
+                    nameof(Email) => _isEdit ? null : new Validation(new EmailValidationRule(Email), new NotEmptyFieldValidationRule(Email)).Validate(),
+                    _ => null
+                };
+
+                _errors.Remove(columnName);
+                if (!string.IsNullOrWhiteSpace(error))
+                    _errors.Add(columnName, error);
+                OnPropertyChanged(nameof(SaveButtonIsEnabled));
+                return error;
+            }
+        }
+
+        #endregion
+    }
+}

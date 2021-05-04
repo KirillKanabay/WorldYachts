@@ -7,7 +7,6 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:orderManagementViewModels="clr-namespace:WorldYachts.ViewModel.OrderControlViewModels"
-    xmlns:userControlViewModels="clr-namespace:WorldYachts.ViewModel.UserControlViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
     FontFamily="Google Sans"

@@ -16,8 +16,8 @@ namespace WorldYachts.ViewModel.Partner
 
         #region Поля
 
-        protected AsyncRelayCommand _removeCommand;
-        protected AsyncRelayCommand _editCommand;
+        private AsyncRelayCommand _removeCommand;
+        private AsyncRelayCommand _editCommand;
 
         private readonly IPartnerModel _partnerModel;
         private readonly IViewModelContainer _viewModelContainer;

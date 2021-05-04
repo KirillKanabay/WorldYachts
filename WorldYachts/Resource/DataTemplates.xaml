@@ -14,16 +14,17 @@
     xmlns:orderManagementControlViews="clr-namespace:WorldYachts.View.OrderManagementControlViews"
     xmlns:orderManagementViewModels="clr-namespace:WorldYachts.ViewModel.OrderControlViewModels"
     xmlns:partner="clr-namespace:WorldYachts.ViewModel.Partner"
+    xmlns:salesPersons="clr-namespace:WorldYachts.ViewModel.Users.SalesPersons"
     xmlns:type="clr-namespace:WorldYachts.ViewModel.Boat.Type"
-    xmlns:userControlViewModels="clr-namespace:WorldYachts.ViewModel.UserControlViewModels"
+    xmlns:userControlViewModels="clr-namespace:WorldYachts.ViewModel.Users"
+    xmlns:users="clr-namespace:WorldYachts.View.Users"
     xmlns:v="clr-namespace:WorldYachts.View"
     xmlns:vaccessory="clr-namespace:WorldYachts.View.AccessoryControlViews"
     xmlns:vcatalog="clr-namespace:WorldYachts.View.CatalogControlViews"
     xmlns:veditors="clr-namespace:WorldYachts.View.Editors"
     xmlns:vm="clr-namespace:WorldYachts.ViewModel"
     xmlns:vmcatalog="clr-namespace:WorldYachts.ViewModel.CatalogControlViewModels"
-    xmlns:wood="clr-namespace:WorldYachts.ViewModel.Boat.Wood"
-    xmlns:salesPersons="clr-namespace:WorldYachts.ViewModel.Users.SalesPersons">
+    xmlns:wood="clr-namespace:WorldYachts.ViewModel.Boat.Wood">
     <ResourceDictionary.MergedDictionaries>
         <!--  Основные UC  -->
         <ResourceDictionary>
@@ -31,7 +32,7 @@
                 <worldYachts:MainWindow/>
             </DataTemplate>-->
             <DataTemplate DataType="{x:Type userControlViewModels:UserControlViewModel}">
-                <v:UserManagementView />
+                <users:UserControlView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type vm:AccountSettingsViewModel}">
                 <v:AccountSettingsView />
@@ -42,9 +43,9 @@
         </ResourceDictionary>
         <!--  UsersManagement  -->
         <ResourceDictionary>
-            <!--<DataTemplate DataType="{x:Type salesPersons:SalesPersonEditorViewModel}">
+            <DataTemplate DataType="{x:Type salesPersons:SalesPersonEditorViewModel}">
                 <veditors:SalesPersonEditorView />
-            </DataTemplate>-->
+            </DataTemplate>
         </ResourceDictionary>
         <!--  Dashboard  -->
         <ResourceDictionary>

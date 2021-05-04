@@ -1,12 +1,12 @@
 ﻿<UserControl
-    x:Class="WorldYachts.View.UserManagementView"
+    x:Class="WorldYachts.View.Users.UserControlView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:accessoryControlViews="clr-namespace:WorldYachts.View.AccessoryControlViews"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:WorldYachts.View"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:userControlViews="clr-namespace:WorldYachts.View.UserControlViews"
+    xmlns:users="clr-namespace:WorldYachts.View.Users"
     Background="#FAFAFA"
     FontFamily="Google Sans"
     mc:Ignorable="d">
@@ -16,6 +16,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.DataGrid.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignExtensions;component/Themes/Generic.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignExtensions;component/Themes/MaterialDesignLightTheme.xaml" />
+                <ResourceDictionary Source="../../Resource/DataTemplates.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -32,9 +33,12 @@
             FontWeight="Bold">
             Управление пользователями
         </Label>
-        <TabControl Grid.Row="1" Style="{StaticResource MaterialDesignTabControl}">
+        <TabControl
+            Grid.Row="1"
+            DataContext="{Binding SalesPersonManagementViewModel}"
+            Style="{StaticResource MaterialDesignTabControl}">
             <TabItem Header="Управление менеджерами">
-                <userControlViews:SalesPersonManagementView />
+                <users:SalesPersonManagementView />
             </TabItem>
         </TabControl>
 

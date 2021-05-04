@@ -42,7 +42,7 @@ namespace WorldYachts.ViewModel.Partner
 
         #region Свойства
 
-        public virtual ObservableCollection<SelectablePartnerViewModel> FilteredCollection
+        public ObservableCollection<SelectablePartnerViewModel> FilteredCollection
         {
             get
             {
@@ -53,7 +53,7 @@ namespace WorldYachts.ViewModel.Partner
             }
         }
 
-        public virtual string FilterText
+        public string FilterText
         {
             get => _filterText;
             set
