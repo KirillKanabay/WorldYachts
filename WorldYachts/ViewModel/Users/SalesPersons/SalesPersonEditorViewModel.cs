@@ -6,6 +6,7 @@ using MaterialDesignThemes.Wpf;
 using WorldYachts.Data;
 using WorldYachts.Data.Entities;
 using WorldYachts.Data.ViewModels;
+using WorldYachts.DependencyInjections.Helpers;
 using WorldYachts.DependencyInjections.Models;
 using WorldYachts.Helpers;
 using WorldYachts.Helpers.Commands;
@@ -22,6 +23,8 @@ namespace WorldYachts.ViewModel.Users.SalesPersons
         #region Поля
 
         private readonly ISalesPersonModel _salesPersonModel;
+        private readonly IPasswordGenerator _passwordGenerator;
+        private readonly ITranslitGenerator _translitGenerator;
 
         private readonly SalesPerson _salesPerson;
 
@@ -33,9 +36,12 @@ namespace WorldYachts.ViewModel.Users.SalesPersons
 
         #region Конструкторы
 
-        public SalesPersonEditorViewModel(ISalesPersonModel partnerModel)
+        public SalesPersonEditorViewModel(ISalesPersonModel partnerModel, IPasswordGenerator passwordGenerator,
+            ITranslitGenerator translitGenerator)
         {
             _salesPersonModel = partnerModel;
+            _passwordGenerator = passwordGenerator;
+            _translitGenerator = translitGenerator;
 
             if (!EntityContainer.IsEmpty)
             {
@@ -73,6 +79,7 @@ namespace WorldYachts.ViewModel.Users.SalesPersons
         }
 
         private string _login;
+
         public string Login
         {
             get => _login;
@@ -84,6 +91,7 @@ namespace WorldYachts.ViewModel.Users.SalesPersons
         }
 
         private string _password;
+
         public string Password
         {
             get => _password;
@@ -95,6 +103,7 @@ namespace WorldYachts.ViewModel.Users.SalesPersons
         }
 
         private string _email;
+
         public string Email
         {
             get => _email;
@@ -114,18 +123,37 @@ namespace WorldYachts.ViewModel.Users.SalesPersons
                 OnPropertyChanged(nameof(ProgressBarVisibility));
             }
         }
+
         public bool SaveButtonIsEnabled => !_errors.Any();
         public Visibility UserPropsVisibility => _isEdit ? Visibility.Collapsed : Visibility.Visible;
+
         #endregion
 
         #region Команды
 
         public AsyncRelayCommand SaveItem => new AsyncRelayCommand(SaveMethod,
-            (ex) => { ExecuteRunDialog(new MessageDialogProperty() { Title = "Ошибка", Message = ex.Message }); });
+            (ex) => { ExecuteRunDialog(new MessageDialogProperty() {Title = "Ошибка", Message = ex.Message}); });
+
+        public DelegateCommand GeneratePassword => new DelegateCommand(GeneratePasswordMethod);
+
+        public DelegateCommand TranslitLogin => new DelegateCommand(TranslitLoginMethod);
 
         #endregion
 
         #region Методы
+
+        private void GeneratePasswordMethod(object parameter)
+        {
+            Password = _passwordGenerator.Generate();
+        } 
+
+        private void TranslitLoginMethod(object parameter)
+        {
+            string name = _translitGenerator.Transform(Name ?? "");
+            string secondName = _translitGenerator.Transform(SecondName ?? "");
+
+            Login = $"{name}.{secondName}";
+        } 
 
         private async Task SaveMethod(object parameter)
         {
@@ -153,10 +181,11 @@ namespace WorldYachts.ViewModel.Users.SalesPersons
         {
             var view = new SampleMessageDialog()
             {
-                DataContext = new SampleMessageDialogViewModel((MessageDialogProperty)o)
+                DataContext = new SampleMessageDialogViewModel((MessageDialogProperty) o)
             };
             var result = await DialogHost.Show(view, "EditorDialog");
         }
+
         #endregion
 
         #region Валидация полей
@@ -173,10 +202,18 @@ namespace WorldYachts.ViewModel.Users.SalesPersons
                 {
                     nameof(Name) => new Validation(new NotEmptyFieldValidationRule(Name)).Validate(),
                     nameof(SecondName) => new Validation(new NotEmptyFieldValidationRule(SecondName)).Validate(),
-                    nameof(Password) => _isEdit ? null : new Validation(new SafePasswordValidationRule(Password),
-                        new NotEmptyFieldValidationRule(Password)).Validate(),
-                    nameof(Login) => _isEdit ? null : new Validation(new LoginValidationRule(Login), new NotEmptyFieldValidationRule(Login)).Validate(),
-                    nameof(Email) => _isEdit ? null : new Validation(new EmailValidationRule(Email), new NotEmptyFieldValidationRule(Email)).Validate(),
+                    nameof(Password) => _isEdit
+                        ? null
+                        : new Validation(new SafePasswordValidationRule(Password),
+                            new NotEmptyFieldValidationRule(Password)).Validate(),
+                    nameof(Login) => _isEdit
+                        ? null
+                        : new Validation(new LoginValidationRule(Login), new NotEmptyFieldValidationRule(Login))
+                            .Validate(),
+                    nameof(Email) => _isEdit
+                        ? null
+                        : new Validation(new EmailValidationRule(Email), new NotEmptyFieldValidationRule(Email))
+                            .Validate(),
                     _ => null
                 };
 

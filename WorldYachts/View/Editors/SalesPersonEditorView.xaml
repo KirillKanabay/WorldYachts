@@ -92,34 +92,78 @@
                     </TextBox.Text>
                 </TextBox>
                 <!--  Логин  -->
-                <TextBox Margin="0,8,0,15" Style="{StaticResource InputTextBox}">
-                    <materialDesign:HintAssist.Hint>
-                        <TextBlock>Логин</TextBlock>
-                    </materialDesign:HintAssist.Hint>
-                    <TextBox.Text>
-                        <Binding
-                            Mode="TwoWay"
-                            Path="Login"
-                            UpdateSourceTrigger="PropertyChanged">
-                            <Binding.ValidationRules>
-                                <DataErrorValidationRule />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox.Text>
-                </TextBox>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox Margin="0,8,0,15" Style="{StaticResource InputTextBox}">
+                        <materialDesign:HintAssist.Hint>
+                            <TextBlock>Логин</TextBlock>
+                        </materialDesign:HintAssist.Hint>
+                        <TextBox.Text>
+                            <Binding
+                                Mode="TwoWay"
+                                Path="Login"
+                                UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <DataErrorValidationRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                    <Button
+                        x:Name="ColorPickerBtn"
+                        Grid.Row="2"
+                        Width="20"
+                        Height="20"
+                        Margin="-20"
+                        Padding="0"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Command="{Binding TranslitLogin}">
+                        <materialDesign:PackIcon
+                            Width="18"
+                            Height="18"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Foreground="#383838"
+                            Kind="AccountQuestion" />
+                    </Button>
+                </StackPanel>
                 <!--  Пароль  -->
-                <TextBox Margin="0,8,0,15" Style="{StaticResource InputTextBox}">
-                    <materialDesign:HintAssist.Hint>
-                        <TextBlock>Пароль</TextBlock>
-                    </materialDesign:HintAssist.Hint>
-                    <TextBox.Text>
-                        <Binding Path="Password" UpdateSourceTrigger="PropertyChanged">
-                            <Binding.ValidationRules>
-                                <DataErrorValidationRule />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox.Text>
-                </TextBox>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox Margin="0,8,0,15" Style="{StaticResource InputTextBox}">
+                        <materialDesign:HintAssist.Hint>
+                            <TextBlock>Пароль</TextBlock>
+                        </materialDesign:HintAssist.Hint>
+                        <TextBox.Text>
+                            <Binding Path="Password" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <DataErrorValidationRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                    <Button
+                        Grid.Row="2"
+                        Width="20"
+                        Height="20"
+                        Margin="-20"
+                        Padding="0"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Command="{Binding GeneratePassword}">
+                        <materialDesign:PackIcon
+                            x:Name="ColorPickerIcon"
+                            Width="18"
+                            Height="18"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Foreground="#383838"
+                            Kind="LockQuestion" />
+                    </Button>
+                </StackPanel>
             </StackPanel>
             <StackPanel
                 Grid.Row="2"

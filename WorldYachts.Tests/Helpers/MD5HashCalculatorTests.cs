@@ -7,7 +7,7 @@ using Xunit;
 
 namespace WorldYachts.Tests.Helpers
 {
-    public class MD5HashCalculator
+    public class MD5HashCalculatorTests
     {
         [Fact]
         public void CheckDifferentHash()

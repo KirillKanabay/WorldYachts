@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Helpers\Generators\TranslitGenerator.cs~RF2ed571d.TMP" />
     <None Remove="View\RegisterWindow.xaml~RF1780b4db.TMP" />
   </ItemGroup>
 

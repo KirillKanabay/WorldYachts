@@ -35,7 +35,8 @@ namespace WorldYachts.Helpers
             builder.RegisterType<WebClientService>().As<IWebClientService>().SingleInstance();
             builder.RegisterType<AuthUser>().AsSelf().SingleInstance();
             builder.RegisterType<ViewModelContainer>().As<IViewModelContainer>().SingleInstance();
-            
+
+            builder.RegisterType<TranslitGenerator>().As<ITranslitGenerator>().SingleInstance();
             builder.RegisterType<PasswordGenerator>().As<IPasswordGenerator>().SingleInstance();
             builder.RegisterType<Md5HashCalculator>().As<IHashCalculator>().SingleInstance();
             
