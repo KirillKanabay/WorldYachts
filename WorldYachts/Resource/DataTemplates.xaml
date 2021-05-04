@@ -47,8 +47,14 @@
             <DataTemplate DataType="{x:Type salesPersons:SalesPersonEditorViewModel}">
                 <veditors:SalesPersonEditorView />
             </DataTemplate>
+            <DataTemplate DataType="{x:Type salesPersons:SalesPersonManagementViewModel}">
+                <users:SalesPersonManagementView />
+            </DataTemplate>
             <DataTemplate DataType="{x:Type customers:CustomerManagementViewModel}">
                 <users:CustomerManagementView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type customers:CustomerEditorViewModel}">
+                <veditors:CustomerEditorView />
             </DataTemplate>
         </ResourceDictionary>
         <!--  Dashboard  -->

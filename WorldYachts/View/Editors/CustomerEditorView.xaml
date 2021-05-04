@@ -150,12 +150,23 @@
                     </TextBox.Text>
                 </TextBox>
                 <!--  Город  -->
+                <ComboBox
+                    Margin="0,8,0,15"
+                    SelectedValue="{Binding UpdateSourceTrigger=PropertyChanged, Path=IdDocumentName, ValidatesOnDataErrors=true, NotifyOnValidationError=true}"
+                    Style="{StaticResource InputComboBox}">
+                    <materialDesign:HintAssist.Hint>
+                        <TextBlock>Документ подтверждающий личность</TextBlock>
+                    </materialDesign:HintAssist.Hint>
+                    <TextBlock>Паспорт</TextBlock>
+                    <TextBlock>Заграничный паспорт</TextBlock>
+                </ComboBox>
+                <!--  Серийный номер документа  -->
                 <TextBox Margin="0,8,0,15" Style="{StaticResource InputTextBox}">
                     <materialDesign:HintAssist.Hint>
-                        <TextBlock>Город</TextBlock>
+                        <TextBlock>Серийный номер документа</TextBlock>
                     </materialDesign:HintAssist.Hint>
                     <TextBox.Text>
-                        <Binding Path="City" UpdateSourceTrigger="PropertyChanged">
+                        <Binding Path="IdNumber" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
                                 <DataErrorValidationRule />
                             </Binding.ValidationRules>

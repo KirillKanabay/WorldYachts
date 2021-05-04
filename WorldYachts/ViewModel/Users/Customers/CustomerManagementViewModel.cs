@@ -138,7 +138,7 @@ namespace WorldYachts.ViewModel.Users.Customers
         {
             var view = new View.MessageDialogs.MessageDialog()
             {
-                DataContext = new MessageDialogViewModel(_viewModelContainer.GetViewModel<SalesPersonEditorViewModel>())
+                DataContext = new MessageDialogViewModel(_viewModelContainer.GetViewModel<CustomerEditorViewModel>())
             };
 
             var result = await DialogHost.Show(view, "RootDialog");

@@ -33,10 +33,7 @@
             FontWeight="Bold">
             Управление пользователями
         </Label>
-        <TabControl
-            Grid.Row="1"
-            DataContext="{Binding SalesPersonManagementViewModel}"
-            Style="{StaticResource MaterialDesignTabControl}">
+        <TabControl Grid.Row="1" Style="{StaticResource MaterialDesignTabControl}">
             <TabItem DataContext="{Binding SalesPersonManagementViewModel}" Header="Управление менеджерами">
                 <users:SalesPersonManagementView />
             </TabItem>

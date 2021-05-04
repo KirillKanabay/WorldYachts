@@ -5,7 +5,7 @@ using WorldYachts.ViewModel.Users.SalesPersons;
 
 namespace WorldYachts.ViewModel.Users
 {
-    class UserControlViewModel:BaseViewModel
+    public class UserControlViewModel:BaseViewModel
     {
         private readonly IViewModelContainer _viewModelContainer;
 

@@ -22,10 +22,11 @@ using WorldYachts.ViewModel.DashboardControlViewModels;
 using WorldYachts.ViewModel.OrderControlViewModels;
 using WorldYachts.ViewModel.Partner;
 using WorldYachts.ViewModel.Users;
+using WorldYachts.ViewModel.Users.Customers;
 using WorldYachts.ViewModel.Users.SalesPersons;
 using IPartnerModel = WorldYachts.DependencyInjections.Models.IPartnerModel;
 
-namespace WorldYachts.Helpers
+namespace WorldYachts
 {
     internal class ConfigureContainer : Module
     {
@@ -112,6 +113,14 @@ namespace WorldYachts.Helpers
 
             #endregion
 
+            #region Customer
+
+            builder.RegisterType<CustomerEditorViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<CustomerManagementViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<SelectableCustomerViewModel>().AsSelf().InstancePerDependency();
+
+            #endregion
+
             builder.RegisterType<BoatViewModel>().AsSelf().InstancePerDependency();
             builder.RegisterType<CatalogControlViewModel>().AsSelf().InstancePerDependency();
             builder.RegisterType<DashboardViewModel>().AsSelf().InstancePerDependency();
@@ -145,6 +154,7 @@ namespace WorldYachts.Helpers
             builder.RegisterType<BoatTypeWebService>().As<IBoatTypeService>();
             builder.RegisterType<AdminWebService>().As<IAdminService>();
             builder.RegisterType<SalesPersonWebService>().As<ISalesPersonService>();
+            builder.RegisterType<CustomerWebService>().As<ICustomerService>();
         }
 
         private void RegisterModels(ContainerBuilder builder)
@@ -157,6 +167,7 @@ namespace WorldYachts.Helpers
             builder.RegisterType<BoatTypeModel>().As<IBoatTypeModel>().InstancePerLifetimeScope();
             builder.RegisterType<AccessoryToBoatModel>().As<IAccessoryToBoatModel>().InstancePerLifetimeScope();
             builder.RegisterType<SalesPersonModel>().As<ISalesPersonModel>().InstancePerLifetimeScope();
+            builder.RegisterType<CustomerModel>().As<ICustomerModel>().InstancePerLifetimeScope();
         }
 
         private void RegisterViews(ContainerBuilder builder)
