@@ -43,8 +43,8 @@ namespace WorldYachts.Services
         {
             User = Role switch
             {
-                "Admin" => await _adminService.GetByIdAsync(Id),
-                "Sales Person" => await _salesPersonService.GetByIdAsync(Id),
+                "Admin" => await _adminService.GetByIdAsync(UserId),
+                "Sales Person" => await _salesPersonService.GetByIdAsync(UserId),
                 _ => throw new ArgumentException(
                     "Доступ отклонен. Это приложение только для менеджеров и администраторов")
             };

@@ -4,6 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 using WorldYachts.Data.Authenticate;
 using WorldYachts.Data.Entities;
+using WorldYachts.DependencyInjections.Helpers;
 using WorldYachts.DependencyInjections.Services;
 
 namespace WorldYachts.Services.Users
@@ -12,23 +13,28 @@ namespace WorldYachts.Services.Users
     {
         private readonly IWebClientService _webClient;
         private readonly AuthUser _authUser;
+        private readonly IHashCalculator _hashCalculator;
+
         private const string Path = "users";
 
-        public UserService(IWebClientService webClient, AuthUser authUser)
+        public UserService(IWebClientService webClient, AuthUser authUser, IHashCalculator hashCalculator)
         {
             _webClient = webClient;
             _authUser = authUser;
+            _hashCalculator = hashCalculator;
         }
         
         public async Task AuthenticateAsync(AuthenticateRequest request)
         {
-           var response = await _webClient
+            request.Password = _hashCalculator.GetHash(request.Password);
+
+            var response = await _webClient
                 .PostAsync<AuthenticateRequest, AuthenticateResponse>("users/authenticate", request);
 
             if (response != null)
             {
+                _webClient.Token = response.Data.Token;
                 await _authUser.Authenticate(response.Data);
-                _webClient.Token = _authUser.Token;
             }
         }
 

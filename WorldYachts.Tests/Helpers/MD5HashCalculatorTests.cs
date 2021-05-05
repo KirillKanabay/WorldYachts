@@ -14,7 +14,7 @@ namespace WorldYachts.Tests.Helpers
         {
             IHashCalculator hc = new Md5HashCalculator();
             
-            var hash1 = hc.GetHash("abc");
+            var hash1 = hc.GetHash("admin");
             var hash2 = hc.GetHash("Abc");
 
             Assert.NotEqual(hash1, hash2);

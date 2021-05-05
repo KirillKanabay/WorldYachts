@@ -4,6 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 using WorldYachts.Data.Entities;
 using WorldYachts.Data.ViewModels;
+using WorldYachts.DependencyInjections.Helpers;
 using WorldYachts.DependencyInjections.Services;
 
 namespace WorldYachts.Services.WebApiServices
@@ -11,10 +12,12 @@ namespace WorldYachts.Services.WebApiServices
     public class SalesPersonWebService:ISalesPersonService
     {
         private readonly IWebClientService _webClient;
+        private readonly IHashCalculator _hashCalculator;
         private const string Path = "salespersons";
-        public SalesPersonWebService(IWebClientService webClientService)
+        public SalesPersonWebService(IWebClientService webClientService, IHashCalculator hashCalculator)
         {
             _webClient = webClientService;
+            _hashCalculator = hashCalculator;
         }
         public async Task<SalesPerson> GetByIdAsync(int id)
         {
@@ -46,6 +49,7 @@ namespace WorldYachts.Services.WebApiServices
 
         public async Task<SalesPerson> AddAsync(SalesPersonUserViewModel salesPersonModel)
         {
+            salesPersonModel.Password = _hashCalculator.GetHash(salesPersonModel.Password);
             var response = await _webClient.PostAsync<SalesPersonUserViewModel, Data.Entities.SalesPerson>(Path, salesPersonModel);
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
@@ -61,9 +65,9 @@ namespace WorldYachts.Services.WebApiServices
             return response.Data;
         }
 
-        public async Task<SalesPerson> UpdateAsync(int id, SalesPerson salesPersonModel)
+        public async Task<SalesPerson> UpdateAsync(int id, SalesPerson salesPerson)
         {
-            var response = await _webClient.PutAsync<SalesPerson, SalesPerson>(Path, id, salesPersonModel);
+            var response = await _webClient.PutAsync<SalesPerson, SalesPerson>(Path, id, salesPerson);
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {

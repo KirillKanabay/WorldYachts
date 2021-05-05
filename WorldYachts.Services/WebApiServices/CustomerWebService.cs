@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WorldYachts.Data.Entities;
 using WorldYachts.Data.ViewModels;
+using WorldYachts.DependencyInjections.Helpers;
 using WorldYachts.DependencyInjections.Services;
 
 namespace WorldYachts.Services.WebApiServices
@@ -12,9 +13,10 @@ namespace WorldYachts.Services.WebApiServices
     public class CustomerWebService:ICustomerService
     {
         private readonly IWebClientService _webClient;
+        private readonly IHashCalculator _hashCalculator;
         private const string Path = "customers";
 
-        public CustomerWebService(IWebClientService webClient)
+        public CustomerWebService(IWebClientService webClient, IHashCalculator hashCalculator)
         {
             _webClient = webClient;
         }
@@ -49,6 +51,7 @@ namespace WorldYachts.Services.WebApiServices
 
         public async Task<Customer> AddAsync(CustomerUserViewModel customerUserViewModel)
         {
+            customerUserViewModel.Password = _hashCalculator.GetHash(customerUserViewModel.Password);
             var response = await _webClient.PostAsync<CustomerUserViewModel, Customer>(Path, customerUserViewModel);
 
             if (response.StatusCode == HttpStatusCode.BadRequest)

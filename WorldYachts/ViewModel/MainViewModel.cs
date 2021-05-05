@@ -56,6 +56,9 @@ namespace WorldYachts.ViewModel
             }
         }
 
+        public Visibility OrderMakerVisibility =>
+            (_authUser.TypeOfUser == TypeOfUser.Customer) ? Visibility.Visible : Visibility.Collapsed;
+
         public Visibility BoatManagementVisibility =>
             (_authUser.TypeOfUser == TypeOfUser.Customer) ? Visibility.Collapsed : Visibility.Visible;
         
@@ -91,6 +94,9 @@ namespace WorldYachts.ViewModel
                     {
                         case "Dashboard":
                             CurrentViewModel = new DashboardViewModel(_authUser);
+                            break;
+                        case "OrderMaker":
+                            CurrentViewModel = _viewModelContainer.GetViewModel<OrderMakerViewModel>();
                             break;
                         case "Catalog":
                             CurrentViewModel = new CatalogControlViewModel();

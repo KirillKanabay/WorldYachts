@@ -177,8 +177,7 @@
                     <ContentControl
                         Grid.Row="1"
                         Grid.Column="1"
-                        Content="{Binding CurrentViewModel}">
-                    </ContentControl>
+                        Content="{Binding CurrentViewModel}" />
                     <!--  Меню  -->
                     <materialDesign:Card
                         Grid.Row="1"
@@ -229,11 +228,11 @@
                                 <Separator />
                                 <!--  YachtCatalog  -->
                                 <ListViewItem
-                                    x:Name="Catalog"
+                                    x:Name="CreateOrder"
                                     Width="130"
                                     Padding="0"
                                     HorizontalAlignment="Left"
-                                    Visibility="{Binding CatalogVisibility}">
+                                    Visibility="{Binding OrderMakerVisibility}">
                                     <Button
                                         Width="130"
                                         Height="60"
@@ -241,7 +240,7 @@
                                         Background="{x:Null}"
                                         BorderBrush="{x:Null}"
                                         Command="{Binding UpdateViewCommand}"
-                                        CommandParameter="{Binding ElementName=Catalog}"
+                                        CommandParameter="{Binding ElementName=OrderMaker}"
                                         Cursor="Hand"
                                         Foreground="Black">
                                         <StackPanel Margin="0" Orientation="Vertical">
@@ -249,13 +248,13 @@
                                                 Width="30"
                                                 Height="20"
                                                 HorizontalAlignment="Center"
-                                                Kind="SailBoat" />
+                                                Kind="BasketPlus" />
                                             <TextBlock
                                                 FontSize="12"
                                                 FontWeight="Normal"
                                                 TextAlignment="Center"
                                                 TextWrapping="Wrap">
-                                                Каталог лодок
+                                                Оформление заказа
                                             </TextBlock>
                                         </StackPanel>
                                     </Button>
