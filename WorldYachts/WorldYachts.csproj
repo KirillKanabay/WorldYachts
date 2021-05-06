@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <None Remove="Helpers\Generators\TranslitGenerator.cs~RF2ed571d.TMP" />
+    <None Remove="View\Orders\OrderMakerView.xaml~RF102502d7.TMP" />
     <None Remove="View\RegisterWindow.xaml~RF1780b4db.TMP" />
   </ItemGroup>
 
@@ -23,7 +24,7 @@
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="AutoMapper.Contrib.Autofac.DependencyInjection" Version="5.4.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
-    <PackageReference Include="MaterialDesignExtensions" Version="3.2.0" />
+    <PackageReference Include="MaterialDesignExtensions" Version="3.3.0" />
     <PackageReference Include="MaterialDesignThemes" Version="3.2.0" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.2" />

@@ -14,6 +14,7 @@ using WorldYachts.ViewModel.Boat;
 using WorldYachts.ViewModel.CatalogControlViewModels;
 using WorldYachts.ViewModel.DashboardControlViewModels;
 using WorldYachts.ViewModel.OrderControlViewModels;
+using WorldYachts.ViewModel.OrderMaker;
 using WorldYachts.ViewModel.Users;
 
 namespace WorldYachts.ViewModel
@@ -57,7 +58,7 @@ namespace WorldYachts.ViewModel
         }
 
         public Visibility OrderMakerVisibility =>
-            (_authUser.TypeOfUser == TypeOfUser.Customer) ? Visibility.Visible : Visibility.Collapsed;
+            (_authUser.TypeOfUser == TypeOfUser.SalesPerson) ? Visibility.Visible : Visibility.Collapsed;
 
         public Visibility BoatManagementVisibility =>
             (_authUser.TypeOfUser == TypeOfUser.Customer) ? Visibility.Collapsed : Visibility.Visible;

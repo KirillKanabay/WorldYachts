@@ -14,6 +14,7 @@
     xmlns:orderControlViews="clr-namespace:WorldYachts.View.OrderControlViews"
     xmlns:orderManagementControlViews="clr-namespace:WorldYachts.View.OrderManagementControlViews"
     xmlns:orderManagementViewModels="clr-namespace:WorldYachts.ViewModel.OrderControlViewModels"
+    xmlns:orders="clr-namespace:WorldYachts.View.Orders"
     xmlns:partner="clr-namespace:WorldYachts.ViewModel.Partner"
     xmlns:salesPersons="clr-namespace:WorldYachts.ViewModel.Users.SalesPersons"
     xmlns:type="clr-namespace:WorldYachts.ViewModel.Boat.Type"
@@ -25,7 +26,8 @@
     xmlns:veditors="clr-namespace:WorldYachts.View.Editors"
     xmlns:vm="clr-namespace:WorldYachts.ViewModel"
     xmlns:vmcatalog="clr-namespace:WorldYachts.ViewModel.CatalogControlViewModels"
-    xmlns:wood="clr-namespace:WorldYachts.ViewModel.Boat.Wood">
+    xmlns:wood="clr-namespace:WorldYachts.ViewModel.Boat.Wood"
+    xmlns:orderMaker="clr-namespace:WorldYachts.ViewModel.OrderMaker">
     <ResourceDictionary.MergedDictionaries>
         <!--  Основные UC  -->
         <ResourceDictionary>
@@ -40,6 +42,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type vm:AboutProgramViewModel}">
                 <v:AboutProgramView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type orderMaker:OrderMakerViewModel}">
+                <orders:OrderMakerView />
             </DataTemplate>
         </ResourceDictionary>
         <!--  UsersManagement  -->

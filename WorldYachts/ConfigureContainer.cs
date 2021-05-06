@@ -20,6 +20,7 @@ using WorldYachts.ViewModel.Boat.Wood;
 using WorldYachts.ViewModel.CatalogControlViewModels;
 using WorldYachts.ViewModel.DashboardControlViewModels;
 using WorldYachts.ViewModel.OrderControlViewModels;
+using WorldYachts.ViewModel.OrderMaker;
 using WorldYachts.ViewModel.Partner;
 using WorldYachts.ViewModel.Users;
 using WorldYachts.ViewModel.Users.Customers;
@@ -118,6 +119,12 @@ namespace WorldYachts
             builder.RegisterType<CustomerEditorViewModel>().AsSelf().InstancePerDependency();
             builder.RegisterType<CustomerManagementViewModel>().AsSelf().InstancePerDependency();
             builder.RegisterType<SelectableCustomerViewModel>().AsSelf().InstancePerDependency();
+
+            #endregion
+
+            #region Order
+
+            builder.RegisterType<OrderMakerViewModel>().AsSelf().InstancePerDependency();
 
             #endregion
 

@@ -228,7 +228,7 @@
                                 <Separator />
                                 <!--  YachtCatalog  -->
                                 <ListViewItem
-                                    x:Name="CreateOrder"
+                                    x:Name="OrderMaker"
                                     Width="130"
                                     Padding="0"
                                     HorizontalAlignment="Left"
