@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using WorldYachts.Data;
+using WorldYachts.Data.Entities;
 using WorldYachts.Infrastructure;
 using WorldYachts.Services;
 using WorldYachts.ViewModel.BaseViewModels;

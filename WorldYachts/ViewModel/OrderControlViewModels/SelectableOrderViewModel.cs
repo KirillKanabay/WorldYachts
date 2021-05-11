@@ -12,7 +12,6 @@ using WorldYachts.Model;
 using WorldYachts.Services;
 using WorldYachts.View.MessageDialogs;
 using WorldYachts.ViewModel.BaseViewModels;
-using Order = WorldYachts.Data.Order;
 
 namespace WorldYachts.ViewModel.OrderControlViewModels
 {
@@ -42,7 +41,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
         #region Свойства
 
         public Data.Entities.Boat Boat => _item.Boat;
-        public List<OrderDetails> OrderDetails => _item.OrderDetails;
+        public List<OrderDetail> OrderDetails => null;
         public override BaseEditorViewModel<Order> Editor { get; }
 
         #endregion
@@ -86,22 +85,22 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
 
             Item.Status = (int) _os;
             //Item.SalesPersonId = (_os == OrderStatus.InProcessing) ? 1 : _.Id;
-            await Task.Run(() => new OrderModel().UpdateAsync(Item));
-            if (_os == OrderStatus.Accepted)
-            {
-                var contract = new Contract()
-                {
-                    OrderId = Item.Id,
-                    Date = DateTime.Now,
-                    DepositPayed = 0,
-                    ContractTotalPrice = Item.CountPrice(),
-                    ContractTotalPriceInclVat = Item.CountPriceInclVat(),
-                    ProductionProcess = EnumWorker.GetDescription(ProductionProcess.NotStarted),
-                };
-                await Task.Run(() => new ContractModel().AddAsync(contract));
-            }
-            OrderManagementViewModel.OnItemChanged?.Invoke();
-            MainWindow.SendSnackbarAction?.Invoke(GetStatusOrderSnackbarMessage());
+            //await Task.Run(() => new OrderModel().UpdateAsync(Item));
+            //if (_os == OrderStatus.Accepted)
+            //{
+            //    var contract = new Contract()
+            //    {
+            //        OrderId = Item.Id,
+            //        Date = DateTime.Now,
+            //        DepositPayed = 0,
+            //        ContractTotalPrice = Item.CountPrice(),
+            //        ContractTotalPriceInclVat = Item.CountPriceInclVat(),
+            //        ProductionProcess = EnumWorker.GetDescription(ProductionProcess.NotStarted),
+            //    };
+            ////    await Task.Run(() => new ContractModel().AddAsync(contract));
+            //}
+            //OrderManagementViewModel.OnItemChanged?.Invoke();
+            //MainWindow.SendSnackbarAction?.Invoke(GetStatusOrderSnackbarMessage());
         }
 
         //public override string ToString()

@@ -21,7 +21,7 @@ namespace WorldYachts.Infrastructure
         /// <summary>
         /// Заказы
         /// </summary>
-        public DbSet<Contract> Contracts { get; set; }
+        //public DbSet<Contract> Contracts { get; set; }
         /// <summary>
         /// Покупатели
         /// </summary>
@@ -29,19 +29,19 @@ namespace WorldYachts.Infrastructure
         /// <summary>
         /// Счета
         /// </summary>
-        public DbSet<Invoice> Invoices { get; set; }
+        //public DbSet<Invoice> Invoices { get; set; }
         /// <summary>
         /// Доставки
-        /// </summary>
-        public DbSet<Data.Order> Orders { get; set; }
-        /// <summary>
-        /// Критерии доставки
-        /// </summary>
-        public DbSet<OrderDetails> OrderDetails { get; set; }
-        /// <summary>
-        /// Менеджеры
-        /// </summary>
-        public DbSet<SalesPerson> SalesPersons { get; set; }
+        ///// </summary>
+        //public DbSet<Data.Order> Orders { get; set; }
+        ///// <summary>
+        ///// Критерии доставки
+        ///// </summary>
+        //public DbSet<OrderDetails> OrderDetails { get; set; }
+        ///// <summary>
+        ///// Менеджеры
+        ///// </summary>
+        //public DbSet<SalesPerson> SalesPersons { get; set; }
         /// <summary>
         /// Администраторы
         /// </summary>

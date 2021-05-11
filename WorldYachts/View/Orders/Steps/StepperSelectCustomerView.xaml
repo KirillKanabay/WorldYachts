@@ -1,0 +1,93 @@
+﻿<UserControl
+    x:Class="WorldYachts.View.Orders.Steps.StepperSelectCustomerView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:local="clr-namespace:WorldYachts.View.Orders.Steps"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mde="https://spiegelp.github.io/MaterialDesignExtensions/winfx/xaml"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../../Style/TextBoxStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <materialDesign:Card
+            Grid.Column="0"
+            Padding="20"
+            UniformCornerRadius="5">
+            <StackPanel>
+                <Label
+                    Margin="0,0,0,0"
+                    VerticalAlignment="Top"
+                    FontSize="16"
+                    FontWeight="Bold">
+                    Выберите клиента:
+                </Label>
+                <ComboBox
+                    Margin="0,20,0,0"
+                    materialDesign:HintAssist.Hint="Клиент"
+                    IsSynchronizedWithCurrentItem="True"
+                    ItemsSource="{Binding CustomersCollection}"
+                    SelectedIndex="{Binding SelectedCustomerIndex}"
+                    SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}"
+                    Style="{StaticResource InputComboBox}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="0,0,4,0" Text="{Binding Path=FirstName, Mode=TwoWay}" />
+                                <TextBlock Text="{Binding Path=SecondName, Mode=TwoWay}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+        </materialDesign:Card>
+        <materialDesign:Card
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="20,0,0,0"
+            Padding="20"
+            UniformCornerRadius="5">
+            <StackPanel>
+                <Label
+                    Margin="0,0,0,0"
+                    VerticalAlignment="Top"
+                    FontSize="16"
+                    FontWeight="Bold">
+                    Выбранный клиент:
+                </Label>
+                <TextBlock
+                    Margin="0,20,0,0"
+                    FontSize="14"
+                    Text="{Binding CustomerInfo}" />
+            </StackPanel>
+        </materialDesign:Card>
+        <mde:StepButtonBar
+            Grid.Row="1"
+            Grid.Column="1"
+            HorizontalAlignment="Right"
+            Continue="Продолжить" />
+    </Grid>
+</UserControl>

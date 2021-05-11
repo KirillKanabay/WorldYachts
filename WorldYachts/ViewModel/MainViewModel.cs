@@ -67,7 +67,7 @@ namespace WorldYachts.ViewModel
             (_authUser.TypeOfUser == TypeOfUser.Customer) ? Visibility.Collapsed : Visibility.Visible;
         
         public Visibility UserManagementVisibility =>
-            (_authUser.TypeOfUser == TypeOfUser.Admin) ? Visibility.Visible : Visibility.Collapsed;
+            (_authUser.TypeOfUser == TypeOfUser.Admin || _authUser.TypeOfUser == TypeOfUser.SalesPerson) ? Visibility.Visible : Visibility.Collapsed;
 
         public Visibility OrdersManagementVisibility =>
             (_authUser.TypeOfUser == TypeOfUser.SalesPerson) ? Visibility.Visible : Visibility.Collapsed;

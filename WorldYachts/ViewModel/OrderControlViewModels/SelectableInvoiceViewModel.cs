@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using WorldYachts.Data;
+using WorldYachts.Data.Entities;
 using WorldYachts.Helpers.Commands;
 using WorldYachts.Model;
 using WorldYachts.View.MessageDialogs;
@@ -123,7 +124,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
         private async Task AcceptMethod(object parameter)
         {
             _item.Settled = true;
-            await Task.Run(() => new InvoiceModel().UpdateAsync(_item));
+            //await Task.Run(() => new InvoiceModel().UpdateAsync(_item));
             //Извещаем об изменении предмета
             BaseManagementViewModel<Invoice>.OnItemChanged?.Invoke();
         }

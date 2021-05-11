@@ -27,8 +27,9 @@
         </Label>
         <mde:Stepper
             Grid.Row="1"
+            BlockNavigationOnValidationErrors="True"
             IsLinear="True"
-            Layout="Horizontal"
+            Layout="Vertical"
             Steps="{Binding Path=Steps, Mode=OneTime}" />
     </Grid>
 

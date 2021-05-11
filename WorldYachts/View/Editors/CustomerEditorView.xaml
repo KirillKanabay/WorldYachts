@@ -142,11 +142,7 @@
                         <TextBlock>Название организации</TextBlock>
                     </materialDesign:HintAssist.Hint>
                     <TextBox.Text>
-                        <Binding Path="Phone" UpdateSourceTrigger="PropertyChanged">
-                            <Binding.ValidationRules>
-                                <DataErrorValidationRule />
-                            </Binding.ValidationRules>
-                        </Binding>
+                        <Binding Path="OrganizationName" UpdateSourceTrigger="PropertyChanged" />
                     </TextBox.Text>
                 </TextBox>
                 <!--  Город  -->

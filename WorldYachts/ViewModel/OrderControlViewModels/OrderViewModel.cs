@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using WorldYachts.Data;
+using WorldYachts.Data.Entities;
 using WorldYachts.Model;
 using WorldYachts.Infrastructure;
 using WorldYachts.Services;
@@ -36,10 +37,10 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
         {
             var collection = new ObservableCollection<BaseSelectableViewModel<Order>>();
             OnPropertyChanged(nameof(ItemsCollection));
-            foreach (var order in items)
-            {
-                collection.Add(new SelectableOrderViewModel(order,_authUser));
-            }
+            //foreach (var order in items)
+            //{
+            //    collection.Add(new SelectableOrderViewModel(order,_authUser));
+            //}
 
             return collection;
         }

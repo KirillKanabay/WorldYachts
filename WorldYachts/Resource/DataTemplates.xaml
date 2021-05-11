@@ -12,11 +12,13 @@
     xmlns:dashboardControlViews="clr-namespace:WorldYachts.View.DashboardControlViews"
     xmlns:orderControlViewModels="clr-namespace:WorldYachts.ViewModel.OrderControlViewModels"
     xmlns:orderControlViews="clr-namespace:WorldYachts.View.OrderControlViews"
+    xmlns:orderMaker="clr-namespace:WorldYachts.ViewModel.OrderMaker"
     xmlns:orderManagementControlViews="clr-namespace:WorldYachts.View.OrderManagementControlViews"
     xmlns:orderManagementViewModels="clr-namespace:WorldYachts.ViewModel.OrderControlViewModels"
     xmlns:orders="clr-namespace:WorldYachts.View.Orders"
     xmlns:partner="clr-namespace:WorldYachts.ViewModel.Partner"
     xmlns:salesPersons="clr-namespace:WorldYachts.ViewModel.Users.SalesPersons"
+    xmlns:steps="clr-namespace:WorldYachts.View.Orders.Steps"
     xmlns:type="clr-namespace:WorldYachts.ViewModel.Boat.Type"
     xmlns:userControlViewModels="clr-namespace:WorldYachts.ViewModel.Users"
     xmlns:users="clr-namespace:WorldYachts.View.Users"
@@ -26,8 +28,7 @@
     xmlns:veditors="clr-namespace:WorldYachts.View.Editors"
     xmlns:vm="clr-namespace:WorldYachts.ViewModel"
     xmlns:vmcatalog="clr-namespace:WorldYachts.ViewModel.CatalogControlViewModels"
-    xmlns:wood="clr-namespace:WorldYachts.ViewModel.Boat.Wood"
-    xmlns:orderMaker="clr-namespace:WorldYachts.ViewModel.OrderMaker">
+    xmlns:wood="clr-namespace:WorldYachts.ViewModel.Boat.Wood">
     <ResourceDictionary.MergedDictionaries>
         <!--  Основные UC  -->
         <ResourceDictionary>
@@ -152,6 +153,24 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type accessory:AccessoryFitEditorViewModel}">
                 <veditors:AccessoryFitEditorView />
+            </DataTemplate>
+        </ResourceDictionary>
+
+        <ResourceDictionary>
+            <DataTemplate DataType="{x:Type orderMaker:StepperConfirmOrderViewModel}">
+                <steps:StepperConfirmOrderView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type orderMaker:StepperSelectAccessoriesViewModel}">
+                <steps:StepperSelectAccessoriesView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type orderMaker:StepperSelectBoatViewModel}">
+                <steps:StepperSelectBoatView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type orderMaker:StepperSelectCustomerViewModel}">
+                <steps:StepperSelectCustomerView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type orderMaker:StepperSelectDeliveryDetailsViewModel}">
+                <steps:StepperSelectDeliveryDetailsView />
             </DataTemplate>
         </ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>

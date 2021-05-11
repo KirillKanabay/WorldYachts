@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using WorldYachts.Data;
+using WorldYachts.Data.Entities;
 using WorldYachts.Helpers.Validators;
 using WorldYachts.Infrastructure;
 using WorldYachts.Services;

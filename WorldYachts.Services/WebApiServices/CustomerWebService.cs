@@ -19,6 +19,7 @@ namespace WorldYachts.Services.WebApiServices
         public CustomerWebService(IWebClientService webClient, IHashCalculator hashCalculator)
         {
             _webClient = webClient;
+            _hashCalculator = hashCalculator;
         }
 
         public async Task<Customer> GetByIdAsync(int id)

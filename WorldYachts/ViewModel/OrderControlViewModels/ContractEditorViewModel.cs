@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using WorldYachts.Data;
+using WorldYachts.Data.Entities;
 using WorldYachts.Helpers;
 using WorldYachts.Infrastructure;
 using WorldYachts.Model;
@@ -86,7 +87,7 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
         }
 
         public override bool SaveButtonIsEnabled => true;
-        public override IDataModel<Contract> ModelItem => new ContractModel();
+        public override IDataModel<Contract> ModelItem => null;
         
         #endregion
 
@@ -123,9 +124,9 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
             {
                 if (_isEdit)
                 {
-                    await Task.Run(() => ModelItem.UpdateAsync(item));
-                    if (invoice != null)
-                        await Task.Run(() => new InvoiceModel().AddAsync(invoice));
+                    //await Task.Run(() => ModelItem.UpdateAsync(item));
+                    //if (invoice != null)
+                    //    await Task.Run(() => new InvoiceModel().AddAsync(invoice));
                 }
                 else
                 {

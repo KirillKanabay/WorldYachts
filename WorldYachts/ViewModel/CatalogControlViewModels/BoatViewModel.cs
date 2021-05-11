@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using WorldYachts.Data.Entities;
 using WorldYachts.Helpers;
 using WorldYachts.Helpers.Commands;
 using WorldYachts.Helpers.Validators;
@@ -13,7 +14,6 @@ using WorldYachts.Model;
 using WorldYachts.Services;
 using WorldYachts.ViewModel.Accessory;
 using WorldYachts.ViewModel.BaseViewModels;
-using Order = WorldYachts.Data.Order;
 
 namespace WorldYachts.ViewModel.CatalogControlViewModels
 {
@@ -62,7 +62,7 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
             _price = boat.BasePrice;
             _vat = boat.Vat;
 
-            _orderModel = new OrderModel();
+            //_orderModel = new OrderModel();
 
             _authUser = authUser;
 
@@ -199,7 +199,7 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
         }
         public bool IsCustomer => _authUser.Role == "Customer";
         public override bool SaveButtonIsEnabled => !_errors.Any() && IsCustomer;
-        public override IDataModel<Order> ModelItem => _orderModel;
+        public override IDataModel<Order> ModelItem => null;
         
         protected override Order GetSaveItem(bool isEdit)
         {
@@ -228,14 +228,14 @@ namespace WorldYachts.ViewModel.CatalogControlViewModels
             var item = GetSaveItem(false);
             try
             {
-                await Task.Run((() => ((OrderModel)ModelItem).AddAsync(item)));
-                int orderId = ((OrderModel)ModelItem).LastAddedItem.Id;
-                var selectedAccessories = Accessories.Where(a => a.IsSelected);
-                //foreach (var accessory in selectedAccessories)
-                //{
-                //    await Task.Run((() => new OrderDetailsModel().AddAsync(new OrderDetails()
-                //        {AccessoryId = accessory.Id, OrderId = orderId})));
-                //}
+                //await Task.Run((() => ((OrderModel)ModelItem).AddAsync(item)));
+                //int orderId = ((OrderModel)ModelItem).LastAddedItem.Id;
+                //var selectedAccessories = Accessories.Where(a => a.IsSelected);
+                ////foreach (var accessory in selectedAccessories)
+                ////{
+                ////    await Task.Run((() => new OrderDetailsModel().AddAsync(new OrderDetails()
+                ////        {AccessoryId = accessory.Id, OrderId = orderId})));
+                ////}
             }
             finally
             {

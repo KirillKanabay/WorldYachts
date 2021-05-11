@@ -1,0 +1,126 @@
+﻿<UserControl
+    x:Class="WorldYachts.View.Orders.Steps.StepperSelectAccessoriesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:local="clr-namespace:WorldYachts.View.Orders.Steps"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mde="https://spiegelp.github.io/MaterialDesignExtensions/winfx/xaml"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../../Style/TextBoxStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <materialDesign:Card
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Padding="20"
+            UniformCornerRadius="5">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label
+                        Margin="0,0,0,0"
+                        VerticalAlignment="Top"
+                        FontSize="16"
+                        FontWeight="Bold">
+                        Выберите аксессуары:
+                    </Label>
+                    <Button
+                        Grid.Row="2"
+                        Width="20"
+                        Height="20"
+                        Margin="0,0,0,0"
+                        Padding="0"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Command="{Binding LoadedCommand}">
+                        <materialDesign:PackIcon
+                            Width="18"
+                            Height="18"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Foreground="#383838"
+                            Kind="Refresh" />
+                    </Button>
+                </StackPanel>
+                <ItemsControl Grid.Row="1" ItemsSource="{Binding AccessoriesCollection}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <materialDesign:Chip Margin="0,0,4,4">
+                                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                    <ToggleButton
+                                        Width="18"
+                                        Height="18"
+                                        Background="#2196F3"
+                                        IsChecked="{Binding IsSelected}"
+                                        Style="{StaticResource MaterialDesignActionAccentToggleButton}">
+                                        <ToggleButton.Content>
+                                            <materialDesign:PackIcon
+                                                Width="16"
+                                                Height="16"
+                                                Kind="Plus" />
+                                        </ToggleButton.Content>
+                                        <materialDesign:ToggleButtonAssist.OnContent>
+                                            <materialDesign:PackIcon
+                                                Width="16"
+                                                Height="16"
+                                                Kind="Check" />
+                                        </materialDesign:ToggleButtonAssist.OnContent>
+                                    </ToggleButton>
+                                    <TextBlock
+                                        Margin="7,1,0,0"
+                                        HorizontalAlignment="Center"
+                                        Text="{Binding Accessory.Name}" />
+                                    <TextBlock
+                                        Margin="2,1,0,0"
+                                        HorizontalAlignment="Center"
+                                        Text="{Binding Accessory.Price, StringFormat=| Цена: \{0:F2\}₽}" />
+                                </StackPanel>
+                            </materialDesign:Chip>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+                <Button
+                    Margin="0,0,5,10"
+                    HorizontalAlignment="Right"
+                    Command="{Binding SaveAccessories}"
+                    Cursor="Hand"
+                    FontSize="14"
+                    IsDefault="True"
+                    Style="{DynamicResource MaterialDesignFlatButton}">
+                    Применить
+                </Button>
+            </StackPanel>
+
+        </materialDesign:Card>
+        <mde:StepButtonBar
+            Grid.Row="1"
+            Grid.Column="1"
+            HorizontalAlignment="Right"
+            Continue="Продолжить" />
+    </Grid>
+</UserControl>

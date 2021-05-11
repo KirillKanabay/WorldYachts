@@ -1,5 +1,7 @@
 ﻿using Autofac;
 using AutoMapper.Contrib.Autofac.DependencyInjection;
+using WorldYachts.Data.Entities;
+using WorldYachts.Data.ViewModels;
 using WorldYachts.DependencyInjections.Helpers;
 using WorldYachts.DependencyInjections.Models;
 using WorldYachts.DependencyInjections.Services;
@@ -25,7 +27,14 @@ using WorldYachts.ViewModel.Partner;
 using WorldYachts.ViewModel.Users;
 using WorldYachts.ViewModel.Users.Customers;
 using WorldYachts.ViewModel.Users.SalesPersons;
+using AccessoryModel = WorldYachts.Model.AccessoryModel;
+using AccessoryToBoatModel = WorldYachts.Model.AccessoryToBoatModel;
+using BoatModel = WorldYachts.Model.BoatModel;
+using BoatTypeModel = WorldYachts.Model.BoatTypeModel;
+using BoatWoodModel = WorldYachts.Model.BoatWoodModel;
 using IPartnerModel = WorldYachts.DependencyInjections.Models.IPartnerModel;
+using OrderDetailModel = WorldYachts.Model.OrderDetailModel;
+using OrderModel = WorldYachts.Model.OrderModel;
 
 namespace WorldYachts
 {
@@ -125,6 +134,12 @@ namespace WorldYachts
             #region Order
 
             builder.RegisterType<OrderMakerViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<OrderContainerViewModel>().AsSelf().SingleInstance();
+            builder.RegisterType<StepperSelectCustomerViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<StepperSelectBoatViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<StepperSelectDeliveryDetailsViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<StepperSelectAccessoriesViewModel>().AsSelf().InstancePerDependency();
+            builder.RegisterType<StepperConfirmOrderViewModel>().AsSelf().InstancePerDependency();
 
             #endregion
 
@@ -162,6 +177,10 @@ namespace WorldYachts
             builder.RegisterType<AdminWebService>().As<IAdminService>();
             builder.RegisterType<SalesPersonWebService>().As<ISalesPersonService>();
             builder.RegisterType<CustomerWebService>().As<ICustomerService>();
+            builder.RegisterType<InvoiceWebService>().As<IInvoiceService>();
+            builder.RegisterType<OrderWebService>().As<IOrderService>();
+            builder.RegisterType<OrderDetailWebService>().As<IOrderDetailService>();
+            builder.RegisterType<ContractWebService>().As<IContractService>();
         }
 
         private void RegisterModels(ContainerBuilder builder)
@@ -175,6 +194,10 @@ namespace WorldYachts
             builder.RegisterType<AccessoryToBoatModel>().As<IAccessoryToBoatModel>().InstancePerLifetimeScope();
             builder.RegisterType<SalesPersonModel>().As<ISalesPersonModel>().InstancePerLifetimeScope();
             builder.RegisterType<CustomerModel>().As<ICustomerModel>().InstancePerLifetimeScope();
+            builder.RegisterType<OrderModel>().As<IOrderModel>().InstancePerLifetimeScope();
+            builder.RegisterType<InvoiceModel>().As<IInvoiceModel>().InstancePerLifetimeScope();
+            builder.RegisterType<ContractModel>().As<IContractModel>().InstancePerLifetimeScope();
+            builder.RegisterType<OrderDetailModel>().As<IOrderDetailModel>().InstancePerLifetimeScope();
         }
 
         private void RegisterViews(ContainerBuilder builder)

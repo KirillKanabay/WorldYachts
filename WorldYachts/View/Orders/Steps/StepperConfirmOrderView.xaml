@@ -1,0 +1,135 @@
+﻿<UserControl
+    x:Class="WorldYachts.View.Orders.Steps.StepperConfirmOrderView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:WorldYachts.View.Orders.Steps"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mde="https://spiegelp.github.io/MaterialDesignExtensions/winfx/xaml"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <materialDesign:Card
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Padding="20"
+            UniformCornerRadius="5">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label
+                        Margin="0,0,0,0"
+                        VerticalAlignment="Top"
+                        FontSize="16"
+                        FontWeight="Bold">
+                        Подтвердите заказ:
+                    </Label>
+                    <Button
+                        Grid.Row="2"
+                        Width="20"
+                        Height="20"
+                        Margin="0,0,0,0"
+                        Padding="0"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Command="{Binding UpdateCommand}">
+                        <materialDesign:PackIcon
+                            Width="18"
+                            Height="18"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Foreground="#383838"
+                            Kind="Refresh" />
+                    </Button>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Border
+                        Grid.Column="1"
+                        Height="auto"
+                        Margin="0"
+                        Padding="5,8"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        BorderBrush="#BABABA"
+                        BorderThickness="1,1,1,1"
+                        CornerRadius="3">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock
+                                Grid.Row="0"
+                                FontSize="14"
+                                FontWeight="Medium">
+                                Заказ:
+                            </TextBlock>
+                            <TextBlock
+                                Grid.Row="1"
+                                FontSize="14"
+                                Text="{Binding OrderInfo}" />
+                        </Grid>
+                    </Border>
+                    <Border
+                        Grid.Column="1"
+                        Height="auto"
+                        Margin="25,0,0,0"
+                        Padding="5,8"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        BorderBrush="#BABABA"
+                        BorderThickness="1,1,1,1"
+                        CornerRadius="3">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="30" />
+                            </Grid.RowDefinitions>
+                            <TextBlock
+                                Grid.Row="0"
+                                FontSize="14"
+                                FontWeight="Medium">
+                                Расчет стоимости:
+                            </TextBlock>
+                            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                                <TextBlock
+                                    Margin="0,0,20,0"
+                                    FontSize="14"
+                                    Text="{Binding Price, StringFormat=Цена\ заказа\ без\ НДС: \{0:F2\} ₽}" />
+                            </StackPanel>
+                            <!--  Цена  -->
+                            <TextBlock
+                                Grid.Row="2"
+                                FontSize="14"
+                                Text="{Binding PriceInclVat, StringFormat=Цена\ заказа: \{0:F2\}₽}" />
+                        </Grid>
+                    </Border>
+                </StackPanel>
+                <Button
+                    Margin="0,0,5,10"
+                    HorizontalAlignment="Right"
+                    Command="{Binding SaveItem}"
+                    Cursor="Hand"
+                    FontSize="14"
+                    IsDefault="True"
+                    Style="{DynamicResource MaterialDesignFlatButton}">
+                    Подтвердить
+                </Button>
+            </StackPanel>
+        </materialDesign:Card>
+    </Grid>
+</UserControl>

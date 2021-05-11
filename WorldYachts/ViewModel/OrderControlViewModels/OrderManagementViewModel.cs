@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using WorldYachts.Data;
+using WorldYachts.Data.Entities;
 using WorldYachts.Infrastructure;
 using WorldYachts.Model;
 using WorldYachts.Services;
@@ -162,11 +163,11 @@ namespace WorldYachts.ViewModel.OrderControlViewModels
             IEnumerable<Order> items)
         {
             var collection = new ObservableCollection<BaseSelectableViewModel<Order>>();
-            OnPropertyChanged(nameof(ItemsCollection));
-            foreach (var order in items)
-            {
-                collection.Add(new SelectableOrderViewModel(order, _authUser));
-            }
+            //OnPropertyChanged(nameof(ItemsCollection));
+            //foreach (var order in items)
+            //{
+            //    collection.Add(new SelectableOrderViewModel(order, _authUser));
+            //}
 
             return collection;
         }

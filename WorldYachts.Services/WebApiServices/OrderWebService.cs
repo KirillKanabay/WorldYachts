@@ -1,49 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
-using WorldYachts.Data.Authenticate;
 using WorldYachts.Data.Entities;
-using WorldYachts.DependencyInjections.Helpers;
 using WorldYachts.DependencyInjections.Services;
 
-namespace WorldYachts.Services.Users
+namespace WorldYachts.Services.WebApiServices
 {
-    public class UserService:IUserService
+    public class OrderWebService:IOrderService
     {
         private readonly IWebClientService _webClient;
-        private readonly AuthUser _authUser;
-        private readonly IHashCalculator _hashCalculator;
+        private const string Path = "orders";
 
-        private const string Path = "users";
-
-        public UserService(IWebClientService webClient, AuthUser authUser, IHashCalculator hashCalculator)
+        public OrderWebService(IWebClientService webClient)
         {
             _webClient = webClient;
-            _authUser = authUser;
-            _hashCalculator = hashCalculator;
         }
-        
-        public async Task AuthenticateAsync(AuthenticateRequest request)
+        public async Task<Order> GetByIdAsync(int id)
         {
-            request.Password = _hashCalculator.GetHash(request.Password);
-
-            var response = await _webClient
-                .PostAsync<AuthenticateRequest, AuthenticateResponse>("users/auth", request);
-
-            if (response != null)
-            {
-                _webClient.Token = response.Data.Token;
-                await _authUser.Authenticate(response.Data);
-            }
-        }
-
-        public async Task<User> GetByIdAsync(int id)
-        {
-            var response = await _webClient.GetAsync<User>(Path, id);
+            var response = await _webClient.GetAsync<Order>(Path, id);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
-                throw new ArgumentException("Пользователь не найден");
+                throw new ArgumentException("Заказа с таким идентификатором не существует.");
             }
 
             if (response.StatusCode != HttpStatusCode.OK)
@@ -54,9 +33,9 @@ namespace WorldYachts.Services.Users
             return response.Data;
         }
 
-        public async Task<IEnumerable<User>> GetAllAsync()
+        public async Task<IEnumerable<Order>> GetAllAsync()
         {
-            var response = await _webClient.GetAsync<IEnumerable<User>>(Path);
+            var response = await _webClient.GetAsync<IEnumerable<Order>>(Path);
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
@@ -66,9 +45,9 @@ namespace WorldYachts.Services.Users
             return response.Data;
         }
 
-        public async Task<User> AddAsync(User user)
+        public async Task<Order> AddAsync(Order order)
         {
-            var response = await _webClient.PostAsync<User, User>(Path, user);
+            var response = await _webClient.PostAsync<Order, Order>(Path, order);
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {
@@ -83,9 +62,9 @@ namespace WorldYachts.Services.Users
             return response.Data;
         }
 
-        public async Task<User> UpdateAsync(int id, User user)
+        public async Task<Order> UpdateAsync(int id, Order order)
         {
-            var response = await _webClient.PutAsync<User, User>(Path, id, user);
+            var response = await _webClient.PutAsync<Order, Order>(Path, id, order);
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {
@@ -100,9 +79,9 @@ namespace WorldYachts.Services.Users
             return response.Data;
         }
 
-        public async Task<User> DeleteAsync(int id)
+        public async Task<Order> DeleteAsync(int id)
         {
-            var response = await _webClient.DeleteAsync<User>(Path, id);
+            var response = await _webClient.DeleteAsync<Order>(Path, id);
 
             if (response.StatusCode != HttpStatusCode.OK)
             {

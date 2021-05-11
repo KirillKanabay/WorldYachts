@@ -1,5 +1,5 @@
 {
   "ConnectionStrings": {
-    "Default": "https://localhost:5001/"
+    "Default": "https://localhost:5001"
   }
 }

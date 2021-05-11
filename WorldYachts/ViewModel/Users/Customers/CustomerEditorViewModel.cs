@@ -276,9 +276,7 @@ namespace WorldYachts.ViewModel.Users.Customers
                     nameof(Address) => new Validation(new NotEmptyFieldValidationRule(Address)).Validate(),
                     nameof(City) => new Validation(new NotEmptyFieldValidationRule(City)).Validate(),
                     nameof(Phone) => new Validation(new PhoneValidationRule(Phone),
-                        new NotEmptyFieldValidationRule(City)).Validate(),
-                    nameof(OrganizationName) => new Validation(new NotEmptyFieldValidationRule(OrganizationName))
-                        .Validate(),
+                        new NotEmptyFieldValidationRule(Phone)).Validate(),
                     nameof(IdNumber) => new Validation(new NotEmptyFieldValidationRule(IdNumber)).Validate(),
                     nameof(IdDocumentName) => new Validation(new NotEmptyFieldValidationRule(IdDocumentName))
                         .Validate(),
